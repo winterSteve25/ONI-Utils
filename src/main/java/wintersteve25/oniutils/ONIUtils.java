@@ -29,5 +29,5 @@ public class ONIUtils {
         }
     };
 
-    private static final Logger LOGGER = LogManager.getLogger(MODID);
+    public static final Logger LOGGER = LogManager.getLogger(MODID);
 }
