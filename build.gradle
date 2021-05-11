@@ -75,7 +75,7 @@ repositories {
         url "https://dvs1.progwml6.com/files/maven"
     }
     maven {
-        url "https://www.cursemaven.com"
+        url "https://maven.tterrag.com/"
     }
 }
 
@@ -84,8 +84,7 @@ dependencies {
     compile fg.deobf("com.blamejared.crafttweaker:CraftTweaker-1.16.5:7.1.0.203")
     compile fg.deobf("mezz.jei:jei-1.16.4:7.6.1.65")
     compile fg.deobf("mezz.jei:jei-1.16.4:7.6.1.65:api")
-    compile fg.deobf("curse.maven:pollution-of-the-realms-269973:3290541")
-    compile fg.deobf("curse.maven:forgeendertech-244844:3246245")
+    implementation fg.deobf("team.chisel.ctm:CTM:MC1.16.1-1.1.2.6")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

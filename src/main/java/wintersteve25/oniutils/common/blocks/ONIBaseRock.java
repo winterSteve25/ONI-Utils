@@ -24,11 +24,20 @@ public class ONIBaseRock extends Block {
         this.regName = regName;
     }
 
+    public ONIBaseRock(int harvestLevel, float hardness, float resistance, String regName, SoundType soundType, Material material) {
+        super(Properties.of(material).harvestLevel(harvestLevel).harvestTool(ToolType.PICKAXE).sound(SoundType.STONE).strength(hardness, resistance));
+        this.regName = null;
+    }
+
     public String getRegName() {
         return this.regName;
     }
 
     public void initRock(ONIBaseRock b) {
         ONIBlocks.rocksList.add(b);
+    }
+
+    public void initRockNoDataGen(ONIBaseRock b) {
+        ONIBlocks.rocksListNoDataGen.add(b);
     }
 }

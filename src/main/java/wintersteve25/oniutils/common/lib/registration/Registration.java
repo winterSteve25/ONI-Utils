@@ -26,6 +26,10 @@ public class Registration {
             RegistryHelper.register(TextHelper.langToReg(b.getRegName()), () -> b);
         }
 
+        for (ONIBaseRock b : ONIBlocks.rocksListNoDataGen){
+            RegistryHelper.register(TextHelper.langToReg(b.getRegName()), () -> b);
+        }
+
         ONIUtils.LOGGER.info("ONIUtils Registration Completed");
     }
 }

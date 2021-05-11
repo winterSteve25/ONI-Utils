@@ -1,0 +1,15 @@
+{
+  "variants": {
+	"": [
+            { "model": "block/gold_amalgam", "weight": 4 },
+            { "model": "block/gold_amalgam_alt", "weight": 4 },
+            { "model": "block/gold_amalgam_alt2", "weight": 4 },
+            { "model": "block/gold_amalgam_alt3", "weight": 4 },
+            { "model": "block/gold_amalgam_alt4", "weight": 4 },
+            { "model": "block/gold_amalgam_alt5", "weight": 4 },
+            { "model": "block/gold_amalgam_alt6", "weight": 4 },
+            { "model": "block/gold_amalgam_alt7", "weight": 4 },
+            { "model": "block/gold_amalgam_alt8", "weight": 4 }
+        ]
+    }
+}

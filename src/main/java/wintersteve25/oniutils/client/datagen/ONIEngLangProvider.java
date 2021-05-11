@@ -20,6 +20,10 @@ public class ONIEngLangProvider extends LanguageProvider {
             add("block.oniutils." + TextHelper.langToReg(b.getRegName()), b.getRegName());
         }
 
+        for (ONIBaseRock b : ONIBlocks.rocksListNoDataGen) {
+            add("block.oniutils." + TextHelper.langToReg(b.getRegName()), b.getRegName());
+        }
+
         add("itemGroup.oniutils", "Oxygen Not Included Utilities");
     }
 }
