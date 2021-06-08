@@ -1,15 +1,15 @@
 {
   "variants": {
 	"": [
-            { "model": "block/wolframite", "weight": 4 },
-            { "model": "block/wolframite_alt", "weight": 4 },
-            { "model": "block/wolframite_alt2", "weight": 4 },
-            { "model": "block/wolframite_alt3", "weight": 4 },
-            { "model": "block/wolframite_alt4", "weight": 4 },
-            { "model": "block/wolframite_alt5", "weight": 4 },
-            { "model": "block/wolframite_alt6", "weight": 4 },
-            { "model": "block/wolframite_alt7", "weight": 4 },
-            { "model": "block/wolframite_alt8", "weight": 4 }
+            { "model": "oniutils:block/wolframite", "weight": 4 },
+            { "model": "oniutils:block/wolframite_alt", "weight": 4 },
+            { "model": "oniutils:block/wolframite_alt2", "weight": 4 },
+            { "model": "oniutils:block/wolframite_alt3", "weight": 4 },
+            { "model": "oniutils:block/wolframite_alt4", "weight": 4 },
+            { "model": "oniutils:block/wolframite_alt5", "weight": 4 },
+            { "model": "oniutils:block/wolframite_alt6", "weight": 4 },
+            { "model": "oniutils:block/wolframite_alt7", "weight": 4 },
+            { "model": "oniutils:block/wolframite_alt8", "weight": 4 }
         ]
     }
 }

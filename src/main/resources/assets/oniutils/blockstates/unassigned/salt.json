@@ -1,0 +1,9 @@
+{
+  "variants": {
+	"": [
+            { "model": "block/salt", "weight": 4 },
+            { "model": "oniutils:block/salt_alt", "weight": 4 },
+            { "model": "oniutils:block/salt_alt2", "weight": 4 }
+        ]
+    }
+}

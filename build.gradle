@@ -91,7 +91,7 @@ dependencies {
 jar {
     manifest {
         attributes([
-            "Specification-Title": "oniutils",
+            "Specification-Title": "ONIUtils",
             "Specification-Vendor": "oniutilssareus",
             "Specification-Version": "1", // We are version 1 of ourselves
             "Implementation-Title": project.name,

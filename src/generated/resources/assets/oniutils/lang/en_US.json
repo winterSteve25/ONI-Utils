@@ -1,0 +1,19 @@
+{
+  "block.oniutils.abyssalite": "Abyssalite",
+  "block.oniutils.algae": "Algae",
+  "block.oniutils.bleach_stone": "Bleach Stone",
+  "block.oniutils.fertilizer": "Fertilizer",
+  "block.oniutils.fossil": "Fossil",
+  "block.oniutils.gold_amalgam": "Gold Amalgam",
+  "block.oniutils.igneous_rock": "Igneous Rock",
+  "block.oniutils.mafic_rock": "Mafic Rock",
+  "block.oniutils.neutronium": "Neutronium",
+  "block.oniutils.oxylite": "Oxylite",
+  "block.oniutils.phosphorite": "Phosphorite",
+  "block.oniutils.polluted_ice": "Polluted Ice",
+  "block.oniutils.regolith": "Regolith",
+  "block.oniutils.rust": "Rust",
+  "block.oniutils.sedimentary_rock": "Sedimentary Rock",
+  "block.oniutils.wolframite": "Wolframite",
+  "itemGroup.oniutils": "Oxygen Not Included Utilities"
+}

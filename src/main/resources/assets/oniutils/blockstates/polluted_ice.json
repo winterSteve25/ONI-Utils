@@ -1,9 +1,9 @@
 {
   "variants": {
 	"": [
-            { "model": "block/polluted_ice", "weight": 4 },
-            { "model": "block/polluted_ice_alt", "weight": 4 },
-            { "model": "block/polluted_ice_alt2", "weight": 4 }
+            { "model": "oniutils:block/polluted_ice", "weight": 4 },
+            { "model": "oniutils:block/polluted_ice_alt", "weight": 4 },
+            { "model": "oniutils:block/polluted_ice_alt2", "weight": 4 }
         ]
     }
 }

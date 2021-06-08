@@ -1,0 +1,6 @@
+{
+    "parent": "block/cube_all",
+    "textures": {
+        "all": "oniutils:block/sedimentary_rock_alt"
+    }
+}
