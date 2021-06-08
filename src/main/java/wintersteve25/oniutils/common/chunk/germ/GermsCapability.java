@@ -27,7 +27,7 @@ public class GermsCapability {
         public INBT writeNBT(Capability<IGerms> capability, IGerms instance, Direction side) {
             CompoundNBT nbt = new CompoundNBT();
 
-            nbt.putString("germType", instance.getGermType().getName());
+            nbt.putString("germName", instance.getGermType().getName());
             nbt.putInt("germAmounts", instance.getGermAmount());
 
             return nbt;
@@ -35,7 +35,7 @@ public class GermsCapability {
 
         @Override
         public void readNBT(Capability<IGerms> capability, IGerms instance, Direction side, INBT nbt) {
-            String germName = ((CompoundNBT) nbt).getString("germType");
+            String germName = ((CompoundNBT) nbt).getString("germName");
             EnumGermTypes germType = EnumGermTypes.getGermFromName(germName);
 
             int germAmounts = ((CompoundNBT) nbt).getInt("germAmounts");
