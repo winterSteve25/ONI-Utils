@@ -10,6 +10,7 @@ import wintersteve25.oniutils.common.chunk.germ.api.EnumGermTypes;
 import wintersteve25.oniutils.common.chunk.germ.api.IGerms;
 
 import javax.annotation.Nullable;
+import java.util.Locale;
 
 public class GermsCapability {
 

@@ -1,6 +1,7 @@
 package wintersteve25.oniutils.common.chunk.germ.api;
 
 public enum EnumGermTypes {
+    NOTHING("No_Germs"),
     SLIMELUNG("Slime_Lungs"),
     FLORALSCENTS("Floral_Scents"),
     FOODPOISON("Food_Poisoning"),

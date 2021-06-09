@@ -14,12 +14,16 @@ import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.chunk.germ.api.EnumGermTypes;
 
 public class GermEventsHandler {
-    public static void entityCapAttachEvent (AttachCapabilitiesEvent<Entity> e) {
-        if (e.getObject() instanceof LivingEntity) {
+    public static void entityCapAttachEvent (AttachCapabilitiesEvent<Entity> event) {
+        Entity entity = event.getObject();
+        if (entity instanceof LivingEntity) {
             GermCapabilityProvider provider = new GermCapabilityProvider();
 
-            e.addCapability(new ResourceLocation(ONIUtils.MODID, "germ_stack"), provider);
-            e.addListener(provider::invalidate);
+            event.addCapability(new ResourceLocation(ONIUtils.MODID, "germ_stack"), provider);
+            entity.getCapability(GermsCapability.GERM_CAPABILITY).ifPresent(e -> {
+                e.addGerm(EnumGermTypes.NOTHING, 0);
+            });
+            event.addListener(provider::invalidate);
         }
     }
 
@@ -27,13 +31,11 @@ public class GermEventsHandler {
         Chunk chunkAttached = e.getObject();
         if (chunkAttached != null) {
             GermCapabilityProvider provider = new GermCapabilityProvider();
-
             e.addCapability(new ResourceLocation(ONIUtils.MODID, "germ_stack"), provider);
-            e.addListener(provider::invalidate);
-
             chunkAttached.getCapability(GermsCapability.GERM_CAPABILITY).ifPresent(chunk -> {
-                chunk.addGerm(EnumGermTypes.SLIMELUNG, 1000);
+                chunk.addGerm(EnumGermTypes.NOTHING, 0);
             });
+            e.addListener(provider::invalidate);
         }
     }
 
