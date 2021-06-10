@@ -1,4 +1,4 @@
-package wintersteve25.oniutils.common.chunk.germ.api;
+package wintersteve25.oniutils.common.capability.germ.api;
 
 public enum EnumGermTypes {
     NOTHING("No_Germs"),

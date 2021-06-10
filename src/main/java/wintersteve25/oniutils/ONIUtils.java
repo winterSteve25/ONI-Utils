@@ -1,10 +1,9 @@
 package wintersteve25.oniutils;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -14,8 +13,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import wintersteve25.oniutils.common.chunk.germ.GermEventsHandler;
-import wintersteve25.oniutils.common.chunk.germ.GermsCapability;
+import wintersteve25.oniutils.common.capability.germ.GermEventsHandler;
+import wintersteve25.oniutils.common.capability.germ.GermsCapability;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONIConfig;
 import wintersteve25.oniutils.common.lib.registration.Registration;
@@ -32,7 +31,6 @@ public class ONIUtils {
 
         Registration.init();
         modEventBus.addListener(this::preInit);
-
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -47,7 +45,13 @@ public class ONIUtils {
         GermsCapability.register();
 
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, GermEventsHandler::entityCapAttachEvent);
-        MinecraftForge.EVENT_BUS.addGenericListener(Chunk.class, GermEventsHandler::chunkCapAttachEvent);
-        MinecraftForge.EVENT_BUS.addListener(GermEventsHandler::infectOnInteractEvent);
+        MinecraftForge.EVENT_BUS.addGenericListener(TileEntity.class, GermEventsHandler::teCapAttachEvent);
+        MinecraftForge.EVENT_BUS.addGenericListener(ItemStack.class, GermEventsHandler::itemCapAttachEvent);
+        MinecraftForge.EVENT_BUS.addListener(GermEventsHandler::infectOnInteractEntitySpecific);
+        MinecraftForge.EVENT_BUS.addListener(GermEventsHandler::infectOnInteractEntity);
+        MinecraftForge.EVENT_BUS.addListener(GermEventsHandler::infectOnPickItem);
+        MinecraftForge.EVENT_BUS.addListener(GermEventsHandler::infectOnTossItem);
+        MinecraftForge.EVENT_BUS.addListener(GermEventsHandler::infectOnTileInteract);
+        //MinecraftForge.EVENT_BUS.addListener(GermEventsHandler::playerTickEvent);
     }
 }

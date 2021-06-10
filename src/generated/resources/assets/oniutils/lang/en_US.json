@@ -8,12 +8,14 @@
   "block.oniutils.igneous_rock": "Igneous Rock",
   "block.oniutils.mafic_rock": "Mafic Rock",
   "block.oniutils.neutronium": "Neutronium",
-  "block.oniutils.oxylite": "Oxylite",
   "block.oniutils.phosphorite": "Phosphorite",
   "block.oniutils.polluted_ice": "Polluted Ice",
   "block.oniutils.regolith": "Regolith",
   "block.oniutils.rust": "Rust",
   "block.oniutils.sedimentary_rock": "Sedimentary Rock",
   "block.oniutils.wolframite": "Wolframite",
-  "itemGroup.oniutils": "Oxygen Not Included Utilities"
+  "itemGroup.oniutils": "Oxygen Not Included Utilities",
+  "oniutils.message.germs.infectEntity": "Infected interacted entity with %s %1$s",
+  "oniutils.message.germs.infectItem": "Infected item(s) with %s %1$s",
+  "oniutils.message.germs.infectPlayer": "Infected with %s %1$s"
 }

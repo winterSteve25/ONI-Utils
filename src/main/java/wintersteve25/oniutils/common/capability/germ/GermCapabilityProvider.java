@@ -1,11 +1,11 @@
-package wintersteve25.oniutils.common.chunk.germ;
+package wintersteve25.oniutils.common.capability.germ;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import wintersteve25.oniutils.common.chunk.germ.api.IGerms;
+import wintersteve25.oniutils.common.capability.germ.api.IGerms;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

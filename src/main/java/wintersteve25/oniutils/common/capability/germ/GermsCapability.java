@@ -1,4 +1,4 @@
-package wintersteve25.oniutils.common.chunk.germ;
+package wintersteve25.oniutils.common.capability.germ;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
@@ -6,11 +6,10 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import wintersteve25.oniutils.common.chunk.germ.api.EnumGermTypes;
-import wintersteve25.oniutils.common.chunk.germ.api.IGerms;
+import wintersteve25.oniutils.common.capability.germ.api.EnumGermTypes;
+import wintersteve25.oniutils.common.capability.germ.api.IGerms;
 
 import javax.annotation.Nullable;
-import java.util.Locale;
 
 public class GermsCapability {
 

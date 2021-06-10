@@ -35,7 +35,8 @@ public class ONIEngLangProvider extends LanguageProvider {
         add("itemGroup.oniutils", "Oxygen Not Included Utilities");
 
         //messages
-        add("oniutils.message.germs.infectChunk", "Infected chunk with %s %1$s");
-        add("oniutils.message.germs.infectPlayer", "Infected by the chunk with %s %1$s");
+        add("oniutils.message.germs.infectEntity", "Infected interacted entity with %s %1$s");
+        add("oniutils.message.germs.infectItem", "Infected item(s) with %s %1$s");
+        add("oniutils.message.germs.infectPlayer", "Infected with %s %1$s");
     }
 }

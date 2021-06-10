@@ -1,16 +1,16 @@
-package wintersteve25.oniutils.common.chunk.germ;
+package wintersteve25.oniutils.common.capability.germ;
 
-import wintersteve25.oniutils.common.chunk.germ.api.EnumGermTypes;
-import wintersteve25.oniutils.common.chunk.germ.api.IGerms;
+import wintersteve25.oniutils.common.capability.germ.api.EnumGermTypes;
+import wintersteve25.oniutils.common.capability.germ.api.IGerms;
 
 public class GermStack implements IGerms {
 
-    private EnumGermTypes germType;
-    private int amount;
+    private EnumGermTypes germType = EnumGermTypes.NOTHING;
+    private int amount = 0;
 
     @Override
     public void addGerm(EnumGermTypes germType, int amount) {
-        if (this.germType == null && this.amount <= 0) {
+        if (this.germType == EnumGermTypes.NOTHING && this.amount <= 0 && germType != EnumGermTypes.NOTHING && amount > 0) {
             setGerm(germType, amount);
         } else if (this.germType == germType) {
             this.amount = this.amount+amount;
@@ -21,6 +21,11 @@ public class GermStack implements IGerms {
     public void setGerm(EnumGermTypes germType, int amount) {
         this.germType = germType;
         this.amount = amount;
+    }
+
+    @Override
+    public void removeGerm(int amount) {
+        this.amount = this.amount-amount;
     }
 
     @Override
