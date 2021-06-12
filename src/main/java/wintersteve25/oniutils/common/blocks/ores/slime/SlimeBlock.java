@@ -1,8 +1,13 @@
 package wintersteve25.oniutils.common.blocks.ores.slime;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockReader;
 import wintersteve25.oniutils.common.blocks.libs.ONIBaseRock;
+
+import javax.annotation.Nullable;
 
 public class SlimeBlock extends ONIBaseRock {
     private static final String regName = "Slime";
@@ -15,4 +20,16 @@ public class SlimeBlock extends ONIBaseRock {
     public String getRegName() {
         return regName;
     }
+
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
+
+    @Nullable
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+        return new SlimeTile();
+    }
+
 }

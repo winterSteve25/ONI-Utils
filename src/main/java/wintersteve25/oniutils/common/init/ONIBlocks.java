@@ -64,6 +64,8 @@ public class ONIBlocks {
 
         //Oxylite Te
         RegistryHelper.register(TextHelper.langToReg(Oxylite.getRegName()), OxyliteBlock::new);
+        //Slime Te
+        Slime.initRock(Slime);
     }
 
     public static void register(){}

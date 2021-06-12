@@ -1,13 +1,13 @@
 package wintersteve25.oniutils.common.blocks.ores.oxylite;
 
-import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
 import wintersteve25.oniutils.common.blocks.libs.ONIBaseRock;
 
 import javax.annotation.Nullable;
 
-public class OxyliteBlock extends ONIBaseRock implements ITileEntityProvider {
+public class OxyliteBlock extends ONIBaseRock{
     private static final String regName = "Oxylite";
 
     public OxyliteBlock() {
@@ -19,9 +19,14 @@ public class OxyliteBlock extends ONIBaseRock implements ITileEntityProvider {
         return regName;
     }
 
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
+
     @Nullable
     @Override
-    public TileEntity newBlockEntity(IBlockReader p_196283_1_) {
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new OxyliteTile();
     }
 }

@@ -4,6 +4,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -24,7 +26,7 @@ public class GermEventsHandler {
             event.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
             event.addListener(provider::invalidate);
 
-            ONIUtils.LOGGER.info("Added germ capability to Entities");
+            ONIUtils.LOGGER.info("Added germ capability to Entities/Players");
         }
     }
 
@@ -155,19 +157,37 @@ public class GermEventsHandler {
         }
     }
 
-//    public static void playerTickEvent(TickEvent.PlayerTickEvent event) {
-//        PlayerEntity player = event.player;
-//        if (player != null) {
-//            player.getCapability(GermsCapability.GERM_CAPABILITY).ifPresent(p -> {
-//
-//                EnumGermTypes germTypes = p.getGermType();
-//                int germAmount = p.getGermAmount();
-//
-//                if (germAmount > 0 && germTypes != EnumGermTypes.NOTHING) {
-//                    int newGermAmount = germAmount * 2;
-//                    p.addGerm(germTypes, newGermAmount);
-//                }
-//            });
-//        }
-//    }
+    public static void playerTickEvent(TickEvent.PlayerTickEvent event) {
+        PlayerEntity player = event.player;
+        if (player != null) {
+            player.getCapability(GermsCapability.GERM_CAPABILITY).ifPresent(p -> {
+
+                EnumGermTypes germTypes = p.getGermType();
+                int germAmount = p.getGermAmount();
+
+                if (germAmount > 0 && germTypes != EnumGermTypes.NOTHING) {
+                    int newGermAmount = germAmount * 2;
+                    p.addGerm(germTypes, newGermAmount);
+
+                    if (germTypes == EnumGermTypes.FOODPOISON && germAmount > 50000) {
+                        player.addEffect(new EffectInstance(Effects.HUNGER));
+                        if (germAmount > 85000) {
+                            player.addEffect(new EffectInstance(Effects.WEAKNESS));
+                        }
+                    }
+
+                    if (germTypes == EnumGermTypes.SLIMELUNG && germAmount > 50000) {
+                        player.addEffect(new EffectInstance(Effects.WEAKNESS));
+                    }
+
+                    if (germTypes == EnumGermTypes.ZOMBIESPORES && germAmount > 100000) {
+                        player.addEffect(new EffectInstance(Effects.POISON));
+                        if (germAmount > 150000) {
+                            player.addEffect(new EffectInstance(Effects.WITHER));
+                        }
+                    }
+                }
+            });
+        }
+    }
 }

@@ -1,7 +1,4 @@
-package wintersteve25.oniutils.common.capability.germ;
-
-import wintersteve25.oniutils.common.capability.germ.api.EnumGermTypes;
-import wintersteve25.oniutils.common.capability.germ.api.IGerms;
+package wintersteve25.oniutils.common.capability.germ.api;
 
 public class GermStack implements IGerms {
 

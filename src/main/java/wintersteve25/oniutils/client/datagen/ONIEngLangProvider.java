@@ -17,6 +17,8 @@ public class ONIEngLangProvider extends LanguageProvider {
     protected void addTranslations() {
         //simple blocks
         add(ONIBlocks.IgneousRock.get(), "Igneous Rock");
+        add(ONIBlocks.Oxylite, ONIBlocks.Oxylite.getRegName());
+
         for (ONIBaseRock b : ONIBlocks.rocksList) {
             add("block.oniutils." + TextHelper.langToReg(b.getRegName()), b.getRegName());
         }

@@ -1,20 +1,19 @@
-package wintersteve25.oniutils.common.capability.germ;
+package wintersteve25.oniutils.common.capability.gas;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import wintersteve25.oniutils.common.capability.germ.api.GermStack;
-import wintersteve25.oniutils.common.capability.germ.api.IGerms;
+import wintersteve25.oniutils.common.capability.gas.api.GasStack;
+import wintersteve25.oniutils.common.capability.gas.api.IGas;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class GermCapabilityProvider implements ICapabilitySerializable<CompoundNBT> {
-
-    private final GermStack germ = new GermStack();
-    private final LazyOptional<IGerms> lazyOptional = LazyOptional.of(() -> germ);
+public class GasCapabilityProvider implements ICapabilitySerializable<CompoundNBT> {
+    private final GasStack gas = new GasStack();
+    private final LazyOptional<IGas> lazyOptional = LazyOptional.of(() -> gas);
 
     public void invalidate() {
         lazyOptional.invalidate();
@@ -28,17 +27,17 @@ public class GermCapabilityProvider implements ICapabilitySerializable<CompoundN
 
     @Override
     public CompoundNBT serializeNBT() {
-        if (GermsCapability.GERM_CAPABILITY == null) {
+        if (GasCapability.GAS_CAPABILITY == null) {
             return new CompoundNBT();
         } else {
-            return (CompoundNBT) GermsCapability.GERM_CAPABILITY.writeNBT(germ, null);
+            return (CompoundNBT) GasCapability.GAS_CAPABILITY.writeNBT(gas, null);
         }
     }
 
     @Override
     public void deserializeNBT(CompoundNBT nbt) {
-        if (GermsCapability.GERM_CAPABILITY != null) {
-            GermsCapability.GERM_CAPABILITY.readNBT(germ, null, nbt);
+        if (GasCapability.GAS_CAPABILITY != null) {
+            GasCapability.GAS_CAPABILITY.readNBT(gas, null, nbt);
         }
     }
 }

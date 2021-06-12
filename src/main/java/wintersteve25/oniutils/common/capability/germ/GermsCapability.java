@@ -7,6 +7,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import wintersteve25.oniutils.common.capability.germ.api.EnumGermTypes;
+import wintersteve25.oniutils.common.capability.germ.api.GermStack;
 import wintersteve25.oniutils.common.capability.germ.api.IGerms;
 
 import javax.annotation.Nullable;
@@ -14,7 +15,7 @@ import javax.annotation.Nullable;
 public class GermsCapability {
 
     @CapabilityInject(IGerms.class)
-    public static Capability<IGerms> GERM_CAPABILITY = null;
+    public static Capability<IGerms> GERM_CAPABILITY;
 
     public static void register() {
         CapabilityManager.INSTANCE.register(IGerms.class, new GermStorage(), GermStack::new);
