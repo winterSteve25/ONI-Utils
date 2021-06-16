@@ -7,6 +7,8 @@ public interface IGas {
 
     void removeGas(int amount);
 
+    void removeGas(EnumGasTypes gasTypes, int amount);
+
     EnumGasTypes getGasType();
 
     int getGasAmount();

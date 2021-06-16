@@ -5,6 +5,7 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
+import wintersteve25.oniutils.common.capability.gas.api.EnumGasTypes;
 import wintersteve25.oniutils.common.capability.gas.api.GasStack;
 import wintersteve25.oniutils.common.capability.gas.api.IGas;
 
@@ -19,10 +20,17 @@ public class GasCapabilityProvider implements ICapabilitySerializable<CompoundNB
         lazyOptional.invalidate();
     }
 
+    public GasCapabilityProvider() {
+        gas.setGas(EnumGasTypes.OXYGEN, 1000000);
+    }
+
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        return lazyOptional.cast();
+        if (cap == GasCapability.GAS_CAPABILITY) {
+            return lazyOptional.cast();
+        }
+        return LazyOptional.empty();
     }
 
     @Override

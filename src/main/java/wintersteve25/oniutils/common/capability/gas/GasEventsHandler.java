@@ -12,29 +12,29 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.capability.gas.api.EnumGasTypes;
-
-import java.util.concurrent.atomic.AtomicInteger;
+import wintersteve25.oniutils.common.capability.germ.GermsCapability;
 
 public class GasEventsHandler {
-    public static void chunkCapAttachEvent (AttachCapabilitiesEvent<Chunk> event) {
+
+    public static void chunkCapAttachEvent(AttachCapabilitiesEvent<Chunk> event) {
         Chunk chunk = event.getObject();
         if (chunk != null) {
-            GasCapabilityProvider provider = new GasCapabilityProvider();
-            event.addCapability(new ResourceLocation(ONIUtils.MODID, "gas"), provider);
-            event.addListener(provider::invalidate);
-
-            ONIUtils.LOGGER.info("Added gas capability to Chunk");
+            if (!chunk.getCapability(GermsCapability.GERM_CAPABILITY).isPresent()) {
+                GasCapabilityProvider provider = new GasCapabilityProvider();
+                event.addCapability(new ResourceLocation(ONIUtils.MODID, "gas"), provider);
+                event.addListener(provider::invalidate);
+            }
         }
     }
 
-    public static void entityCapAttachEvent (AttachCapabilitiesEvent<Entity> event) {
+    public static void entityCapAttachEvent(AttachCapabilitiesEvent<Entity> event) {
         Entity entity = event.getObject();
         if (entity instanceof LivingEntity) {
-            GasCapabilityProvider provider = new GasCapabilityProvider();
-            event.addCapability(new ResourceLocation(ONIUtils.MODID, "gas"), provider);
-            event.addListener(provider::invalidate);
-
-            ONIUtils.LOGGER.info("Added gas capability to Entities/Players");
+            if (!entity.getCapability(GermsCapability.GERM_CAPABILITY).isPresent()) {
+                GasCapabilityProvider provider = new GasCapabilityProvider();
+                event.addCapability(new ResourceLocation(ONIUtils.MODID, "gas"), provider);
+                event.addListener(provider::invalidate);
+            }
         }
     }
 
@@ -44,26 +44,40 @@ public class GasEventsHandler {
             player.getCapability(GasCapability.GAS_CAPABILITY).ifPresent(p -> {
                 ChunkPos chunkPos = new ChunkPos(player.xChunk, player.zChunk);
                 Chunk chunk = player.getCommandSenderWorld().getChunk(chunkPos.x, chunkPos.z);
-                AtomicInteger timer = new AtomicInteger(1000);
 
                 chunk.getCapability(GasCapability.GAS_CAPABILITY).ifPresent(c -> {
+                    p.removeGas(EnumGasTypes.OXYGEN, 1);
+
                     EnumGasTypes gas = c.getGasType();
                     int amount = c.getGasAmount();
+
+                    c.addGas(EnumGasTypes.CARBONDIOXIDE, 1);
+
+                    if (amount <= 0) {
+                        c.setGas(EnumGasTypes.VACUUM, 1);
+                    }
+
+                    EnumGasTypes playerGas = p.getGasType();
+                    int playerAmount = p.getGasAmount();
+
+                    ONIUtils.LOGGER.info(gas.getName());
                     if (gas == EnumGasTypes.OXYGEN && amount > 0) {
+                        //ONIUtils.LOGGER.info("removing o2 from chunk, adding o2 to player");
                         c.removeGas(1);
-                        if (timer.get() < 1000) {
-                            timer.getAndIncrement();
-                        }
-                    } else if (gas != EnumGasTypes.OXYGEN) {
-                        timer.getAndDecrement();
-                        if (timer.get() < 800) {
+                        p.addGas(EnumGasTypes.OXYGEN, 1);
+                    } if (gas != EnumGasTypes.OXYGEN) {
+                        //ONIUtils.LOGGER.info(playerAmount);
+                        if (playerGas != EnumGasTypes.OXYGEN && playerAmount < 1000) {
                             player.addEffect(new EffectInstance(Effects.WEAKNESS));
-                        } else if (timer.get() < 500) {
-                            player.addEffect(new EffectInstance(Effects.DIG_SLOWDOWN));
-                        } else if (timer.get() <= 300) {
-                            player.addEffect(new EffectInstance(Effects.CONFUSION));
-                        } else if (timer.get() <= 0) {
-                            player.addEffect(new EffectInstance(Effects.HARM));
+                            if (playerAmount < 800) {
+                                player.addEffect(new EffectInstance(Effects.DIG_SLOWDOWN, 1, 2));
+                                if (playerAmount < 300) {
+                                    player.addEffect(new EffectInstance(Effects.WEAKNESS, 1, 3));
+                                    if (playerAmount <= 0) {
+                                        player.hurt(ONIUtils.oxygenDamage, 3);
+                                    }
+                                }
+                            }
                         }
                     }
                 });

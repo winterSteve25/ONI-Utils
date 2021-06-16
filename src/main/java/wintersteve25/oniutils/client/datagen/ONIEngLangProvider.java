@@ -40,5 +40,7 @@ public class ONIEngLangProvider extends LanguageProvider {
         add("oniutils.message.germs.infectEntity", "Infected interacted entity with %s %1$s");
         add("oniutils.message.germs.infectItem", "Infected item(s) with %s %1$s");
         add("oniutils.message.germs.infectPlayer", "Infected with %s %1$s");
+
+        add("death.attack.oniutils.oxygen", "%1$s forgot to breathe");
     }
 }

@@ -28,18 +28,20 @@ public class GasCapability {
         public INBT writeNBT(Capability<IGas> capability, IGas instance, Direction side) {
             CompoundNBT nbt = new CompoundNBT();
 
-            nbt.putString("gasName", instance.getGasType().getName());
-            nbt.putInt("gasAmounts", instance.getGasAmount());
+            if (instance != null) {
+                nbt.putString("gasName", instance.getGasType().getName());
+                nbt.putInt("gasAmounts", instance.getGasAmount());
+            }
 
             return nbt;
         }
 
         @Override
         public void readNBT(Capability<IGas> capability, IGas instance, Direction side, INBT nbt) {
-            String gasName = ((CompoundNBT) nbt).getString("germName");
+            String gasName = ((CompoundNBT) nbt).getString("gasName");
             EnumGasTypes gasType = EnumGasTypes.getGasFromName(gasName);
 
-            int germAmounts = ((CompoundNBT) nbt).getInt("germAmounts");
+            int germAmounts = ((CompoundNBT) nbt).getInt("gasAmounts");
 
             instance.setGas(gasType, germAmounts);
         }

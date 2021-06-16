@@ -22,45 +22,43 @@ public class GermEventsHandler {
     public static void entityCapAttachEvent (AttachCapabilitiesEvent<Entity> event) {
         Entity entity = event.getObject();
         if (entity instanceof LivingEntity) {
-            GermCapabilityProvider provider = new GermCapabilityProvider();
-            event.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
-            event.addListener(provider::invalidate);
-
-            ONIUtils.LOGGER.info("Added germ capability to Entities/Players");
+            if (!entity.getCapability(GermsCapability.GERM_CAPABILITY).isPresent()) {
+                GermCapabilityProvider provider = new GermCapabilityProvider();
+                event.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
+                event.addListener(provider::invalidate);
+            }
         }
     }
 
     public static void itemCapAttachEvent (AttachCapabilitiesEvent<ItemStack> event) {
         ItemStack entity = event.getObject();
         if (entity != null) {
-            GermCapabilityProvider provider = new GermCapabilityProvider();
-            event.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
-            event.addListener(provider::invalidate);
-
-            ONIUtils.LOGGER.info("Added germ capability to ItemStacks");
+            if (!entity.getCapability(GermsCapability.GERM_CAPABILITY).isPresent()) {
+                GermCapabilityProvider provider = new GermCapabilityProvider();
+                event.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
+                event.addListener(provider::invalidate);
+            }
         }
     }
 
     public static void teCapAttachEvent (AttachCapabilitiesEvent<TileEntity> e) {
         TileEntity tileAttached = e.getObject();
         if (tileAttached != null) {
-            GermCapabilityProvider provider = new GermCapabilityProvider();
-            e.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
-            e.addListener(provider::invalidate);
-
-            ONIUtils.LOGGER.info("Added germ capability to TileEntities");
+            if (!tileAttached.getCapability(GermsCapability.GERM_CAPABILITY).isPresent()) {
+                GermCapabilityProvider provider = new GermCapabilityProvider();
+                e.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
+                e.addListener(provider::invalidate);
+            }
         }
     }
 
     public static void infectOnInteractEntitySpecific (PlayerInteractEvent.EntityInteractSpecific event) {
         PlayerEntity player = event.getPlayer();
-        ONIUtils.LOGGER.info("Player Interact, is player null?");
         if (player != null) {
             Entity target = event.getTarget();
 
             player.getCapability(GermsCapability.GERM_CAPABILITY).ifPresent(p -> {
                 target.getCapability(GermsCapability.GERM_CAPABILITY).ifPresent(t -> {
-                    ONIUtils.LOGGER.info("does target have germs");
                     if (t.getGermType() != EnumGermTypes.NOTHING && t.getGermAmount() > 0) {
                         p.addGerm(t.getGermType(), t.getGermAmount());
                         player.displayClientMessage(new TranslationTextComponent("oniutils.message.germs.infectPlayer", t.getGermAmount(), t.getGermType().getName().replace('_', ' ')), true);
@@ -75,13 +73,11 @@ public class GermEventsHandler {
 
     public static void infectOnInteractEntity (PlayerInteractEvent.EntityInteract event) {
         PlayerEntity player = event.getPlayer();
-        ONIUtils.LOGGER.info("Player Interact, is player null?");
         if (player != null) {
             Entity target = event.getTarget();
 
             player.getCapability(GermsCapability.GERM_CAPABILITY).ifPresent(p -> {
                 target.getCapability(GermsCapability.GERM_CAPABILITY).ifPresent(t -> {
-                    ONIUtils.LOGGER.info("does target have germs");
                     if (t.getGermType() != EnumGermTypes.NOTHING && t.getGermAmount() > 0) {
                         p.addGerm(t.getGermType(), t.getGermAmount());
                         player.displayClientMessage(new TranslationTextComponent("oniutils.message.germs.infectPlayer", t.getGermAmount(), t.getGermType().getName().replace('_', ' ')), true);
@@ -138,10 +134,7 @@ public class GermEventsHandler {
 
             BlockPos pos = event.getPos();
             TileEntity target = event.getWorld().getBlockEntity(pos);
-
-            ONIUtils.LOGGER.info("is tile null?");
             if (target != null) {
-                ONIUtils.LOGGER.info("tile is not null");
                 player.getCapability(GermsCapability.GERM_CAPABILITY).ifPresent(p -> {
                     target.getCapability(GermsCapability.GERM_CAPABILITY).ifPresent(t -> {
                         if (t.getGermType() != EnumGermTypes.NOTHING && t.getGermAmount() > 0) {
@@ -164,6 +157,8 @@ public class GermEventsHandler {
 
                 EnumGermTypes germTypes = p.getGermType();
                 int germAmount = p.getGermAmount();
+
+                ONIUtils.LOGGER.info(germTypes.getName() + ", " + germAmount);
 
                 if (germAmount > 0 && germTypes != EnumGermTypes.NOTHING) {
                     int newGermAmount = germAmount * 2;

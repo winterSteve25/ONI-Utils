@@ -5,6 +5,7 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
+import wintersteve25.oniutils.common.capability.gas.GasCapability;
 import wintersteve25.oniutils.common.capability.germ.api.GermStack;
 import wintersteve25.oniutils.common.capability.germ.api.IGerms;
 
@@ -23,7 +24,10 @@ public class GermCapabilityProvider implements ICapabilitySerializable<CompoundN
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        return lazyOptional.cast();
+        if (cap == GermsCapability.GERM_CAPABILITY) {
+            return lazyOptional.cast();
+        }
+        return LazyOptional.empty();
     }
 
     @Override

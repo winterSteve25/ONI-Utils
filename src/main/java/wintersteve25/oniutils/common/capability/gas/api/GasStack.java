@@ -1,7 +1,8 @@
 package wintersteve25.oniutils.common.capability.gas.api;
 
 public class GasStack implements IGas{
-    private EnumGasTypes gasTypes = EnumGasTypes.VACUUM;
+
+    private EnumGasTypes gasTypes = EnumGasTypes.OXYGEN;
     private int gasAmount = 0;
 
     @Override
@@ -20,6 +21,13 @@ public class GasStack implements IGas{
     @Override
     public void removeGas(int amount) {
         this.gasAmount = this.gasAmount-amount;
+    }
+
+    @Override
+    public void removeGas(EnumGasTypes gasTypes, int amount) {
+        if (this.gasTypes == gasTypes) {
+            this.gasAmount = this.gasAmount-amount;
+        }
     }
 
     @Override

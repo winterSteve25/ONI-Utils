@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -37,16 +38,9 @@ public class ONIUtils {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    public static final ItemGroup creativeTab = new ItemGroup("oniutils") {
-        @Override
-        public ItemStack makeIcon() {
-            return new ItemStack(ONIBlocks.IgneousRock.get());
-        }
-    };
-
     public void preInit(FMLCommonSetupEvent evt) {
         GermsCapability.register();
-        GasCapability.register();
+//        GasCapability.register();
 
         //germ events
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, GermEventsHandler::entityCapAttachEvent);
@@ -64,4 +58,15 @@ public class ONIUtils {
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, GasEventsHandler::entityCapAttachEvent);
         MinecraftForge.EVENT_BUS.addListener(GasEventsHandler::playerTickEvent);
     }
+
+    //item group
+    public static final ItemGroup creativeTab = new ItemGroup("oniutils") {
+        @Override
+        public ItemStack makeIcon() {
+            return new ItemStack(ONIBlocks.IgneousRock.get());
+        }
+    };
+
+    //damage source
+    public static final DamageSource oxygenDamage = new DamageSource("oniutils.oxygen").bypassArmor().bypassInvul();
 }

@@ -1,4 +1,5 @@
 {
+  "block.minecraft.air": "Oxylite",
   "block.oniutils.abyssalite": "Abyssalite",
   "block.oniutils.algae": "Algae",
   "block.oniutils.bleach_stone": "Bleach Stone",
@@ -15,6 +16,7 @@
   "block.oniutils.sedimentary_rock": "Sedimentary Rock",
   "block.oniutils.slime": "Slime",
   "block.oniutils.wolframite": "Wolframite",
+  "death.attack.oniutils.oxygen": "%1$s forgot to breath",
   "itemGroup.oniutils": "Oxygen Not Included Utilities",
   "oniutils.message.germs.infectEntity": "Infected interacted entity with %s %1$s",
   "oniutils.message.germs.infectItem": "Infected item(s) with %s %1$s",
