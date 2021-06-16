@@ -40,7 +40,7 @@ public class ONIUtils {
 
     public void preInit(FMLCommonSetupEvent evt) {
         GermsCapability.register();
-//        GasCapability.register();
+        GasCapability.register();
 
         //germ events
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, GermEventsHandler::entityCapAttachEvent);
