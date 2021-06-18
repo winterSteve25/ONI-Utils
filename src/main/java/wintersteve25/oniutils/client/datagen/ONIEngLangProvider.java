@@ -6,7 +6,7 @@ import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.blocks.libs.ONIBaseDirectional;
 import wintersteve25.oniutils.common.blocks.libs.ONIBaseRock;
 import wintersteve25.oniutils.common.init.ONIBlocks;
-import wintersteve25.oniutils.common.lib.helper.TextHelper;
+import wintersteve25.oniutils.common.lib.helper.MiscHelper;
 
 public class ONIEngLangProvider extends LanguageProvider {
     public ONIEngLangProvider(DataGenerator gen) {
@@ -17,30 +17,31 @@ public class ONIEngLangProvider extends LanguageProvider {
     protected void addTranslations() {
         //simple blocks
         add(ONIBlocks.IgneousRock.get(), "Igneous Rock");
-        add(ONIBlocks.Oxylite, ONIBlocks.Oxylite.getRegName());
+        add("block.oniutils.oxylite", "Oxylite");
 
         for (ONIBaseRock b : ONIBlocks.rocksList) {
-            add("block.oniutils." + TextHelper.langToReg(b.getRegName()), b.getRegName());
+            add("block.oniutils." + MiscHelper.langToReg(b.getRegName()), b.getRegName());
         }
         for (ONIBaseRock b : ONIBlocks.rocksListNoDataGen) {
-            add("block.oniutils." + TextHelper.langToReg(b.getRegName()), b.getRegName());
+            add("block.oniutils." + MiscHelper.langToReg(b.getRegName()), b.getRegName());
         }
 
         for (ONIBaseDirectional b : ONIBlocks.direList) {
-            add("block.oniutils." + TextHelper.langToReg(b.getRegName()), b.getRegName());
+            add("block.oniutils." + MiscHelper.langToReg(b.getRegName()), b.getRegName());
         }
         for (ONIBaseDirectional b : ONIBlocks.direListNoDataGen) {
-            add("block.oniutils." + TextHelper.langToReg(b.getRegName()), b.getRegName());
+            add("block.oniutils." + MiscHelper.langToReg(b.getRegName()), b.getRegName());
         }
 
         //item groups
-        add("itemGroup.oniutils", "Oxygen Not Included Utilities");
+        add("itemGroup.oniutils", "Veiled Ascent");
 
         //messages
-        add("oniutils.message.germs.infectEntity", "Infected interacted entity with %s %1$s");
-        add("oniutils.message.germs.infectItem", "Infected item(s) with %s %1$s");
-        add("oniutils.message.germs.infectPlayer", "Infected with %s %1$s");
+        add("oniutils.message.germs.infectEntity", "Infected interacted entity with %s");
+        add("oniutils.message.germs.infectItem", "Infected item(s) with %s");
+        add("oniutils.message.germs.infectPlayer", "Infected with %s");
 
         add("death.attack.oniutils.oxygen", "%1$s forgot to breathe");
+        add("death.attack.oniutils.germ", "%1$s didn't take the vaccine");
     }
 }

@@ -10,8 +10,8 @@ import wintersteve25.oniutils.common.blocks.ores.oxylite.OxyliteBlock;
 import wintersteve25.oniutils.common.blocks.ores.oxylite.OxyliteTile;
 import wintersteve25.oniutils.common.blocks.ores.slime.SlimeBlock;
 import wintersteve25.oniutils.common.blocks.ores.slime.SlimeTile;
+import wintersteve25.oniutils.common.lib.helper.MiscHelper;
 import wintersteve25.oniutils.common.lib.helper.RegistryHelper;
-import wintersteve25.oniutils.common.lib.helper.TextHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +37,9 @@ public class ONIBlocks {
 
     //TE Blocks
     public static final OxyliteBlock Oxylite = new OxyliteBlock();
-    public static final RegistryObject<TileEntityType<OxyliteTile>> OxyliteTE = RegistryHelper.registerTE(TextHelper.langToReg(Oxylite.getRegName()), () -> TileEntityType.Builder.of(OxyliteTile::new, Oxylite).build(null));
+    public static final RegistryObject<TileEntityType<OxyliteTile>> OxyliteTE = RegistryHelper.registerTE(MiscHelper.langToReg(Oxylite.getRegName()), () -> TileEntityType.Builder.of(OxyliteTile::new, Oxylite).build(null));
     public static final SlimeBlock Slime = new SlimeBlock();
-    public static final RegistryObject<TileEntityType<SlimeTile>> SlimeTE = RegistryHelper.registerTE(TextHelper.langToReg(Slime.getRegName()), () -> TileEntityType.Builder.of(SlimeTile::new, Slime).build(null));
+    public static final RegistryObject<TileEntityType<SlimeTile>> SlimeTE = RegistryHelper.registerTE(MiscHelper.langToReg(Slime.getRegName()), () -> TileEntityType.Builder.of(SlimeTile::new, Slime).build(null));
 
     public static List<ONIBaseRock> rocksList = new ArrayList<>();
     public static List<ONIBaseRock> rocksListNoDataGen = new ArrayList<>();
@@ -63,7 +63,7 @@ public class ONIBlocks {
         Abyssalite.initRockNoDataGen(Abyssalite);
 
         //Oxylite Te
-        RegistryHelper.register(TextHelper.langToReg(Oxylite.getRegName()), OxyliteBlock::new);
+        RegistryHelper.register(MiscHelper.langToReg(Oxylite.getRegName()), OxyliteBlock::new);
         //Slime Te
         Slime.initRock(Slime);
     }

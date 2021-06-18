@@ -77,6 +77,10 @@ repositories {
     maven {
         url "https://maven.tterrag.com/"
     }
+
+    maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+
+    maven { url "https://www.cursemaven.com" }
 }
 
 dependencies {
@@ -85,8 +89,10 @@ dependencies {
     compile fg.deobf("mezz.jei:jei-1.16.4:7.6.1.65")
     compile fg.deobf("mezz.jei:jei-1.16.4:7.6.1.65:api")
     implementation fg.deobf("team.chisel.ctm:CTM:MC1.16.1-1.1.2.6")
-
     compile fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:1.16-3.1.4-22")
+    implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.40')
+    compile fg.deobf ('curse.maven:pollution-of-the-realms-269973:3353998')
+    compile fg.deobf ('curse.maven:forgeendertech-244844:3246245')
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
