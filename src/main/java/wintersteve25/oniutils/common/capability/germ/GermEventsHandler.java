@@ -183,7 +183,7 @@ public class GermEventsHandler {
                     EnumGermTypes germTypes = p.getGermType();
                     int germAmount = p.getGermAmount();
 
-                    ONIUtils.LOGGER.info(germTypes.getName() + ", " + germAmount);
+                   // ONIUtils.LOGGER.info(germTypes.getName() + ", " + germAmount);
 
                     if (germAmount > 0 && germTypes != EnumGermTypes.NOTHING) {
 

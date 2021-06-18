@@ -6,6 +6,8 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.fml.RegistryObject;
 import wintersteve25.oniutils.common.blocks.libs.ONIBaseDirectional;
 import wintersteve25.oniutils.common.blocks.libs.ONIBaseRock;
+import wintersteve25.oniutils.common.blocks.machines.power.coalgen.CoalGenBlock;
+import wintersteve25.oniutils.common.blocks.machines.power.coalgen.CoalGenTE;
 import wintersteve25.oniutils.common.blocks.ores.oxylite.OxyliteBlock;
 import wintersteve25.oniutils.common.blocks.ores.oxylite.OxyliteTile;
 import wintersteve25.oniutils.common.blocks.ores.slime.SlimeBlock;
@@ -41,6 +43,10 @@ public class ONIBlocks {
     public static final SlimeBlock Slime = new SlimeBlock();
     public static final RegistryObject<TileEntityType<SlimeTile>> SlimeTE = RegistryHelper.registerTE(MiscHelper.langToReg(Slime.getRegName()), () -> TileEntityType.Builder.of(SlimeTile::new, Slime).build(null));
 
+    //Machines
+    public static final CoalGenBlock COAL_GEN_BLOCK = new CoalGenBlock();
+    public static final RegistryObject<TileEntityType<CoalGenTE>> COAL_GEN_TE = RegistryHelper.registerTE(MiscHelper.langToReg(COAL_GEN_BLOCK.getRegName()), () -> TileEntityType.Builder.of(CoalGenTE::new, Slime).build(null));
+
     public static List<ONIBaseRock> rocksList = new ArrayList<>();
     public static List<ONIBaseRock> rocksListNoDataGen = new ArrayList<>();
     public static List<ONIBaseDirectional> direList = new ArrayList<>();
@@ -62,10 +68,11 @@ public class ONIBlocks {
         Wolframite.initRockNoDataGen(Wolframite);
         Abyssalite.initRockNoDataGen(Abyssalite);
 
-        //Oxylite Te
-        RegistryHelper.register(MiscHelper.langToReg(Oxylite.getRegName()), OxyliteBlock::new);
-        //Slime Te
+        //Blocks TE
+        Oxylite.initRockNoDataGen(Oxylite);
         Slime.initRock(Slime);
+
+        //Machines
     }
 
     public static void register(){}

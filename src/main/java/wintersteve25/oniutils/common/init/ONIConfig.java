@@ -47,6 +47,6 @@ public class ONIConfig {
     public static void onReload(ModConfig.Reloading event) {
         GermEventsHandler.reload();
         SlimeTile.reload();
-        AdPotherAddonEventHandlers.reload();
+//        AdPotherAddonEventHandlers.reload();
     }
 }
