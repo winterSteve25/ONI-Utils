@@ -7,6 +7,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.blocks.libs.ITECapProvider;
+import wintersteve25.oniutils.common.blocks.libs.ONIBaseTE;
 import wintersteve25.oniutils.common.capability.germ.api.GermStack;
 import wintersteve25.oniutils.common.capability.germ.GermsCapability;
 import wintersteve25.oniutils.common.capability.germ.api.EnumGermTypes;
@@ -17,7 +18,7 @@ import wintersteve25.oniutils.common.init.ONIConfig;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class SlimeTile extends TileEntity implements ITickableTileEntity, ITECapProvider {
+public class SlimeTile extends ONIBaseTE implements ITickableTileEntity, ITECapProvider {
 
     private GermStack germHandler = new GermStack();
     private LazyOptional<IGerms> lazyOptional =  LazyOptional.of(() -> germHandler);

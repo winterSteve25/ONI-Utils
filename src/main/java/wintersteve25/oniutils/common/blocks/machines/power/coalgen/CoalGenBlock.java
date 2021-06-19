@@ -30,6 +30,11 @@ public class CoalGenBlock extends ONIBaseMachine {
     }
 
     @Override
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
+
+    @Override
     public String getRegName() {
         return regName;
     }

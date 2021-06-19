@@ -30,7 +30,7 @@ public class SlimeBlock extends ONIBaseRock {
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return ONIBlocks.COAL_GEN_TE.get().create();
+        return ONIBlocks.SlimeTE.get().create();
     }
 
 }

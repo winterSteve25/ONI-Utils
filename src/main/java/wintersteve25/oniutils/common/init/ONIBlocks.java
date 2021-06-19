@@ -45,7 +45,7 @@ public class ONIBlocks {
 
     //Machines
     public static final CoalGenBlock COAL_GEN_BLOCK = new CoalGenBlock();
-    public static final RegistryObject<TileEntityType<CoalGenTE>> COAL_GEN_TE = RegistryHelper.registerTE(MiscHelper.langToReg(COAL_GEN_BLOCK.getRegName()), () -> TileEntityType.Builder.of(CoalGenTE::new, Slime).build(null));
+    public static final RegistryObject<TileEntityType<CoalGenTE>> COAL_GEN_TE = RegistryHelper.registerTE(MiscHelper.langToReg(COAL_GEN_BLOCK.getRegName()), () -> TileEntityType.Builder.of(CoalGenTE::new, COAL_GEN_BLOCK).build(null));
 
     public static List<ONIBaseRock> rocksList = new ArrayList<>();
     public static List<ONIBaseRock> rocksListNoDataGen = new ArrayList<>();
