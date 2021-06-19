@@ -16,13 +16,11 @@ import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.blocks.ores.slime.SlimeTile;
+import wintersteve25.oniutils.common.blocks.libs.ITECapProvider;
 import wintersteve25.oniutils.common.capability.germ.api.EnumGermTypes;
 import wintersteve25.oniutils.common.init.ONIConfig;
 
 public class GermEventsHandler {
-    public static void reload() { }
-
     public static void entityCapAttachEvent (AttachCapabilitiesEvent<Entity> event) {
         Entity entity = event.getObject();
         if (entity instanceof LivingEntity) {
@@ -48,7 +46,7 @@ public class GermEventsHandler {
     public static void teCapAttachEvent (AttachCapabilitiesEvent<TileEntity> e) {
         TileEntity tileAttached = e.getObject();
         if (tileAttached != null) {
-            if (!(tileAttached instanceof SlimeTile)) {
+            if (!(tileAttached instanceof ITECapProvider)) {
                 if (!tileAttached.getCapability(GermsCapability.GERM_CAPABILITY).isPresent()) {
                     GermCapabilityProvider provider = new GermCapabilityProvider();
                     e.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);

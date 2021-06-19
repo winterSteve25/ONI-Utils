@@ -21,15 +21,3 @@ description='''
     versionRange="[1.16.4,)"
     ordering="NONE"
     side="BOTH"
-[[dependencies.oniutils]]
-    modId="adpother"
-    mandatory=true
-    versionRange="[4.0.5.0,)"
-    ordering="NONE"
-    side="BOTH"
-[[dependencies.oniutils]]
-    modId="forgeendertech"
-    mandatory=true
-    versionRange="[7.1.0.0,)"
-    ordering="NONE"
-    side="BOTH"

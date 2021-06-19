@@ -4,6 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
 import wintersteve25.oniutils.common.blocks.libs.ONIBaseRock;
+import wintersteve25.oniutils.common.init.ONIBlocks;
 
 import javax.annotation.Nullable;
 
@@ -27,6 +28,6 @@ public class OxyliteBlock extends ONIBaseRock{
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new OxyliteTile();
+        return ONIBlocks.OxyliteTE.get().create();
     }
 }

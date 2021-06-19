@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "oniutils:block/sedimentary_rock"
+    },
+    "facing=south": {
+      "model": "oniutils:block/sedimentary_rock",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "oniutils:block/sedimentary_rock",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "oniutils:block/sedimentary_rock",
+      "y": 90
+    },
+    "facing=up": {
+      "model": "oniutils:block/sedimentary_rock",
+      "x": 270
+    },
+    "facing=down": {
+      "model": "oniutils:block/sedimentary_rock",
+      "x": 90
+    }
+  }
+}

@@ -73,6 +73,7 @@ public class ONIBlocks {
         Slime.initRock(Slime);
 
         //Machines
+        COAL_GEN_BLOCK.initRockNoDataGen(COAL_GEN_BLOCK);
     }
 
     public static void register(){}

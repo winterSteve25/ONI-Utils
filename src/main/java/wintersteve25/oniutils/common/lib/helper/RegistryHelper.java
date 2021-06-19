@@ -3,6 +3,7 @@ package wintersteve25.oniutils.common.lib.helper;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.fml.RegistryObject;
 import wintersteve25.oniutils.ONIUtils;
@@ -19,5 +20,9 @@ public class RegistryHelper {
 
     public static <I extends TileEntityType<?>> RegistryObject<I> registerTE(String name, Supplier<? extends I> te) {
         return Registration.TE.register(name, te);
+    }
+
+    public static <I extends Effect> RegistryObject<I> registerEffects(String name, Supplier<? extends I> effect) {
+        return Registration.EFFECTS.register(name, effect);
     }
 }

@@ -1,19 +1,12 @@
 package wintersteve25.oniutils.common.init;
 
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.blocks.ores.slime.SlimeTile;
-import wintersteve25.oniutils.common.capability.germ.GermEventsHandler;
 import wintersteve25.oniutils.common.lib.helper.MiscHelper;
-import wintersteve25.oniutils.common.pollutionaddon.AdPotherAddonEventHandlers;
 
-@Mod.EventBusSubscriber(modid = ONIUtils.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ONIConfig {
     public static final String CAT_GERM = "germs";
     public static final String CAT_GAS = "gas";
+    public static final String CAT_TRAITS = "traits";
 
     public static ForgeConfigSpec SERVER_CONFIG;
 
@@ -24,6 +17,9 @@ public class ONIConfig {
 
     public static ForgeConfigSpec.BooleanValue ENABLE_GAS;
     public static ForgeConfigSpec.IntValue PLAYER_EMIT_SPEED;
+    public static ForgeConfigSpec.IntValue PLAYER_BREATH_TIMER;
+
+    public static ForgeConfigSpec.BooleanValue ENABLE_TRAITS;
 
     static {
         ForgeConfigSpec.Builder SERVERBUILDER = new ForgeConfigSpec.Builder();
@@ -36,17 +32,15 @@ public class ONIConfig {
         SERVERBUILDER.pop();
 
         SERVERBUILDER.comment("Gas System (Pollution of the Realms addon) Settings").push(CAT_GAS);
-        ENABLE_GAS = SERVERBUILDER.comment("Should the gas addon be enabled?").define("enableGas", true);
-        PLAYER_EMIT_SPEED = SERVERBUILDER.comment("How fast should player produce carbon dioxide?").defineInRange("playerEmitCO2Speed", 500, 250, MiscHelper.INT_MAX);
+        ENABLE_GAS = SERVERBUILDER.comment("Should the gas addon be enabled?").define("enableGas", false);
+        PLAYER_EMIT_SPEED = SERVERBUILDER.comment("How fast should player produce carbon dioxide?").defineInRange("playerEmitCO2Speed", 2000, 100, MiscHelper.INT_MAX);
+        PLAYER_BREATH_TIMER = SERVERBUILDER.comment("How long should player be able to stay outside of oxygen").defineInRange("playerBreathTimer", 100, 1, MiscHelper.INT_MAX);
+        SERVERBUILDER.pop();
+
+        SERVERBUILDER.comment("Trait Settings").push(CAT_TRAITS);
+        ENABLE_TRAITS = SERVERBUILDER.comment("Should the trait system be enabled?").define("enableTrait", true);
         SERVERBUILDER.pop();
 
         SERVER_CONFIG = SERVERBUILDER.build();
-    }
-
-    @SubscribeEvent
-    public static void onReload(ModConfig.Reloading event) {
-        GermEventsHandler.reload();
-        SlimeTile.reload();
-//        AdPotherAddonEventHandlers.reload();
     }
 }

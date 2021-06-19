@@ -6,6 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
 import wintersteve25.oniutils.common.blocks.libs.ONIBaseRock;
+import wintersteve25.oniutils.common.init.ONIBlocks;
 
 import javax.annotation.Nullable;
 
@@ -29,7 +30,7 @@ public class SlimeBlock extends ONIBaseRock {
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new SlimeTile();
+        return ONIBlocks.COAL_GEN_TE.get().create();
     }
 
 }
