@@ -72,6 +72,9 @@ public class ONIGeneralEventHandlers {
 
         //Events
         MinecraftForge.EVENT_BUS.addListener(GermEventsHandler::itemToolTipEvent);
+
+        //GUI Attachments
+        ScreenManager.register(ONIBlocks.COAL_GEN_CONTAINER.get(), CoalGenGui::new);
     }
 
 }

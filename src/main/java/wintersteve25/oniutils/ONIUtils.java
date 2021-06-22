@@ -13,7 +13,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONIConfig;
-import wintersteve25.oniutils.common.utils.registration.ClientEvents;
 import wintersteve25.oniutils.common.utils.registration.ONIGeneralEventHandlers;
 import wintersteve25.oniutils.common.utils.registration.Registration;
 //import wintersteve25.oniutils.common.compat.potr.AdPotherAddonEventHandlers;
@@ -31,7 +30,6 @@ public class ONIUtils {
 
         modEventBus.addListener(ONIGeneralEventHandlers::preInit);
         modEventBus.addListener(ONIGeneralEventHandlers::clientPreInit);
-        modEventBus.addListener(ClientEvents::init);
 
         MinecraftForge.EVENT_BUS.register(this);
     }
