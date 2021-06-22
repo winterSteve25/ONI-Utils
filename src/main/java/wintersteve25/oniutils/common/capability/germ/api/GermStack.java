@@ -1,5 +1,7 @@
 package wintersteve25.oniutils.common.capability.germ.api;
 
+import net.minecraft.nbt.CompoundNBT;
+
 public class GermStack implements IGerms {
 
     private EnumGermTypes germType = EnumGermTypes.NOTHING;
@@ -10,7 +12,7 @@ public class GermStack implements IGerms {
         if (this.germType == EnumGermTypes.NOTHING && this.amount <= 0 && germType != EnumGermTypes.NOTHING && amount > 0) {
             setGerm(germType, amount);
         } else if (this.germType == germType) {
-            this.amount = this.amount+amount;
+            this.amount = this.amount + amount;
         }
     }
 
@@ -22,7 +24,7 @@ public class GermStack implements IGerms {
 
     @Override
     public void removeGerm(int amount) {
-        this.amount = this.amount-amount;
+        this.amount = this.amount - amount;
     }
 
     @Override
@@ -33,5 +35,24 @@ public class GermStack implements IGerms {
     @Override
     public int getGermAmount() {
         return this.amount;
+    }
+
+    @Override
+    public CompoundNBT write() {
+        CompoundNBT germ = new CompoundNBT();
+
+        germ.putString("germ", germType.getName());
+        germ.putInt("amount", this.amount);
+
+        return germ;
+    }
+
+    @Override
+    public void read(CompoundNBT nbt) {
+        String germName = nbt.getString("germ");
+        int germAmount = nbt.getInt("amount");
+
+        germType = EnumGermTypes.getGermFromName(germName);
+        amount = germAmount;
     }
 }

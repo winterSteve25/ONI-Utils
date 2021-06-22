@@ -13,11 +13,19 @@ import javax.annotation.Nullable;
 
 public class GermCapabilityProvider implements ICapabilitySerializable<CompoundNBT> {
 
-    private final GermStack germ = new GermStack();
+    private GermStack germ = new GermStack();
     private final LazyOptional<IGerms> lazyOptional = LazyOptional.of(() -> germ);
 
     public void invalidate() {
         lazyOptional.invalidate();
+    }
+
+    public GermCapabilityProvider() {
+
+    }
+
+    public GermCapabilityProvider(GermStack stack) {
+        this.germ = stack;
     }
 
     @Nonnull

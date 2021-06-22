@@ -8,7 +8,7 @@ import wintersteve25.oniutils.common.blocks.libs.ONIBaseRock;
 import wintersteve25.oniutils.common.effects.ONIBaseEffect;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONIEffects;
-import wintersteve25.oniutils.common.lib.helper.MiscHelper;
+import wintersteve25.oniutils.common.utils.helper.MiscHelper;
 
 public class ONIEngLangProvider extends LanguageProvider {
     public ONIEngLangProvider(DataGenerator gen) {
@@ -19,6 +19,7 @@ public class ONIEngLangProvider extends LanguageProvider {
     protected void addTranslations() {
         //simple blocks
         add(ONIBlocks.IgneousRock.get(), "Igneous Rock");
+        add(ONIBlocks.Slime, "Slime");
 
         for (ONIBaseRock b : ONIBlocks.rocksList) {
             add("block.oniutils." + MiscHelper.langToReg(b.getRegName()), b.getRegName());
@@ -26,7 +27,6 @@ public class ONIEngLangProvider extends LanguageProvider {
         for (ONIBaseRock b : ONIBlocks.rocksListNoDataGen) {
             add("block.oniutils." + MiscHelper.langToReg(b.getRegName()), b.getRegName());
         }
-
         for (ONIBaseDirectional b : ONIBlocks.direList) {
             add("block.oniutils." + MiscHelper.langToReg(b.getRegName()), b.getRegName());
         }
@@ -41,14 +41,23 @@ public class ONIEngLangProvider extends LanguageProvider {
         add("itemGroup.oniutils", "Veiled Ascent");
 
         //messages
-        add("oniutils.message.germs.infectEntity", "Infected interacted entity with %s");
-        add("oniutils.message.germs.infectItem", "Infected item(s) with %s");
-        add("oniutils.message.germs.infectPlayer", "Infected with %s");
+        add("oniutils.message.germs.infectEntity", "Infected interacted entity with %s %s");
+        add("oniutils.message.germs.infectItem", "Infected item(s) with %s %s");
+        add("oniutils.message.germs.infectPlayer", "Infected with %s %s");
 
         add("oniutils.message.trait.gotTrait", "Traits: %s");
         add("oniutils.message.trait.traitInfo", "Check Trait infos here: https://github.com/FictionCraft-Team/ONI-Utils/wiki/Trait-System");
 
+        add("oniutils.message.manualGen", "Use Get off manual generator key(Right-Shift By Default) to dismount..");
+
         add("death.attack.oniutils.oxygen", "%1$s forgot to breathe");
         add("death.attack.oniutils.germ", "%1$s didn't take the vaccine");
+
+        //tooltips
+        add("oniutils.tooltips.germs.itemGerms", "Item contains: %s %s");
+
+        //keybinds
+        add("oniutils.keybinds.category", "Veiled Ascent Keybinds");
+        add("oniutils.offManualGen", "Get off manual generator");
     }
 }

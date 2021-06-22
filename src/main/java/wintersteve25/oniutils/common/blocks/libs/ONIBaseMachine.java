@@ -9,4 +9,13 @@ public class ONIBaseMachine extends ONIBaseDirectional {
     public ONIBaseMachine(int harvestLevel, float hardness, float resistance, String regName, SoundType soundType, Material material) {
         super(harvestLevel, hardness, resistance, regName, soundType, material);
     }
+
+    public ONIBaseMachine(Properties properties, String regName) {
+        super(properties, regName);
+    }
+
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
 }

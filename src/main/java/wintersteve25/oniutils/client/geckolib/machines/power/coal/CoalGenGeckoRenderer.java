@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.ResourceLocation;
 import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
-import wintersteve25.oniutils.common.blocks.machines.power.coalgen.CoalGenTE;
+import wintersteve25.oniutils.common.blocks.modules.power.coalgen.CoalGenTE;
 
 public class CoalGenGeckoRenderer extends GeoBlockRenderer<CoalGenTE> {
     public CoalGenGeckoRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {

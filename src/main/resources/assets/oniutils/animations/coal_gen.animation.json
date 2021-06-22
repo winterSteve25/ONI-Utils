@@ -20,7 +20,7 @@
 		},
 		"animation.motor.new": {
 			"loop": true,
-			"animation_length": 0.54167,
+			"animation_length": 0.5825,
 			"blend_weight": "2",
 			"bones": {
 				"anterior_transductors": {
@@ -29,7 +29,7 @@
 							"vector": [0.06, 0, 0]
 						},
 						"0.25": {
-							"vector": [-0.06, 0, 0],
+							"vector": [-0.1, 0, 0],
 							"easing": "linear"
 						},
 						"0.4583": {
@@ -44,7 +44,7 @@
 							"vector": [0.06, 0, 0]
 						},
 						"0.25": {
-							"vector": [-0.06, 0, 0],
+							"vector": [-0.1, 0, 0],
 							"easing": "linear"
 						},
 						"0.4583": {
@@ -59,7 +59,7 @@
 							"vector": [0, 0, 0]
 						},
 						"0.25": {
-							"vector": [-0.8, 0, 0],
+							"vector": [-0.9, 0, 0],
 							"easing": "easeInElastic",
 							"easingArgs": [0.5]
 						},
@@ -72,7 +72,7 @@
 							"vector": [0, 0, 0]
 						},
 						"0.25": {
-							"vector": [0, 0, 0.1]
+							"vector": [0, 0, 0.35]
 						},
 						"0.5": {
 							"vector": [0, 0, 0]
@@ -85,7 +85,7 @@
 							"vector": [0, 0, 0]
 						},
 						"0.25": {
-							"vector": [0.8, 0, 0],
+							"vector": [0.9, 0, 0],
 							"easing": "easeInElastic",
 							"easingArgs": [1]
 						},
@@ -98,7 +98,7 @@
 							"vector": [0, 0, 0]
 						},
 						"0.25": {
-							"vector": [0, 0, -0.1]
+							"vector": [0, 0, -0.35]
 						},
 						"0.5": {
 							"vector": [0, 0, 0]

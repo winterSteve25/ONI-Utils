@@ -30,6 +30,11 @@ public class ONIBaseRock extends Block {
         this.regName = regName;
     }
 
+    public ONIBaseRock(String regName, Properties properties) {
+        super(properties);
+        this.regName = regName;
+    }
+
     public String getRegName() {
         return this.regName;
     }

@@ -41,6 +41,13 @@ public class ONIBaseDirectional extends DirectionalBlock {
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
+    public ONIBaseDirectional(Properties properties, String regName) {
+        super(properties);
+        this.regName = regName;
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+    }
+
+
     public String getRegName() {
         return this.regName;
     }

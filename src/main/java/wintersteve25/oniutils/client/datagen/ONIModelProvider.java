@@ -9,7 +9,7 @@ import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.blocks.libs.ONIBaseDirectional;
 import wintersteve25.oniutils.common.blocks.libs.ONIBaseRock;
 import wintersteve25.oniutils.common.init.ONIBlocks;
-import wintersteve25.oniutils.common.lib.helper.MiscHelper;
+import wintersteve25.oniutils.common.utils.helper.MiscHelper;
 
 public class ONIModelProvider extends ItemModelProvider {
     public ONIModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
@@ -24,6 +24,8 @@ public class ONIModelProvider extends ItemModelProvider {
         for (ONIBaseDirectional b : ONIBlocks.direList) {
             withExistingParent(MiscHelper.langToReg(b.getRegName()), modLoc("block/" + MiscHelper.langToReg(b.getRegName())));
         }
+
+        withExistingParent(MiscHelper.langToReg(ONIBlocks.Slime.getRegName()), modLoc("block/" + MiscHelper.langToReg(ONIBlocks.Slime.getRegName())));
 
         ModelFile generated = getExistingFile(mcLoc("item/generated"));
     }

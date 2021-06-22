@@ -1,5 +1,7 @@
 package wintersteve25.oniutils.common.capability.germ.api;
 
+import net.minecraft.nbt.CompoundNBT;
+
 public interface IGerms {
     void addGerm(EnumGermTypes germType, int amount);
 
@@ -10,4 +12,8 @@ public interface IGerms {
     EnumGermTypes getGermType();
 
     int getGermAmount();
+
+    CompoundNBT write();
+
+    void read(CompoundNBT nbt);
 }

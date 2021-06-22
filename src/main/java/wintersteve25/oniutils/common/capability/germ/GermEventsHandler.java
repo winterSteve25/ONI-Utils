@@ -9,16 +9,21 @@ import net.minecraft.potion.Effects;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.blocks.libs.ITECapProvider;
+import wintersteve25.oniutils.common.blocks.libs.IGermCapProvider;
 import wintersteve25.oniutils.common.capability.germ.api.EnumGermTypes;
 import wintersteve25.oniutils.common.init.ONIConfig;
+
+import java.util.List;
 
 public class GermEventsHandler {
     public static void entityCapAttachEvent (AttachCapabilitiesEvent<Entity> event) {
@@ -43,10 +48,25 @@ public class GermEventsHandler {
         }
     }
 
+    public static void itemToolTipEvent (ItemTooltipEvent event) {
+        PlayerEntity player = event.getPlayer();
+        if (player != null) {
+            ItemStack itemStack = event.getItemStack();
+            List<ITextComponent> tooltip = event.getToolTip();
+            if (itemStack.isEmpty()) {
+                return;
+            }
+
+            itemStack.getCapability(GermsCapability.GERM_CAPABILITY).ifPresent(i -> {
+                tooltip.add(new TranslationTextComponent("oniutils.tooltips.germs.itemGerms", Integer.toString(i.getGermAmount()), i.getGermType().getName().replace('_', ' ')));
+            });
+        }
+    }
+
     public static void teCapAttachEvent (AttachCapabilitiesEvent<TileEntity> e) {
         TileEntity tileAttached = e.getObject();
         if (tileAttached != null) {
-            if (!(tileAttached instanceof ITECapProvider)) {
+            if (!(tileAttached instanceof IGermCapProvider)) {
                 if (!tileAttached.getCapability(GermsCapability.GERM_CAPABILITY).isPresent()) {
                     GermCapabilityProvider provider = new GermCapabilityProvider();
                     e.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
@@ -66,11 +86,11 @@ public class GermEventsHandler {
                     target.getCapability(GermsCapability.GERM_CAPABILITY).ifPresent(t -> {
                         if (p.getGermType() != EnumGermTypes.NOTHING && p.getGermAmount() > 0) {
                             t.addGerm(p.getGermType(), p.getGermAmount());
-                            player.displayClientMessage(new TranslationTextComponent("oniutils.message.germs.infectEntity", p.getGermAmount(), p.getGermType().getName().replace('_', ' ')), true);
+                            player.displayClientMessage(new TranslationTextComponent("oniutils.message.germs.infectEntity", Integer.toString(p.getGermAmount()), p.getGermType().getName().replace('_', ' ')), true);
                             return;
                         } else if (t.getGermType() != EnumGermTypes.NOTHING && t.getGermAmount() > 0) {
                             p.addGerm(t.getGermType(), t.getGermAmount());
-                            player.displayClientMessage(new TranslationTextComponent("oniutils.message.germs.infectPlayer", t.getGermAmount(), t.getGermType().getName().replace('_', ' ')), true);
+                            player.displayClientMessage(new TranslationTextComponent("oniutils.message.germs.infectPlayer", Integer.toString(t.getGermAmount()), t.getGermType().getName().replace('_', ' ')), true);
                         }
                     });
                 });
@@ -88,11 +108,11 @@ public class GermEventsHandler {
                     target.getCapability(GermsCapability.GERM_CAPABILITY).ifPresent(t -> {
                         if (p.getGermType() != EnumGermTypes.NOTHING && p.getGermAmount() > 0) {
                             t.addGerm(p.getGermType(), p.getGermAmount());
-                            player.displayClientMessage(new TranslationTextComponent("oniutils.message.germs.infectEntity", p.getGermAmount(), p.getGermType().getName().replace('_', ' ')), true);
+                            player.displayClientMessage(new TranslationTextComponent("oniutils.message.germs.infectEntity", Integer.toString(p.getGermAmount()), p.getGermType().getName().replace('_', ' ')), true);
                             return;
                         } else if (t.getGermType() != EnumGermTypes.NOTHING && t.getGermAmount() > 0) {
                             p.addGerm(t.getGermType(), t.getGermAmount());
-                            player.displayClientMessage(new TranslationTextComponent("oniutils.message.germs.infectPlayer", t.getGermAmount(), t.getGermType().getName().replace('_', ' ')), true);
+                            player.displayClientMessage(new TranslationTextComponent("oniutils.message.germs.infectPlayer", Integer.toString(t.getGermAmount()), t.getGermType().getName().replace('_', ' ')), true);
                         }
                     });
                 });
@@ -110,11 +130,11 @@ public class GermEventsHandler {
                     target.getCapability(GermsCapability.GERM_CAPABILITY).ifPresent(t -> {
                         if (p.getGermType() != EnumGermTypes.NOTHING && p.getGermAmount() > 0) {
                             t.addGerm(p.getGermType(), p.getGermAmount());
-                            player.displayClientMessage(new TranslationTextComponent("oniutils.message.germs.infectItem", p.getGermAmount(), p.getGermType().getName().replace('_', ' ')), true);
+                            player.displayClientMessage(new TranslationTextComponent("oniutils.message.germs.infectItem", Integer.toString(p.getGermAmount()), p.getGermType().getName().replace('_', ' ')), true);
                             return;
                         } else if (t.getGermType() != EnumGermTypes.NOTHING && t.getGermAmount() > 0) {
                             p.addGerm(t.getGermType(), t.getGermAmount());
-                            player.displayClientMessage(new TranslationTextComponent("oniutils.message.germs.infectPlayer", t.getGermAmount(), t.getGermType().getName().replace('_', ' ')), true);
+                            player.displayClientMessage(new TranslationTextComponent("oniutils.message.germs.infectPlayer", Integer.toString(t.getGermAmount()), t.getGermType().getName().replace('_', ' ')), true);
                         }
                     });
                 });
@@ -132,11 +152,11 @@ public class GermEventsHandler {
                     target.getCapability(GermsCapability.GERM_CAPABILITY).ifPresent(t -> {
                         if (p.getGermType() != EnumGermTypes.NOTHING && p.getGermAmount() > 0) {
                             t.addGerm(p.getGermType(), p.getGermAmount());
-                            player.displayClientMessage(new TranslationTextComponent("oniutils.message.germs.infectItem", p.getGermAmount(), p.getGermType().getName().replace('_', ' ')), true);
+                            player.displayClientMessage(new TranslationTextComponent("oniutils.message.germs.infectItem", Integer.toString(p.getGermAmount()), p.getGermType().getName().replace('_', ' ')), true);
                             return;
                         } else if (t.getGermType() != EnumGermTypes.NOTHING && t.getGermAmount() > 0) {
                             p.addGerm(t.getGermType(), t.getGermAmount());
-                            player.displayClientMessage(new TranslationTextComponent("oniutils.message.germs.infectPlayer", t.getGermAmount(), t.getGermType().getName().replace('_', ' ')), true);
+                            player.displayClientMessage(new TranslationTextComponent("oniutils.message.germs.infectPlayer", Integer.toString(t.getGermAmount()), t.getGermType().getName().replace('_', ' ')), true);
                         }
                     });
                 });
@@ -155,17 +175,39 @@ public class GermEventsHandler {
                         target.getCapability(GermsCapability.GERM_CAPABILITY).ifPresent(t -> {
                             if (p.getGermType() != EnumGermTypes.NOTHING && p.getGermAmount() > 0) {
                                 t.addGerm(p.getGermType(), p.getGermAmount());
-                                player.displayClientMessage(new TranslationTextComponent("oniutils.message.germs.infectItem", p.getGermAmount(), p.getGermType().getName().replace('_', ' ')), true);
+                                player.displayClientMessage(new TranslationTextComponent("oniutils.message.germs.infectItem", Integer.toString(p.getGermAmount()), p.getGermType().getName().replace('_', ' ')), true);
                                 return;
                             } else if (t.getGermType() != EnumGermTypes.NOTHING && t.getGermAmount() > 0) {
                                 p.addGerm(t.getGermType(), t.getGermAmount());
-                                player.displayClientMessage(new TranslationTextComponent("oniutils.message.germs.infectPlayer", t.getGermAmount(), t.getGermType().getName().replace('_', ' ')), true);
+                                player.displayClientMessage(new TranslationTextComponent("oniutils.message.germs.infectPlayer", Integer.toString(t.getGermAmount()), t.getGermType().getName().replace('_', ' ')), true);
                             }
                         });
                     });
                 }
             }
         }
+    }
+
+    public static void keepGermWhilePlaced (BlockEvent.EntityPlaceEvent event) {
+        BlockPos pos = event.getPos();
+        TileEntity tileEntity = event.getWorld().getBlockEntity(pos);
+
+        if (event.getEntity() != null) {
+            ItemStack itemStack = event.getEntity().getHandSlots().iterator().next();
+
+            if (tileEntity != null) {
+                itemStack.getCapability(GermsCapability.GERM_CAPABILITY).ifPresent(stack -> {
+                    tileEntity.getCapability(GermsCapability.GERM_CAPABILITY).ifPresent(te -> {
+                        te.setGerm(stack.getGermType(), stack.getGermAmount());
+                    });
+                });
+            }
+        }
+    }
+
+    public static void keepGermWhenTileBroken (BlockEvent.BreakEvent event) {
+        BlockPos pos = event.getPos();
+        TileEntity tileEntity = event.getWorld().getBlockEntity(pos);
     }
 
     private static int germDupSpeed = ONIConfig.GERM_DUP_SPEED_PLAYER.get();
