@@ -1,16 +1,17 @@
 {
-  "required": false,
+  "required": true,
   "package": "wintersteve25.oniutils.common.mixin",
   "compatibilityLevel": "JAVA_8",
   "refmap": "oniutils.refmap.json",
   "mixins": [
+    "CorpseEntityMixin"
   ],
   "server": [
   ],
   "client": [
   ],
   "injectors": {
-    "defaultRequire": 0
+    "defaultRequire": 1
   },
   "minVersion": "0.8"
 }

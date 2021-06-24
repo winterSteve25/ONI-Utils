@@ -21,8 +21,6 @@ import net.minecraftforge.event.world.BlockEvent;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.blocks.base.IGermCapProvider;
 import wintersteve25.oniutils.common.capability.germ.api.EnumGermTypes;
-import wintersteve25.oniutils.common.capability.trait.TraitCapability;
-import wintersteve25.oniutils.common.capability.trait.api.TraitTypes;
 import wintersteve25.oniutils.common.init.ONIConfig;
 
 import java.util.List;
@@ -30,13 +28,11 @@ import java.util.List;
 public class GermEventsHandler {
     public static void entityCapAttachEvent (AttachCapabilitiesEvent<Entity> event) {
         Entity entity = event.getObject();
-        if (entity instanceof LivingEntity) {
-            if (!(entity instanceof PlayerEntity)) {
-                if (!entity.getCapability(GermsCapability.GERM_CAPABILITY).isPresent()) {
-                    GermCapabilityProvider provider = new GermCapabilityProvider();
-                    event.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
-                    event.addListener(provider::invalidate);
-                }
+        if (entity != null) {
+            if (!entity.getCapability(GermsCapability.GERM_CAPABILITY).isPresent()) {
+                GermCapabilityProvider provider = new GermCapabilityProvider();
+                event.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
+                event.addListener(provider::invalidate);
             }
         }
     }
@@ -222,85 +218,46 @@ public class GermEventsHandler {
         if (player != null) {
             if(!player.getCommandSenderWorld().isClientSide()) {
                 player.getCapability(GermsCapability.GERM_CAPABILITY).ifPresent(p -> {
+                    germDupSpeed--;
 
                     EnumGermTypes germTypes = p.getGermType();
                     int germAmount = p.getGermAmount();
+
+                    // ONIUtils.LOGGER.info(germTypes.getName() + ", " + germAmount);
+
                     if (germAmount > 0 && germTypes != EnumGermTypes.NOTHING) {
 
-                        if (germTypes == EnumGermTypes.FOODPOISON) {
-                            germDupSpeed-=2;
-                            if (germAmount > 50000) {
-                                player.addEffect(new EffectInstance(Effects.HUNGER));
-                                if (germAmount > 85000) {
-                                    player.addEffect(new EffectInstance(Effects.WEAKNESS));
-                                    if (germAmount > 2000000) {
-                                        player.hurt(ONIUtils.germDamage, 6);
-                                    }
-                                }
+                        if (germDupSpeed < 0) {
+                            if (germAmount < ONIConfig.GERM_STOP_DUP_AMOUNT.get()) {
+                                p.addGerm(germTypes, 1);
+                            }
+                            germDupSpeed = ONIConfig.GERM_DUP_SPEED_PLAYER.get();
+                        }
 
-                                if (germDupSpeed < 0) {
-                                    if (germAmount < ONIConfig.GERM_STOP_DUP_AMOUNT.get()) {
-                                        p.addGerm(germTypes, 1);
-                                    }
-                                    germDupSpeed = ONIConfig.GERM_DUP_SPEED_PLAYER.get();
+                        if (germTypes == EnumGermTypes.FOODPOISON && germAmount > 50000) {
+                            player.addEffect(new EffectInstance(Effects.HUNGER));
+                            if (germAmount > 85000) {
+                                player.addEffect(new EffectInstance(Effects.WEAKNESS));
+                                if (germAmount > 2000000) {
+                                    player.hurt(ONIUtils.germDamage, 6);
                                 }
                             }
                         }
 
-                        if (germTypes == EnumGermTypes.SLIMELUNG) {
-                            germDupSpeed-=2;
-
-                            if (germAmount > 50000) {
-                                player.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN));
-                                if (germAmount > 85000) {
-                                    player.addEffect(new EffectInstance(Effects.WEAKNESS));
-                                    if (germAmount > 2000000) {
-                                        player.hurt(ONIUtils.germDamage, 6);
-                                    }
-                                }
-
-                                if (germDupSpeed < 0) {
-                                    if (germAmount < ONIConfig.GERM_STOP_DUP_AMOUNT.get()) {
-                                        p.addGerm(germTypes, 1);
-                                    }
-                                    germDupSpeed = ONIConfig.GERM_DUP_SPEED_PLAYER.get();
+                        if (germTypes == EnumGermTypes.SLIMELUNG && germAmount > 50000) {
+                            player.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN));
+                            if (germAmount > 85000) {
+                                player.addEffect(new EffectInstance(Effects.WEAKNESS));
+                                if (germAmount > 2000000) {
+                                    player.hurt(ONIUtils.germDamage, 6);
                                 }
                             }
                         }
 
-                        if (germTypes == EnumGermTypes.ZOMBIESPORES) {
-                            if (germAmount > 100000) {
-                                player.addEffect(new EffectInstance(Effects.POISON));
-                                if (germAmount > 1500000) {
-                                    player.hurt(ONIUtils.germDamage, 8);
-                                }
-
-                                if (germDupSpeed < 0) {
-                                    if (germAmount < ONIConfig.GERM_STOP_DUP_AMOUNT.get()) {
-                                        p.addGerm(germTypes, 1);
-                                    }
-                                    germDupSpeed = ONIConfig.GERM_DUP_SPEED_PLAYER.get();
-                                }
-                            }
-                        }
-
-                        if (germTypes == EnumGermTypes.FLORALSCENTS) {
-                            if (germAmount > 100) {
-                                player.getCapability(TraitCapability.TRAIT_CAPABILITY).ifPresent(pl -> {
-                                    if (pl.getTraits().contains(TraitTypes.Allergic)) {
-                                        player.addEffect(new EffectInstance(Effects.WEAKNESS));
-                                        if (germAmount > 2000) {
-                                            player.hurt(ONIUtils.floralScentDamage, 1);
-                                        }
-
-                                        if (germDupSpeed < 0) {
-                                            if (germAmount < ONIConfig.GERM_STOP_DUP_AMOUNT.get()) {
-                                                p.addGerm(germTypes, 1);
-                                            }
-                                            germDupSpeed = ONIConfig.GERM_DUP_SPEED_PLAYER.get();
-                                        }
-                                    }
-                                });
+                        if (germTypes == EnumGermTypes.ZOMBIESPORES && germAmount > 100000) {
+                            player.addEffect(new EffectInstance(Effects.POISON));
+                            if (germAmount > 1500000) {
+                                player.hurt(ONIUtils.germDamage, 6);
                             }
                         }
                     }

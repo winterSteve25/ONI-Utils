@@ -8,6 +8,7 @@ public class ONIConfig {
     public static final String CAT_GAS = "gas";
     public static final String CAT_TRAITS = "traits";
     public static final String CAT_POWER = "plasma";
+    public static final String CAT_MISC = "misc";
 
     public static ForgeConfigSpec SERVER_CONFIG;
 
@@ -28,6 +29,8 @@ public class ONIConfig {
 
     public static ForgeConfigSpec.IntValue COAL_GEN_PLASMA_OUTPUT;
     public static ForgeConfigSpec.IntValue COAL_GEN_PROCESS_TIME;
+
+    public static ForgeConfigSpec.BooleanValue ENABLE_CORPSE;
 
     static {
         ForgeConfigSpec.Builder SERVERBUILDER = new ForgeConfigSpec.Builder();
@@ -56,6 +59,10 @@ public class ONIConfig {
 
         COAL_GEN_PLASMA_OUTPUT = SERVERBUILDER.comment("How much plasma should manual generator generate per tick").defineInRange("coalGenPlasmaPerTick", 600, 1, MiscHelper.INT_MAX);
         COAL_GEN_PROCESS_TIME = SERVERBUILDER.comment("How many every ticks should manual generator generates power?").defineInRange("coalGenProgressSpeed", 20, 1, MiscHelper.INT_MAX);
+        SERVERBUILDER.pop();
+
+        SERVERBUILDER.comment("Misc").push(CAT_MISC);
+        ENABLE_CORPSE = SERVERBUILDER.comment("Should the compatibility with corpse be enabled?").define("corpseCompat", true);
         SERVERBUILDER.pop();
 
         SERVER_CONFIG = SERVERBUILDER.build();
