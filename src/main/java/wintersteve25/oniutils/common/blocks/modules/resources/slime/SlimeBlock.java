@@ -11,7 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import wintersteve25.oniutils.common.blocks.libs.ONIBaseRock;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseRock;
 import wintersteve25.oniutils.common.capability.germ.GermCapabilityProvider;
 import wintersteve25.oniutils.common.capability.germ.GermsCapability;
 import wintersteve25.oniutils.common.capability.germ.api.EnumGermTypes;
@@ -37,8 +37,8 @@ public class SlimeBlock extends ONIBaseRock {
         AtomicInteger amount = new AtomicInteger();
         AtomicReference<EnumGermTypes> germ = null;
 
-        if (tile instanceof SlimeTile) {
-            SlimeTile te = (SlimeTile) tile;
+        if (tile instanceof SlimeTE) {
+            SlimeTE te = (SlimeTE) tile;
 
             te.getCapability(GermsCapability.GERM_CAPABILITY).ifPresent(s -> {
                 amount.set(s.getGermAmount());
@@ -63,7 +63,7 @@ public class SlimeBlock extends ONIBaseRock {
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return ONIBlocks.SlimeTE.get().create();
+        return ONIBlocks.SLIME_TE.get().create();
     }
 
     public static class SlimeBlockItem extends BlockItem {

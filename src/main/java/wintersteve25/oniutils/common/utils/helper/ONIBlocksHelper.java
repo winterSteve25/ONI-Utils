@@ -1,7 +1,7 @@
 package wintersteve25.oniutils.common.utils.helper;
 
-import wintersteve25.oniutils.common.blocks.libs.ONIBaseDirectional;
-import wintersteve25.oniutils.common.blocks.libs.ONIBaseRock;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseRock;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 
 public class ONIBlocksHelper {

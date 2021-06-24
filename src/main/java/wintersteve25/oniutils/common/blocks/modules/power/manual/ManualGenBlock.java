@@ -13,18 +13,18 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
-import wintersteve25.oniutils.common.blocks.libs.ONIBaseMachine;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseMachine;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 
 import javax.annotation.Nullable;
 
 @SuppressWarnings("deprecation")
-public class ManualGenBlock extends ONIBaseMachine{
+public class ManualGenBlock extends ONIBaseMachine {
 
     private static final String regName = "Manual Generator";
 
     public ManualGenBlock() {
-        super(Properties.of(Material.HEAVY_METAL).harvestLevel(0).harvestTool(ToolType.PICKAXE).strength(3, 3).noOcclusion(), regName);
+        super(Properties.of(Material.HEAVY_METAL).harvestLevel(0).harvestTool(ToolType.PICKAXE).strength(3, 3).noOcclusion().requiresCorrectToolForDrops(), regName);
     }
 
     @Nullable

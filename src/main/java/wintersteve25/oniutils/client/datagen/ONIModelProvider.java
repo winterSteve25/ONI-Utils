@@ -6,8 +6,8 @@ import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.blocks.libs.ONIBaseDirectional;
-import wintersteve25.oniutils.common.blocks.libs.ONIBaseRock;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseRock;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.utils.helper.MiscHelper;
 
@@ -18,14 +18,8 @@ public class ONIModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        for (ONIBaseRock b : ONIBlocks.rocksList) {
-            withExistingParent(MiscHelper.langToReg(b.getRegName()), modLoc("block/" + MiscHelper.langToReg(b.getRegName())));
-        }
-        for (ONIBaseDirectional b : ONIBlocks.direList) {
-            withExistingParent(MiscHelper.langToReg(b.getRegName()), modLoc("block/" + MiscHelper.langToReg(b.getRegName())));
-        }
-
         withExistingParent(MiscHelper.langToReg(ONIBlocks.Slime.getRegName()), modLoc("block/" + MiscHelper.langToReg(ONIBlocks.Slime.getRegName())));
+        autoGenModels();
 
         ModelFile generated = getExistingFile(mcLoc("item/generated"));
     }
@@ -33,4 +27,14 @@ public class ONIModelProvider extends ItemModelProvider {
     private ItemModelBuilder builder(ModelFile itemGenerated, String name) {
         return getBuilder(name).parent(itemGenerated).texture("layer0", "item/" + name);
     }
+
+    private void autoGenModels() {
+        for (ONIBaseRock b : ONIBlocks.rocksList) {
+            withExistingParent(MiscHelper.langToReg(b.getRegName()), modLoc("block/" + MiscHelper.langToReg(b.getRegName())));
+        }
+        for (ONIBaseDirectional b : ONIBlocks.direList) {
+            withExistingParent(MiscHelper.langToReg(b.getRegName()), modLoc("block/" + MiscHelper.langToReg(b.getRegName())));
+        }
+    }
+
 }

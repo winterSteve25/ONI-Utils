@@ -6,8 +6,8 @@ import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.blocks.libs.ONIBaseDirectional;
-import wintersteve25.oniutils.common.blocks.libs.ONIBaseRock;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseRock;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 
 public class ONIStateProvider extends BlockStateProvider {
@@ -18,13 +18,7 @@ public class ONIStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        for (ONIBaseRock b : ONIBlocks.rocksList) {
-            simpleBlock(b);
-        }
-
-        for (ONIBaseDirectional b : ONIBlocks.direList) {
-            simpleBlock(b);
-        }
+        autoGenStatesAndModels();
 
         simpleBlock(ONIBlocks.Slime);
         simpleBlock(ONIBlocks.BULB_BLOCK, new ModelFile(new ResourceLocation(ONIUtils.MODID, "block/furniture/light_bulb")) {
@@ -33,5 +27,15 @@ public class ONIStateProvider extends BlockStateProvider {
                 return true;
             }
         });
+    }
+
+    private void autoGenStatesAndModels() {
+        for (ONIBaseRock b : ONIBlocks.rocksList) {
+            simpleBlock(b);
+        }
+
+        for (ONIBaseDirectional b : ONIBlocks.direList) {
+            simpleBlock(b);
+        }
     }
 }

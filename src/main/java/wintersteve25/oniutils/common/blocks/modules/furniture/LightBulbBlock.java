@@ -1,13 +1,10 @@
 package wintersteve25.oniutils.common.blocks.modules.furniture;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.state.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import wintersteve25.oniutils.common.blocks.libs.ONIBaseMachine;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseMachine;
 
 public class LightBulbBlock extends ONIBaseMachine {
     //public static BooleanProperty ON = BooleanProperty.create("on");

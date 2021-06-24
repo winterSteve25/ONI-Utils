@@ -28,6 +28,7 @@ public class Registration {
         BLOCKS.register(eventBus);
         ITEMS.register(eventBus);
         TE.register(eventBus);
+        CONTAINER.register(eventBus);
         EFFECTS.register(eventBus);
 
         ONIBlocks.register();

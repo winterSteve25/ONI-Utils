@@ -1,7 +1,7 @@
 package wintersteve25.oniutils.common.blocks.modules.power.coalgen;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
@@ -10,8 +10,6 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -19,8 +17,10 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
-import wintersteve25.oniutils.common.blocks.libs.ONIBaseTE;
+import wintersteve25.oniutils.ONIUtils;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseInvTE;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
+import wintersteve25.oniutils.common.capability.plasma.api.EnumWattsTypes;
 import wintersteve25.oniutils.common.capability.plasma.api.IPlasma;
 import wintersteve25.oniutils.common.capability.plasma.api.PlasmaStack;
 import wintersteve25.oniutils.common.init.ONIBlocks;
@@ -28,67 +28,57 @@ import wintersteve25.oniutils.common.init.ONIConfig;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CoalGenTE extends ONIBaseTE implements ITickableTileEntity, IAnimatable {
+public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAnimatable {
 
     private final AnimationFactory manager = new AnimationFactory(this);
-    private ItemStackHandler itemHandler = new ItemStackHandler(){
-        @Override
-        public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-            if (stack.getItem() == Items.COAL || stack.getItem() == Items.CHARCOAL || stack.getItem() == Items.COAL_BLOCK) {
-                return true;
-            }
-
-            return false;
-        }
-
-        @Nonnull
-        @Override
-        public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
-            if (stack.getItem() != Items.COAL || stack.getItem() != Items.CHARCOAL || stack.getItem() != Items.COAL_BLOCK) {
-                return stack;
-            }
-            return super.insertItem(slot, stack, simulate);
-        }
-
-        @Override
-        protected void onContentsChanged(int slot) {
-            setChanged();
-        }
-    };
-    private PlasmaStack plasmaHandler = new PlasmaStack();
-
-    private LazyOptional<IItemHandler> itemLazyOptional = LazyOptional.of(() -> itemHandler);
+    private PlasmaStack plasmaHandler = new PlasmaStack(4000, EnumWattsTypes.LOW);
     private LazyOptional<IPlasma> powerLazyOptional = LazyOptional.of(() -> plasmaHandler);
+    private final List<Item> valids = new ArrayList<>();
 
-    private boolean isWorking = false;
-    private int progress = ONIConfig.COAL_GEN_PROCESS_TIME.get();
+    @Override
+    protected int progress() {
+        return ONIConfig.COAL_GEN_PROCESS_TIME.get();
+    }
 
     public CoalGenTE() {
         super(ONIBlocks.COAL_GEN_TE.get());
+        valids.add(Items.COAL);
     }
 
     @Override
     public void tick() {
         if (!level.isClientSide()) {
             if (!itemHandler.getStackInSlot(0).isEmpty()) {
-                isWorking = true;
-                progress--;
-                if (progress <= 0) {
-                    plasmaHandler.addPower(ONIConfig.COAL_GEN_PLASMA_OUTPUT.get());
-                    progress = ONIConfig.COAL_GEN_PROCESS_TIME.get();
-                    return;
+                if (plasmaHandler.canGenerate()) {
+                    ONIUtils.LOGGER.info(plasmaHandler.getPower());
+                    setWorking(true);
+                    progress--;
+                    if (progress <= 0) {
+                        plasmaHandler.addPower(ONIConfig.COAL_GEN_PLASMA_OUTPUT.get());
+                        itemHandler.extractItem(0, 1, false);
+                        progress = ONIConfig.COAL_GEN_PROCESS_TIME.get();
+                    }
                 }
+            } else {
+                setWorking(false);
             }
         }
 
-        isWorking = false;
+        if (progress >= progress()) {
+            setWorking(false);
+        }
+        setChanged();
     }
 
     @Override
     public void load(BlockState p_230337_1_, CompoundNBT tag) {
         plasmaHandler.read(tag.getCompound("plasma"));
-        itemHandler.deserializeNBT(tag.getCompound("inv"));
+
+        isWorking = tag.getBoolean("isWorking");
+        progress = tag.getInt("progress");
 
         super.load(p_230337_1_, tag);
     }
@@ -96,9 +86,21 @@ public class CoalGenTE extends ONIBaseTE implements ITickableTileEntity, IAnimat
     @Override
     public CompoundNBT save(CompoundNBT tag) {
         tag.put("plasma", plasmaHandler.write());
-        tag.put("inv", itemHandler.serializeNBT());
+
+        tag.putBoolean("isWorking", isWorking);
+        tag.putInt("progress", progress);
 
         return super.save(tag);
+    }
+
+    @Override
+    public int getInvSize() {
+        return 1;
+    }
+
+    @Override
+    public List<Item> validItems() {
+        return valids;
     }
 
     @Nonnull
@@ -114,15 +116,19 @@ public class CoalGenTE extends ONIBaseTE implements ITickableTileEntity, IAnimat
         return super.getCapability(cap, side);
     }
 
-    private <E extends TileEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+    private <E extends TileEntity & IAnimatable> PlayState idlePredicate(AnimationEvent<E> event) {
         event.getController().transitionLengthTicks = 0;
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.motor.new", true));
+        if (super.getWorking()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.motor.new", true));
+        } else {
+            event.getController().setAnimation(new AnimationBuilder());
+        }
         return PlayState.CONTINUE;
     }
 
     @Override
     public void registerControllers(AnimationData animationData) {
-        animationData.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
+        animationData.addAnimationController(new AnimationController(this, "controller", 0, this::idlePredicate));
     }
 
     @Override

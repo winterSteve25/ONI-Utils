@@ -34,12 +34,8 @@ public class PlasmaStack implements IPlasma {
         this.power = power;
     }
 
-    public boolean canGenerate(int power) {
-        if (power <= capacity) {
-            return this.power + power < capacity;
-        }
-
-        return false;
+    public boolean canGenerate() {
+        return power <= capacity;
     }
 
     @Override

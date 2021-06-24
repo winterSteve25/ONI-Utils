@@ -21,7 +21,8 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.client.keybinds.ONIKeybinds;
-import wintersteve25.oniutils.common.blocks.libs.ONIBaseTE;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseInvTE;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseTE;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
 import wintersteve25.oniutils.common.capability.plasma.api.EnumWattsTypes;
 import wintersteve25.oniutils.common.capability.plasma.api.IPlasma;
@@ -38,9 +39,12 @@ public class ManualGenTE extends ONIBaseTE implements ITickableTileEntity, IAnim
     private PlasmaStack plasmaHandler = new PlasmaStack(2000, EnumWattsTypes.LOW);
     private LazyOptional<IPlasma> plasmaLazyOptional = LazyOptional.of(() -> plasmaHandler);
 
-    public boolean isWorking = false;
     public boolean hasPlayer = false;
-    public int progress = ONIConfig.MANUAL_GEN_PROCESS_TIME.get();
+
+    @Override
+    protected int progress() {
+        return ONIConfig.MANUAL_GEN_PROCESS_TIME.get();
+    }
 
     private BlockState state;
     private BlockPos pos;
@@ -75,13 +79,13 @@ public class ManualGenTE extends ONIBaseTE implements ITickableTileEntity, IAnim
                 progress--;
                 if (progress < 0) {
                     if (player.hasEffect(Effects.MOVEMENT_SPEED)) {
-                        if (plasmaHandler.canGenerate(ONIConfig.MANUAL_GEN_PLASMA_OUTPUT_SPEED.get())) {
+                        if (plasmaHandler.canGenerate()) {
                             plasmaHandler.addPower(ONIConfig.MANUAL_GEN_PLASMA_OUTPUT_SPEED.get());
 
                             setChanged();
                         }
                     } else {
-                        if (plasmaHandler.canGenerate(ONIConfig.MANUAL_GEN_PLASMA_OUTPUT.get())) {
+                        if (plasmaHandler.canGenerate()) {
                             plasmaHandler.addPower(ONIConfig.MANUAL_GEN_PLASMA_OUTPUT.get());
 
                             setChanged();
@@ -90,6 +94,8 @@ public class ManualGenTE extends ONIBaseTE implements ITickableTileEntity, IAnim
 
                     progress = ONIConfig.MANUAL_GEN_PROCESS_TIME.get();
                 }
+
+                setChanged();
             }
         }
     }

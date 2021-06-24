@@ -2,6 +2,7 @@ package wintersteve25.oniutils.common.blocks.modules.power.coalgen;
 
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -23,8 +24,9 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.network.NetworkHooks;
-import wintersteve25.oniutils.common.blocks.libs.ONIBaseMachine;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseMachine;
 import wintersteve25.oniutils.common.init.ONIBlocks;
+import wintersteve25.oniutils.common.utils.helper.ISHandlerHelper;
 
 import javax.annotation.Nullable;
 
@@ -48,7 +50,7 @@ public class CoalGenBlock extends ONIBaseMachine {
 //    private static final VoxelShape WEST = VoxelShapes.or(BOTTOM, SUPPORT, MIDDLE);
 
     public CoalGenBlock() {
-        super(Properties.of(Material.HEAVY_METAL).harvestLevel(1).harvestTool(ToolType.PICKAXE).strength(3, 3), regName);
+        super(Properties.of(Material.HEAVY_METAL).harvestLevel(1).harvestTool(ToolType.PICKAXE).strength(3, 3).requiresCorrectToolForDrops(), regName);
     }
 
     @Override
@@ -59,7 +61,7 @@ public class CoalGenBlock extends ONIBaseMachine {
                 INamedContainerProvider containerProvider = new INamedContainerProvider() {
                     @Override
                     public ITextComponent getDisplayName() {
-                        return new TranslationTextComponent("screen.mytutorial.firstblock");
+                        return new TranslationTextComponent("");
                     }
 
                     @Override
@@ -73,6 +75,19 @@ public class CoalGenBlock extends ONIBaseMachine {
             }
         }
         return ActionResultType.SUCCESS;
+    }
+
+    @Override
+    public void onRemove(BlockState state, World world, BlockPos pos, BlockState state2, boolean p_196243_5_) {
+        if (world.getBlockEntity(pos) instanceof CoalGenTE) {
+            CoalGenTE te = (CoalGenTE) world.getBlockEntity(pos);
+            if (te != null) {
+                if (te.hasItem()) {
+                    ISHandlerHelper.dropInventory(te, world, state, pos, te.getInvSize());
+                }
+            }
+        }
+        super.onRemove(state, world, pos, state2, p_196243_5_);
     }
 
     @Nullable

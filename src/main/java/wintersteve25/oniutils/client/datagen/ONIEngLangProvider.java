@@ -3,8 +3,8 @@ package wintersteve25.oniutils.client.datagen;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.blocks.libs.ONIBaseDirectional;
-import wintersteve25.oniutils.common.blocks.libs.ONIBaseRock;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseRock;
 import wintersteve25.oniutils.common.effects.ONIBaseEffect;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONIEffects;
@@ -17,25 +17,11 @@ public class ONIEngLangProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
+        autoGenLang();
+
         //simple blocks
         add(ONIBlocks.IgneousRock.get(), "Igneous Rock");
         add(ONIBlocks.Slime, "Slime");
-
-        for (ONIBaseRock b : ONIBlocks.rocksList) {
-            add("block.oniutils." + MiscHelper.langToReg(b.getRegName()), b.getRegName());
-        }
-        for (ONIBaseRock b : ONIBlocks.rocksListNoDataGen) {
-            add("block.oniutils." + MiscHelper.langToReg(b.getRegName()), b.getRegName());
-        }
-        for (ONIBaseDirectional b : ONIBlocks.direList) {
-            add("block.oniutils." + MiscHelper.langToReg(b.getRegName()), b.getRegName());
-        }
-        for (ONIBaseDirectional b : ONIBlocks.direListNoDataGen) {
-            add("block.oniutils." + MiscHelper.langToReg(b.getRegName()), b.getRegName());
-        }
-        for (ONIBaseEffect e : ONIEffects.effectList) {
-            add("effect.oniutils." + MiscHelper.langToReg(e.getRegName()), e.getRegName());
-        }
 
         //item groups
         add("itemGroup.oniutils", "Veiled Ascent");
@@ -52,6 +38,7 @@ public class ONIEngLangProvider extends LanguageProvider {
 
         add("death.attack.oniutils.oxygen", "%1$s forgot to breathe");
         add("death.attack.oniutils.germ", "%1$s didn't take the vaccine");
+        add("death.attack.oniutils.floralScent", "%1$s forgot it's the allergy season");
 
         //tooltips
         add("oniutils.tooltips.germs.itemGerms", "Item contains: %s %s");
@@ -59,5 +46,23 @@ public class ONIEngLangProvider extends LanguageProvider {
         //keybinds
         add("oniutils.keybinds.category", "Veiled Ascent Keybinds");
         add("oniutils.offManualGen", "Get off manual generator");
+    }
+
+    private void autoGenLang() {
+        for (ONIBaseRock b : ONIBlocks.rocksList) {
+            add("block.oniutils." + MiscHelper.langToReg(b.getRegName()), b.getRegName());
+        }
+        for (ONIBaseRock b : ONIBlocks.rocksListNoDataGen) {
+            add("block.oniutils." + MiscHelper.langToReg(b.getRegName()), b.getRegName());
+        }
+        for (ONIBaseDirectional b : ONIBlocks.direList) {
+            add("block.oniutils." + MiscHelper.langToReg(b.getRegName()), b.getRegName());
+        }
+        for (ONIBaseDirectional b : ONIBlocks.direListNoDataGen) {
+            add("block.oniutils." + MiscHelper.langToReg(b.getRegName()), b.getRegName());
+        }
+        for (ONIBaseEffect e : ONIEffects.effectList) {
+            add("effect.oniutils." + MiscHelper.langToReg(e.getRegName()), e.getRegName());
+        }
     }
 }

@@ -20,6 +20,7 @@
   "block.oniutils.sedimentary_rock": "Sedimentary Rock",
   "block.oniutils.slime": "Slime",
   "block.oniutils.wolframite": "Wolframite",
+  "death.attack.oniutils.floralScent": "%1$s forgot it's the allergy season",
   "death.attack.oniutils.germ": "%1$s didn't take the vaccine",
   "death.attack.oniutils.oxygen": "%1$s forgot to breathe",
   "effect.oniutils.oxygenated": "Oxygenated",

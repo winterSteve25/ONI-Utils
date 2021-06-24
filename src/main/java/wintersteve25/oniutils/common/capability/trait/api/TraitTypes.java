@@ -26,9 +26,10 @@ public final class TraitTypes {
     public static final int Narcoleptic = -13;
     public static final int LoudSleeper = -14;
     public static final int Flatulence = -15;
+    public static final int Allergic = -16;
 
     public static int getBottom() {
-        return Flatulence;
+        return Allergic;
     }
 
     public static int getTop() {
@@ -44,7 +45,7 @@ public final class TraitTypes {
     }
 
     public static int getBadBottom() {
-        return Flatulence;
+        return Allergic;
     }
 
     public static int getBadTop() {

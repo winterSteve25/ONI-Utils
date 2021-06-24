@@ -1,15 +1,20 @@
 package wintersteve25.oniutils.common.init;
 
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.fml.RegistryObject;
-import wintersteve25.oniutils.common.blocks.libs.ONIBaseDirectional;
-import wintersteve25.oniutils.common.blocks.libs.ONIBaseRock;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseRock;
 import wintersteve25.oniutils.common.blocks.modules.furniture.LightBulbBlock;
 import wintersteve25.oniutils.common.blocks.modules.power.coalgen.CoalGenBlock;
 import wintersteve25.oniutils.common.blocks.modules.power.coalgen.CoalGenContainer;
@@ -17,9 +22,9 @@ import wintersteve25.oniutils.common.blocks.modules.power.coalgen.CoalGenTE;
 import wintersteve25.oniutils.common.blocks.modules.power.manual.ManualGenBlock;
 import wintersteve25.oniutils.common.blocks.modules.power.manual.ManualGenTE;
 import wintersteve25.oniutils.common.blocks.modules.resources.oxylite.OxyliteBlock;
-import wintersteve25.oniutils.common.blocks.modules.resources.oxylite.OxyliteTile;
+import wintersteve25.oniutils.common.blocks.modules.resources.oxylite.OxyliteTE;
 import wintersteve25.oniutils.common.blocks.modules.resources.slime.SlimeBlock;
-import wintersteve25.oniutils.common.blocks.modules.resources.slime.SlimeTile;
+import wintersteve25.oniutils.common.blocks.modules.resources.slime.SlimeTE;
 import wintersteve25.oniutils.common.utils.helper.MiscHelper;
 import wintersteve25.oniutils.common.utils.helper.RegistryHelper;
 
@@ -31,26 +36,26 @@ public class ONIBlocks {
 
     //blocks
     public static final ONIBaseDirectional SedimentaryRock = new ONIBaseDirectional(0, 4, 10, "Sedimentary Rock");
-    public static final ONIBaseRock MaficRock = new ONIBaseRock(1, 4, 10, "Mafic Rock");
-    public static final ONIBaseRock Regolith = new ONIBaseRock(1, 4, 10, "Regolith");
-    public static final ONIBaseRock Neutronium = new ONIBaseRock(1, 4, 10, "Neutronium");
-    public static final ONIBaseRock Fossil = new ONIBaseRock(0, 4, 10, "Fossil");
-    public static final ONIBaseRock BleachStone = new ONIBaseRock(1, 4, 10, "Bleach Stone");
-    public static final ONIBaseRock Rust = new ONIBaseRock(1, 4, 10, "Rust");
-    public static final ONIBaseRock PollutedIce = new ONIBaseRock(0, 4, 10, "Polluted Ice", SoundType.GLASS, Material.ICE_SOLID);
-    public static final ONIBaseRock Algae = new ONIBaseRock(0, 4, 10, "Algae", SoundType.CROP);
-    public static final ONIBaseRock Phosphorite = new ONIBaseRock(1, 4, 10, "Phosphorite");
-    public static final ONIBaseRock Fertilizer = new ONIBaseRock(0, 4, 10, "Fertilizer", SoundType.NYLIUM);
-    public static final ONIBaseRock GoldAmalgam = new ONIBaseRock(2, 4, 10, "Gold Amalgam");
-    public static final ONIBaseRock Wolframite = new ONIBaseRock(2, 7, 25, "Wolframite");
-    public static final ONIBaseRock Abyssalite = new ONIBaseRock(2, 8, 20, "Abyssalite");
-    public static final ONIBaseRock Granite = new ONIBaseRock(2, 6, 25, "Granite");
+    public static final ONIBaseRock MaficRock = new ONIBaseRock(2, 5, 18, "Mafic Rock");
+    public static final ONIBaseRock Regolith = new ONIBaseRock(1, 5, 18, "Regolith");
+    public static final ONIBaseRock Neutronium = new ONIBaseRock(3, 7, 30, "Neutronium");
+    public static final ONIBaseRock Fossil = new ONIBaseRock(0, 2, 3, "Fossil");
+    public static final ONIBaseRock BleachStone = new ONIBaseRock(1, 1.5F, 2, "Bleach Stone");
+    public static final ONIBaseRock Rust = new ONIBaseRock(1, 1.5F, 2, "Rust");
+    public static final ONIBaseRock PollutedIce = new ONIBaseRock("Polluted Ice", AbstractBlock.Properties.of(Material.ICE).harvestLevel(0).harvestTool(ToolType.PICKAXE).sound(SoundType.GLASS).strength(0.7F, 1).friction(0.98F));
+    public static final ONIBaseRock Algae = new ONIBaseRock("Algae", AbstractBlock.Properties.of(Material.VEGETABLE).sound(SoundType.CROP).strength(0.2F, 1).harvestLevel(0));
+    public static final ONIBaseRock Phosphorite = new ONIBaseRock(1, 1, 2, "Phosphorite");
+    public static final ONIBaseRock Fertilizer = new ONIBaseRock("Fertilizer", AbstractBlock.Properties.of(Material.VEGETABLE).sound(SoundType.CROP).strength(0.2F, 1).harvestLevel(0));
+    public static final ONIBaseRock GoldAmalgam = new ONIBaseRock(2, 3, 5, "Gold Amalgam");
+    public static final ONIBaseRock Wolframite = new ONIBaseRock(2, 6, 20, "Wolframite");
+    public static final ONIBaseRock Abyssalite = new ONIBaseRock(2, 5, 15, "Abyssalite");
+    public static final ONIBaseRock Granite = new ONIBaseRock(2, 4, 12, "Granite");
 
     //TE Blocks
     public static final OxyliteBlock Oxylite = new OxyliteBlock();
-    public static final RegistryObject<TileEntityType<OxyliteTile>> OxyliteTE = RegistryHelper.registerTE(MiscHelper.langToReg(Oxylite.getRegName()), () -> TileEntityType.Builder.of(OxyliteTile::new, Oxylite).build(null));
+    public static final RegistryObject<TileEntityType<OxyliteTE>> OXYLITE_TE = RegistryHelper.registerTE(MiscHelper.langToReg(Oxylite.getRegName()), () -> TileEntityType.Builder.of(OxyliteTE::new, Oxylite).build(null));
     public static final SlimeBlock Slime = new SlimeBlock();
-    public static final RegistryObject<TileEntityType<SlimeTile>> SlimeTE = RegistryHelper.registerTE(MiscHelper.langToReg(Slime.getRegName()), () -> TileEntityType.Builder.of(SlimeTile::new, Slime).build(null));
+    public static final RegistryObject<TileEntityType<SlimeTE>> SLIME_TE = RegistryHelper.registerTE(MiscHelper.langToReg(Slime.getRegName()), () -> TileEntityType.Builder.of(SlimeTE::new, Slime).build(null));
 
     //Machines
     public static final CoalGenBlock COAL_GEN_BLOCK = new CoalGenBlock();
@@ -72,8 +77,7 @@ public class ONIBlocks {
     public static List<ONIBaseDirectional> direList = new ArrayList<>();
     public static List<ONIBaseDirectional> direListNoDataGen = new ArrayList<>();
 
-    static {
-        SedimentaryRock.initRockNoDataGen(SedimentaryRock);
+    public static void register(){
         MaficRock.initRockNoDataGen(MaficRock);
         Regolith.initRockNoDataGen(Regolith);
         Neutronium.initRockNoDataGen(Neutronium);
@@ -88,6 +92,7 @@ public class ONIBlocks {
         Wolframite.initRockNoDataGen(Wolframite);
         Abyssalite.initRockNoDataGen(Abyssalite);
         Granite.initRockNoDataGen(Granite);
+        SedimentaryRock.initRockNoDataGen(SedimentaryRock);
 
         //Blocks TE
         Oxylite.initRockNoDataGen(Oxylite);
@@ -100,6 +105,4 @@ public class ONIBlocks {
         //Furniture
         BULB_BLOCK.initRockNoDataGen(BULB_BLOCK);
     }
-
-    public static void register(){}
 }

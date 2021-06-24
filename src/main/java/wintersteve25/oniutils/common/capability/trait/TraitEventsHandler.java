@@ -13,7 +13,6 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import org.apache.logging.log4j.core.jmx.Server;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.capability.trait.api.ITrait;
 import wintersteve25.oniutils.common.capability.trait.api.TraitTypes;

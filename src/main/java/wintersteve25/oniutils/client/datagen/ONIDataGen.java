@@ -9,15 +9,22 @@ import wintersteve25.oniutils.ONIUtils;
 
 @Mod.EventBusSubscriber(modid = ONIUtils.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ONIDataGen {
+
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
         DataGenerator gen = event.getGenerator();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
-        gen.addProvider(new ONIStateProvider(gen, existingFileHelper));
-        gen.addProvider(new ONIModelProvider(gen, existingFileHelper));
+        if (event.includeServer()) {
+            gen.addProvider(new ONILootTableProvider(gen));
+        }
 
-        //en_US
-        gen.addProvider(new ONIEngLangProvider(gen));
+        if (event.includeClient()) {
+            gen.addProvider(new ONIStateProvider(gen, existingFileHelper));
+            gen.addProvider(new ONIModelProvider(gen, existingFileHelper));
+
+            //en_US
+            gen.addProvider(new ONIEngLangProvider(gen));
+        }
     }
 }

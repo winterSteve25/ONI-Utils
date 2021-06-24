@@ -1,0 +1,16 @@
+{
+  "required": false,
+  "package": "wintersteve25.oniutils.common.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "oniutils.refmap.json",
+  "mixins": [
+  ],
+  "server": [
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  },
+  "minVersion": "0.8"
+}

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "name": "sedimentary_rock",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "oniutils:sedimentary_rock"
+        }
+      ]
+    }
+  ]
+}
