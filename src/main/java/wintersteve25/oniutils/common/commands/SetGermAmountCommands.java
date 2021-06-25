@@ -10,7 +10,7 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.Entity;
-import wintersteve25.oniutils.common.capability.germ.GermsCapability;
+import wintersteve25.oniutils.common.capability.germ.GermCapability;
 
 public class SetGermAmountCommands implements Command<CommandSource> {
 
@@ -30,7 +30,7 @@ public class SetGermAmountCommands implements Command<CommandSource> {
         int amount = IntegerArgumentType.getInteger(context, "amount");
         Entity target = EntityArgument.getEntity(context, "target");
 
-        target.getCapability(GermsCapability.GERM_CAPABILITY).ifPresent(t -> {
+        target.getCapability(GermCapability.GERM_CAPABILITY).ifPresent(t -> {
             t.setGerm(t.getGermType(), amount);
         });
         return 1;

@@ -2,6 +2,9 @@ package wintersteve25.oniutils.common.capability.germ.api;
 
 import net.minecraft.nbt.CompoundNBT;
 
+/**
+ * Default implementation of IGerms
+ */
 public class GermStack implements IGerms {
 
     private EnumGermTypes germType = EnumGermTypes.NOTHING;

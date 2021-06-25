@@ -7,7 +7,7 @@ import wintersteve25.oniutils.common.init.ONIEffects;
 public class ONIBaseEffect extends Effect {
     private final String regName;
 
-    protected ONIBaseEffect(EffectType p_i50391_1_, int p_i50391_2_, String regName) {
+    public ONIBaseEffect(EffectType p_i50391_1_, int p_i50391_2_, String regName) {
         super(p_i50391_1_, p_i50391_2_);
         this.regName = regName;
     }

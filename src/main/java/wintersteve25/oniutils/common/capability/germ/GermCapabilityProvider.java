@@ -31,7 +31,7 @@ public class GermCapabilityProvider implements ICapabilitySerializable<CompoundN
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (cap == GermsCapability.GERM_CAPABILITY) {
+        if (cap == GermCapability.GERM_CAPABILITY) {
             return lazyOptional.cast();
         }
         return LazyOptional.empty();
@@ -39,17 +39,17 @@ public class GermCapabilityProvider implements ICapabilitySerializable<CompoundN
 
     @Override
     public CompoundNBT serializeNBT() {
-        if (GermsCapability.GERM_CAPABILITY == null) {
+        if (GermCapability.GERM_CAPABILITY == null) {
             return new CompoundNBT();
         } else {
-            return (CompoundNBT) GermsCapability.GERM_CAPABILITY.writeNBT(germ, null);
+            return (CompoundNBT) GermCapability.GERM_CAPABILITY.writeNBT(germ, null);
         }
     }
 
     @Override
     public void deserializeNBT(CompoundNBT nbt) {
-        if (GermsCapability.GERM_CAPABILITY != null) {
-            GermsCapability.GERM_CAPABILITY.readNBT(germ, null, nbt);
+        if (GermCapability.GERM_CAPABILITY != null) {
+            GermCapability.GERM_CAPABILITY.readNBT(germ, null, nbt);
         }
     }
 }

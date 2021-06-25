@@ -13,7 +13,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseRock;
 import wintersteve25.oniutils.common.capability.germ.GermCapabilityProvider;
-import wintersteve25.oniutils.common.capability.germ.GermsCapability;
+import wintersteve25.oniutils.common.capability.germ.GermCapability;
 import wintersteve25.oniutils.common.capability.germ.api.EnumGermTypes;
 import wintersteve25.oniutils.common.capability.germ.api.GermStack;
 import wintersteve25.oniutils.common.init.ONIBlocks;
@@ -40,7 +40,7 @@ public class SlimeBlock extends ONIBaseRock {
         if (tile instanceof SlimeTE) {
             SlimeTE te = (SlimeTE) tile;
 
-            te.getCapability(GermsCapability.GERM_CAPABILITY).ifPresent(s -> {
+            te.getCapability(GermCapability.GERM_CAPABILITY).ifPresent(s -> {
                 amount.set(s.getGermAmount());
                 germ.set(s.getGermType());
                 super.spawnAfterBreak(state, serverWorld, pos, new SlimeBlockItem().setGerm(germ.get(), amount.get()));

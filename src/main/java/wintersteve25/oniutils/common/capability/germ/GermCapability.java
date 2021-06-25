@@ -12,7 +12,7 @@ import wintersteve25.oniutils.common.capability.germ.api.IGerms;
 
 import javax.annotation.Nullable;
 
-public class GermsCapability {
+public class GermCapability {
 
     @CapabilityInject(IGerms.class)
     public static Capability<IGerms> GERM_CAPABILITY;

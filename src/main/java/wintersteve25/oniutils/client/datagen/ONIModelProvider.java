@@ -18,7 +18,6 @@ public class ONIModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        withExistingParent(MiscHelper.langToReg(ONIBlocks.Slime.getRegName()), modLoc("block/" + MiscHelper.langToReg(ONIBlocks.Slime.getRegName())));
         autoGenModels();
 
         ModelFile generated = getExistingFile(mcLoc("item/generated"));
@@ -35,6 +34,10 @@ public class ONIModelProvider extends ItemModelProvider {
         for (ONIBaseDirectional b : ONIBlocks.direList) {
             withExistingParent(MiscHelper.langToReg(b.getRegName()), modLoc("block/" + MiscHelper.langToReg(b.getRegName())));
         }
+
+        withExistingParent(MiscHelper.langToReg(ONIBlocks.Slime.getRegName()), modLoc("block/" + MiscHelper.langToReg(ONIBlocks.Slime.getRegName())));
+        withExistingParent(MiscHelper.langToReg(ONIBlocks.Granite.getRegName()), modLoc("block/" + MiscHelper.langToReg(ONIBlocks.Granite.getRegName())));
+
     }
 
 }

@@ -1,5 +1,8 @@
 package wintersteve25.oniutils.common.capability.germ.api;
 
+/**
+ * Enum that stores the different types of germs
+ */
 public enum EnumGermTypes {
     NOTHING("No_Germs"),
     SLIMELUNG("Slime_Lungs"),

@@ -7,10 +7,9 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.blocks.base.IGermCapProvider;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseInvTE;
+import wintersteve25.oniutils.common.capability.germ.api.IGermCapProvider;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseTE;
-import wintersteve25.oniutils.common.capability.germ.GermsCapability;
+import wintersteve25.oniutils.common.capability.germ.GermCapability;
 import wintersteve25.oniutils.common.capability.germ.api.EnumGermTypes;
 import wintersteve25.oniutils.common.capability.germ.api.GermStack;
 import wintersteve25.oniutils.common.capability.germ.api.IGerms;
@@ -67,7 +66,7 @@ public class SlimeTE extends ONIBaseTE implements ITickableTileEntity, IGermCapP
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (cap == GermsCapability.GERM_CAPABILITY) {
+        if (cap == GermCapability.GERM_CAPABILITY) {
             return lazyOptional.cast();
         }
         return super.getCapability(cap, side);
