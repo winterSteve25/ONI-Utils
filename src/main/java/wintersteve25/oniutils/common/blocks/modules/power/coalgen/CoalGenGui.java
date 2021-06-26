@@ -9,6 +9,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseGui;
 
+import javax.annotation.Nonnull;
+
 @OnlyIn(Dist.CLIENT)
 public class CoalGenGui extends ONIBaseGui<CoalGenContainer> {
 
@@ -19,7 +21,7 @@ public class CoalGenGui extends ONIBaseGui<CoalGenContainer> {
     }
 
     @Override
-    protected void renderBg(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(@Nonnull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         if (bg != null) {
             super.renderBg(matrixStack, partialTicks, mouseX, mouseY);
 

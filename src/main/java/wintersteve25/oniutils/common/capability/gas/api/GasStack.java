@@ -3,6 +3,7 @@ package wintersteve25.oniutils.common.capability.gas.api;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraftforge.common.util.Constants;
+import wintersteve25.oniutils.common.utils.helper.MiscHelper;
 
 import java.util.HashMap;
 
@@ -15,30 +16,27 @@ public class GasStack implements IGas {
 
     @Override
     public void updatePressure() {
-        int i = 0;
+        totalPressure = 0;
 
         for (EnumGasTypes gas : gases.keySet()) {
             double amount = gases.get(gas);
 
             if (!pressure.containsKey(gas)) {
-                pressure.putIfAbsent(gas, amount/10);
+                pressure.putIfAbsent(gas, amount/50);
             } else {
-                pressure.replace(gas, amount/10);
+                pressure.replace(gas, amount/50);
             }
 
-//            amounts[i] = amount/10;
-//            i++;
         }
 
         for (EnumGasTypes gas : pressure.keySet()) {
-//            totalPressure =
+            totalPressure += pressure.get(gas);
         }
-
-//        totalPressure = amounts[0] + amounts[1] + amounts[2] + amounts[3] + amounts[4] + amounts[5] + amounts[6] + amounts[7] + amounts[8];
     }
 
     @Override
     public boolean addGas(EnumGasTypes gas, double amount) {
+        updatePressure();
         if (getPressure() < 100) {
             if(gases.containsKey(gas)) {
                 double currentAmount = gases.get(gas);
@@ -63,6 +61,11 @@ public class GasStack implements IGas {
     }
 
     @Override
+    public void setGas(HashMap<EnumGasTypes, Double> gasMap) {
+        this.gases = gasMap;
+    }
+
+    @Override
     public boolean removeGas(EnumGasTypes gas, double amount) {
         if (gases.containsKey(gas)) {
             if (gases.get(gas)-amount == 0) {
@@ -76,8 +79,24 @@ public class GasStack implements IGas {
     }
 
     @Override
+    public double getGasAmountTotal() {
+        double totalGasAmount = 0;
+
+        for (EnumGasTypes gas : gases.keySet()) {
+            totalGasAmount += gases.get(gas);
+        }
+
+        return  totalGasAmount;
+    }
+
+    @Override
     public HashMap<EnumGasTypes, Double> getGas() {
         return gases;
+    }
+
+    @Override
+    public HashMap<EnumGasTypes, Double> getPressureMap() {
+        return pressure;
     }
 
     @Override
@@ -107,7 +126,7 @@ public class GasStack implements IGas {
         for (EnumGasTypes gas : gases.keySet()) {
             if (gas != null) {
                 CompoundNBT gasTag = new CompoundNBT();
-                gasTag.putString("Gas", gas.getName());
+                gasTag.putString("Gas", MiscHelper.langToReg(gas.getName()));
                 gasTag.putDouble("Amount", gases.get(gas));
                 nbtTagList.add(gasTag);
             }
@@ -116,7 +135,7 @@ public class GasStack implements IGas {
         CompoundNBT nbt = new CompoundNBT();
         nbt.put("Gases", nbtTagList);
         nbt.putDouble("TotalPressure", totalPressure);
-        nbt.putString("RequiredGas", requiredType.getName());
+        nbt.putString("RequiredGas", MiscHelper.langToReg(requiredType.getName()));
 
         return nbt;
     }

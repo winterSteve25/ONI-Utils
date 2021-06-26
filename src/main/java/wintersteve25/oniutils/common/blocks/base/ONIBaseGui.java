@@ -8,6 +8,8 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 
+import javax.annotation.Nonnull;
+
 public class ONIBaseGui <T extends Container> extends ContainerScreen<T> {
 
     private static ResourceLocation bg = null;
@@ -26,7 +28,7 @@ public class ONIBaseGui <T extends Container> extends ContainerScreen<T> {
     }
 
     @Override
-    protected void renderBg(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(@Nonnull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         if (bg != null) {
             RenderSystem.color4f(1F, 1F, 1F, 1F);
             this.minecraft.getTextureManager().bind(bg);

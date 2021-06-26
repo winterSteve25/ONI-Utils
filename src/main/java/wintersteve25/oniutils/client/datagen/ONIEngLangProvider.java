@@ -37,8 +37,8 @@ public class ONIEngLangProvider extends LanguageProvider {
         add("oniutils.message.manualGen", "Use Get off manual generator key(Right-Shift By Default) to dismount..");
 
         add("death.attack.oniutils.oxygen", "%1$s forgot to breathe");
+        add("death.attack.oniutils.gas", "%1$s forgot to wear a \"mask\"");
         add("death.attack.oniutils.germ", "%1$s didn't take the vaccine");
-        add("death.attack.oniutils.floralScent", "%1$s forgot it's the allergy season");
 
         //tooltips
         add("oniutils.tooltips.germs.itemGerms", "Item contains: %s %s");

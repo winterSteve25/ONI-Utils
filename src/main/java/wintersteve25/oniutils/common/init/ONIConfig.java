@@ -35,6 +35,8 @@ public class ONIConfig {
     public static ForgeConfigSpec.BooleanValue ENABLE_TEMPERATURE;
 
     public static ForgeConfigSpec.BooleanValue ENABLE_GAS;
+    public static ForgeConfigSpec.DoubleValue PLAYER_BREATH_AMOUNT;
+    public static ForgeConfigSpec.IntValue PLAYER_REQUIRED_OXYGEN_AMOUNT;
 
     static {
         ForgeConfigSpec.Builder SERVERBUILDER = new ForgeConfigSpec.Builder();
@@ -71,6 +73,8 @@ public class ONIConfig {
 
         SERVERBUILDER.comment("Gas Settings").push(CAT_GAS);
         ENABLE_GAS = SERVERBUILDER.comment("Should the gas system be enabled?").define("enableGas", true);
+        PLAYER_BREATH_AMOUNT = SERVERBUILDER.comment("How much grams of gas should player breath in per second in total?").defineInRange("playerBreathAmount", 1D, 1, MiscHelper.INT_MAX);
+        PLAYER_REQUIRED_OXYGEN_AMOUNT = SERVERBUILDER.comment("How much grams of oxygen should player consume every second").defineInRange("playerConsumeAmount", 2, 1, MiscHelper.INT_MAX);
         SERVERBUILDER.pop();
 
         SERVERBUILDER.comment("Misc").push(CAT_MISC);

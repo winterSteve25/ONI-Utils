@@ -16,9 +16,15 @@ public interface IGas {
 
     void setGas(EnumGasTypes gas, double amount);
 
+    void setGas(HashMap<EnumGasTypes, Double> gasMap);
+
     boolean removeGas(EnumGasTypes gas, double amount);
 
+    double getGasAmountTotal();
+
     HashMap<EnumGasTypes, Double> getGas();
+
+    HashMap<EnumGasTypes, Double> getPressureMap();
 
     double getPressure();
 

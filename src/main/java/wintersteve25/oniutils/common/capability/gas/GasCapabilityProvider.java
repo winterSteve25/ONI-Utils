@@ -22,11 +22,16 @@ public class GasCapabilityProvider implements ICapabilitySerializable<CompoundNB
     }
 
     public GasCapabilityProvider() {
-        gas.addGas(EnumGasTypes.OXYGEN, 10000);
+        gas.addGas(EnumGasTypes.OXYGEN, 2000);
+        gas.addGas(EnumGasTypes.CO2, 500);
     }
 
     public GasCapabilityProvider(GasStack stack) {
         this.gas = stack;
+    }
+
+    public GasCapabilityProvider(EnumGasTypes gas, double amount) {
+        this.gas.setGas(gas, amount);
     }
 
     @Nonnull

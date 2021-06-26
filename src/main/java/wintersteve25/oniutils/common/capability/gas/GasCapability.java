@@ -11,6 +11,7 @@ import net.minecraftforge.common.util.Constants;
 import wintersteve25.oniutils.common.capability.gas.api.EnumGasTypes;
 import wintersteve25.oniutils.common.capability.gas.api.GasStack;
 import wintersteve25.oniutils.common.capability.gas.api.IGas;
+import wintersteve25.oniutils.common.utils.helper.MiscHelper;
 
 import javax.annotation.Nullable;
 
@@ -32,7 +33,7 @@ public class GasCapability {
             for (EnumGasTypes gas : instance.getGas().keySet()) {
                 if (gas != null) {
                     CompoundNBT gasTag = new CompoundNBT();
-                    gasTag.putString("gas", gas.getName());
+                    gasTag.putString("gas", MiscHelper.langToReg(gas.getName()));
                     gasTag.putDouble("amount", instance.getGas().get(gas));
                     nbtTagList.add(gasTag);
                 }

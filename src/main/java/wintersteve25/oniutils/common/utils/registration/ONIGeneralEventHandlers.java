@@ -4,6 +4,7 @@ import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -15,6 +16,7 @@ import wintersteve25.oniutils.client.renderers.geckolibs.machines.power.coal.Coa
 import wintersteve25.oniutils.client.renderers.geckolibs.machines.power.manual.ManualGenGeckoRenderer;
 import wintersteve25.oniutils.client.keybinds.ONIKeybinds;
 import wintersteve25.oniutils.common.blocks.modules.power.coalgen.CoalGenGui;
+import wintersteve25.oniutils.common.capability.gas.GasEventsHandler;
 import wintersteve25.oniutils.common.capability.germ.GermEventsHandler;
 import wintersteve25.oniutils.common.capability.germ.GermCapability;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
@@ -64,7 +66,12 @@ public class ONIGeneralEventHandlers {
             }
         }
 
-
+        if (ONIConfig.ENABLE_GAS.get()) {
+            MinecraftForge.EVENT_BUS.addGenericListener(Chunk.class, GasEventsHandler::chunkAttach);
+            MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, GasEventsHandler::entityAttach);
+            MinecraftForge.EVENT_BUS.addListener(GasEventsHandler::tick);
+            MinecraftForge.EVENT_BUS.addListener(GasEventsHandler::onPlayerCloned);
+        }
     }
 
     @SuppressWarnings("unchecked")

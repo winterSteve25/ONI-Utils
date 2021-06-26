@@ -43,7 +43,7 @@ public class ONIUtils {
     };
 
     //damage source
-    public static final DamageSource oxygenDamage = new DamageSource("oniutils.oxygen").bypassArmor().bypassInvul();
-    public static final DamageSource germDamage = new DamageSource("oniutils.germ").bypassArmor().bypassInvul();
-    public static final DamageSource floralScentDamage = new DamageSource("oniutils.floralScent").bypassArmor().bypassInvul();
+    public static final DamageSource oxygenDamage = new DamageSource("oniutils.oxygen").bypassArmor();
+    public static final DamageSource gas = new DamageSource("oniutils.gas").bypassArmor();
+    public static final DamageSource germDamage = new DamageSource("oniutils.germ").bypassArmor();
 }
