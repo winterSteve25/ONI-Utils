@@ -24,12 +24,14 @@ public class ONIUtils {
 
     public ONIUtils() {
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        final IEventBus forgeEventBus = MinecraftForge.EVENT_BUS;
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ONIConfig.SERVER_CONFIG);
         Registration.init();
 
         modEventBus.addListener(ONIGeneralEventHandlers::preInit);
         modEventBus.addListener(ONIGeneralEventHandlers::clientPreInit);
+        forgeEventBus.addListener(ONIGeneralEventHandlers::serverInit);
 
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -37,13 +39,13 @@ public class ONIUtils {
     //item group
     public static final ItemGroup creativeTab = new ItemGroup("oniutils") {
         @Override
-        public ItemStack makeIcon() {
+        public ItemStack createIcon() {
             return new ItemStack(ONIBlocks.IgneousRock.get());
         }
     };
 
     //damage source
-    public static final DamageSource oxygenDamage = new DamageSource("oniutils.oxygen").bypassArmor();
-    public static final DamageSource gas = new DamageSource("oniutils.gas").bypassArmor();
-    public static final DamageSource germDamage = new DamageSource("oniutils.germ").bypassArmor();
+    public static final DamageSource oxygenDamage = new DamageSource("oniutils.oxygen").setDamageBypassesArmor();
+    public static final DamageSource gas = new DamageSource("oniutils.gas").setDamageBypassesArmor();
+    public static final DamageSource germDamage = new DamageSource("oniutils.germ").setDamageBypassesArmor();
 }

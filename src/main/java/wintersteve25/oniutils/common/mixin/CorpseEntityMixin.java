@@ -16,13 +16,13 @@ public class CorpseEntityMixin{
 
     @Overwrite()
     public static CorpseEntity createFromDeath(PlayerEntity player, Death death) {
-        CorpseEntity corpseMixin = new CorpseEntity(player.level);
+        CorpseEntity corpseMixin = new CorpseEntity(player.world);
         corpseMixin.setDeath(death);
         corpseMixin.setCorpseUUID(death.getPlayerUUID());
         corpseMixin.setCorpseName(death.getPlayerName());
         corpseMixin.setEquipment(death.getEquipment());
-        corpseMixin.setPos(death.getPosX(), Math.max(death.getPosY(), 0.0D), death.getPosZ());
-        corpseMixin.yRot = player.yRot;
+        corpseMixin.setPosition(death.getPosX(), Math.max(death.getPosY(), 0.0D), death.getPosZ());
+        corpseMixin.rotationYaw = player.rotationYaw;
         corpseMixin.setCorpseModel(death.getModel());
         corpseMixin.getCapability(GermCapability.GERM_CAPABILITY).ifPresent(c ->  {
             player.getCapability(GermCapability.GERM_CAPABILITY).ifPresent(p -> {

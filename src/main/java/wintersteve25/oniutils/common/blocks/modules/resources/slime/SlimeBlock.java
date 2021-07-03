@@ -3,12 +3,14 @@ package wintersteve25.oniutils.common.blocks.modules.resources.slime;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseRock;
@@ -27,12 +29,12 @@ public class SlimeBlock extends ONIBaseRock {
     private static final String regName = "Slime";
 
     public SlimeBlock() {
-        super(regName, Properties.of(Material.DIRT).harvestLevel(0).strength(0.25F, 0.25F).sound(SoundType.SLIME_BLOCK));
+        super(regName, Properties.create(Material.EARTH).harvestLevel(0).hardnessAndResistance(0.25F, 0.25F).sound(SoundType.SLIME));
     }
 
     @Override
-    public void spawnAfterBreak(BlockState state, ServerWorld serverWorld, BlockPos pos, ItemStack stack) {
-        TileEntity tile = serverWorld.getBlockEntity(pos);
+    public void spawnAdditionalDrops(BlockState state, ServerWorld worldIn, BlockPos pos, ItemStack stack) {
+        TileEntity tile = worldIn.getTileEntity(pos);
 
         AtomicInteger amount = new AtomicInteger();
         AtomicReference<EnumGermTypes> germ = null;
@@ -43,10 +45,10 @@ public class SlimeBlock extends ONIBaseRock {
             te.getCapability(GermCapability.GERM_CAPABILITY).ifPresent(s -> {
                 amount.set(s.getGermAmount());
                 germ.set(s.getGermType());
-                super.spawnAfterBreak(state, serverWorld, pos, new SlimeBlockItem().setGerm(germ.get(), amount.get()));
+                super.spawnAdditionalDrops(state, worldIn, pos, new SlimeBlockItem().setGerm(germ.get(), amount.get()));
             });
         } else {
-            super.spawnAfterBreak(state, serverWorld, pos, stack);
+            super.spawnAdditionalDrops(state, worldIn, pos, stack);
         }
     }
 

@@ -56,46 +56,46 @@ public class ManualGenTE extends ONIBaseTE implements ITickableTileEntity, IAnim
 
     @Override
     public void tick() {
-        if (!level.isClientSide()) {
-            if (ONIKeybinds.offManualGen.consumeClick()) {
+        if (!world.isRemote()) {
+            if (ONIKeybinds.offManualGen.isPressed()) {
                 hasPlayer = false;
             }
 
             if (hasPlayer) {
-                Direction facing = state.getValue(BlockStateProperties.FACING);
+                Direction facing = state.get(BlockStateProperties.FACING);
                 switch (facing) {
                     case SOUTH:
-                        player.teleportTo(pos.getX()-0.3, pos.getY(), pos.getZ());
+                        player.setPosition(pos.getX()-0.3, pos.getY(), pos.getZ());
                     case WEST:
-                        player.teleportTo(pos.getX()+0.2, pos.getY(), pos.getZ()-0.3);
+                        player.setPosition(pos.getX()+0.2, pos.getY(), pos.getZ()-0.3);
                     case EAST:
-                        player.teleportTo(pos.getX(), pos.getY(), pos.getZ()+0.3);
+                        player.setPosition(pos.getX(), pos.getY(), pos.getZ()+0.3);
                     default:
-                        player.teleportTo(pos.getX()+0.3, pos.getY(), pos.getZ());
+                        player.setPosition(pos.getX()+0.3, pos.getY(), pos.getZ());
                 }
 
                 ONIUtils.LOGGER.info(plasmaHandler.getPower());
 
                 progress--;
                 if (progress < 0) {
-                    if (player.hasEffect(Effects.MOVEMENT_SPEED)) {
+                    if (player.isPotionActive(Effects.SPEED)) {
                         if (plasmaHandler.canGenerate()) {
                             plasmaHandler.addPower(ONIConfig.MANUAL_GEN_PLASMA_OUTPUT_SPEED.get());
 
-                            setChanged();
+                            markDirty();
                         }
                     } else {
                         if (plasmaHandler.canGenerate()) {
                             plasmaHandler.addPower(ONIConfig.MANUAL_GEN_PLASMA_OUTPUT.get());
 
-                            setChanged();
+                            markDirty();
                         }
                     }
 
                     progress = ONIConfig.MANUAL_GEN_PROCESS_TIME.get();
                 }
 
-                setChanged();
+                markDirty();
             }
         }
     }
@@ -110,23 +110,23 @@ public class ManualGenTE extends ONIBaseTE implements ITickableTileEntity, IAnim
                 this.state = state;
                 this.pos = pos;
 
-                playerEntity.displayClientMessage(new TranslationTextComponent("oniutils.message.manualGen"), true);
+                playerEntity.sendStatusMessage(new TranslationTextComponent("oniutils.message.manualGen"), true);
             }
         }
     }
 
     @Override
-    public void load(BlockState p_230337_1_, CompoundNBT p_230337_2_) {
-        plasmaHandler.read(p_230337_2_.getCompound("plasma"));
+    public void read(BlockState state, CompoundNBT tag) {
+        plasmaHandler.read(tag.getCompound("plasma"));
 
-        super.load(p_230337_1_, p_230337_2_);
+        super.read(state, tag);
     }
 
     @Override
-    public CompoundNBT save(CompoundNBT p_189515_1_) {
-        p_189515_1_.put("plasma", plasmaHandler.write());
+    public CompoundNBT write(CompoundNBT tag) {
+        tag.put("plasma", plasmaHandler.write());
 
-        return super.save(p_189515_1_);
+        return super.write(tag);
     }
 
     @Nonnull

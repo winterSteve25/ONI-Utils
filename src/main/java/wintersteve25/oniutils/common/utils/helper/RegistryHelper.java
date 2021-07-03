@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 public class RegistryHelper {
     public static <I extends Block> RegistryObject<I> register(String name, Supplier<? extends I> block) {
         RegistryObject<I> registryObject = Registration.BLOCKS.register(name, block);
-        Registration.ITEMS.register(name, () -> new BlockItem(registryObject.get(), new Item.Properties().tab(ONIUtils.creativeTab)));
+        Registration.ITEMS.register(name, () -> new BlockItem(registryObject.get(), new Item.Properties().group(ONIUtils.creativeTab)));
         return registryObject;
     }
 

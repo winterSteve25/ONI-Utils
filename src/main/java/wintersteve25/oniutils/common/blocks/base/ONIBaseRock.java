@@ -16,22 +16,22 @@ public class ONIBaseRock extends Block {
     private final String regName;
 
     public ONIBaseRock(int harvestLevel, float hardness, float resistance) {
-        super(Properties.of(Material.STONE).harvestLevel(harvestLevel).harvestTool(ToolType.PICKAXE).sound(SoundType.STONE).strength(hardness, resistance).requiresCorrectToolForDrops());
+        super(Properties.create(Material.ROCK).harvestLevel(harvestLevel).harvestTool(ToolType.PICKAXE).sound(SoundType.STONE).hardnessAndResistance(hardness, resistance).setRequiresTool());
         this.regName = null;
     }
 
     public ONIBaseRock(int harvestLevel, float hardness, float resistance, String regName) {
-        super(Properties.of(Material.STONE).harvestLevel(harvestLevel).harvestTool(ToolType.PICKAXE).sound(SoundType.STONE).strength(hardness, resistance).requiresCorrectToolForDrops());
+        super(Properties.create(Material.ROCK).harvestLevel(harvestLevel).harvestTool(ToolType.PICKAXE).sound(SoundType.STONE).hardnessAndResistance(hardness, resistance).setRequiresTool());
         this.regName = regName;
     }
 
     public ONIBaseRock(int harvestLevel, float hardness, float resistance, String regName, SoundType soundType) {
-        super(Properties.of(Material.STONE).harvestLevel(harvestLevel).harvestTool(ToolType.PICKAXE).sound(soundType).strength(hardness, resistance).requiresCorrectToolForDrops());
+        super(Properties.create(Material.ROCK).harvestLevel(harvestLevel).harvestTool(ToolType.PICKAXE).sound(soundType).hardnessAndResistance(hardness, resistance).setRequiresTool());
         this.regName = regName;
     }
 
     public ONIBaseRock(int harvestLevel, float hardness, float resistance, String regName, SoundType soundType, Material material) {
-        super(Properties.of(material).harvestLevel(harvestLevel).harvestTool(ToolType.PICKAXE).sound(soundType).strength(hardness, resistance).requiresCorrectToolForDrops());
+        super(Properties.create(material).harvestLevel(harvestLevel).harvestTool(ToolType.PICKAXE).sound(soundType).hardnessAndResistance(hardness, resistance).setRequiresTool());
         this.regName = regName;
     }
 

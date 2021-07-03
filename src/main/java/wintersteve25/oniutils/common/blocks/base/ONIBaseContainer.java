@@ -7,6 +7,7 @@ import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.IntReferenceHolder;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -15,6 +16,7 @@ import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
 import wintersteve25.oniutils.common.capability.plasma.api.IPlasma;
+import wintersteve25.oniutils.common.init.ONIBlocks;
 
 import java.util.List;
 
@@ -27,13 +29,13 @@ public abstract class ONIBaseContainer extends Container {
     protected ONIBaseContainer(int windowId, World world, BlockPos pos, PlayerInventory playerInventory, PlayerEntity player, ContainerType container) {
         super(container, windowId);
 
-        tileEntity = (ONIBaseTE) (world.getBlockEntity(pos));
+        tileEntity = (ONIBaseTE) (world.getTileEntity(pos));
         this.playerEntity = player;
         this.playerInventory = new InvWrapper(playerInventory);
     }
 
     protected void trackPower() {
-        addDataSlot(new IntReferenceHolder() {
+        trackInt(new IntReferenceHolder() {
             @Override
             public int get() {
                 return getEnergy() & 0xffff;
@@ -47,7 +49,7 @@ public abstract class ONIBaseContainer extends Container {
                 });
             }
         });
-        addDataSlot(new IntReferenceHolder() {
+        trackInt(new IntReferenceHolder() {
             @Override
             public int get() {
                 return (getEnergy() >> 16) & 0xffff;
@@ -64,7 +66,7 @@ public abstract class ONIBaseContainer extends Container {
     }
 
     protected void trackProgress() {
-        addDataSlot(new IntReferenceHolder() {
+        trackInt(new IntReferenceHolder() {
             @Override
             public int get() {
                 return getProgress() & 0xffff;
@@ -76,7 +78,7 @@ public abstract class ONIBaseContainer extends Container {
                 tileEntity.setProgress(progressStored + (value & 0xffff));
             }
         });
-        addDataSlot(new IntReferenceHolder() {
+        trackInt(new IntReferenceHolder() {
             @Override
             public int get() {
                 return (getProgress() >> 16) & 0xffff;
@@ -91,7 +93,7 @@ public abstract class ONIBaseContainer extends Container {
     }
 
     protected void trackWorking() {
-        addDataSlot(new IntReferenceHolder() {
+        trackInt(new IntReferenceHolder() {
             @Override
             public int get() {
                 return getWorking() & 0xffff;
@@ -105,7 +107,7 @@ public abstract class ONIBaseContainer extends Container {
                 tileEntity.setWorking(cache == 1);
             }
         });
-        addDataSlot(new IntReferenceHolder() {
+        trackInt(new IntReferenceHolder() {
             @Override
             public int get() {
                 return (getWorking() >> 16) & 0xffff;
@@ -122,47 +124,47 @@ public abstract class ONIBaseContainer extends Container {
     }
 
     @Override
-    public ItemStack quickMoveStack(PlayerEntity player, int index) {
+    public ItemStack transferStackInSlot(PlayerEntity player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.getSlot(index);
-        if (slot != null && slot.hasItem()) {
-            ItemStack stack = slot.getItem();
+        if (slot != null && slot.getHasStack()) {
+            ItemStack stack = slot.getStack();
             itemstack = stack.copy();
             if (index == 0) {
-                if (!this.moveItemStackTo(stack, 1, 37, true)) {
+                if (!this.mergeItemStack(stack, 1, 37, true)) {
                     return ItemStack.EMPTY;
                 }
-                slot.onQuickCraft(stack, itemstack);
+                slot.onSlotChange(stack, itemstack);
             } else {
                 if (validItems() != null) {
                     if (validItems().contains(stack.getItem())) {
-                        if (!this.moveItemStackTo(stack, 0, 1, false)) {
+                        if (!this.mergeItemStack(stack, 0, 1, false)) {
                             return ItemStack.EMPTY;
                         }
                     } else if (index < 28) {
-                        if (!this.moveItemStackTo(stack, 28, 37, false)) {
+                        if (!this.mergeItemStack(stack, 28, 37, false)) {
                             return ItemStack.EMPTY;
                         }
-                    } else if (index < 37 && !this.moveItemStackTo(stack, 1, 28, false)) {
+                    } else if (index < 37 && !this.mergeItemStack(stack, 1, 28, false)) {
                         return ItemStack.EMPTY;
                     }
                 } else if (validItems() == null) {
-                    if (!this.moveItemStackTo(stack, 0, 1, false)) {
+                    if (!this.mergeItemStack(stack, 0, 1, false)) {
                         return ItemStack.EMPTY;
                     } else if (index < 28) {
-                        if (!this.moveItemStackTo(stack, 28, 37, false)) {
+                        if (!this.mergeItemStack(stack, 28, 37, false)) {
                             return ItemStack.EMPTY;
                         }
-                    } else if (index < 37 && !this.moveItemStackTo(stack, 1, 28, false)) {
+                    } else if (index < 37 && !this.mergeItemStack(stack, 1, 28, false)) {
                         return ItemStack.EMPTY;
                     }
                 }
             }
 
             if (stack.isEmpty()) {
-                slot.set(ItemStack.EMPTY);
+                slot.putStack(ItemStack.EMPTY);
             } else {
-                slot.setChanged();
+                slot.onSlotChanged();
             }
 
             if (stack.getCount() == itemstack.getCount()) {
@@ -214,8 +216,8 @@ public abstract class ONIBaseContainer extends Container {
     }
 
     @Override
-    public boolean stillValid(PlayerEntity p_75145_1_) {
-        return true;
+    public boolean canInteractWith(PlayerEntity p_75145_1_) {
+        return isWithinUsableDistance(IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos()), playerEntity, ONIBlocks.COAL_GEN_BLOCK  );
     }
 
     public abstract List<Item> validItems();

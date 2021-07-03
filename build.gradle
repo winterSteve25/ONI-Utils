@@ -26,7 +26,7 @@ archivesBaseName = 'oniutils'
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: 'official', version: '1.16.5'
+    mappings channel: "snapshot", version: "20201028-1.16.3"
 //    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
     runs {
         client {
@@ -96,14 +96,16 @@ repositories {
 
     maven { url "https://www.cursemaven.com" }
 
+    maven { url 'https://modmaven.dev/' }
+
     mavenLocal()
 }
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.1.0'
     compile fg.deobf("com.blamejared.crafttweaker:CraftTweaker-1.16.5:7.1.0.203")
-    compile fg.deobf("mezz.jei:jei-1.16.4:7.6.1.65")
-    compile fg.deobf("mezz.jei:jei-1.16.4:7.6.1.65:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-1.16.4:7.6.1.65")
+    compileOnly fg.deobf("mezz.jei:jei-1.16.4:7.6.1.65:api")
     implementation fg.deobf("team.chisel.ctm:CTM:MC1.16.1-1.1.2.6")
     compile fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:1.16-3.1.4-22")
     implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.40')
@@ -112,6 +114,7 @@ dependencies {
 //    compile fg.deobf ('curse.maven:adchimneys-244830:3357470')
     compile fg.deobf ('curse.maven:pmmo-353935:3354382')
     compile fg.deobf ('curse.maven:corpse-316582:3338002')
+    compileOnly "mekanism:Mekanism:1.16.5-10.0.21.448:api"
 
     annotationProcessor 'org.spongepowered:mixin:0.8.2:processor'
 }

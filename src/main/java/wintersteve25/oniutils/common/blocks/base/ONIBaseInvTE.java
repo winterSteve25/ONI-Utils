@@ -3,7 +3,6 @@ package wintersteve25.oniutils.common.blocks.base;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -43,40 +42,40 @@ public abstract class ONIBaseInvTE extends ONIBaseTE {
     }
 
     @Override
-    public void load(BlockState p_230337_1_, CompoundNBT tag) {
+    public void read(BlockState state, CompoundNBT tag) {
         itemHandler.deserializeNBT(tag.getCompound("inv"));
 
-        super.load(p_230337_1_, tag);
+        super.read(state, tag);
     }
 
     @Override
-    public CompoundNBT save(CompoundNBT tag) {
+    public CompoundNBT write(CompoundNBT tag) {
         tag.put("inv", itemHandler.serializeNBT());
 
-        return super.save(tag);
+        return super.write(tag);
     }
 
     @Override
     @Nullable
     public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(this.worldPosition, 3, this.getUpdateTag());
+        return new SUpdateTileEntityPacket(this.getPos(), 3, this.getUpdateTag());
     }
 
     @Override
     public CompoundNBT getUpdateTag() {
-        return this.save(new CompoundNBT());
+        return this.write(new CompoundNBT());
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
         super.onDataPacket(net, pkt);
-        handleUpdateTag(level.getBlockState(worldPosition),pkt.getTag());
+        handleUpdateTag(world.getBlockState(pos),pkt.getNbtCompound());
     }
 
 
     public void updateBlock(){
-        BlockState state = level.getBlockState(worldPosition);
-        level.sendBlockUpdated(worldPosition, state, state, 2);
+        BlockState state = world.getBlockState(pos);
+        world.notifyBlockUpdate(pos, state, state, 2);
     }
 
     public static class ONIInventoryHandler extends ItemStackHandler {
@@ -89,7 +88,7 @@ public abstract class ONIBaseInvTE extends ONIBaseTE {
 
         @Override
         public void onContentsChanged(int slot) {
-            tile.setChanged();
+            tile.markDirty();
             tile.updateBlock();
         }
 

@@ -18,6 +18,6 @@ public class CoalGenGeckoRenderer extends GeoBlockRenderer<CoalGenTE> {
     public RenderType getRenderType(CoalGenTE animatable, float partialTicks, MatrixStack stack,
                                     IRenderTypeBuffer renderTypeBuffer, IVertexBuilder vertexBuilder, int packedLightIn,
                                     ResourceLocation textureLocation) {
-        return RenderType.entityTranslucent(getTextureLocation(animatable));
+        return RenderType.getEntityTranslucent(getTextureLocation(animatable));
     }
 }

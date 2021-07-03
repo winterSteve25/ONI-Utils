@@ -33,7 +33,7 @@ public class SlimeTE extends ONIBaseTE implements ITickableTileEntity, IGermCapP
 
     @Override
     public void tick() {
-        if (!level.isClientSide()) {
+        if (!world.isRemote()) {
             germDupTime--;
             if (germDupTime < 0) {
                 int currentGermAmount = germHandler.getGermAmount();
@@ -50,17 +50,17 @@ public class SlimeTE extends ONIBaseTE implements ITickableTileEntity, IGermCapP
     }
 
     @Override
-    public void load(BlockState p_230337_1_, CompoundNBT p_230337_2_) {
+    public void read(BlockState p_230337_1_, CompoundNBT p_230337_2_) {
         germHandler.read(p_230337_2_.getCompound("germs"));
 
-        super.load(p_230337_1_, p_230337_2_);
+        super.read(p_230337_1_, p_230337_2_);
     }
 
     @Override
-    public CompoundNBT save(CompoundNBT p_189515_1_) {
+    public CompoundNBT write(CompoundNBT p_189515_1_) {
         p_189515_1_.put("germs", germHandler.write());
 
-        return super.save(p_189515_1_);
+        return super.write(p_189515_1_);
     }
 
     @Nonnull

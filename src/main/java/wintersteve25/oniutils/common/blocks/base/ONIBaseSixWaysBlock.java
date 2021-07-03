@@ -14,7 +14,7 @@ public class ONIBaseSixWaysBlock extends SixWayBlock implements IWaterLoggable {
         super(2F, p_i48440_1_);
         this.regName = regName;
 
-        registerDefaultState(getStateDefinition().any().setValue(WATERLOGGED, false));
+        setDefaultState(getStateContainer().getBaseState().with(WATERLOGGED, false));
     }
 
     public String getRegName() {

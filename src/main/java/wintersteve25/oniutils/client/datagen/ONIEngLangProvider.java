@@ -40,8 +40,12 @@ public class ONIEngLangProvider extends LanguageProvider {
         add("death.attack.oniutils.gas", "%1$s forgot to wear a \"mask\"");
         add("death.attack.oniutils.germ", "%1$s didn't take the vaccine");
 
+        add("oniutils.commands.germs.set.failed.amountIsZero", "Amount can not be 0");
+        add("oniutils.commands.germs.set.failed.entityIsNull", "Target can not be null");
+
         //tooltips
         add("oniutils.tooltips.germs.itemGerms", "Item contains: %s %s");
+        add("oniutils.gui.machines.power", "Plasma Stored: %s Pls");
 
         //keybinds
         add("oniutils.keybinds.category", "Veiled Ascent Keybinds");

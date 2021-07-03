@@ -1,12 +1,7 @@
 package wintersteve25.oniutils.common.blocks.base;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraftforge.items.ItemStackHandler;
-
-import javax.annotation.Nonnull;
 
 public abstract class ONIBaseTE extends TileEntity {
 

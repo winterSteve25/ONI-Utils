@@ -1,6 +1,5 @@
 package wintersteve25.oniutils.common.blocks.modules.power.manual;
 
-import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,18 +12,18 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseMachine;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseAnimatedMachine;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 
 import javax.annotation.Nullable;
 
 @SuppressWarnings("deprecation")
-public class ManualGenBlock extends ONIBaseMachine {
+public class ManualGenBlock extends ONIBaseAnimatedMachine {
 
     private static final String regName = "Manual Generator";
 
     public ManualGenBlock() {
-        super(Properties.of(Material.HEAVY_METAL).harvestLevel(0).harvestTool(ToolType.PICKAXE).strength(3, 3).noOcclusion().requiresCorrectToolForDrops(), regName);
+        super(Properties.create(Material.IRON).harvestLevel(0).harvestTool(ToolType.PICKAXE).hardnessAndResistance(3, 3).notSolid().setRequiresTool(), regName);
     }
 
     @Nullable
@@ -34,10 +33,10 @@ public class ManualGenBlock extends ONIBaseMachine {
     }
 
     @Override
-    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
-        if (!world.isClientSide()) {
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
+        if (!world.isRemote()) {
             if (player instanceof ServerPlayerEntity) {
-                TileEntity tile = world.getBlockEntity(pos);
+                TileEntity tile = world.getTileEntity(pos);
                 if (tile instanceof ManualGenTE) {
                     ManualGenTE te = (ManualGenTE) tile;
                     ServerPlayerEntity playerEntity = (ServerPlayerEntity) player;
@@ -77,10 +76,5 @@ public class ManualGenBlock extends ONIBaseMachine {
     @Override
     public String getRegName() {
         return regName;
-    }
-
-    @Override
-    public BlockRenderType getRenderShape(BlockState state) {
-        return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 }

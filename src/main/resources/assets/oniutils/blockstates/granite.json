@@ -1,7 +1,7 @@
 {
   "variants": {
 	"": [
-            { "model": "block/granite", "weight": 4 },
+            { "model": "oniutils:block/granite", "weight": 4 },
             { "model": "oniutils:block/granite_alt", "weight": 4 },
             { "model": "oniutils:block/granite_alt2", "weight": 4 },
             { "model": "oniutils:block/granite_alt3", "weight": 4 },

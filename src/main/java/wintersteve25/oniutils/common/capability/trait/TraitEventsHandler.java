@@ -21,7 +21,7 @@ public class TraitEventsHandler {
     public static void entityCapAttachEvent (AttachCapabilitiesEvent<Entity> event) {
         Entity entity = event.getObject();
         if (entity instanceof PlayerEntity) {
-            if (!entity.getCommandSenderWorld().isClientSide()) {
+            if (!entity.world.isRemote()) {
                 if (!entity.getCapability(TraitCapability.TRAIT_CAPABILITY).isPresent()) {
                     TraitCapabilityProvider provider = new TraitCapabilityProvider();
                     event.addCapability(new ResourceLocation(ONIUtils.MODID, "traits"), provider);
@@ -46,9 +46,9 @@ public class TraitEventsHandler {
     public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         PlayerEntity player = event.getPlayer();
         if (player != null) {
-            if (!player.getCommandSenderWorld().isClientSide()) {
+            if (!player.world.isRemote()) {
                 player.getCapability(TraitCapability.TRAIT_CAPABILITY).ifPresent(p -> {
-                    player.sendMessage(new TranslationTextComponent("oniutils.message.trait.traitInfo"), player.getUUID());
+                    player.sendMessage(new TranslationTextComponent("oniutils.message.trait.traitInfo"), player.getUniqueID());
                     if(!p.getGottenTrait()) {
 
                         ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
@@ -61,7 +61,7 @@ public class TraitEventsHandler {
                         p.setGottenTrait(true);
                     }
                     for (int i = 0; i < 3; i++) {
-                        player.sendMessage(new TranslationTextComponent("oniutils.message.trait.gotTrait", p.getTraits().get(i)), player.getUUID());
+                        player.sendMessage(new TranslationTextComponent("oniutils.message.trait.gotTrait", p.getTraits().get(i)), player.getUniqueID());
                     }
                 });
             }
@@ -71,8 +71,8 @@ public class TraitEventsHandler {
     public static void playerTickEvent(TickEvent.PlayerTickEvent event) {
         PlayerEntity player = event.player;
         if (player != null) {
-            World world = player.getCommandSenderWorld();
-            if (!world.isClientSide()) {
+            World world = player.world;
+            if (!world.isRemote()) {
                 player.getCapability(TraitCapability.TRAIT_CAPABILITY).ifPresent(p -> {
                     int randomTrait = p.getTraits().get(0);
                     int goodTrait = p.getTraits().get(1);
@@ -83,16 +83,16 @@ public class TraitEventsHandler {
                     switch (randomTrait) {
                         case TraitTypes.EarlyBird:
                             if ((time > 23460 && time < 24000) || (time > 0 && time < 2000)) {
-                                player.addEffect(new EffectInstance(Effects.DIG_SPEED, 1, 2));
-                                player.addEffect(new EffectInstance(Effects.MOVEMENT_SPEED, 1, 2));
-                                player.addEffect(new EffectInstance(Effects.DAMAGE_BOOST));
+                                player.addPotionEffect(new EffectInstance(Effects.HASTE, 1, 2));
+                                player.addPotionEffect(new EffectInstance(Effects.SPEED, 1, 2));
+                                player.addPotionEffect(new EffectInstance(Effects.STRENGTH));
                             }
                             break;
                         case TraitTypes.NightOwl:
                             if (time > 13000 && time < 23031) {
-                                player.addEffect(new EffectInstance(Effects.DIG_SPEED, 1, 2));
-                                player.addEffect(new EffectInstance(Effects.MOVEMENT_SPEED, 1, 2));
-                                player.addEffect(new EffectInstance(Effects.NIGHT_VISION));
+                                player.addPotionEffect(new EffectInstance(Effects.HASTE, 1, 2));
+                                player.addPotionEffect(new EffectInstance(Effects.SPEED, 1, 2));
+                                player.addPotionEffect(new EffectInstance(Effects.NIGHT_VISION));
                             }
                             break;
                     }
@@ -100,16 +100,16 @@ public class TraitEventsHandler {
                     switch (goodTrait) {
                         case TraitTypes.EarlyBird:
                             if ((time > 23460 && time < 24000) || (time > 0 && time < 2000)) {
-                                player.addEffect(new EffectInstance(Effects.DIG_SPEED, 1, 2));
-                                player.addEffect(new EffectInstance(Effects.MOVEMENT_SPEED, 1, 2));
-                                player.addEffect(new EffectInstance(Effects.DAMAGE_BOOST));
+                                player.addPotionEffect(new EffectInstance(Effects.HASTE, 1, 2));
+                                player.addPotionEffect(new EffectInstance(Effects.SPEED, 1, 2));
+                                player.addPotionEffect(new EffectInstance(Effects.STRENGTH));
                             }
                             break;
                         case TraitTypes.NightOwl:
                             if (time > 13000 && time < 23031) {
-                                player.addEffect(new EffectInstance(Effects.DIG_SPEED, 1, 2));
-                                player.addEffect(new EffectInstance(Effects.MOVEMENT_SPEED, 1, 2));
-                                player.addEffect(new EffectInstance(Effects.NIGHT_VISION));
+                                player.addPotionEffect(new EffectInstance(Effects.HASTE, 1, 2));
+                                player.addPotionEffect(new EffectInstance(Effects.SPEED, 1, 2));
+                                player.addPotionEffect(new EffectInstance(Effects.NIGHT_VISION));
                             }
                             break;
                     }

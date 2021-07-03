@@ -52,11 +52,11 @@ public class TemperatureEvenHandlers {
     }
 
     public static void tick(TickEvent.WorldTickEvent event) {
-        if (!event.world.isClientSide()) {
-            List<TileEntity> tiles = event.world.tickableBlockEntities;
+        if (!event.world.isRemote()) {
+            List<TileEntity> tiles = event.world.tickableTileEntities;
             for (TileEntity te : tiles) {
                 te.getCapability(TemperatureCapability.CAPABILITY_TEMPERATURE).ifPresent(t -> {
-                    Chunk chunk = event.world.getChunkAt(te.getBlockPos());
+                    Chunk chunk = event.world.getChunkAt(te.getPos());
                     chunk.getCapability(TemperatureCapability.CAPABILITY_TEMPERATURE).ifPresent(c -> {
                         c.addTemperature(t.getTemperature()/1000);
                     });

@@ -42,10 +42,10 @@ public class ONIBlocks {
     public static final ONIBaseRock Fossil = new ONIBaseRock(0, 2, 3, "Fossil");
     public static final ONIBaseRock BleachStone = new ONIBaseRock(1, 1.5F, 2, "Bleach Stone");
     public static final ONIBaseRock Rust = new ONIBaseRock(1, 1.5F, 2, "Rust");
-    public static final ONIBaseRock PollutedIce = new ONIBaseRock("Polluted Ice", AbstractBlock.Properties.of(Material.ICE).harvestLevel(0).harvestTool(ToolType.PICKAXE).sound(SoundType.GLASS).strength(0.7F, 1).friction(0.98F));
-    public static final ONIBaseRock Algae = new ONIBaseRock("Algae", AbstractBlock.Properties.of(Material.VEGETABLE).sound(SoundType.CROP).strength(0.2F, 1).harvestLevel(0));
+    public static final ONIBaseRock PollutedIce = new ONIBaseRock("Polluted Ice", AbstractBlock.Properties.create(Material.ICE).harvestLevel(0).harvestTool(ToolType.PICKAXE).sound(SoundType.GLASS).hardnessAndResistance(0.7F, 1).slipperiness(0.98F));
+    public static final ONIBaseRock Algae = new ONIBaseRock("Algae", AbstractBlock.Properties.create(Material.PLANTS).sound(SoundType.CROP).hardnessAndResistance(0.2F, 1).harvestLevel(0));
     public static final ONIBaseRock Phosphorite = new ONIBaseRock(1, 1, 2, "Phosphorite");
-    public static final ONIBaseRock Fertilizer = new ONIBaseRock("Fertilizer", AbstractBlock.Properties.of(Material.VEGETABLE).sound(SoundType.CROP).strength(0.2F, 1).harvestLevel(0));
+    public static final ONIBaseRock Fertilizer = new ONIBaseRock("Fertilizer", AbstractBlock.Properties.create(Material.PLANTS).sound(SoundType.CROP).hardnessAndResistance(0.2F, 1).harvestLevel(0));
     public static final ONIBaseRock GoldAmalgam = new ONIBaseRock(2, 3, 5, "Gold Amalgam");
     public static final ONIBaseRock Wolframite = new ONIBaseRock(2, 6, 20, "Wolframite");
     public static final ONIBaseRock Abyssalite = new ONIBaseRock(2, 5, 15, "Abyssalite");
@@ -53,21 +53,21 @@ public class ONIBlocks {
 
     //TE Blocks
     public static final OxyliteBlock Oxylite = new OxyliteBlock();
-    public static final RegistryObject<TileEntityType<OxyliteTE>> OXYLITE_TE = RegistryHelper.registerTE(MiscHelper.langToReg(Oxylite.getRegName()), () -> TileEntityType.Builder.of(OxyliteTE::new, Oxylite).build(null));
+    public static final RegistryObject<TileEntityType<OxyliteTE>> OXYLITE_TE = RegistryHelper.registerTE(MiscHelper.langToReg(Oxylite.getRegName()), () -> TileEntityType.Builder.create(OxyliteTE::new, Oxylite).build(null));
     public static final SlimeBlock Slime = new SlimeBlock();
-    public static final RegistryObject<TileEntityType<SlimeTE>> SLIME_TE = RegistryHelper.registerTE(MiscHelper.langToReg(Slime.getRegName()), () -> TileEntityType.Builder.of(SlimeTE::new, Slime).build(null));
+    public static final RegistryObject<TileEntityType<SlimeTE>> SLIME_TE = RegistryHelper.registerTE(MiscHelper.langToReg(Slime.getRegName()), () -> TileEntityType.Builder.create(SlimeTE::new, Slime).build(null));
 
     //Machines
     public static final CoalGenBlock COAL_GEN_BLOCK = new CoalGenBlock();
-    public static final RegistryObject<TileEntityType<CoalGenTE>> COAL_GEN_TE = RegistryHelper.registerTE(MiscHelper.langToReg(COAL_GEN_BLOCK.getRegName()), () -> TileEntityType.Builder.of(CoalGenTE::new, COAL_GEN_BLOCK).build(null));
+    public static final RegistryObject<TileEntityType<CoalGenTE>> COAL_GEN_TE = RegistryHelper.registerTE(MiscHelper.langToReg(COAL_GEN_BLOCK.getRegName()), () -> TileEntityType.Builder.create(CoalGenTE::new, COAL_GEN_BLOCK).build(null));
     public static final RegistryObject<ContainerType<CoalGenContainer>> COAL_GEN_CONTAINER = RegistryHelper.registerContainer(MiscHelper.langToReg(COAL_GEN_BLOCK.getRegName()), () -> IForgeContainerType.create((windowId, inv, data) -> {
         BlockPos pos = data.readBlockPos();
-        World world = inv.player.getCommandSenderWorld();
+        World world = inv.player.world;
         return new CoalGenContainer(windowId, world, pos, inv, inv.player);
     }));
 
     public static final ManualGenBlock MANUAL_GEN_BLOCK = new ManualGenBlock();
-    public static final RegistryObject<TileEntityType<ManualGenTE>> MANUAL_GEN_TE = RegistryHelper.registerTE(MiscHelper.langToReg(MANUAL_GEN_BLOCK.getRegName()), () -> TileEntityType.Builder.of(ManualGenTE::new, MANUAL_GEN_BLOCK).build(null));
+    public static final RegistryObject<TileEntityType<ManualGenTE>> MANUAL_GEN_TE = RegistryHelper.registerTE(MiscHelper.langToReg(MANUAL_GEN_BLOCK.getRegName()), () -> TileEntityType.Builder.create(ManualGenTE::new, MANUAL_GEN_BLOCK).build(null));
 
     //furniture
     public static final LightBulbBlock BULB_BLOCK = new LightBulbBlock();

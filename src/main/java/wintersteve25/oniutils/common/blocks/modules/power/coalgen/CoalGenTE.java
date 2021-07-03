@@ -50,7 +50,7 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
 
     @Override
     public void tick() {
-        if (!level.isClientSide()) {
+        if (!world.isRemote()) {
             if (!itemHandler.getStackInSlot(0).isEmpty()) {
                 if (plasmaHandler.canGenerate()) {
                     ONIUtils.LOGGER.info(plasmaHandler.getPower());
@@ -70,27 +70,27 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
         if (progress >= progress()) {
             setWorking(false);
         }
-        setChanged();
+        markDirty();
     }
 
     @Override
-    public void load(BlockState p_230337_1_, CompoundNBT tag) {
+    public void read(BlockState state, CompoundNBT tag) {
         plasmaHandler.read(tag.getCompound("plasma"));
 
         isWorking = tag.getBoolean("isWorking");
         progress = tag.getInt("progress");
 
-        super.load(p_230337_1_, tag);
+        super.read(state, tag);
     }
 
     @Override
-    public CompoundNBT save(CompoundNBT tag) {
+    public CompoundNBT write(CompoundNBT tag) {
         tag.put("plasma", plasmaHandler.write());
 
         tag.putBoolean("isWorking", isWorking);
         tag.putInt("progress", progress);
 
-        return super.save(tag);
+        return super.write(tag);
     }
 
     @Override

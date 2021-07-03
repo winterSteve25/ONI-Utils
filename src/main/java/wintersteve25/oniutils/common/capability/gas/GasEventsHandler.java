@@ -14,8 +14,6 @@ import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.capability.gas.api.EnumGasTypes;
 import wintersteve25.oniutils.common.capability.gas.api.ICustomGasProvider;
 import wintersteve25.oniutils.common.capability.gas.api.IGas;
-import wintersteve25.oniutils.common.capability.trait.TraitCapability;
-import wintersteve25.oniutils.common.capability.trait.api.ITrait;
 import wintersteve25.oniutils.common.init.ONIConfig;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -71,12 +69,12 @@ public class GasEventsHandler {
     public static void tick(TickEvent.PlayerTickEvent event) {
         PlayerEntity player = event.player;
         if (player != null) {
-            if (!player.getCommandSenderWorld().isClientSide()) {
+            if (!player.world.isRemote()) {
                 player.getCapability(GasCapability.GAS_CAPABILITY).ifPresent(p -> {
-                    Chunk chunk = (Chunk) player.getCommandSenderWorld().getChunk(player.blockPosition());
+                    Chunk chunk = (Chunk) player.world.getChunk(player.getPosition());
                     chunk.getCapability(GasCapability.GAS_CAPABILITY).ifPresent(c -> {
-                        ONIUtils.LOGGER.info("PlayerGas" + p.getGas());
-                        ONIUtils.LOGGER.info("ChunkGas" + c.getGas());
+//                        ONIUtils.LOGGER.info("PlayerGas" + p.getGas());
+//                        ONIUtils.LOGGER.info("ChunkGas" + c.getGas());
 
                         breathTimer.getAndDecrement();
                         if (breathTimer.get() < 0) {
@@ -97,39 +95,39 @@ public class GasEventsHandler {
 
                         if (p.getPressureMap().get(EnumGasTypes.OXYGEN) != null) {
                             if (p.getPressureMap().get(EnumGasTypes.OXYGEN) < 5) {
-                                player.addEffect(new EffectInstance(Effects.BLINDNESS));
+                                player.addPotionEffect(new EffectInstance(Effects.BLINDNESS));
                             }
 
                             if (p.getPressureMap().get(EnumGasTypes.OXYGEN) < 1) {
-                                player.hurt(ONIUtils.oxygenDamage, 2);
+                                player.attackEntityFrom(ONIUtils.oxygenDamage, 2);
                             }
                         }
 
                         if (p.getPressureMap().get(EnumGasTypes.POLLUTED_OXYGEN) != null) {
                             if (p.getPressureMap().get(EnumGasTypes.POLLUTED_OXYGEN) > 20) {
-                                player.addEffect(new EffectInstance(Effects.HUNGER));
+                                player.addPotionEffect(new EffectInstance(Effects.HUNGER));
                             }
 
                             if (p.getPressureMap().get(EnumGasTypes.POLLUTED_OXYGEN) > 40) {
-                                player.addEffect(new EffectInstance(Effects.POISON));
+                                player.addPotionEffect(new EffectInstance(Effects.POISON));
                             }
 
                             if (p.getPressureMap().get(EnumGasTypes.POLLUTED_OXYGEN) > 95) {
-                                player.hurt(ONIUtils.gas, 2);
+                                player.attackEntityFrom(ONIUtils.gas, 2);
                             }
                         }
 
                         if(p.getPressureMap().get(EnumGasTypes.CO2) != null) {
                             if (p.getPressureMap().get(EnumGasTypes.CO2) > 20) {
-                                player.addEffect(new EffectInstance(Effects.WEAKNESS));
+                                player.addPotionEffect(new EffectInstance(Effects.WEAKNESS));
                             }
 
                             if (p.getPressureMap().get(EnumGasTypes.CO2) > 30) {
-                                player.addEffect(new EffectInstance(Effects.POISON));
+                                player.addPotionEffect(new EffectInstance(Effects.POISON));
                             }
 
                             if (p.getPressureMap().get(EnumGasTypes.CO2) > 95) {
-                                player.hurt(ONIUtils.gas, 2);
+                                player.attackEntityFrom(ONIUtils.gas, 2);
                             }
                         }
                     });

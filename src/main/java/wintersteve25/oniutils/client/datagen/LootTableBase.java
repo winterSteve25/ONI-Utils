@@ -39,20 +39,20 @@ public abstract class LootTableBase extends LootTableProvider {
     protected abstract void addTables();
 
     protected LootTable.Builder createStandardTable(String name, Block block) {
-        LootPool.Builder builder = LootPool.lootPool()
+        LootPool.Builder builder = LootPool.builder()
                 .name(name)
-                .setRolls(ConstantRange.exactly(1))
-                .add(ItemLootEntry.lootTableItem(block));
-        return LootTable.lootTable().withPool(builder);
+                .rolls(ConstantRange.of(1))
+                .addEntry(ItemLootEntry.builder(block));
+        return LootTable.builder().addLootPool(builder);
     }
 
     @Override
-    public void run(DirectoryCache cache) {
+    public void act(DirectoryCache cache) {
         addTables();
 
         Map<ResourceLocation, LootTable> tables = new HashMap<>();
         for (Map.Entry<Block, LootTable.Builder> entry : lootTables.entrySet()) {
-            tables.put(entry.getKey().getLootTable(), entry.getValue().setParamSet(LootParameterSets.BLOCK).build());
+            tables.put(entry.getKey().getLootTable(), entry.getValue().setParameterSet(LootParameterSets.BLOCK).build());
         }
         writeTables(cache, tables);
     }
@@ -62,7 +62,7 @@ public abstract class LootTableBase extends LootTableProvider {
         tables.forEach((key, lootTable) -> {
             Path path = outputFolder.resolve("data/" + key.getNamespace() + "/loot_tables/" + key.getPath() + ".json");
             try {
-                IDataProvider.save(GSON, cache, LootTableManager.serialize(lootTable), path);
+                IDataProvider.save(GSON, cache, LootTableManager.toJson(lootTable), path);
             } catch (IOException e) {
                 LOGGER.error("Couldn't write loot table {}", path, e);
             }

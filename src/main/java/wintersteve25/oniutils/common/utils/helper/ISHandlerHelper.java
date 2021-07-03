@@ -13,11 +13,11 @@ public class ISHandlerHelper {
                 ItemStack itemstack = invTE.getItemHandler().getStackInSlot(i);
 
                 if(!itemstack.isEmpty()) {
-                    net.minecraft.inventory.InventoryHelper.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), itemstack);
+                    net.minecraft.inventory.InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), itemstack);
                 }
             }
 
-            world.updateNeighbourForOutputSignal(pos, state.getBlock());
+            world.notifyNeighborsOfStateChange(pos, state.getBlock());
         }
     }
 }

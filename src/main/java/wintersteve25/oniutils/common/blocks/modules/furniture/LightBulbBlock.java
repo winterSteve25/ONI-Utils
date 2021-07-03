@@ -4,13 +4,13 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseMachine;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
 
-public class LightBulbBlock extends ONIBaseMachine {
+public class LightBulbBlock extends ONIBaseDirectional {
     //public static BooleanProperty ON = BooleanProperty.create("on");
 
     public LightBulbBlock() {
-        super(Properties.of(Material.BUILDABLE_GLASS).strength(2, 2).noOcclusion(), "Light Bulb");
+        super(Properties.create(Material.GLASS).hardnessAndResistance(2, 2).notSolid(), "Light Bulb");
 
         //registerDefaultState(getStateDefinition().any().setValue(ON, false));
     }

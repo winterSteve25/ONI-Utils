@@ -12,6 +12,7 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import wintersteve25.oniutils.client.renderers.geckolibs.machines.power.coal.CoalGenGeckoRenderer;
 import wintersteve25.oniutils.client.renderers.geckolibs.machines.power.manual.ManualGenGeckoRenderer;
 import wintersteve25.oniutils.client.keybinds.ONIKeybinds;
@@ -25,6 +26,7 @@ import wintersteve25.oniutils.common.capability.trait.TraitCapability;
 import wintersteve25.oniutils.common.capability.trait.TraitEventsHandler;
 //import wintersteve25.oniutils.common.compat.potr.AdPotherAddonEventHandlers;
 import wintersteve25.oniutils.common.init.ONIBlocks;
+import wintersteve25.oniutils.common.init.ONICommands;
 import wintersteve25.oniutils.common.init.ONIConfig;
 
 public class ONIGeneralEventHandlers {
@@ -74,6 +76,10 @@ public class ONIGeneralEventHandlers {
         }
     }
 
+    public static void serverInit(FMLServerStartingEvent event) {
+        ONICommands.register(event.getServer().getCommandManager().getDispatcher());
+    }
+
     @SuppressWarnings("unchecked")
     @OnlyIn(Dist.CLIENT)
     public static void clientPreInit(FMLClientSetupEvent event) {
@@ -90,7 +96,6 @@ public class ONIGeneralEventHandlers {
         MinecraftForge.EVENT_BUS.addListener(GermEventsHandler::itemToolTipEvent);
 
         //GUI Attachments
-        ScreenManager.register(ONIBlocks.COAL_GEN_CONTAINER.get(), CoalGenGui::new);
+        ScreenManager.registerFactory(ONIBlocks.COAL_GEN_CONTAINER.get(), CoalGenGui::new);
     }
-
 }

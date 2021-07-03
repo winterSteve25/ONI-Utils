@@ -8,7 +8,7 @@ import java.util.Random;
 public class MiscHelper {
     public static final int INT_MAX = 2147483647;
     public static final double ONEPIXEL = 1D/16;
-    public static final Item.Properties DEFAULT_ITEM_PROPERTY = new Item.Properties().tab(ONIUtils.creativeTab);
+    public static final Item.Properties DEFAULT_ITEM_PROPERTY = new Item.Properties().group(ONIUtils.creativeTab);
 
     public static String langToReg(String lang) {
         String reg = lang.toLowerCase().replace(' ', '_').replace('-', '_');
