@@ -1,7 +1,7 @@
 package wintersteve25.oniutils.common.blocks.modules.power.coalgen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -9,9 +9,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseButtonContainerSide;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseButton;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseGuiContainer;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseGuiTabInfo;
 
 import javax.annotation.Nonnull;
 
@@ -31,7 +30,8 @@ public class CoalGenGui extends ONIBaseGuiContainer<CoalGenContainer> {
         int i = (this.width - this.getXSize()) / 2;
         int j = (this.height - this.getYSize()) / 2;
 
-        addButton(new ONIBaseButtonContainerSide.EnergyButton(i-16, j+4, button -> openInfoScreen()));
+        addButton(new ONIBaseButton(i+150, j+8, 18, 16, new TranslationTextComponent(""), button -> nothing(), new ResourceLocation(ONIUtils.MODID, "textures/gui/misc/info_button.png")));
+        addButton(new ONIBaseButton(i+150, j+26, 18, 16, new TranslationTextComponent(""), button -> nothing(), new ResourceLocation(ONIUtils.MODID, "textures/gui/misc/alert_button.png")));
     }
 
     @Override
@@ -62,8 +62,7 @@ public class CoalGenGui extends ONIBaseGuiContainer<CoalGenContainer> {
         }
     }
 
-    private void openInfoScreen() {
-        minecraft.displayGuiScreen(null);
-        minecraft.displayGuiScreen(new ONIBaseGuiTabInfo(new TranslationTextComponent("")));
+    private void nothing() {
+
     }
 }

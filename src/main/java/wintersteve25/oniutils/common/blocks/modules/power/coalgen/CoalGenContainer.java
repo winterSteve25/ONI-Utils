@@ -1,18 +1,14 @@
 package wintersteve25.oniutils.common.blocks.modules.power.coalgen;
 
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseButtonContainerSide;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseContainer;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseGuiTabInfo;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 
 import java.util.ArrayList;
