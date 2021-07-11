@@ -45,7 +45,7 @@ public class SlimeTE extends ONIBaseTE implements ITickableTileEntity, IGermCapP
     }
 
     @Override
-    protected int progress() {
+    protected int totalProgress() {
         return 0;
     }
 

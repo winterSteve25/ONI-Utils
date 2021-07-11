@@ -7,7 +7,7 @@ public class ONIConfig {
     public static final String CAT_GERM = "germs";
 //    public static final String CAT_POTR = "potr";
     public static final String CAT_TRAITS = "traits";
-    public static final String CAT_POWER = "plasma";
+    public static final String CAT_MACHINE = "machines";
     public static final String CAT_TEMP = "temperature";
     public static final String CAT_GAS = "gas";
     public static final String CAT_MISC = "misc";
@@ -31,6 +31,9 @@ public class ONIConfig {
 
     public static ForgeConfigSpec.IntValue COAL_GEN_PLASMA_OUTPUT;
     public static ForgeConfigSpec.IntValue COAL_GEN_PROCESS_TIME;
+
+    public static ForgeConfigSpec.IntValue ALGAE_DIFFUSER_PLASMA_INPUT;
+    public static ForgeConfigSpec.IntValue ALGAE_DIFFUSER_PROCESS_TIME;
 
     public static ForgeConfigSpec.BooleanValue ENABLE_TEMPERATURE;
 
@@ -58,13 +61,16 @@ public class ONIConfig {
         ENABLE_TRAITS = SERVERBUILDER.comment("Should the trait system be enabled?").define("enableTrait", true);
         SERVERBUILDER.pop();
 
-        SERVERBUILDER.comment("Plasma Settings").push(CAT_POWER);
+        SERVERBUILDER.comment("Machines Settings").push(CAT_MACHINE);
         MANUAL_GEN_PLASMA_OUTPUT = SERVERBUILDER.comment("How much plasma should manual generator generate per tick").defineInRange("manualGenPlasmaPerTick", 400, 1, MiscHelper.INT_MAX);
         MANUAL_GEN_PLASMA_OUTPUT_SPEED = SERVERBUILDER.comment("How much plasma should manual generator generate per tick when player has speed effect").defineInRange("manualGenPlasmaPerTickSpeed", 600, 1, MiscHelper.INT_MAX);
-        MANUAL_GEN_PROCESS_TIME = SERVERBUILDER.comment("How many every ticks should manual generator generates power?").defineInRange("manualGenProgressSpeed", 20, 1, MiscHelper.INT_MAX);
+        MANUAL_GEN_PROCESS_TIME = SERVERBUILDER.comment("Every how many ticks should manual generator generates power?").defineInRange("manualGenProgressSpeed", 5, 1, MiscHelper.INT_MAX);
 
-        COAL_GEN_PLASMA_OUTPUT = SERVERBUILDER.comment("How much plasma should manual generator generate per tick").defineInRange("coalGenPlasmaPerTick", 600, 1, MiscHelper.INT_MAX);
-        COAL_GEN_PROCESS_TIME = SERVERBUILDER.comment("How many every ticks should manual generator generates power?").defineInRange("coalGenProgressSpeed", 20, 1, MiscHelper.INT_MAX);
+        COAL_GEN_PLASMA_OUTPUT = SERVERBUILDER.comment("How much plasma should manual generator generate per tick").defineInRange("coalGenPlasmaPerTick", 40, 1, MiscHelper.INT_MAX);
+        COAL_GEN_PROCESS_TIME = SERVERBUILDER.comment("Every how many ticks should manual generator consume coal").defineInRange("coalGenConsumeSpeed", 80, 1, MiscHelper.INT_MAX);
+
+        ALGAE_DIFFUSER_PLASMA_INPUT = SERVERBUILDER.comment("How much plasma should algae diffuser take per tick").defineInRange("algaeDiffuserPlasmaPerTick", 15, 1, MiscHelper.INT_MAX);
+        ALGAE_DIFFUSER_PROCESS_TIME = SERVERBUILDER.comment("Every how many ticks should algae diffuser consume algae").defineInRange("algaeDiffuserConsumeSpeed", 200, 1, MiscHelper.INT_MAX);
         SERVERBUILDER.pop();
 
         SERVERBUILDER.comment("Temperature Settings").push(CAT_TEMP);

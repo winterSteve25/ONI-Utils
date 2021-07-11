@@ -23,7 +23,7 @@ public class ManualGenBlock extends ONIBaseAnimatedMachine {
     private static final String regName = "Manual Generator";
 
     public ManualGenBlock() {
-        super(Properties.create(Material.IRON).harvestLevel(0).harvestTool(ToolType.PICKAXE).hardnessAndResistance(3, 3).notSolid().setRequiresTool(), regName);
+        super(Properties.create(Material.IRON).harvestLevel(0).harvestTool(ToolType.PICKAXE).hardnessAndResistance(3, 3).notSolid().setRequiresTool(), regName, null);
     }
 
     @Nullable
@@ -72,9 +72,4 @@ public class ManualGenBlock extends ONIBaseAnimatedMachine {
 //                return NORTH;
 //        }
 //    }
-
-    @Override
-    public String getRegName() {
-        return regName;
-    }
 }

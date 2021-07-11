@@ -16,7 +16,7 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import wintersteve25.oniutils.client.renderers.geckolibs.machines.power.coal.CoalGenGeckoRenderer;
 import wintersteve25.oniutils.client.renderers.geckolibs.machines.power.manual.ManualGenGeckoRenderer;
 import wintersteve25.oniutils.client.keybinds.ONIKeybinds;
-import wintersteve25.oniutils.common.blocks.modules.power.coalgen.CoalGenGui;
+import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenGui;
 import wintersteve25.oniutils.common.capability.gas.GasEventsHandler;
 import wintersteve25.oniutils.common.capability.germ.GermEventsHandler;
 import wintersteve25.oniutils.common.capability.germ.GermCapability;

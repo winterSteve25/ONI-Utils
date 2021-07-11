@@ -1,4 +1,4 @@
-package wintersteve25.oniutils.common.blocks.modules.power.coalgen;
+package wintersteve25.oniutils.common.blocks.modules.power.coal;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
@@ -34,12 +34,14 @@ import java.util.List;
 public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAnimatable {
 
     private final AnimationFactory manager = new AnimationFactory(this);
-    private PlasmaStack plasmaHandler = new PlasmaStack(4000, EnumWattsTypes.LOW);
-    private LazyOptional<IPlasma> powerLazyOptional = LazyOptional.of(() -> plasmaHandler);
+    private final PlasmaStack plasmaHandler = new PlasmaStack(4000, EnumWattsTypes.LOW);
+    private final LazyOptional<IPlasma> powerLazyOptional = LazyOptional.of(() -> plasmaHandler);
     private final List<Item> valids = new ArrayList<>();
 
+    private boolean removedFirstItem = false;
+
     @Override
-    protected int progress() {
+    protected int totalProgress() {
         return ONIConfig.COAL_GEN_PROCESS_TIME.get();
     }
 
@@ -51,34 +53,50 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     @Override
     public void tick() {
         if (!world.isRemote()) {
-            if (!itemHandler.getStackInSlot(0).isEmpty()) {
-                if (plasmaHandler.canGenerate()) {
-                    ONIUtils.LOGGER.info(plasmaHandler.getPower());
-                    setWorking(true);
-                    progress--;
-                    if (progress <= 0) {
+            if (isForceStopped) {
+               setWorking(false);
+            }
+
+            if (!isForceStopped) {
+                ONIUtils.LOGGER.info(progress);
+                if (progress > 0) {
+                    if (plasmaHandler.canGenerate(ONIConfig.COAL_GEN_PLASMA_OUTPUT.get())) {
+                        if (!removedFirstItem) {
+                            itemHandler.extractItem(0, 1, false);
+                            removedFirstItem = true;
+                        }
+                        progress--;
                         plasmaHandler.addPower(ONIConfig.COAL_GEN_PLASMA_OUTPUT.get());
-                        itemHandler.extractItem(0, 1, false);
-                        progress = ONIConfig.COAL_GEN_PROCESS_TIME.get();
+                        setWorking(true);
+                        if (progress <= 0) {
+                            removedFirstItem = false;
+                            setWorking(false);
+                            progress = 0;
+                        }
+                    } else {
+                        removedFirstItem = false;
+                        setWorking(false);
+                        progress = 0;
+                    }
+                } else {
+                    if (plasmaHandler.canGenerate(ONIConfig.COAL_GEN_PLASMA_OUTPUT.get())) {
+                        if (!itemHandler.getStackInSlot(0).isEmpty()) {
+                            progress = totalProgress();
+                            setWorking(true);
+                        } else {
+                            setWorking(false);
+                            progress = 0;
+                        }
                     }
                 }
-            } else {
-                setWorking(false);
+                markDirty();
             }
         }
-
-        if (progress >= progress()) {
-            setWorking(false);
-        }
-        markDirty();
     }
 
     @Override
     public void read(BlockState state, CompoundNBT tag) {
         plasmaHandler.read(tag.getCompound("plasma"));
-
-        isWorking = tag.getBoolean("isWorking");
-        progress = tag.getInt("progress");
 
         super.read(state, tag);
     }
@@ -86,9 +104,6 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     @Override
     public CompoundNBT write(CompoundNBT tag) {
         tag.put("plasma", plasmaHandler.write());
-
-        tag.putBoolean("isWorking", isWorking);
-        tag.putInt("progress", progress);
 
         return super.write(tag);
     }

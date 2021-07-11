@@ -1,12 +1,9 @@
 package wintersteve25.oniutils.common.init;
 
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -16,9 +13,11 @@ import net.minecraftforge.fml.RegistryObject;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseRock;
 import wintersteve25.oniutils.common.blocks.modules.furniture.LightBulbBlock;
-import wintersteve25.oniutils.common.blocks.modules.power.coalgen.CoalGenBlock;
-import wintersteve25.oniutils.common.blocks.modules.power.coalgen.CoalGenContainer;
-import wintersteve25.oniutils.common.blocks.modules.power.coalgen.CoalGenTE;
+import wintersteve25.oniutils.common.blocks.modules.oxygen.algae.AlgaeDiffuserBlock;
+import wintersteve25.oniutils.common.blocks.modules.oxygen.algae.AlgaeDiffuserTE;
+import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenBlock;
+import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenContainer;
+import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenTE;
 import wintersteve25.oniutils.common.blocks.modules.power.manual.ManualGenBlock;
 import wintersteve25.oniutils.common.blocks.modules.power.manual.ManualGenTE;
 import wintersteve25.oniutils.common.blocks.modules.resources.oxylite.OxyliteBlock;
@@ -35,7 +34,7 @@ public class ONIBlocks {
     public static final RegistryObject<ONIBaseRock> IgneousRock = RegistryHelper.register("igneous_rock", () -> new ONIBaseRock(1, 2, 6));
 
     //blocks
-    public static final ONIBaseDirectional SedimentaryRock = new ONIBaseDirectional(0, 4, 10, "Sedimentary Rock");
+    public static final ONIBaseDirectional SedimentaryRock = new ONIBaseDirectional(0, 4, 10, "Sedimentary Rock", null);
     public static final ONIBaseRock MaficRock = new ONIBaseRock(2, 5, 18, "Mafic Rock");
     public static final ONIBaseRock Regolith = new ONIBaseRock(1, 5, 18, "Regolith");
     public static final ONIBaseRock Neutronium = new ONIBaseRock(3, 7, 30, "Neutronium");
@@ -68,6 +67,10 @@ public class ONIBlocks {
 
     public static final ManualGenBlock MANUAL_GEN_BLOCK = new ManualGenBlock();
     public static final RegistryObject<TileEntityType<ManualGenTE>> MANUAL_GEN_TE = RegistryHelper.registerTE(MiscHelper.langToReg(MANUAL_GEN_BLOCK.getRegName()), () -> TileEntityType.Builder.create(ManualGenTE::new, MANUAL_GEN_BLOCK).build(null));
+
+    public static final AlgaeDiffuserBlock ALGAE_DIFFUSER_BLOCK = new AlgaeDiffuserBlock();
+    public static final RegistryObject<TileEntityType<AlgaeDiffuserTE>> ALGAE_DIFFUSER_TE = RegistryHelper.registerTE(MiscHelper.langToReg(ALGAE_DIFFUSER_BLOCK.getRegName()), () -> TileEntityType.Builder.create(AlgaeDiffuserTE::new, ALGAE_DIFFUSER_BLOCK).build(null));
+
 
     //furniture
     public static final LightBulbBlock BULB_BLOCK = new LightBulbBlock();
@@ -102,7 +105,9 @@ public class ONIBlocks {
         COAL_GEN_BLOCK.initRockNoDataGen(COAL_GEN_BLOCK);
         MANUAL_GEN_BLOCK.initRockNoDataGen(MANUAL_GEN_BLOCK);
 
+        ALGAE_DIFFUSER_BLOCK.initRockNoDataGen(ALGAE_DIFFUSER_BLOCK);
+
         //Furniture
-        BULB_BLOCK.initRockNoDataGen(BULB_BLOCK);
+//        BULB_BLOCK.initRockNoDataGen(BULB_BLOCK);
     }
 }

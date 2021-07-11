@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.ResourceLocation;
 import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
-import wintersteve25.oniutils.common.blocks.modules.power.coalgen.CoalGenTE;
+import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenTE;
 
 public class CoalGenGeckoRenderer extends GeoBlockRenderer<CoalGenTE> {
     public CoalGenGeckoRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
@@ -15,9 +15,7 @@ public class CoalGenGeckoRenderer extends GeoBlockRenderer<CoalGenTE> {
     }
 
     @Override
-    public RenderType getRenderType(CoalGenTE animatable, float partialTicks, MatrixStack stack,
-                                    IRenderTypeBuffer renderTypeBuffer, IVertexBuilder vertexBuilder, int packedLightIn,
-                                    ResourceLocation textureLocation) {
+    public RenderType getRenderType(CoalGenTE animatable, float partialTicks, MatrixStack stack, IRenderTypeBuffer renderTypeBuffer, IVertexBuilder vertexBuilder, int packedLightIn, ResourceLocation textureLocation) {
         return RenderType.getEntityTranslucent(getTextureLocation(animatable));
     }
 }

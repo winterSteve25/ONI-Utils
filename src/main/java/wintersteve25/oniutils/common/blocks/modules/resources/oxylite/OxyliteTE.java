@@ -15,7 +15,7 @@ public class OxyliteTE extends ONIBaseTE implements ITickableTileEntity {
     }
 
     @Override
-    protected int progress() {
+    protected int totalProgress() {
         return 0;
     }
 }

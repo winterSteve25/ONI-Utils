@@ -3,7 +3,7 @@ package wintersteve25.oniutils.client.renderers.geckolibs.machines.power.coal;
 import net.minecraft.util.ResourceLocation;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.blocks.modules.power.coalgen.CoalGenTE;
+import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenTE;
 
 public class CoalGenGeckoModel extends AnimatedGeoModel<CoalGenTE> {
     @Override

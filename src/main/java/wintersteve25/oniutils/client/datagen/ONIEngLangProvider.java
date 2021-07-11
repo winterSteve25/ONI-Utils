@@ -46,6 +46,8 @@ public class ONIEngLangProvider extends LanguageProvider {
         //tooltips
         add("oniutils.tooltips.germs.itemGerms", "Item contains: %s %s");
         add("oniutils.gui.machines.power", "Plasma Stored: %s Pls");
+        add("oniutils.gui.machines.info", "Info");
+        add("oniutils.gui.machines.alert", "Alert");
 
         //keybinds
         add("oniutils.keybinds.category", "Veiled Ascent Keybinds");

@@ -21,7 +21,7 @@ public class DurabilityCapabilityProvider implements ICapabilitySerializable<Com
     }
 
     public DurabilityCapabilityProvider() {
-
+        this.durability.setDurability(400);
     }
 
     public DurabilityCapabilityProvider(int durability) {

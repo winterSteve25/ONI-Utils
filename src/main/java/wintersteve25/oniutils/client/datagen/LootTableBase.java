@@ -71,6 +71,6 @@ public abstract class LootTableBase extends LootTableProvider {
 
     @Override
     public String getName() {
-        return "MyTutorial LootTables";
+        return "ONIUtils LootTables";
     }
 }

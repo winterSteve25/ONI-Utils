@@ -24,12 +24,12 @@ public class DurabilityStack implements IDurability {
     @Override
     public CompoundNBT write() {
         CompoundNBT nbt = new CompoundNBT();
-        nbt.putInt("Durability", durability);
+        nbt.putInt("ONIDurability", durability);
         return nbt;
     }
 
     @Override
     public void read(CompoundNBT nbt) {
-       this.durability = nbt.getInt("Durability");
+       this.durability = nbt.getInt("ONIDurability");
     }
 }

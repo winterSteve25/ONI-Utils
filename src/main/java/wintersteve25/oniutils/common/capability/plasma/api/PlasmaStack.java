@@ -19,8 +19,15 @@ public class PlasmaStack implements IPlasma {
 
     @Override
     public void addPower(int power) {
-        if (power <= capacity) {
-            this.power = this.power+power;
+        if (canGenerate(power)) {
+            this.power += power;
+        }
+    }
+
+    @Override
+    public void removePower(int power) {
+        if (canExtract(power)) {
+            this.power -= power;
         }
     }
 
@@ -34,8 +41,17 @@ public class PlasmaStack implements IPlasma {
         this.power = power;
     }
 
-    public boolean canGenerate() {
-        return power <= capacity;
+    @Override
+    public boolean canGenerate(int power) {
+        int newPower = this.power+power;
+        return newPower <= capacity;
+    }
+
+    @Override
+    public boolean canExtract(int power) {
+        int newPower = this.power-power;
+
+        return newPower > 0;
     }
 
     @Override

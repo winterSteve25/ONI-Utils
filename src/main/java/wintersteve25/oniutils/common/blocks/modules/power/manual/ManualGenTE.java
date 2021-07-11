@@ -42,7 +42,7 @@ public class ManualGenTE extends ONIBaseTE implements ITickableTileEntity, IAnim
     public boolean hasPlayer = false;
 
     @Override
-    protected int progress() {
+    protected int totalProgress() {
         return ONIConfig.MANUAL_GEN_PROCESS_TIME.get();
     }
 
@@ -79,13 +79,13 @@ public class ManualGenTE extends ONIBaseTE implements ITickableTileEntity, IAnim
                 progress--;
                 if (progress < 0) {
                     if (player.isPotionActive(Effects.SPEED)) {
-                        if (plasmaHandler.canGenerate()) {
+                        if (plasmaHandler.canGenerate(ONIConfig.MANUAL_GEN_PLASMA_OUTPUT_SPEED.get())) {
                             plasmaHandler.addPower(ONIConfig.MANUAL_GEN_PLASMA_OUTPUT_SPEED.get());
 
                             markDirty();
                         }
                     } else {
-                        if (plasmaHandler.canGenerate()) {
+                        if (plasmaHandler.canGenerate(ONIConfig.MANUAL_GEN_PLASMA_OUTPUT.get())) {
                             plasmaHandler.addPower(ONIConfig.MANUAL_GEN_PLASMA_OUTPUT.get());
 
                             markDirty();

@@ -1,4 +1,4 @@
-package wintersteve25.oniutils.common.blocks.modules.power.coalgen;
+package wintersteve25.oniutils.common.blocks.modules.power.coal;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -34,12 +34,12 @@ public class CoalGenContainer extends ONIBaseContainer {
         trackPower();
         trackProgress();
         trackWorking();
+        trackCapacity();
+        trackProgress();
     }
 
     @Override
     public List<Item> validItems() {
         return validItems;
     }
-
-
 }

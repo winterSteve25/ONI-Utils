@@ -4,13 +4,14 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
+import wintersteve25.oniutils.common.capability.morale.api.IDecorBlock;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
 
-public class LightBulbBlock extends ONIBaseDirectional {
+public class LightBulbBlock extends ONIBaseDirectional implements IDecorBlock {
     //public static BooleanProperty ON = BooleanProperty.create("on");
 
     public LightBulbBlock() {
-        super(Properties.create(Material.GLASS).hardnessAndResistance(2, 2).notSolid(), "Light Bulb");
+        super(Properties.create(Material.GLASS).hardnessAndResistance(2, 2).notSolid(), "Light Bulb", null);
 
         //registerDefaultState(getStateDefinition().any().setValue(ON, false));
     }
@@ -24,5 +25,10 @@ public class LightBulbBlock extends ONIBaseDirectional {
 //        }
 //
 //        return super.getLightValue(state, world, pos);
+    }
+
+    @Override
+    public int decorAmount() {
+        return 40;
     }
 }

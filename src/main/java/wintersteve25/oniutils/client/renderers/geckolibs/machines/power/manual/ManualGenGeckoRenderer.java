@@ -15,9 +15,7 @@ public class ManualGenGeckoRenderer extends GeoBlockRenderer<ManualGenTE> {
     }
 
     @Override
-    public RenderType getRenderType(ManualGenTE animatable, float partialTicks, MatrixStack stack,
-                                    IRenderTypeBuffer renderTypeBuffer, IVertexBuilder vertexBuilder, int packedLightIn,
-                                    ResourceLocation textureLocation) {
+    public RenderType getRenderType(ManualGenTE animatable, float partialTicks, MatrixStack stack, IRenderTypeBuffer renderTypeBuffer, IVertexBuilder vertexBuilder, int packedLightIn, ResourceLocation textureLocation) {
         return RenderType.getEntityTranslucent(getTextureLocation(animatable));
     }
 }

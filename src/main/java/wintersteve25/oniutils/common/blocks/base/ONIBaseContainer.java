@@ -92,6 +92,33 @@ public abstract class ONIBaseContainer extends Container {
         });
     }
 
+    protected void trackTotalProgress() {
+        trackInt(new IntReferenceHolder() {
+            @Override
+            public int get() {
+                return getTotalProgress() & 0xffff;
+            }
+
+            @Override
+            public void set(int value) {
+                int progressStored = getTotalProgress() & 0xffff0000;
+                tileEntity.setTotalProgress(progressStored + (value & 0xffff));
+            }
+        });
+        trackInt(new IntReferenceHolder() {
+            @Override
+            public int get() {
+                return (getTotalProgress() >> 16) & 0xffff;
+            }
+
+            @Override
+            public void set(int value) {
+                int progressStored = getTotalProgress() & 0x0000ffff;
+                tileEntity.setTotalProgress(progressStored | (value << 16));
+            }
+        });
+    }
+
     protected void trackWorking() {
         trackInt(new IntReferenceHolder() {
             @Override
@@ -119,6 +146,37 @@ public abstract class ONIBaseContainer extends Container {
                 int cache = workingStored | (value << 16);
 
                 tileEntity.setWorking(cache == 1);
+            }
+        });
+    }
+
+    protected void trackCapacity() {
+        trackInt(new IntReferenceHolder() {
+            @Override
+            public int get() {
+                return getCapacity() & 0xffff;
+            }
+
+            @Override
+            public void set(int value) {
+                tileEntity.getCapability(PlasmaCapability.POWER_CAPABILITY).ifPresent(h -> {
+                    int capacityStored = h.getCapacity() & 0xffff0000;
+                    h.setCapacity(capacityStored + (value & 0xffff));
+                });
+            }
+        });
+        trackInt(new IntReferenceHolder() {
+            @Override
+            public int get() {
+                return (getCapacity() >> 16) & 0xffff;
+            }
+
+            @Override
+            public void set(int value) {
+                tileEntity.getCapability(PlasmaCapability.POWER_CAPABILITY).ifPresent(h -> {
+                    int capacityStored = h.getPower() & 0x0000ffff;
+                    h.setCapacity(capacityStored | (value << 16));
+                });
             }
         });
     }
@@ -185,8 +243,16 @@ public abstract class ONIBaseContainer extends Container {
         return tileEntity.getProgress();
     }
 
+    public int getTotalProgress() {
+        return tileEntity.getTotalProgress();
+    }
+
     public int getWorking() {
         return tileEntity.getWorking() ? 1 : 0;
+    }
+
+    public int getCapacity() {
+        return tileEntity.getCapability(PlasmaCapability.POWER_CAPABILITY).map(IPlasma::getCapacity).orElse(0);
     }
 
     protected int addSlotRange(IItemHandler handler, int index, int x, int y, int amount, int dx) {

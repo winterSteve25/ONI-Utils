@@ -10,46 +10,43 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
+import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.ToolType;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 
 @SuppressWarnings("deprecation")
 public class ONIBaseDirectional extends DirectionalBlock {
+
     private final String regName;
+    private final ModelFile modelFile;
 
-    public ONIBaseDirectional(int harvestLevel, float hardness, float resistance) {
-        super(Properties.create(Material.ROCK).harvestLevel(harvestLevel).harvestTool(ToolType.PICKAXE).sound(SoundType.STONE).hardnessAndResistance(hardness, resistance));
-        this.regName = null;
-        this.setDefaultState(this.getStateContainer().getBaseState().with(FACING, Direction.NORTH));
-    }
-
-    public ONIBaseDirectional(int harvestLevel, float hardness, float resistance, String regName) {
+    public ONIBaseDirectional(int harvestLevel, float hardness, float resistance, String regName, ModelFile modelFile) {
         super(Properties.create(Material.ROCK).harvestLevel(harvestLevel).harvestTool(ToolType.PICKAXE).sound(SoundType.STONE).hardnessAndResistance(hardness, resistance));
         this.regName = regName;
+        this.modelFile = modelFile;
         this.setDefaultState(this.getStateContainer().getBaseState().with(FACING, Direction.NORTH));
     }
 
-    public ONIBaseDirectional(int harvestLevel, float hardness, float resistance, String regName, SoundType soundType) {
-        super(Properties.create(Material.ROCK).harvestLevel(harvestLevel).harvestTool(ToolType.PICKAXE).sound(soundType).hardnessAndResistance(hardness, resistance));
-        this.regName = regName;
-        this.setDefaultState(this.getStateContainer().getBaseState().with(FACING, Direction.NORTH));
-    }
-
-    public ONIBaseDirectional(int harvestLevel, float hardness, float resistance, String regName, SoundType soundType, Material material) {
+    public ONIBaseDirectional(int harvestLevel, float hardness, float resistance, String regName, SoundType soundType, Material material, ModelFile modelFile) {
         super(Properties.create(material).harvestLevel(harvestLevel).harvestTool(ToolType.PICKAXE).sound(soundType).hardnessAndResistance(hardness, resistance));
         this.regName = regName;
+        this.modelFile = modelFile;
         this.setDefaultState(this.getStateContainer().getBaseState().with(FACING, Direction.NORTH));
     }
 
-    public ONIBaseDirectional(Properties properties, String regName) {
+    public ONIBaseDirectional(Properties properties, String regName, ModelFile modelFile) {
         super(properties);
         this.regName = regName;
+        this.modelFile = modelFile;
         this.setDefaultState(this.getStateContainer().getBaseState().with(FACING, Direction.NORTH));
     }
-
 
     public String getRegName() {
         return this.regName;
+    }
+
+    public ModelFile getModelFile() {
+        return this.modelFile;
     }
 
     public void initRock(ONIBaseDirectional b) {
@@ -62,6 +59,7 @@ public class ONIBaseDirectional extends DirectionalBlock {
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> stateBuilder) {
+        super.fillStateContainer(stateBuilder);
         stateBuilder.add(FACING);
     }
 
@@ -77,6 +75,6 @@ public class ONIBaseDirectional extends DirectionalBlock {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext blockItemUseContext) {
-        return this.getDefaultState().with(FACING, blockItemUseContext.getFace());
+        return this.getDefaultState().with(FACING, blockItemUseContext.getPlacementHorizontalFacing());
     }
 }
