@@ -7,7 +7,7 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseRock;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseBlock;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.utils.helper.MiscHelper;
 
@@ -28,10 +28,10 @@ public class ONIModelProvider extends ItemModelProvider {
     }
 
     private void autoGenModels() {
-        for (ONIBaseRock b : ONIBlocks.rocksList) {
+        for (ONIBaseBlock b : ONIBlocks.blockList) {
             withExistingParent(MiscHelper.langToReg(b.getRegName()), modLoc("block/" + MiscHelper.langToReg(b.getRegName())));
         }
-        for (ONIBaseDirectional b : ONIBlocks.direList) {
+        for (ONIBaseDirectional b : ONIBlocks.directionalList) {
             withExistingParent(MiscHelper.langToReg(b.getRegName()), modLoc("block/" + MiscHelper.langToReg(b.getRegName())));
         }
 

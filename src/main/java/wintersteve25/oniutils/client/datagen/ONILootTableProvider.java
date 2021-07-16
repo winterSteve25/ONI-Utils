@@ -2,8 +2,7 @@ package wintersteve25.oniutils.client.datagen;
 
 import net.minecraft.data.DataGenerator;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseRock;
-import wintersteve25.oniutils.common.blocks.modules.resources.slime.SlimeBlock;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseBlock;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.utils.helper.MiscHelper;
 
@@ -18,21 +17,21 @@ public class ONILootTableProvider extends LootTableBase {
     }
 
     private void standardTables() {
-        for (ONIBaseRock b : ONIBlocks.rocksList) {
+        for (ONIBaseBlock b : ONIBlocks.blockList) {
             lootTables.putIfAbsent(b, createStandardTable(MiscHelper.langToReg(b.getRegName()), b));
         }
 
-        for (ONIBaseRock b : ONIBlocks.rocksListNoDataGen) {
+        for (ONIBaseBlock b : ONIBlocks.blockNoDataList) {
             if (!b.getRegName().equals(ONIBlocks.PollutedIce.getRegName())) {
                 lootTables.putIfAbsent(b, createStandardTable(MiscHelper.langToReg(b.getRegName()), b));
             }
         }
 
-        for (ONIBaseDirectional b : ONIBlocks.direList) {
+        for (ONIBaseDirectional b : ONIBlocks.directionalList) {
             lootTables.putIfAbsent(b, createStandardTable(MiscHelper.langToReg(b.getRegName()), b));
         }
 
-        for (ONIBaseDirectional b : ONIBlocks.direListNoDataGen) {
+        for (ONIBaseDirectional b : ONIBlocks.directionalNoDataList) {
             lootTables.putIfAbsent(b, createStandardTable(MiscHelper.langToReg(b.getRegName()), b));
         }
 

@@ -72,7 +72,6 @@ public abstract class ONIBaseInvTE extends ONIBaseTE {
         handleUpdateTag(world.getBlockState(pos),pkt.getNbtCompound());
     }
 
-
     public void updateBlock(){
         BlockState state = world.getBlockState(pos);
         world.notifyBlockUpdate(pos, state, state, 2);

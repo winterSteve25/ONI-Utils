@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.DirectionalBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
@@ -14,53 +15,79 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.ToolType;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 
+import javax.annotation.Nullable;
+
 @SuppressWarnings("deprecation")
 public class ONIBaseDirectional extends DirectionalBlock {
 
     private final String regName;
+    @Nullable
     private final ModelFile modelFile;
+    private final int angelOffset;
 
-    public ONIBaseDirectional(int harvestLevel, float hardness, float resistance, String regName, ModelFile modelFile) {
+    public ONIBaseDirectional(int harvestLevel, float hardness, float resistance, String regName, @Nullable ModelFile modelFile, int angelOffset) {
         super(Properties.create(Material.ROCK).harvestLevel(harvestLevel).harvestTool(ToolType.PICKAXE).sound(SoundType.STONE).hardnessAndResistance(hardness, resistance));
         this.regName = regName;
         this.modelFile = modelFile;
-        this.setDefaultState(this.getStateContainer().getBaseState().with(FACING, Direction.NORTH));
+        this.angelOffset = angelOffset;
+
+        BlockState state = this.getStateContainer().getBaseState();
+        state.with(FACING, Direction.NORTH);
+
+        this.setDefaultState(state);
     }
 
-    public ONIBaseDirectional(int harvestLevel, float hardness, float resistance, String regName, SoundType soundType, Material material, ModelFile modelFile) {
+    public ONIBaseDirectional(int harvestLevel, float hardness, float resistance, String regName, SoundType soundType, Material material, @Nullable ModelFile modelFile, int angelOffset) {
         super(Properties.create(material).harvestLevel(harvestLevel).harvestTool(ToolType.PICKAXE).sound(soundType).hardnessAndResistance(hardness, resistance));
         this.regName = regName;
         this.modelFile = modelFile;
-        this.setDefaultState(this.getStateContainer().getBaseState().with(FACING, Direction.NORTH));
+        this.angelOffset = angelOffset;
+
+        BlockState state = this.getStateContainer().getBaseState();
+        state.with(FACING, Direction.NORTH);
+
+        this.setDefaultState(state);
     }
 
-    public ONIBaseDirectional(Properties properties, String regName, ModelFile modelFile) {
+    public ONIBaseDirectional(String regName, Properties properties, @Nullable ModelFile modelFile, int angelOffset) {
         super(properties);
         this.regName = regName;
         this.modelFile = modelFile;
-        this.setDefaultState(this.getStateContainer().getBaseState().with(FACING, Direction.NORTH));
+        this.angelOffset = angelOffset;
+
+        BlockState state = this.getStateContainer().getBaseState();
+        state.with(FACING, Direction.NORTH);
+//        state.with(getFluidLoggedProperty(), 0);
+
+        this.setDefaultState(state);
     }
 
     public String getRegName() {
         return this.regName;
     }
 
+    @Nullable
     public ModelFile getModelFile() {
         return this.modelFile;
     }
 
-    public void initRock(ONIBaseDirectional b) {
-        ONIBlocks.direList.add(b);
+    public int getAngelOffset() {
+        return angelOffset;
     }
 
-    public void initRockNoDataGen(ONIBaseDirectional b) {
-        ONIBlocks.direListNoDataGen.add(b);
+    public void initDirectional(ONIBaseDirectional b) {
+        ONIBlocks.directionalList.add(b);
+    }
+
+    public void initDirectionalNoData(ONIBaseDirectional b) {
+        ONIBlocks.directionalNoDataList.add(b);
     }
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> stateBuilder) {
         super.fillStateContainer(stateBuilder);
         stateBuilder.add(FACING);
+//        stateBuilder.add(this.getFluidLoggedProperty());
     }
 
     @Override
@@ -75,6 +102,17 @@ public class ONIBaseDirectional extends DirectionalBlock {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext blockItemUseContext) {
-        return this.getDefaultState().with(FACING, blockItemUseContext.getPlacementHorizontalFacing());
+
+//        BlockState state = super.getStateForPlacement(blockItemUseContext);
+        FluidState fluidState = blockItemUseContext.getWorld().getFluidState(blockItemUseContext.getPos());
+
+//        if (state == null) {
+//            return null;
+//        }
+//
+//        state.with(this.getFluidLoggedProperty(), this.getSupportedFluidPropertyIndex(fluidState.getFluid()));
+//        state.with(FACING, blockItemUseContext.getNearestLookingDirection());
+
+        return this.getDefaultState().with(FACING, blockItemUseContext.getNearestLookingDirection());
     }
 }

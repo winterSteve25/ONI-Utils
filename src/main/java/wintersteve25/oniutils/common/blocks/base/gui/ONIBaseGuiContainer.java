@@ -1,4 +1,4 @@
-package wintersteve25.oniutils.common.blocks.base;
+package wintersteve25.oniutils.common.blocks.base.gui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseContainer;
 
 public class ONIBaseGuiContainer<T extends ONIBaseContainer> extends ContainerScreen<T> {
 
@@ -31,15 +32,21 @@ public class ONIBaseGuiContainer<T extends ONIBaseContainer> extends ContainerSc
     }
 
     @Override
+    protected void init() {
+        super.init();
+
+        this.guiLeft = (this.width - this.getXSize()) / 2;
+    }
+
+    @Override
     protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
         if (bg != null) {
             RenderSystem.color4f(1F, 1F, 1F, 1F);
             this.minecraft.getTextureManager().bindTexture(bg);
 
-            int i = (this.width - this.getXSize()) / 2;
             int j = (this.height - this.getYSize()) / 2;
 
-            this.blit(matrixStack, i, j, 0, 0, this.getXSize(), this.getYSize() + 5);
+            this.blit(matrixStack, this.guiLeft, j, 0, 0, this.getXSize(), this.getYSize() + 5);
         }
     }
 

@@ -1,11 +1,6 @@
 package wintersteve25.oniutils.common.capability.durability.api;
 
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraftforge.common.util.Constants;
-import wintersteve25.oniutils.common.utils.helper.MiscHelper;
-
-import java.util.HashMap;
 
 public class DurabilityStack implements IDurability {
 

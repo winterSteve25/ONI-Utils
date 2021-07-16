@@ -6,8 +6,6 @@ import net.minecraftforge.common.util.Constants;
 import wintersteve25.oniutils.common.utils.helper.MiscHelper;
 
 import java.util.HashMap;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
 
 public class GasStack implements IGas {
 

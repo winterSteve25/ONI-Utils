@@ -28,10 +28,13 @@ import wintersteve25.oniutils.common.capability.trait.TraitEventsHandler;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONICommands;
 import wintersteve25.oniutils.common.init.ONIConfig;
+import wintersteve25.oniutils.common.network.ONINetworking;
 
 public class ONIGeneralEventHandlers {
 
     public static void preInit(FMLCommonSetupEvent evt) {
+        ONINetworking.registerMessages();
+
         GermCapability.register();
         TraitCapability.register();
         PlasmaCapability.register();

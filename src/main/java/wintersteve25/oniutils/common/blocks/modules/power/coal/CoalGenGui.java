@@ -3,7 +3,6 @@ package wintersteve25.oniutils.common.blocks.modules.power.coal;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.AbstractButton;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
@@ -12,7 +11,9 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseGuiContainer;
+import wintersteve25.oniutils.common.blocks.base.gui.ONIBaseGuiContainer;
+import wintersteve25.oniutils.common.blocks.base.gui.ONIBaseGuiTab;
+import wintersteve25.oniutils.common.blocks.base.gui.ONIBaseGuiTabInfo;
 
 import javax.annotation.Nonnull;
 
@@ -20,21 +21,33 @@ import javax.annotation.Nonnull;
 public class CoalGenGui extends ONIBaseGuiContainer<CoalGenContainer> {
 
     private static ResourceLocation bg = new ResourceLocation(ONIUtils.MODID, "textures/gui/machines/coal_gen_gui.png");
+    public final ONIBaseGuiTabInfo infoTab;
 
     public CoalGenGui(CoalGenContainer container, PlayerInventory inv, ITextComponent name) {
         super(container, inv, name, bg);
+
+        infoTab = new ONIBaseGuiTabInfo();
     }
 
     @Override
     protected void init() {
         super.init();
 
-        int i = (this.width - this.getXSize()) / 2;
-        int j = (this.height - this.getYSize()) / 2;
+        this.guiLeft = this.infoTab.getGuiLeftTopPosition(this.width, this.xSize);
+        this.guiTop = (this.height - this.getYSize()) / 2;
 
-        addButton(new InfoButton(i-18, j+2));
-        addButton(new AlertButton(i-18, j+20));
-        addButton(new PauseButton(i-18, j+38));
+        this.infoTab.init(this.width, this.height, this.minecraft, this.container, "oniutils.gui.titles.coal_gen");
+        this.infoTab.initText();
+
+        addButton(new InfoButton());
+        addButton(new AlertButton());
+    }
+
+    @Override
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
+
+        infoTab.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 
     @Override
@@ -42,32 +55,29 @@ public class CoalGenGui extends ONIBaseGuiContainer<CoalGenContainer> {
         if (bg != null) {
             super.drawGuiContainerBackgroundLayer(matrixStack, partialTicks, mouseX, mouseY);
 
-            int progress = container.getProgress();
             int power = container.getEnergy();
-
-            int i = (this.width - this.getXSize()) / 2;
-            int j = (this.height - this.getYSize()) / 2;
 
 //            int totalProgress = ONIConfig.COAL_GEN_PROCESS_TIME.get();
 //            int percentProgress = 100 - ((totalProgress-progress)/totalProgress*100);
 
-            this.blit(matrixStack, i + 106, j + 25 + (int) ((container.getCapacity() - power) / 83.3), 177, (int) ((container.getCapacity() - power) / 83.3), 16, (int) (48 - ((container.getCapacity() - power) / 83.3) + 1));
+            this.blit(matrixStack, this.guiLeft +  106, this.guiTop +  25 + (int) ((container.getCapacity() - power) / 83.3), 177, (int) ((container.getCapacity() - power) / 83.3), 16, (int) (48 - ((container.getCapacity() - power) / 83.3) + 1));
 
             if (container.getWorking() == 1) {
                 int p = getProgressScaled(22);
                 int f = getProgressScaled(13);
 
                 //burn
-                this.blit(matrixStack, i+56, j+51, 197, 1, 14, f+1);
+                this.blit(matrixStack, this.guiLeft + 56, this.guiTop + 51, 197, 1, 14, f+1);
 
                 //progress
-                this.blit(matrixStack, i+78, j+36, 177, 51, p+1, 10);
+                this.blit(matrixStack, this.guiLeft + 78, this.guiTop + 36, 177, 51, p+1, 10);
             }
 
-            super.powerToolTip(matrixStack, power, mouseX, mouseY, i, j);
+            super.powerToolTip(matrixStack, power, mouseX, mouseY, this.guiLeft, this.guiTop);
         }
     }
 
+    //TODO: Use Vanilla ImageButton instead
     @OnlyIn(Dist.CLIENT)
     abstract static class Button extends AbstractButton {
         protected Button(int x, int y) {
@@ -88,47 +98,38 @@ public class CoalGenGui extends ONIBaseGuiContainer<CoalGenContainer> {
             this.blitOverlay(matrixStack);
         }
 
+        public void setPosition(int xIn, int yIn) {
+            this.x = xIn;
+            this.y = yIn;
+        }
+
         protected abstract void blitOverlay(MatrixStack matrixStack);
     }
 
     @OnlyIn(Dist.CLIENT)
     class InfoButton extends CoalGenGui.SpriteButton {
-        public InfoButton(int x, int y) {
-            super(x, y, 32, 240);
+        public InfoButton() {
+            super(CoalGenGui.this.guiLeft+1, CoalGenGui.this.guiTop-17, 32, 240);
         }
 
         public void onPress() {
-            CoalGenGui.this.minecraft.displayGuiScreen((Screen)null);
+            CoalGenGui.this.infoTab.toggleVisibility();
+            CoalGenGui.this.guiLeft = CoalGenGui.this.infoTab.getGuiLeftTopPosition(CoalGenGui.this.width, CoalGenGui.this.xSize);
+
+            this.setPosition(CoalGenGui.this.guiLeft+1, CoalGenGui.this.guiTop-17);
         }
     }
 
     @OnlyIn(Dist.CLIENT)
     class AlertButton extends CoalGenGui.SpriteButton {
-        public AlertButton(int x, int y) {
-            super(x, y, 49, 240);
+        public AlertButton() {
+            super(CoalGenGui.this.guiLeft+18, CoalGenGui.this.guiTop-17, 49, 240);
         }
 
         public void onPress() {
-            CoalGenGui.this.minecraft.displayGuiScreen((Screen)null);
-        }
-    }
+//            CoalGenGui.this.guiLeft = CoalGenGui.this.infoTab.getGuiLeftTopPosition(CoalGenGui.this.width, CoalGenGui.this.xSize);
 
-    @OnlyIn(Dist.CLIENT)
-    class PauseButton extends CoalGenGui.SpriteButton {
-        private boolean isPaused = false;
-
-        public PauseButton(int x, int y) {
-            super(x, y, 66, 240);
-        }
-
-        public void onPress() {
-            if (isPaused) {
-                setU(66);
-                isPaused = false;
-            } else {
-                setU(83);
-                isPaused = true;
-            }
+//            this.setPosition(CoalGenGui.this.guiLeft+1, CoalGenGui.this.guiTop-17);
         }
     }
 

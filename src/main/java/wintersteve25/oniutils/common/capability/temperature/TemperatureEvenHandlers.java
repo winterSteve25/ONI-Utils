@@ -1,5 +1,6 @@
 package wintersteve25.oniutils.common.capability.temperature;
 
+import mekanism.common.tile.interfaces.IBoundingBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -41,7 +42,7 @@ public class TemperatureEvenHandlers {
     public static void teAttach(AttachCapabilitiesEvent<TileEntity> event) {
         TileEntity te = event.getObject();
         if (te != null) {
-            if (!(te instanceof ICustomTemperatureProvider)) {
+            if (!(te instanceof ICustomTemperatureProvider) && !(te instanceof IBoundingBlock)) {
                 if (!te.getCapability(TemperatureCapability.CAPABILITY_TEMPERATURE).isPresent()) {
                     TemperatureCapabilityProvider provider = new TemperatureCapabilityProvider();
                     event.addCapability(new ResourceLocation(ONIUtils.MODID, "temperature"), provider);

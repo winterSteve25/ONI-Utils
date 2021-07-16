@@ -52,7 +52,7 @@ public enum EnumGasTypes {
     //Slowness when above 15%, Mining Fatigue when above 30%, Damage player when above 95%
     SUPER_COOLANT("Super Coolant"),
     //Mining Fatigue when above 15%, Poison when above 30%, Damage player when above 95%
-    Gold("Gold Gas"),
+    GOLD("Gold Gas"),
     //Mining Fatigue when above 15%, Poison when above 30%, Damage player when above 95%
     MERCURY("Mercury Gas"),
     //Mining Fatigue when above 5%, Poison when above 10%, Damage player when above 15%

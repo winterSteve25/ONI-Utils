@@ -27,7 +27,7 @@ archivesBaseName = 'oniutils'
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
     mappings channel: "snapshot", version: "20201028-1.16.3"
-//    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
     runs {
         client {
             workingDirectory project.file('run')
@@ -114,7 +114,8 @@ dependencies {
 //    compile fg.deobf ('curse.maven:adchimneys-244830:3357470')
     compile fg.deobf ('curse.maven:pmmo-353935:3354382')
     compile fg.deobf ('curse.maven:corpse-316582:3338002')
-    compileOnly "mekanism:Mekanism:1.16.5-10.0.21.448:api"
+    compile fg.deobf ("mekanism:Mekanism:1.16.5-10.0.21.448:api")
+    compile fg.deobf ("mekanism:Mekanism:1.16.5-10.0.21.448")
 
     annotationProcessor 'org.spongepowered:mixin:0.8.2:processor'
 }

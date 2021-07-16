@@ -1,16 +1,18 @@
 package wintersteve25.oniutils.common.blocks.base;
 
+import mekanism.common.tile.base.TileEntityUpdateable;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 
-public abstract class ONIBaseTE extends TileEntity {
+public abstract class ONIBaseTE extends TileEntityUpdateable {
 
     protected int totalProgress = totalProgress();
     protected int progress;
+
     protected boolean isWorking = false;
     protected boolean isForceStopped = false;
+    protected boolean isRedstoneSupported = true;
 
     public ONIBaseTE(TileEntityType<?> te) {
         super(te);

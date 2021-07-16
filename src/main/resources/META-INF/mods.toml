@@ -27,3 +27,9 @@ description='''
     versionRange="[3.0.40,)"
     ordering="NONE"
     side="BOTH"
+[[dependencies.oniutils]]
+    modId="mekanism"
+    mandatory=true
+    versionRange="[10.0.21,)"
+    ordering="NONE"
+    side="BOTH"

@@ -2,15 +2,12 @@ package wintersteve25.oniutils.common.capability.durability;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.util.Constants;
 import wintersteve25.oniutils.common.capability.durability.api.DurabilityStack;
 import wintersteve25.oniutils.common.capability.durability.api.IDurability;
-import wintersteve25.oniutils.common.utils.helper.MiscHelper;
 
 import javax.annotation.Nullable;
 

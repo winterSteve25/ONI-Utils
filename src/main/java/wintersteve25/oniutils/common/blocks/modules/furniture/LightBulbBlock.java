@@ -11,7 +11,7 @@ public class LightBulbBlock extends ONIBaseDirectional implements IDecorBlock {
     //public static BooleanProperty ON = BooleanProperty.create("on");
 
     public LightBulbBlock() {
-        super(Properties.create(Material.GLASS).hardnessAndResistance(2, 2).notSolid(), "Light Bulb", null);
+        super("Light Bulb", Properties.create(Material.GLASS).hardnessAndResistance(2, 2).notSolid(), null, 0);
 
         //registerDefaultState(getStateDefinition().any().setValue(ON, false));
     }

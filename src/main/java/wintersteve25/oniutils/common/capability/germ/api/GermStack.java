@@ -15,7 +15,7 @@ public class GermStack implements IGerms {
         if (this.germType == EnumGermTypes.NOTHING && this.amount <= 0 && germType != EnumGermTypes.NOTHING && amount > 0) {
             setGerm(germType, amount);
         } else if (this.germType == germType) {
-            this.amount = this.amount + amount;
+            this.amount += amount;
         }
     }
 

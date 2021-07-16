@@ -1,37 +1,46 @@
 package wintersteve25.oniutils.common.blocks.modules.power.coal;
 
+import mekanism.common.tile.interfaces.IBoundingBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
+import software.bernie.example.registry.SoundRegistry;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.SoundKeyframeEvent;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
-import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseInvTE;
+import wintersteve25.oniutils.common.blocks.base.bounding.ONIIBoundingBlock;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
 import wintersteve25.oniutils.common.capability.plasma.api.EnumWattsTypes;
 import wintersteve25.oniutils.common.capability.plasma.api.IPlasma;
 import wintersteve25.oniutils.common.capability.plasma.api.PlasmaStack;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONIConfig;
+import wintersteve25.oniutils.common.init.ONISounds;
+import wintersteve25.oniutils.common.utils.helper.MiscHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAnimatable {
+public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAnimatable, IBoundingBlock, ONIIBoundingBlock {
 
     private final AnimationFactory manager = new AnimationFactory(this);
     private final PlasmaStack plasmaHandler = new PlasmaStack(4000, EnumWattsTypes.LOW);
@@ -53,12 +62,11 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     @Override
     public void tick() {
         if (!world.isRemote()) {
-            if (isForceStopped) {
-               setWorking(false);
+            if (getForceStopped()) {
+                setWorking(false);
             }
 
-            if (!isForceStopped) {
-                ONIUtils.LOGGER.info(progress);
+            if (!getForceStopped()) {
                 if (progress > 0) {
                     if (plasmaHandler.canGenerate(ONIConfig.COAL_GEN_PLASMA_OUTPUT.get())) {
                         if (!removedFirstItem) {
@@ -73,10 +81,6 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
                             setWorking(false);
                             progress = 0;
                         }
-                    } else {
-                        removedFirstItem = false;
-                        setWorking(false);
-                        progress = 0;
                     }
                 } else {
                     if (plasmaHandler.canGenerate(ONIConfig.COAL_GEN_PLASMA_OUTPUT.get())) {
@@ -89,8 +93,15 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
                         }
                     }
                 }
-                markDirty();
             }
+
+            if (!plasmaHandler.canGenerate(ONIConfig.COAL_GEN_PLASMA_OUTPUT.get())) {
+                removedFirstItem = false;
+                setWorking(false);
+                progress = 0;
+            }
+
+            markDirty();
         }
     }
 
@@ -131,23 +142,82 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
         return super.getCapability(cap, side);
     }
 
-    private <E extends TileEntity & IAnimatable> PlayState idlePredicate(AnimationEvent<E> event) {
-        event.getController().transitionLengthTicks = 0;
+    private <E extends TileEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        event.getController().transitionLengthTicks = 80;
         if (super.getWorking()) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.motor.new", true));
+            ClientPlayerEntity player = Minecraft.getInstance().player;
+            if (player != null) {
+                player.playSound((SoundEvent) ONISounds.COAL_GEN_SOUND.get(), 1.0F, 1.0F);
+            }
+            return PlayState.CONTINUE;
         } else {
             event.getController().setAnimation(new AnimationBuilder());
+            return PlayState.STOP;
         }
-        return PlayState.CONTINUE;
     }
 
     @Override
     public void registerControllers(AnimationData animationData) {
-        animationData.addAnimationController(new AnimationController(this, "controller", 0, this::idlePredicate));
+        animationData.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
     }
 
     @Override
     public AnimationFactory getFactory() {
         return manager;
+    }
+
+    @Override
+    public void onPlace() {
+        Direction facing = getBlockState().get(BlockStateProperties.FACING);
+
+        switch (facing) {
+            case NORTH:
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().east(), this.getPos());
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up().east(), this.getPos());
+                break;
+            case SOUTH:
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().west(), this.getPos());
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up().west(), this.getPos());
+                break;
+            case EAST:
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().south(), this.getPos());
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up().south(), this.getPos());
+                break;
+            case WEST:
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().north(), this.getPos());
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up().north(), this.getPos());
+                break;
+        }
+    }
+
+    @Override
+    public void onBreak(BlockState oldState) {
+        if (this.world != null) {
+            Direction facing = getBlockState().get(BlockStateProperties.FACING);
+
+            switch (facing) {
+                case NORTH:
+                    this.world.removeBlock(this.getPos().east(), false);
+                    this.world.removeBlock(this.getPos().up(), false);
+                    this.world.removeBlock(this.getPos().up().east(), false);
+                case SOUTH:
+                    this.world.removeBlock(this.getPos().west(), false);
+                    this.world.removeBlock(this.getPos().up(), false);
+                    this.world.removeBlock(this.getPos().up().west(), false);
+                case EAST:
+                    this.world.removeBlock(this.getPos().south(), false);
+                    this.world.removeBlock(this.getPos().up(), false);
+                    this.world.removeBlock(this.getPos().up().south(), false);
+                case WEST:
+                    this.world.removeBlock(this.getPos().north(), false);
+                    this.world.removeBlock(this.getPos().up(), false);
+                    this.world.removeBlock(this.getPos().up().north(), false);
+            }
+        }
     }
 }

@@ -6,6 +6,8 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.RegistryObject;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.utils.registration.Registration;
@@ -35,5 +37,13 @@ public class RegistryHelper {
 
     public static <I extends Effect> RegistryObject<I> registerEffects(String name, Supplier<? extends I> effect) {
         return Registration.EFFECTS.register(name, effect);
+    }
+
+    public static <I extends SoundEvent> RegistryObject<I> registerSounds(String name, Supplier<? extends I> sound) {
+        return Registration.SOUND.register(name, sound);
+    }
+
+    public static SoundEvent createSound(String name) {
+        return new SoundEvent(new ResourceLocation(ONIUtils.MODID, name));
     }
 }

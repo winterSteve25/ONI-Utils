@@ -7,6 +7,7 @@ import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.IntReferenceHolder;
 import net.minecraft.util.math.BlockPos;
@@ -253,6 +254,10 @@ public abstract class ONIBaseContainer extends Container {
 
     public int getCapacity() {
         return tileEntity.getCapability(PlasmaCapability.POWER_CAPABILITY).map(IPlasma::getCapacity).orElse(0);
+    }
+
+    public ONIBaseTE getTileEntity() {
+        return tileEntity;
     }
 
     protected int addSlotRange(IItemHandler handler, int index, int x, int y, int amount, int dx) {

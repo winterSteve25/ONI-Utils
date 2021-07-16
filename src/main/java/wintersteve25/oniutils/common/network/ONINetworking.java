@@ -16,17 +16,12 @@ public class ONINetworking {
     }
 
     public static void registerMessages() {
-        ONIUtils.LOGGER.info("Registering networkings");
+        ONIUtils.LOGGER.info("Registering ONIUtils networkings");
 
         INSTANCE = NetworkRegistry.newSimpleChannel(new ResourceLocation(ONIUtils.MODID, "oniutils"),
                 () -> "1.0",
                 s -> true,
                 s -> true);
-        INSTANCE.messageBuilder(GermOverlayPacket.class, nextID())
-                .encoder(GermOverlayPacket::encode)
-                .decoder(GermOverlayPacket::new)
-                .consumer(GermOverlayPacket::handle)
-                .add();
     }
 
     public static void sendToClient(Object packet, ServerPlayerEntity player) {

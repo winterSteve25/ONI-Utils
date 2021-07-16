@@ -1,5 +1,7 @@
 package wintersteve25.oniutils.common.capability.germ;
 
+import mekanism.common.tile.base.CapabilityTileEntity;
+import mekanism.common.tile.interfaces.IBoundingBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -18,9 +20,11 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import wintersteve25.oniutils.ONIUtils;
+import wintersteve25.oniutils.common.blocks.base.bounding.ONIIBoundingBlock;
 import wintersteve25.oniutils.common.capability.germ.api.IGermCapProvider;
 import wintersteve25.oniutils.common.capability.germ.api.EnumGermTypes;
 import wintersteve25.oniutils.common.init.ONIConfig;
+import wintersteve25.oniutils.common.utils.helper.MiscHelper;
 
 import java.util.List;
 
@@ -65,8 +69,16 @@ public class GermEventsHandler {
     public static void teCapAttachEvent (AttachCapabilitiesEvent<TileEntity> e) {
         TileEntity tileAttached = e.getObject();
         if (tileAttached != null) {
-            if (!(tileAttached instanceof IGermCapProvider)) {
-                if (!tileAttached.getCapability(GermCapability.GERM_CAPABILITY).isPresent()) {
+            if (!(tileAttached instanceof IGermCapProvider) && !(tileAttached instanceof CapabilityTileEntity)) {
+                if (tileAttached instanceof IBoundingBlock) {
+                    if (tileAttached instanceof ONIIBoundingBlock) {
+                        if (!tileAttached.getCapability(GermCapability.GERM_CAPABILITY).isPresent()) {
+                            GermCapabilityProvider provider = new GermCapabilityProvider();
+                            e.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
+                            e.addListener(provider::invalidate);
+                        }
+                    }
+                } else if (!tileAttached.getCapability(GermCapability.GERM_CAPABILITY).isPresent()) {
                     GermCapabilityProvider provider = new GermCapabilityProvider();
                     e.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
                     e.addListener(provider::invalidate);
