@@ -40,8 +40,8 @@ public class CoalGenBlock extends ONIBaseMachineAnimated {
     private static final String regName = "Coal Generator";
 
     //TODO: Use Block#makeCuboidShape instead
-    private static final VoxelShape BOTTOM1 = VoxelShapes.create(0D, (ONEPIXEL/16)*2, 0D, 1D, ONEPIXEL + (ONEPIXEL/16)*2, 1D);
-    private static final VoxelShape BOTTOM2 = VoxelShapes.create(1D, (ONEPIXEL/16)*2, 0D, 2D, ONEPIXEL + (ONEPIXEL/16)*2, 1D);
+    private static final VoxelShape BOTTOM1 = VoxelShapes.create(0D, 0, 0D, 1D, ONEPIXEL + (ONEPIXEL/16)*2, 1D);
+    private static final VoxelShape BOTTOM2 = VoxelShapes.create(1D, 0, 0D, 2D, ONEPIXEL + (ONEPIXEL/16)*2, 1D);
     private static final VoxelShape BOTTOM = VoxelShapes.or(BOTTOM1, BOTTOM2);
     private static final VoxelShape SUPPORT1 = VoxelShapes.create(ONEPIXEL*4, ONEPIXEL + (ONEPIXEL/16)*2, ONEPIXEL*6, ONEPIXEL*6, 1+ONEPIXEL*10, ONEPIXEL*11);
     private static final VoxelShape SUPPORT2 = VoxelShapes.create(2D-ONEPIXEL*1, ONEPIXEL + (ONEPIXEL/16)*2, ONEPIXEL*6, 2D-ONEPIXEL*3, 1+ONEPIXEL*10, ONEPIXEL*11);
@@ -107,7 +107,7 @@ public class CoalGenBlock extends ONIBaseMachineAnimated {
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        switch((Direction)state.get(FACING)) {
+        switch(state.get(FACING)) {
             case SOUTH:
                 return SOUTH;
             case EAST:

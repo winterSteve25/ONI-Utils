@@ -20,16 +20,14 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.blocks.base.bounding.ONIIBoundingBlock;
 import wintersteve25.oniutils.common.capability.germ.api.IGermCapProvider;
 import wintersteve25.oniutils.common.capability.germ.api.EnumGermTypes;
 import wintersteve25.oniutils.common.init.ONIConfig;
-import wintersteve25.oniutils.common.utils.helper.MiscHelper;
 
 import java.util.List;
 
 public class GermEventsHandler {
-    public static void entityCapAttachEvent (AttachCapabilitiesEvent<Entity> event) {
+    public static void entityCapAttachEvent(AttachCapabilitiesEvent<Entity> event) {
         Entity entity = event.getObject();
         if (entity != null) {
             if (!entity.getCapability(GermCapability.GERM_CAPABILITY).isPresent()) {
@@ -40,7 +38,7 @@ public class GermEventsHandler {
         }
     }
 
-    public static void itemCapAttachEvent (AttachCapabilitiesEvent<ItemStack> event) {
+    public static void itemCapAttachEvent(AttachCapabilitiesEvent<ItemStack> event) {
         ItemStack entity = event.getObject();
         if (entity != null) {
             if (!entity.getCapability(GermCapability.GERM_CAPABILITY).isPresent()) {
@@ -51,7 +49,7 @@ public class GermEventsHandler {
         }
     }
 
-    public static void itemToolTipEvent (ItemTooltipEvent event) {
+    public static void itemToolTipEvent(ItemTooltipEvent event) {
         PlayerEntity player = event.getPlayer();
         if (player != null) {
             ItemStack itemStack = event.getItemStack();
@@ -66,19 +64,11 @@ public class GermEventsHandler {
         }
     }
 
-    public static void teCapAttachEvent (AttachCapabilitiesEvent<TileEntity> e) {
+    public static void teCapAttachEvent(AttachCapabilitiesEvent<TileEntity> e) {
         TileEntity tileAttached = e.getObject();
         if (tileAttached != null) {
             if (!(tileAttached instanceof IGermCapProvider) && !(tileAttached instanceof CapabilityTileEntity)) {
-                if (tileAttached instanceof IBoundingBlock) {
-                    if (tileAttached instanceof ONIIBoundingBlock) {
-                        if (!tileAttached.getCapability(GermCapability.GERM_CAPABILITY).isPresent()) {
-                            GermCapabilityProvider provider = new GermCapabilityProvider();
-                            e.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
-                            e.addListener(provider::invalidate);
-                        }
-                    }
-                } else if (!tileAttached.getCapability(GermCapability.GERM_CAPABILITY).isPresent()) {
+                if (!tileAttached.getCapability(GermCapability.GERM_CAPABILITY).isPresent()) {
                     GermCapabilityProvider provider = new GermCapabilityProvider();
                     e.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
                     e.addListener(provider::invalidate);
@@ -87,10 +77,10 @@ public class GermEventsHandler {
         }
     }
 
-    public static void infectOnInteractEntitySpecific (PlayerInteractEvent.EntityInteractSpecific event) {
+    public static void infectOnInteractEntitySpecific(PlayerInteractEvent.EntityInteractSpecific event) {
         PlayerEntity player = event.getPlayer();
         if (player != null) {
-            if(!player.world.isRemote()) {
+            if (!player.world.isRemote()) {
                 Entity target = event.getTarget();
 
                 player.getCapability(GermCapability.GERM_CAPABILITY).ifPresent(p -> {
@@ -109,10 +99,10 @@ public class GermEventsHandler {
         }
     }
 
-    public static void infectOnInteractEntity (PlayerInteractEvent.EntityInteract event) {
+    public static void infectOnInteractEntity(PlayerInteractEvent.EntityInteract event) {
         PlayerEntity player = event.getPlayer();
         if (player != null) {
-            if(!player.world.isRemote()) {
+            if (!player.world.isRemote()) {
                 Entity target = event.getTarget();
 
                 player.getCapability(GermCapability.GERM_CAPABILITY).ifPresent(p -> {
@@ -131,10 +121,10 @@ public class GermEventsHandler {
         }
     }
 
-    public static void infectOnPickItem (EntityItemPickupEvent event) {
+    public static void infectOnPickItem(EntityItemPickupEvent event) {
         PlayerEntity player = event.getPlayer();
         if (player != null) {
-            if(!player.world.isRemote()) {
+            if (!player.world.isRemote()) {
                 ItemStack target = event.getItem().getItem();
 
                 player.getCapability(GermCapability.GERM_CAPABILITY).ifPresent(p -> {
@@ -153,10 +143,10 @@ public class GermEventsHandler {
         }
     }
 
-    public static void infectOnTossItem (ItemTossEvent event) {
+    public static void infectOnTossItem(ItemTossEvent event) {
         PlayerEntity player = event.getPlayer();
         if (player != null) {
-            if(!player.world.isRemote()) {
+            if (!player.world.isRemote()) {
                 ItemStack target = event.getEntityItem().getItem();
 
                 player.getCapability(GermCapability.GERM_CAPABILITY).ifPresent(p -> {
@@ -175,10 +165,10 @@ public class GermEventsHandler {
         }
     }
 
-    public static void infectOnTileInteract (PlayerInteractEvent event) {
+    public static void infectOnTileInteract(PlayerInteractEvent event) {
         PlayerEntity player = event.getPlayer();
         if (player != null) {
-            if(!player.world.isRemote()) {
+            if (!player.world.isRemote()) {
                 BlockPos pos = event.getPos();
                 TileEntity target = event.getWorld().getTileEntity(pos);
                 if (target != null) {
@@ -199,7 +189,7 @@ public class GermEventsHandler {
         }
     }
 
-    public static void keepGermWhilePlaced (BlockEvent.EntityPlaceEvent event) {
+    public static void keepGermWhilePlaced(BlockEvent.EntityPlaceEvent event) {
         BlockPos pos = event.getPos();
         TileEntity tileEntity = event.getWorld().getTileEntity(pos);
 
@@ -216,7 +206,7 @@ public class GermEventsHandler {
         }
     }
 
-    public static void keepGermWhenTileBroken (BlockEvent.BreakEvent event) {
+    public static void keepGermWhenTileBroken(BlockEvent.BreakEvent event) {
         BlockPos pos = event.getPos();
         TileEntity tileEntity = event.getWorld().getTileEntity(pos);
     }
@@ -227,7 +217,7 @@ public class GermEventsHandler {
         PlayerEntity player = event.player;
 
         if (player != null) {
-            if(!player.world.isRemote()) {
+            if (!player.world.isRemote()) {
                 player.getCapability(GermCapability.GERM_CAPABILITY).ifPresent(p -> {
                     germDupSpeed--;
 

@@ -7,6 +7,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.PushReaction;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -36,6 +37,22 @@ public class ONIBaseMachine extends ONIBaseDirectional {
 //    }
 
     @Override
+    public BlockState getStateForPlacement(BlockItemUseContext blockItemUseContext) {
+
+//        BlockState state = super.getStateForPlacement(blockItemUseContext);
+//        FluidState fluidState = blockItemUseContext.getWorld().getFluidState(blockItemUseContext.getPos());
+
+//        if (state == null) {
+//            return null;
+//        }
+//
+//        state.with(this.getFluidLoggedProperty(), this.getSupportedFluidPropertyIndex(fluidState.getFluid()));
+//        state.with(FACING, blockItemUseContext.getNearestLookingDirection());
+
+        return this.getDefaultState().with(FACING, blockItemUseContext.getPlacementHorizontalFacing());
+    }
+
+    @Override
     public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         ONIBaseTE tile = WorldUtils.getTileEntity(ONIBaseTE.class, worldIn, pos);
 
@@ -43,12 +60,12 @@ public class ONIBaseMachine extends ONIBaseDirectional {
             return;
         }
 
-        if (tile.isRedstoneSupported) {
-            tile.isForceStopped = worldIn.isBlockPowered(pos);
-        }
-
         if (tile instanceof IBoundingBlock) {
             ((IBoundingBlock) tile).onPlace();
+        }
+
+        if (tile.isRedstoneSupported) {
+            tile.isForceStopped = worldIn.isBlockPowered(pos);
         }
     }
 

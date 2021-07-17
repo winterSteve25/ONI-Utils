@@ -23,8 +23,6 @@ public class MiscHelper {
     public static final int INT_MAX = 2147483647;
     public static final double ONEPIXEL = 1D/16;
     public static final Item.Properties DEFAULT_ITEM_PROPERTY = new Item.Properties().group(ONIUtils.creativeTab);
-    public static final TranslationTextComponent INFO_I18N = new TranslationTextComponent("oniutils.gui.machines.info");
-    public static final TranslationTextComponent ALERT_I18N = new TranslationTextComponent("oniutils.gui.machines.alert");
 
     public static String langToReg(String lang) {
         String reg = lang.toLowerCase().replace(' ', '_').replace('-', '_');
@@ -51,14 +49,14 @@ public class MiscHelper {
     public static void makeBoundingBlock(@Nullable IWorld world, BlockPos boundingLocation, BlockPos orig) {
         if (world != null) {
             ONIBoundingBlock boundingBlock = (ONIBoundingBlock) ONIBlocks.BOUNDING_BLOCK;
-            BlockState newState = BlockStateHelper.getStateForPlacement(boundingBlock, boundingBlock.getDefaultState(), world, boundingLocation, (PlayerEntity) null, Direction.NORTH);
+            BlockState newState = boundingBlock.getDefaultState();
             world.setBlockState(boundingLocation, newState, 3);
             if (!world.isRemote()) {
                 ONIBoundingTE tile = (ONIBoundingTE) WorldUtils.getTileEntity((Class) ONIBoundingTE.class, (IBlockReader) world, boundingLocation);
                 if (tile != null) {
                     tile.setMainLocation(orig);
                 } else {
-                    Mekanism.logger.warn("Unable to find Bounding Block Tile at: {}", boundingLocation);
+                    ONIUtils.LOGGER.warn("Unable to find Bounding Block Tile at: {}", boundingLocation);
                 }
             }
         }

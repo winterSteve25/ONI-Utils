@@ -111,7 +111,7 @@ public class ONIBaseDirectional extends DirectionalBlock {
     public BlockState getStateForPlacement(BlockItemUseContext blockItemUseContext) {
 
 //        BlockState state = super.getStateForPlacement(blockItemUseContext);
-        FluidState fluidState = blockItemUseContext.getWorld().getFluidState(blockItemUseContext.getPos());
+//        FluidState fluidState = blockItemUseContext.getWorld().getFluidState(blockItemUseContext.getPos());
 
 //        if (state == null) {
 //            return null;

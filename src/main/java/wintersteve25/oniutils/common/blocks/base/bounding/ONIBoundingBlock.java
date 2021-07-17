@@ -1,5 +1,6 @@
 package wintersteve25.oniutils.common.blocks.base.bounding;
 
+import mekanism.common.tile.interfaces.IBoundingBlock;
 import mekanism.common.util.WorldUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -10,8 +11,10 @@ import net.minecraft.client.particle.DiggingParticle;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.renderer.chunk.ChunkRenderCache;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootParameters;
 import net.minecraft.pathfinding.PathType;
@@ -33,6 +36,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseBlock;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseTE;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 
 import javax.annotation.Nonnull;
@@ -275,5 +279,10 @@ public class ONIBoundingBlock extends ONIBaseBlock {
         }
 
         return false;
+    }
+
+    @Override
+    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
+
     }
 }

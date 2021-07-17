@@ -16,17 +16,14 @@ import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
-import software.bernie.example.registry.SoundRegistry;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.SoundKeyframeEvent;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseInvTE;
-import wintersteve25.oniutils.common.blocks.base.bounding.ONIIBoundingBlock;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
 import wintersteve25.oniutils.common.capability.plasma.api.EnumWattsTypes;
 import wintersteve25.oniutils.common.capability.plasma.api.IPlasma;
@@ -41,7 +38,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAnimatable, IBoundingBlock, ONIIBoundingBlock {
+public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAnimatable, IBoundingBlock {
 
     private final AnimationFactory manager = new AnimationFactory(this);
     private final PlasmaStack plasmaHandler = new PlasmaStack(4000, EnumWattsTypes.LOW);
@@ -174,24 +171,24 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
 
         switch (facing) {
             case NORTH:
-                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().east(), this.getPos());
-                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
-                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up().east(), this.getPos());
+                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().east(), this.getPos());
+                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
+                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().up().east(), this.getPos());
                 break;
             case SOUTH:
-                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().west(), this.getPos());
-                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
-                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up().west(), this.getPos());
+                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().west(), this.getPos());
+                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
+                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().up().west(), this.getPos());
                 break;
             case EAST:
-                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().south(), this.getPos());
-                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
-                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up().south(), this.getPos());
+                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().south(), this.getPos());
+                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
+                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().up().south(), this.getPos());
                 break;
             case WEST:
-                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().north(), this.getPos());
-                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
-                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up().north(), this.getPos());
+                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().north(), this.getPos());
+                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
+                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().up().north(), this.getPos());
                 break;
         }
     }
@@ -206,18 +203,26 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
                     this.world.removeBlock(this.getPos().east(), false);
                     this.world.removeBlock(this.getPos().up(), false);
                     this.world.removeBlock(this.getPos().up().east(), false);
+                    this.world.removeBlock(this.getPos(), false);
+                    break;
                 case SOUTH:
                     this.world.removeBlock(this.getPos().west(), false);
                     this.world.removeBlock(this.getPos().up(), false);
                     this.world.removeBlock(this.getPos().up().west(), false);
+                    this.world.removeBlock(this.getPos(), false);
+                    break;
                 case EAST:
                     this.world.removeBlock(this.getPos().south(), false);
                     this.world.removeBlock(this.getPos().up(), false);
                     this.world.removeBlock(this.getPos().up().south(), false);
+                    this.world.removeBlock(this.getPos(), false);
+                    break;
                 case WEST:
                     this.world.removeBlock(this.getPos().north(), false);
                     this.world.removeBlock(this.getPos().up(), false);
                     this.world.removeBlock(this.getPos().up().north(), false);
+                    this.world.removeBlock(this.getPos(), false);
+                    break;
             }
         }
     }

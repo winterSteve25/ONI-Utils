@@ -55,7 +55,7 @@ public class ONIEngLangProvider extends LanguageProvider {
 
         add("oniutils.gui.titles.coal_gen", "Coal Generator");
 
-        add("oniutils.gui.info.energy", "Plasma Storage: %s");
+        add("oniutils.gui.info.energy", "Plasma Stored: %s");
         add("oniutils.gui.info.producingEnergy", "Producing Plasma: %s");
         add("oniutils.gui.info.consumingEnergy", "Consuming Plasma: %s");
         add("oniutils.gui.info.producingGas", "Producing Gas: %s");
