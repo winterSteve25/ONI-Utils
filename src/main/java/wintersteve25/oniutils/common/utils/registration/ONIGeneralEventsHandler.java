@@ -1,5 +1,6 @@
 package wintersteve25.oniutils.common.utils.registration;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -30,7 +31,7 @@ import wintersteve25.oniutils.common.init.ONICommands;
 import wintersteve25.oniutils.common.init.ONIConfig;
 import wintersteve25.oniutils.common.network.ONINetworking;
 
-public class ONIGeneralEventHandlers {
+public class ONIGeneralEventsHandler {
 
     public static void preInit(FMLCommonSetupEvent evt) {
         ONINetworking.registerMessages();
@@ -77,6 +78,8 @@ public class ONIGeneralEventHandlers {
             MinecraftForge.EVENT_BUS.addListener(GasEventsHandler::tick);
             MinecraftForge.EVENT_BUS.addListener(GasEventsHandler::onPlayerCloned);
         }
+
+        //Misc Event Listeners
     }
 
     public static void serverInit(FMLServerStartingEvent event) {
@@ -101,4 +104,6 @@ public class ONIGeneralEventHandlers {
         //GUI Attachments
         ScreenManager.registerFactory(ONIBlocks.COAL_GEN_CONTAINER.get(), CoalGenGui::new);
     }
+
+
 }

@@ -26,11 +26,6 @@ public class ONIBaseMachine extends ONIBaseDirectional {
     }
 
     @Override
-    public PushReaction getPushReaction(BlockState state) {
-        return PushReaction.BLOCK;
-    }
-
-    @Override
     public boolean hasTileEntity(BlockState state) {
         return true;
     }

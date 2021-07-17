@@ -4,11 +4,14 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.PushReaction;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.StateContainer;
 import net.minecraftforge.common.ToolType;
 import wintersteve25.oniutils.common.init.ONIBlocks;
+
+import javax.annotation.Nonnull;
 
 public class ONIBaseBlock extends Block /*implements ONIIStateFluidLoggable*/ {
 
@@ -59,6 +62,11 @@ public class ONIBaseBlock extends Block /*implements ONIIStateFluidLoggable*/ {
 
     public void initBlockNoData(ONIBaseBlock b) {
         ONIBlocks.blockNoDataList.add(b);
+    }
+
+    @Override
+    public PushReaction getPushReaction(@Nonnull BlockState state) {
+        return this.hasTileEntity(state) ? PushReaction.BLOCK : super.getPushReaction(state);
     }
 
 //    @Override

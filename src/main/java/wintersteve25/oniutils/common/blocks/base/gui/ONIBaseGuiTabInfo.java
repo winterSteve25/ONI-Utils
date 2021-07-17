@@ -56,5 +56,6 @@ public class ONIBaseGuiTabInfo extends ONIBaseGuiTab {
         mc.fontRenderer.func_243246_a(mx, CONSUMING_LIQUID, (getGuiLeftTopPosition(this.width, 177) - 147)+10, ogPos+toAddPos*6, TextFormatting.GRAY.getColor());
         mc.fontRenderer.func_243246_a(mx, PROGRESS, (getGuiLeftTopPosition(this.width, 177) - 147)+10, ogPos+toAddPos*7, TextFormatting.GRAY.getColor());
 
+        updateText();
     }
 }

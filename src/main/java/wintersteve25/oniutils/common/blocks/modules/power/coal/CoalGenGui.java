@@ -13,6 +13,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.blocks.base.gui.ONIBaseGuiContainer;
 import wintersteve25.oniutils.common.blocks.base.gui.ONIBaseGuiTab;
+import wintersteve25.oniutils.common.blocks.base.gui.ONIBaseGuiTabAlert;
 import wintersteve25.oniutils.common.blocks.base.gui.ONIBaseGuiTabInfo;
 
 import javax.annotation.Nonnull;
@@ -21,12 +22,16 @@ import javax.annotation.Nonnull;
 public class CoalGenGui extends ONIBaseGuiContainer<CoalGenContainer> {
 
     private static ResourceLocation bg = new ResourceLocation(ONIUtils.MODID, "textures/gui/machines/coal_gen_gui.png");
-    public final ONIBaseGuiTabInfo infoTab;
+    private final ONIBaseGuiTabInfo infoTab;
+    public final ONIBaseGuiTabAlert alertTab;
+    private InfoButton infoButton;
+    private AlertButton alertButton;
 
     public CoalGenGui(CoalGenContainer container, PlayerInventory inv, ITextComponent name) {
         super(container, inv, name, bg);
 
         infoTab = new ONIBaseGuiTabInfo();
+        alertTab = new ONIBaseGuiTabAlert();
     }
 
     @Override
@@ -37,10 +42,15 @@ public class CoalGenGui extends ONIBaseGuiContainer<CoalGenContainer> {
         this.guiTop = (this.height - this.getYSize()) / 2;
 
         this.infoTab.init(this.width, this.height, this.minecraft, this.container, "oniutils.gui.titles.coal_gen");
-        this.infoTab.initText();
+        this.infoTab.updateText();
 
-        addButton(new InfoButton());
-        addButton(new AlertButton());
+        this.alertTab.init(this.width, this.height, this.minecraft, this.container, "oniutils.gui.titles.warning");
+
+        this.infoButton = new InfoButton();
+        this.alertButton = new AlertButton();
+
+        addButton(infoButton);
+        addButton(alertButton);
     }
 
     @Override
@@ -48,6 +58,7 @@ public class CoalGenGui extends ONIBaseGuiContainer<CoalGenContainer> {
         super.render(matrixStack, mouseX, mouseY, partialTicks);
 
         infoTab.render(matrixStack, mouseX, mouseY, partialTicks);
+        alertTab.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 
     @Override
@@ -77,7 +88,6 @@ public class CoalGenGui extends ONIBaseGuiContainer<CoalGenContainer> {
         }
     }
 
-    //TODO: Use Vanilla ImageButton instead
     @OnlyIn(Dist.CLIENT)
     abstract static class Button extends AbstractButton {
         protected Button(int x, int y) {
@@ -113,10 +123,15 @@ public class CoalGenGui extends ONIBaseGuiContainer<CoalGenContainer> {
         }
 
         public void onPress() {
+            if (CoalGenGui.this.alertTab.isVisible()) {
+                CoalGenGui.this.alertTab.toggleVisibility();
+            }
+
             CoalGenGui.this.infoTab.toggleVisibility();
             CoalGenGui.this.guiLeft = CoalGenGui.this.infoTab.getGuiLeftTopPosition(CoalGenGui.this.width, CoalGenGui.this.xSize);
 
             this.setPosition(CoalGenGui.this.guiLeft+1, CoalGenGui.this.guiTop-17);
+            CoalGenGui.this.alertButton.setPosition(CoalGenGui.this.guiLeft+18, CoalGenGui.this.guiTop-17);
         }
     }
 
@@ -127,9 +142,15 @@ public class CoalGenGui extends ONIBaseGuiContainer<CoalGenContainer> {
         }
 
         public void onPress() {
-//            CoalGenGui.this.guiLeft = CoalGenGui.this.infoTab.getGuiLeftTopPosition(CoalGenGui.this.width, CoalGenGui.this.xSize);
+            if (CoalGenGui.this.infoTab.isVisible()) {
+                CoalGenGui.this.infoTab.toggleVisibility();
+            }
 
-//            this.setPosition(CoalGenGui.this.guiLeft+1, CoalGenGui.this.guiTop-17);
+            CoalGenGui.this.alertTab.toggleVisibility();
+            CoalGenGui.this.guiLeft = CoalGenGui.this.alertTab.getGuiLeftTopPosition(CoalGenGui.this.width, CoalGenGui.this.xSize);
+
+            this.setPosition(CoalGenGui.this.guiLeft+18, CoalGenGui.this.guiTop-17);
+            CoalGenGui.this.infoButton.setPosition(CoalGenGui.this.guiLeft+1, CoalGenGui.this.guiTop-17);
         }
     }
 

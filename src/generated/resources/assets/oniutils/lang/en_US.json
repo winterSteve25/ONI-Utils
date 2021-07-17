@@ -40,6 +40,7 @@
   "oniutils.gui.info.progress": "Progress: %s",
   "oniutils.gui.machines.power": "Plasma Stored: %s Pls",
   "oniutils.gui.titles.coal_gen": "Coal Generator",
+  "oniutils.gui.titles.warning": "\u00A7cWarnings",
   "oniutils.gui.warning.allClear": "All Clear",
   "oniutils.gui.warning.durability": "Low Machine Durability!",
   "oniutils.gui.warning.gasPressure": "High Gas Pressure!",

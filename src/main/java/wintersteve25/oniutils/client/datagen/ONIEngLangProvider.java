@@ -51,6 +51,8 @@ public class ONIEngLangProvider extends LanguageProvider {
 
         //gui
         add("oniutils.gui.machines.power", "Plasma Stored: %s Pls");
+        add("oniutils.gui.titles.warning", TextFormatting.DARK_RED + "Warnings");
+
         add("oniutils.gui.titles.coal_gen", "Coal Generator");
 
         add("oniutils.gui.info.energy", "Plasma Storage: %s");

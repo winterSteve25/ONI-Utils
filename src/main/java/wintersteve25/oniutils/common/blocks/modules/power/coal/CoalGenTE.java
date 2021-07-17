@@ -1,6 +1,7 @@
 package wintersteve25.oniutils.common.blocks.modules.power.coal;
 
 import mekanism.common.tile.interfaces.IBoundingBlock;
+import mekanism.common.util.WorldUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;

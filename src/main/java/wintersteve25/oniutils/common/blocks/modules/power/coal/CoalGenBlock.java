@@ -54,7 +54,7 @@ public class CoalGenBlock extends ONIBaseMachineAnimated {
     private static final VoxelShape EAST = VoxelShapeUtils.rotate(NORTH, Rotation.CLOCKWISE_90);
 
     public CoalGenBlock() {
-        super(Properties.create(Material.IRON).harvestLevel(1).harvestTool(ToolType.PICKAXE).hardnessAndResistance(3, 3).setRequiresTool().notSolid(), regName, ModelFileHelper.createModelFile(new ResourceLocation(ONIUtils.MODID, "models/block/machines/coal_generator")), 0);
+        super(Properties.create(Material.IRON).harvestTool(ToolType.PICKAXE).hardnessAndResistance(1.4F, 5).setRequiresTool().notSolid(), regName, ModelFileHelper.createModelFile(new ResourceLocation(ONIUtils.MODID, "models/block/machines/coal_generator")), 0);
     }
 
     @Override
