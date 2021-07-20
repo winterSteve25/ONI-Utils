@@ -64,8 +64,10 @@ public class ONIBaseMachine extends ONIBaseDirectional {
             ((IBoundingBlock) tile).onPlace();
         }
 
-        if (tile.isRedstoneSupported) {
-            tile.isForceStopped = worldIn.isBlockPowered(pos);
+        if (tile.isInverted()) {
+            tile.setForceStopped(!worldIn.isBlockPowered(pos));
+        } else {
+            tile.setForceStopped(worldIn.isBlockPowered(pos));
         }
     }
 

@@ -43,12 +43,14 @@ public class CoalGenBlock extends ONIBaseMachineAnimated {
     private static final VoxelShape BOTTOM1 = VoxelShapes.create(0D, 0, 0D, 1D, ONEPIXEL + (ONEPIXEL/16)*2, 1D);
     private static final VoxelShape BOTTOM2 = VoxelShapes.create(1D, 0, 0D, 2D, ONEPIXEL + (ONEPIXEL/16)*2, 1D);
     private static final VoxelShape BOTTOM = VoxelShapes.or(BOTTOM1, BOTTOM2);
-    private static final VoxelShape SUPPORT1 = VoxelShapes.create(ONEPIXEL*4, ONEPIXEL + (ONEPIXEL/16)*2, ONEPIXEL*6, ONEPIXEL*6, 1+ONEPIXEL*10, ONEPIXEL*11);
+    private static final VoxelShape SUPPORT1 = VoxelShapes.create(ONEPIXEL*6, ONEPIXEL + (ONEPIXEL/16)*2, ONEPIXEL*6, ONEPIXEL*6, 1+ONEPIXEL*10, ONEPIXEL*11);
     private static final VoxelShape SUPPORT2 = VoxelShapes.create(2D-ONEPIXEL*1, ONEPIXEL + (ONEPIXEL/16)*2, ONEPIXEL*6, 2D-ONEPIXEL*3, 1+ONEPIXEL*10, ONEPIXEL*11);
     private static final VoxelShape SUPPORT = VoxelShapes.or(SUPPORT1, SUPPORT2);
     private static final VoxelShape MIDDLE = VoxelShapes.create(ONEPIXEL*6, ONEPIXEL*6, ONEPIXEL*4, 2D-ONEPIXEL*3, 1+ONEPIXEL*9, 1D-ONEPIXEL*4);
+    private static final VoxelShape REDSTONEPANEL = VoxelShapes.create(ONEPIXEL*4, ONEPIXEL, ONEPIXEL*14, ONEPIXEL*13, ONEPIXEL*13, 1D);
+    private static final VoxelShape CONNECTION = VoxelShapes.create(ONEPIXEL*7, ONEPIXEL*7, ONEPIXEL*12, ONEPIXEL*10, ONEPIXEL*11, ONEPIXEL*14);
 
-    private static final VoxelShape NORTH = VoxelShapes.or(BOTTOM, SUPPORT, MIDDLE).simplify();
+    private static final VoxelShape NORTH = VoxelShapes.or(BOTTOM, SUPPORT, MIDDLE, CONNECTION, REDSTONEPANEL).simplify();
     private static final VoxelShape WEST = VoxelShapeUtils.rotate(NORTH, Rotation.COUNTERCLOCKWISE_90);
     private static final VoxelShape SOUTH = VoxelShapeUtils.rotate(NORTH, Rotation.CLOCKWISE_180);
     private static final VoxelShape EAST = VoxelShapeUtils.rotate(NORTH, Rotation.CLOCKWISE_90);
@@ -75,7 +77,7 @@ public class CoalGenBlock extends ONIBaseMachineAnimated {
                 };
                 NetworkHooks.openGui((ServerPlayerEntity) player, containerProvider, tileEntity.getPos());
             } else {
-                throw new IllegalStateException("Our named container provider is missing!");
+                ONIUtils.LOGGER.warn("Wrong tileEntity type found, failed to create container");
             }
         }
         return ActionResultType.SUCCESS;

@@ -22,6 +22,11 @@ public class ONINetworking {
                 () -> "1.0",
                 s -> true,
                 s -> true);
+        INSTANCE.messageBuilder(TERedstoneButtonPacket.class, nextID())
+                .encoder(TERedstoneButtonPacket::encode)
+                .decoder(TERedstoneButtonPacket::new)
+                .consumer(TERedstoneButtonPacket::handle)
+                .add();
     }
 
     public static void sendToClient(Object packet, ServerPlayerEntity player) {

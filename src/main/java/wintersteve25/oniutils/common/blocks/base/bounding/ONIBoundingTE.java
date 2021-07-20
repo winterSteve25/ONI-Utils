@@ -13,6 +13,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseTE;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 
@@ -27,7 +28,6 @@ public class ONIBoundingTE extends TileEntityUpdateable {
 
     private BlockPos mainPos;
     public boolean receivedCoords;
-    private int currentRedstoneLevel;
 
     public ONIBoundingTE() {
         this(ONIBlocks.BOUNDING_TE.get());
@@ -60,16 +60,9 @@ public class ONIBoundingTE extends TileEntityUpdateable {
         return this.receivedCoords ? WorldUtils.getTileEntity(this.world, this.getMainPos()) : null;
     }
 
-    public void onNeighborChange(BlockState state) {
-        TileEntity tile = this.getMainTile();
-        if (tile instanceof ONIBaseTE) {
-            int power = this.world.getRedstonePowerFromNeighbors(this.getPos());
-            if (this.currentRedstoneLevel != power) {
-                this.currentRedstoneLevel = power;
-                this.sendUpdatePacket();
-            }
-        }
-
+    @Nullable
+    public ONIBaseTE getMainONITile() {
+        return this.receivedCoords ? WorldUtils.getTileEntity(ONIBaseTE.class, this.world, this.getMainPos()) : null;
     }
 
     @Override
@@ -78,7 +71,6 @@ public class ONIBoundingTE extends TileEntityUpdateable {
         NBTUtils.setBlockPosIfPresent(nbtTags, "main", (pos) -> {
             this.mainPos = pos;
         });
-        this.currentRedstoneLevel = nbtTags.getInt("redstone");
         this.receivedCoords = nbtTags.getBoolean("receivedCoords");
     }
 
@@ -87,7 +79,6 @@ public class ONIBoundingTE extends TileEntityUpdateable {
     public CompoundNBT write(@Nonnull CompoundNBT nbtTags) {
         super.write(nbtTags);
         nbtTags.put("main", NBTUtil.writeBlockPos(this.getMainPos()));
-        nbtTags.putInt("redstone", this.currentRedstoneLevel);
         nbtTags.putBoolean("receivedCoords", this.receivedCoords);
         return nbtTags;
     }
@@ -97,7 +88,6 @@ public class ONIBoundingTE extends TileEntityUpdateable {
     public CompoundNBT getReducedUpdateTag() {
         CompoundNBT updateTag = super.getReducedUpdateTag();
         updateTag.put("main", NBTUtil.writeBlockPos(this.getMainPos()));
-        updateTag.putInt("redstone", this.currentRedstoneLevel);
         updateTag.putBoolean("receivedCoords", this.receivedCoords);
         return updateTag;
     }
@@ -108,7 +98,6 @@ public class ONIBoundingTE extends TileEntityUpdateable {
         NBTUtils.setBlockPosIfPresent(tag, "main", (pos) -> {
             this.mainPos = pos;
         });
-        this.currentRedstoneLevel = tag.getInt("redstone");
         this.receivedCoords = tag.getBoolean("receivedCoords");
     }
 

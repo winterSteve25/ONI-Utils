@@ -23,7 +23,6 @@ public class CoalGenGui extends ONIBaseGuiContainer<CoalGenContainer> {
 
     private static ResourceLocation bg = new ResourceLocation(ONIUtils.MODID, "textures/gui/machines/coal_gen_gui.png");
 
-
     public CoalGenGui(CoalGenContainer container, PlayerInventory inv, ITextComponent name) {
         super(container, inv, name, bg);
     }

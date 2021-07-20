@@ -161,11 +161,6 @@ public class ONIBoundingBlock extends ONIBaseBlock {
 
     @Override
     public void neighborChanged(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Block neighborBlock, @Nonnull BlockPos neighborPos, boolean isMoving) {
-        ONIBoundingTE tile = (ONIBoundingTE)WorldUtils.getTileEntity(ONIBoundingTE.class, world, pos);
-        if (tile != null) {
-            tile.onNeighborChange(state);
-        }
-
         BlockPos mainPos = getMainBlockPos(world, pos);
         if (mainPos != null) {
             world.getBlockState(mainPos).neighborChanged(world, mainPos, neighborBlock, neighborPos, isMoving);

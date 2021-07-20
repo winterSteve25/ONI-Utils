@@ -17,6 +17,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseContainer;
 import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenGui;
+import wintersteve25.oniutils.common.network.ONINetworking;
+import wintersteve25.oniutils.common.network.TERedstoneButtonPacket;
 
 public class ONIBaseGuiContainer<T extends ONIBaseContainer> extends ContainerScreen<T> {
 
@@ -26,6 +28,7 @@ public class ONIBaseGuiContainer<T extends ONIBaseContainer> extends ContainerSc
     public final ONIBaseGuiTabAlert alertTab;
     private InfoButton infoButton;
     private AlertButton alertButton;
+    private RedstoneButton redstoneButton;
 
     public ONIBaseGuiContainer(T container, PlayerInventory inv, ITextComponent name, ResourceLocation resourceLocation) {
         super(container, inv, name);
@@ -59,9 +62,11 @@ public class ONIBaseGuiContainer<T extends ONIBaseContainer> extends ContainerSc
 
         this.infoButton = new InfoButton();
         this.alertButton = new AlertButton();
+        this.redstoneButton = new RedstoneButton();
 
         addButton(infoButton);
         addButton(alertButton);
+        addButton(redstoneButton);
     }
 
     @Override
@@ -138,6 +143,7 @@ public class ONIBaseGuiContainer<T extends ONIBaseContainer> extends ContainerSc
 
             this.setPosition(ONIBaseGuiContainer.this.guiLeft+1, ONIBaseGuiContainer.this.guiTop-17);
             ONIBaseGuiContainer.this.alertButton.setPosition(ONIBaseGuiContainer.this.guiLeft+18, ONIBaseGuiContainer.this.guiTop-17);
+            ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft+35, ONIBaseGuiContainer.this.guiTop-17);
         }
     }
 
@@ -157,6 +163,28 @@ public class ONIBaseGuiContainer<T extends ONIBaseContainer> extends ContainerSc
 
             this.setPosition(ONIBaseGuiContainer.this.guiLeft+18, ONIBaseGuiContainer.this.guiTop-17);
             ONIBaseGuiContainer.this.infoButton.setPosition(ONIBaseGuiContainer.this.guiLeft+1, ONIBaseGuiContainer.this.guiTop-17);
+            ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft+35, ONIBaseGuiContainer.this.guiTop-17);
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    class RedstoneButton extends SpriteButton {
+        private boolean pressed = false;
+
+        public RedstoneButton() {
+            super(ONIBaseGuiContainer.this.guiLeft+35, ONIBaseGuiContainer.this.guiTop-17, 66, 240);
+        }
+
+        public void onPress() {
+            if (pressed) {
+                this.setU(66);
+                pressed = false;
+            } else {
+                this.setU(83);
+                pressed = true;
+            }
+
+            ONINetworking.sendToServer(new TERedstoneButtonPacket(container.getTileEntity()));
         }
     }
 

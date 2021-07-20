@@ -1,8 +1,9 @@
 package wintersteve25.oniutils.common.capability.gas.api;
 
+import net.minecraftforge.common.IExtensibleEnum;
 import wintersteve25.oniutils.common.utils.helper.MiscHelper;
 
-public enum EnumGasTypes {
+public enum EnumGasTypes implements IExtensibleEnum {
     //Blindness when oxygen is below 5%
     VACUUM("Vacuum"),
     //Oxygenated when above 5%
@@ -81,5 +82,9 @@ public enum EnumGasTypes {
             }
         }
         return null;
+    }
+
+    public static EnumGasTypes create(String name, String gasName) {
+        throw new IllegalArgumentException("Enum not extended");
     }
 }

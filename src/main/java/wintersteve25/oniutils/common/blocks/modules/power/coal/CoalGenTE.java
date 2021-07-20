@@ -59,6 +59,8 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
 
     @Override
     public void tick() {
+        super.tick();
+
         if (!world.isRemote()) {
             if (getForceStopped()) {
                 setWorking(false);
@@ -171,24 +173,24 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
 
         switch (facing) {
             case NORTH:
-                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().east(), this.getPos());
-                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
-                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().up().east(), this.getPos());
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().east(), this.getPos());
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up().east(), this.getPos());
                 break;
             case SOUTH:
-                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().west(), this.getPos());
-                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
-                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().up().west(), this.getPos());
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().west(), this.getPos());
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up().west(), this.getPos());
                 break;
             case EAST:
-                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().south(), this.getPos());
-                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
-                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().up().south(), this.getPos());
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().south(), this.getPos());
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up().south(), this.getPos());
                 break;
             case WEST:
-                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().north(), this.getPos());
-                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
-                WorldUtils.makeBoundingBlock(this.getWorld(), this.getPos().up().north(), this.getPos());
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().north(), this.getPos());
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up().north(), this.getPos());
                 break;
         }
     }

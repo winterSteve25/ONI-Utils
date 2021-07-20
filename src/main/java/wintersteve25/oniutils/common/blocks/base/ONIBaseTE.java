@@ -3,19 +3,34 @@ package wintersteve25.oniutils.common.blocks.base;
 import mekanism.common.tile.base.TileEntityUpdateable;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 
-public abstract class ONIBaseTE extends TileEntityUpdateable {
+public abstract class ONIBaseTE extends TileEntityUpdateable implements ITickableTileEntity {
 
     protected int totalProgress = totalProgress();
     protected int progress;
 
     protected boolean isWorking = false;
     protected boolean isForceStopped = false;
-    protected boolean isRedstoneSupported = true;
+    protected boolean isInverted = false;
 
     public ONIBaseTE(TileEntityType<?> te) {
         super(te);
+    }
+
+    @Override
+    public void tick() {
+        if (this.isInverted()) {
+            this.setForceStopped(!this.getWorldNN().isBlockPowered(pos));
+        } else {
+            this.setForceStopped(this.getWorldNN().isBlockPowered(pos));
+        }
+
+        if (getForceStopped()) {
+            setWorking(false);
+            setProgress(0);
+        }
     }
 
     public int getProgress() {
@@ -50,6 +65,14 @@ public abstract class ONIBaseTE extends TileEntityUpdateable {
 
     public void setForceStopped(boolean forceStopped) {
         isForceStopped = forceStopped;
+    }
+
+    public boolean isInverted() {
+        return isInverted;
+    }
+
+    public void toggleInverted() {
+        isInverted = !isInverted;
     }
 
     @Override

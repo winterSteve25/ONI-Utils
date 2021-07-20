@@ -1,5 +1,6 @@
 package wintersteve25.oniutils.common.blocks.modules.resources.slime;
 
+import mekanism.common.tile.base.TileEntityUpdateable;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
@@ -19,7 +20,7 @@ import wintersteve25.oniutils.common.init.ONIConfig;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class SlimeTE extends ONIBaseTE implements ITickableTileEntity, IGermCapProvider {
+public class SlimeTE extends TileEntityUpdateable implements ITickableTileEntity, IGermCapProvider {
 
     private GermStack germHandler = new GermStack();
     private LazyOptional<IGerms> lazyOptional =  LazyOptional.of(() -> germHandler);
@@ -42,11 +43,6 @@ public class SlimeTE extends ONIBaseTE implements ITickableTileEntity, IGermCapP
                 ONIUtils.LOGGER.info("germ amount" + currentGermAmount);
             }
         }
-    }
-
-    @Override
-    protected int totalProgress() {
-        return 0;
     }
 
     @Override
