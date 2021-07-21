@@ -21,8 +21,8 @@ public class RegistryHelper {
         return registryObject;
     }
 
-    public static <I extends Block> RegistryObject<I> register(String name, Supplier<? extends I> block, BlockItem blockItem) {
-        RegistryObject<I> registryObject = Registration.BLOCKS.register(name, block);
+    public static <B extends Block, I extends Item> RegistryObject<B> register(String name, Supplier<? extends B> block, I blockItem) {
+        RegistryObject<B> registryObject = Registration.BLOCKS.register(name, block);
         Registration.ITEMS.register(name, () -> blockItem);
         return registryObject;
     }

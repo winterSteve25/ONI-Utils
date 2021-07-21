@@ -76,16 +76,16 @@ public class ONIEngLangProvider extends LanguageProvider {
     }
 
     private void autoGenLang() {
-        for (ONIBaseBlock b : ONIBlocks.blockList) {
+        for (ONIBaseBlock b : ONIBlocks.blockList.keySet()) {
             add("block.oniutils." + MiscHelper.langToReg(b.getRegName()), b.getRegName());
         }
-        for (ONIBaseBlock b : ONIBlocks.blockNoDataList) {
+        for (ONIBaseBlock b : ONIBlocks.blockNoDataList.keySet()) {
             add("block.oniutils." + MiscHelper.langToReg(b.getRegName()), b.getRegName());
         }
-        for (ONIBaseDirectional b : ONIBlocks.directionalList) {
+        for (ONIBaseDirectional b : ONIBlocks.directionalList.keySet()) {
             add("block.oniutils." + MiscHelper.langToReg(b.getRegName()), b.getRegName());
         }
-        for (ONIBaseDirectional b : ONIBlocks.directionalNoDataList) {
+        for (ONIBaseDirectional b : ONIBlocks.directionalNoDataList.keySet()) {
             add("block.oniutils." + MiscHelper.langToReg(b.getRegName()), b.getRegName());
         }
         for (ONIBaseEffect e : ONIEffects.effectList) {

@@ -1,9 +1,12 @@
 package wintersteve25.oniutils.common.init;
 
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -19,6 +22,7 @@ import wintersteve25.oniutils.common.blocks.modules.oxygen.algae.AlgaeDiffuserBl
 import wintersteve25.oniutils.common.blocks.modules.oxygen.algae.AlgaeDiffuserTE;
 import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenBlock;
 import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenContainer;
+import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenItemBlock;
 import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenTE;
 import wintersteve25.oniutils.common.blocks.modules.power.manual.ManualGenBlock;
 import wintersteve25.oniutils.common.blocks.modules.power.manual.ManualGenTE;
@@ -30,7 +34,9 @@ import wintersteve25.oniutils.common.utils.helper.MiscHelper;
 import wintersteve25.oniutils.common.utils.helper.RegistryHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ONIBlocks {
     public static final RegistryObject<ONIBaseBlock> IgneousRock = RegistryHelper.register("igneous_rock", () -> new ONIBaseBlock(1, 2, 6));
@@ -80,42 +86,42 @@ public class ONIBlocks {
     public static final ONIBoundingBlock BOUNDING_BLOCK = new ONIBoundingBlock();
     public static final RegistryObject<TileEntityType<ONIBoundingTE>> BOUNDING_TE = RegistryHelper.registerTE(MiscHelper.langToReg(BOUNDING_BLOCK.getRegName()), () -> TileEntityType.Builder.create(ONIBoundingTE::new, BOUNDING_BLOCK).build(null));
 
-    public static List<ONIBaseBlock> blockList = new ArrayList<>();
-    public static List<ONIBaseBlock> blockNoDataList = new ArrayList<>();
-    public static List<ONIBaseDirectional> directionalList = new ArrayList<>();
-    public static List<ONIBaseDirectional> directionalNoDataList = new ArrayList<>();
+    public static Map<ONIBaseBlock, Item> blockList = new HashMap<>();
+    public static Map<ONIBaseBlock, Item> blockNoDataList = new HashMap<>();
+    public static Map<ONIBaseDirectional, Item> directionalList = new HashMap<>();
+    public static Map<ONIBaseDirectional, Item> directionalNoDataList = new HashMap<>();
 
     public static void register(){
-        MaficRock.initBlockNoData(MaficRock);
-        Regolith.initBlockNoData(Regolith);
-        Neutronium.initBlockNoData(Neutronium);
-        Fossil.initBlockNoData(Fossil);
-        BleachStone.initBlockNoData(BleachStone);
-        Rust.initBlockNoData(Rust);
-        PollutedIce.initBlockNoData(PollutedIce);
-        Algae.initBlock(Algae);
-        Phosphorite.initBlockNoData(Phosphorite);
-        Fertilizer.initBlockNoData(Fertilizer);
-        GoldAmalgam.initBlockNoData(GoldAmalgam);
-        Wolframite.initBlockNoData(Wolframite);
-        Abyssalite.initBlockNoData(Abyssalite);
-        Granite.initBlockNoData(Granite);
-        SedimentaryRock.initDirectionalNoData(SedimentaryRock);
+        MaficRock.initBlockNoData(MaficRock, null);
+        Regolith.initBlockNoData(Regolith, null);
+        Neutronium.initBlockNoData(Neutronium, null);
+        Fossil.initBlockNoData(Fossil, null);
+        BleachStone.initBlockNoData(BleachStone, null);
+        Rust.initBlockNoData(Rust, null);
+        PollutedIce.initBlockNoData(PollutedIce, null);
+        Algae.initBlock(Algae, null);
+        Phosphorite.initBlockNoData(Phosphorite, null);
+        Fertilizer.initBlockNoData(Fertilizer, null);
+        GoldAmalgam.initBlockNoData(GoldAmalgam, null);
+        Wolframite.initBlockNoData(Wolframite, null);
+        Abyssalite.initBlockNoData(Abyssalite, null);
+        Granite.initBlockNoData(Granite, null);
+        SedimentaryRock.initDirectionalNoData(SedimentaryRock, null);
 
         //Blocks TE
-        Oxylite.initBlockNoData(Oxylite);
-        RegistryHelper.register("slime", () -> Slime, new SlimeBlock.SlimeBlockItem());
+        Oxylite.initBlockNoData(Oxylite, null);
+        Slime.initBlockNoData(Slime, new SlimeBlock.SlimeBlockItem());
 
         //Machines
-        COAL_GEN_BLOCK.initDirectionalNoData(COAL_GEN_BLOCK);
-        MANUAL_GEN_BLOCK.initDirectionalNoData(MANUAL_GEN_BLOCK);
+        COAL_GEN_BLOCK.initDirectionalNoData(COAL_GEN_BLOCK, new CoalGenItemBlock());
+        MANUAL_GEN_BLOCK.initDirectionalNoData(MANUAL_GEN_BLOCK, null);
 
-        ALGAE_DIFFUSER_BLOCK.initDirectionalNoData(ALGAE_DIFFUSER_BLOCK);
+        ALGAE_DIFFUSER_BLOCK.initDirectionalNoData(ALGAE_DIFFUSER_BLOCK, null);
 
         //Furniture
 //        BULB_BLOCK.initRockNoDataGen(BULB_BLOCK);
 
         //Misc
-        BOUNDING_BLOCK.initBlock(BOUNDING_BLOCK);
+        BOUNDING_BLOCK.initBlock(BOUNDING_BLOCK, null);
     }
 }

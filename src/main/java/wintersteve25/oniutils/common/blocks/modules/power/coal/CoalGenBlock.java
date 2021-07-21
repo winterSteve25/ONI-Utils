@@ -9,6 +9,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -47,13 +48,14 @@ public class CoalGenBlock extends ONIBaseMachineAnimated {
     private static final VoxelShape SUPPORT2 = VoxelShapes.create(2D-ONEPIXEL*1, ONEPIXEL + (ONEPIXEL/16)*2, ONEPIXEL*6, 2D-ONEPIXEL*3, 1+ONEPIXEL*10, ONEPIXEL*11);
     private static final VoxelShape SUPPORT = VoxelShapes.or(SUPPORT1, SUPPORT2);
     private static final VoxelShape MIDDLE = VoxelShapes.create(ONEPIXEL*6, ONEPIXEL*6, ONEPIXEL*4, 2D-ONEPIXEL*3, 1+ONEPIXEL*9, 1D-ONEPIXEL*4);
-    private static final VoxelShape REDSTONEPANEL = VoxelShapes.create(ONEPIXEL*4, ONEPIXEL, ONEPIXEL*14, ONEPIXEL*13, ONEPIXEL*13, 1D);
-    private static final VoxelShape CONNECTION = VoxelShapes.create(ONEPIXEL*7, ONEPIXEL*7, ONEPIXEL*12, ONEPIXEL*10, ONEPIXEL*11, ONEPIXEL*14);
+    private static final VoxelShape REDSTONEPANEL = VoxelShapeUtils.rotate(VoxelShapes.create(ONEPIXEL*4, ONEPIXEL, ONEPIXEL*14, ONEPIXEL*13, ONEPIXEL*13, 1D), Rotation.CLOCKWISE_90);
+//    private static final VoxelShape REDSTONEPANEL = VoxelShapes.create(0, 0, 0, ONEPIXEL*2, 1D, 1D);
+    private static final VoxelShape CONNECTION = VoxelShapeUtils.rotate(VoxelShapes.create(ONEPIXEL*7, ONEPIXEL*7, ONEPIXEL*12, ONEPIXEL*10, ONEPIXEL*11, ONEPIXEL*14), Rotation.CLOCKWISE_90);
 
-    private static final VoxelShape NORTH = VoxelShapes.or(BOTTOM, SUPPORT, MIDDLE, CONNECTION, REDSTONEPANEL).simplify();
-    private static final VoxelShape WEST = VoxelShapeUtils.rotate(NORTH, Rotation.COUNTERCLOCKWISE_90);
-    private static final VoxelShape SOUTH = VoxelShapeUtils.rotate(NORTH, Rotation.CLOCKWISE_180);
-    private static final VoxelShape EAST = VoxelShapeUtils.rotate(NORTH, Rotation.CLOCKWISE_90);
+    private static final VoxelShape NORTH_R = VoxelShapes.or(BOTTOM, SUPPORT, MIDDLE, CONNECTION, REDSTONEPANEL).simplify();
+    private static final VoxelShape WEST_R = VoxelShapeUtils.rotate(NORTH_R, Rotation.COUNTERCLOCKWISE_90);
+    private static final VoxelShape SOUTH_R = VoxelShapeUtils.rotate(NORTH_R, Rotation.CLOCKWISE_180);
+    private static final VoxelShape EAST_R = VoxelShapeUtils.rotate(NORTH_R, Rotation.CLOCKWISE_90);
 
     public CoalGenBlock() {
         super(Properties.create(Material.IRON).harvestTool(ToolType.PICKAXE).hardnessAndResistance(1.4F, 5).setRequiresTool().notSolid(), regName, ModelFileHelper.createModelFile(new ResourceLocation(ONIUtils.MODID, "models/block/machines/coal_generator")), 0);
@@ -98,7 +100,18 @@ public class CoalGenBlock extends ONIBaseMachineAnimated {
 
     @Override
     public boolean canConnectRedstone(BlockState state, IBlockReader world, BlockPos pos, @Nullable Direction side) {
-        return true;
+        switch (state.get(BlockStateProperties.FACING)) {
+            case NORTH:
+                return side == Direction.EAST;
+            case SOUTH:
+                return side == Direction.WEST;
+            case EAST:
+                return side == Direction.SOUTH;
+            case WEST:
+                return side == Direction.NORTH;
+            default:
+                return false;
+        }
     }
 
     @Nullable
@@ -111,13 +124,13 @@ public class CoalGenBlock extends ONIBaseMachineAnimated {
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         switch(state.get(FACING)) {
             case SOUTH:
-                return SOUTH;
+                return SOUTH_R;
             case EAST:
-                return EAST;
+                return EAST_R;
             case WEST:
-                return WEST;
+                return WEST_R;
             default:
-                return NORTH;
+                return NORTH_R;
         }
     }
 }

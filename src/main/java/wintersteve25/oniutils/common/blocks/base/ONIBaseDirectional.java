@@ -6,8 +6,8 @@ import net.minecraft.block.DirectionalBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.PushReaction;
-import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.Item;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Mirror;
@@ -77,12 +77,12 @@ public class ONIBaseDirectional extends DirectionalBlock {
         return angelOffset;
     }
 
-    public void initDirectional(ONIBaseDirectional b) {
-        ONIBlocks.directionalList.add(b);
+    public void initDirectional(ONIBaseDirectional b, Item i) {
+        ONIBlocks.directionalList.put(b, i);
     }
 
-    public void initDirectionalNoData(ONIBaseDirectional b) {
-        ONIBlocks.directionalNoDataList.add(b);
+    public void initDirectionalNoData(ONIBaseDirectional b, Item i) {
+        ONIBlocks.directionalNoDataList.put(b, i);
     }
 
     @Override

@@ -43,7 +43,7 @@ public class ONIBaseGuiContainer<T extends ONIBaseContainer> extends ContainerSc
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
-
+        infoTab.updateText();
         infoTab.render(matrixStack, mouseX, mouseY, partialTicks);
         alertTab.render(matrixStack, mouseX, mouseY, partialTicks);
     }

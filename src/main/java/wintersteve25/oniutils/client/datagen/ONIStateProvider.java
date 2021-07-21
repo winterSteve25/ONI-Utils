@@ -28,13 +28,13 @@ public class ONIStateProvider extends BlockStateProvider {
     }
 
     private void autoGenStatesAndModels() {
-        for (ONIBaseBlock b : ONIBlocks.blockList) {
+        for (ONIBaseBlock b : ONIBlocks.blockList.keySet()) {
             if (b != null) {
                 simpleBlock(b);
             }
         }
 
-        for (ONIBaseDirectional b : ONIBlocks.directionalList) {
+        for (ONIBaseDirectional b : ONIBlocks.directionalList.keySet()) {
             if (b != null) {
                 if (b.getAngelOffset() == 0) {
                     directionalBlock(b, b.getModelFile());

@@ -7,6 +7,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.PushReaction;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.Item;
 import net.minecraft.state.StateContainer;
 import net.minecraftforge.common.ToolType;
 import wintersteve25.oniutils.common.init.ONIBlocks;
@@ -56,12 +57,12 @@ public class ONIBaseBlock extends Block /*implements ONIIStateFluidLoggable*/ {
         return this.regName;
     }
 
-    public void initBlock(ONIBaseBlock b) {
-        ONIBlocks.blockList.add(b);
+    public void initBlock(ONIBaseBlock b, Item i) {
+        ONIBlocks.blockList.put(b, i);
     }
 
-    public void initBlockNoData(ONIBaseBlock b) {
-        ONIBlocks.blockNoDataList.add(b);
+    public void initBlockNoData(ONIBaseBlock b, Item i) {
+        ONIBlocks.blockNoDataList.put(b, i);
     }
 
     @Override

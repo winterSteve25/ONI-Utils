@@ -19,8 +19,6 @@ public class ONIBaseGuiTabInfo extends ONIBaseGuiTab {
     protected TranslationTextComponent PRODUCING_LIQUID;
     protected TranslationTextComponent CONSUMING_LIQUID;
 
-    protected List<TranslationTextComponent> currentText = new ArrayList<>();
-
     @Override
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         super.render(matrixStack, mouseX, mouseY, partialTicks);

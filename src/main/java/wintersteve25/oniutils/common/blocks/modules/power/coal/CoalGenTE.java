@@ -146,10 +146,6 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
         event.getController().transitionLengthTicks = 80;
         if (super.getWorking()) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.motor.new", true));
-            ClientPlayerEntity player = Minecraft.getInstance().player;
-            if (player != null) {
-                player.playSound((SoundEvent) ONISounds.COAL_GEN_SOUND.get(), 1.0F, 1.0F);
-            }
             return PlayState.CONTINUE;
         } else {
             event.getController().setAnimation(new AnimationBuilder());

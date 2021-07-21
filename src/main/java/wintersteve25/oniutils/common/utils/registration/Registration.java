@@ -48,17 +48,33 @@ public class Registration {
     }
 
     public static void registerBlocks() {
-        for (ONIBaseBlock b : ONIBlocks.blockList) {
-            RegistryHelper.register(MiscHelper.langToReg(b.getRegName()), () -> b);
+        for (ONIBaseBlock b : ONIBlocks.blockList.keySet()) {
+            if (ONIBlocks.blockList.get(b) != null) {
+                RegistryHelper.register(MiscHelper.langToReg(b.getRegName()), () -> b, ONIBlocks.blockList.get(b));
+            } else {
+                RegistryHelper.register(MiscHelper.langToReg(b.getRegName()), () -> b);
+            }
         }
-        for (ONIBaseBlock ndr : ONIBlocks.blockNoDataList) {
-            RegistryHelper.register(MiscHelper.langToReg(ndr.getRegName()), () -> ndr);
+        for (ONIBaseBlock ndr : ONIBlocks.blockNoDataList.keySet()) {
+            if (ONIBlocks.blockNoDataList.get(ndr) != null) {
+                RegistryHelper.register(MiscHelper.langToReg(ndr.getRegName()), () -> ndr, ONIBlocks.blockNoDataList.get(ndr));
+            } else {
+                RegistryHelper.register(MiscHelper.langToReg(ndr.getRegName()), () -> ndr);
+            }
         }
-        for (ONIBaseDirectional b : ONIBlocks.directionalList) {
-            RegistryHelper.register(MiscHelper.langToReg(b.getRegName()), () -> b);
+        for (ONIBaseDirectional b : ONIBlocks.directionalList.keySet()) {
+            if (ONIBlocks.directionalList.get(b) != null) {
+                RegistryHelper.register(MiscHelper.langToReg(b.getRegName()), () -> b, ONIBlocks.directionalList.get(b));
+            } else {
+                RegistryHelper.register(MiscHelper.langToReg(b.getRegName()), () -> b);
+            }
         }
-        for (ONIBaseDirectional ndr : ONIBlocks.directionalNoDataList) {
-            RegistryHelper.register(MiscHelper.langToReg(ndr.getRegName()), () -> ndr);
+        for (ONIBaseDirectional ndr : ONIBlocks.directionalNoDataList.keySet()) {
+            if (ONIBlocks.directionalNoDataList.get(ndr) != null) {
+                RegistryHelper.register(MiscHelper.langToReg(ndr.getRegName()), () -> ndr, ONIBlocks.directionalNoDataList.get(ndr));
+            } else {
+                RegistryHelper.register(MiscHelper.langToReg(ndr.getRegName()), () -> ndr);
+            }
         }
     }
 

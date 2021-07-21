@@ -8,6 +8,7 @@ import net.minecraft.data.DirectoryCache;
 import net.minecraft.data.IDataProvider;
 import net.minecraft.data.LootTableProvider;
 import net.minecraft.loot.*;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,7 +39,7 @@ public abstract class LootTableBase extends LootTableProvider {
 
     protected abstract void addTables();
 
-    protected LootTable.Builder createStandardTable(String name, Block block) {
+    protected LootTable.Builder createStandardTable(String name, IItemProvider block) {
         LootPool.Builder builder = LootPool.builder()
                 .name(name)
                 .rolls(ConstantRange.of(1))

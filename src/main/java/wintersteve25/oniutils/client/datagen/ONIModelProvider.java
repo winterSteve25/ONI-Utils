@@ -28,10 +28,10 @@ public class ONIModelProvider extends ItemModelProvider {
     }
 
     private void autoGenModels() {
-        for (ONIBaseBlock b : ONIBlocks.blockList) {
+        for (ONIBaseBlock b : ONIBlocks.blockList.keySet()) {
             withExistingParent(MiscHelper.langToReg(b.getRegName()), modLoc("block/" + MiscHelper.langToReg(b.getRegName())));
         }
-        for (ONIBaseDirectional b : ONIBlocks.directionalList) {
+        for (ONIBaseDirectional b : ONIBlocks.directionalList.keySet()) {
             withExistingParent(MiscHelper.langToReg(b.getRegName()), modLoc("block/" + MiscHelper.langToReg(b.getRegName())));
         }
 

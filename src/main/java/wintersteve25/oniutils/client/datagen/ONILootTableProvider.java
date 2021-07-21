@@ -17,24 +17,20 @@ public class ONILootTableProvider extends LootTableBase {
     }
 
     private void standardTables() {
-        for (ONIBaseBlock b : ONIBlocks.blockList) {
+        for (ONIBaseBlock b : ONIBlocks.blockList.keySet()) {
             lootTables.putIfAbsent(b, createStandardTable(MiscHelper.langToReg(b.getRegName()), b));
         }
 
-        for (ONIBaseBlock b : ONIBlocks.blockNoDataList) {
-            if (!b.getRegName().equals(ONIBlocks.PollutedIce.getRegName())) {
-                lootTables.putIfAbsent(b, createStandardTable(MiscHelper.langToReg(b.getRegName()), b));
-            }
-        }
-
-        for (ONIBaseDirectional b : ONIBlocks.directionalList) {
+        for (ONIBaseBlock b : ONIBlocks.blockNoDataList.keySet()) {
             lootTables.putIfAbsent(b, createStandardTable(MiscHelper.langToReg(b.getRegName()), b));
         }
 
-        for (ONIBaseDirectional b : ONIBlocks.directionalNoDataList) {
+        for (ONIBaseDirectional b : ONIBlocks.directionalList.keySet()) {
             lootTables.putIfAbsent(b, createStandardTable(MiscHelper.langToReg(b.getRegName()), b));
         }
 
-        lootTables.putIfAbsent(ONIBlocks.Slime, createStandardTable(MiscHelper.langToReg(ONIBlocks.Slime.getRegName()), ONIBlocks.Slime));
+        for (ONIBaseDirectional b : ONIBlocks.directionalNoDataList.keySet()) {
+            lootTables.putIfAbsent(b, createStandardTable(MiscHelper.langToReg(b.getRegName()), b));
+        }
     }
 }

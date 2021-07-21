@@ -4,7 +4,8 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "oniutils.refmap.json",
   "mixins": [
-    "CorpseEntityMixin"
+    "CorpseEntityMixin",
+    "HorizontalFaceBlockMixin"
   ],
   "server": [
   ],
