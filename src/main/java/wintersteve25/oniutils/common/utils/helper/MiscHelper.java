@@ -1,14 +1,9 @@
 package wintersteve25.oniutils.common.utils.helper;
 
-import mekanism.common.Mekanism;
-import mekanism.common.block.states.BlockStateHelper;
 import mekanism.common.util.WorldUtils;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import wintersteve25.oniutils.ONIUtils;
@@ -20,6 +15,7 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 public class MiscHelper {
+
     public static final int INT_MAX = 2147483647;
     public static final double ONEPIXEL = 1D/16;
     public static final Item.Properties DEFAULT_ITEM_PROPERTY = new Item.Properties().group(ONIUtils.creativeTab);

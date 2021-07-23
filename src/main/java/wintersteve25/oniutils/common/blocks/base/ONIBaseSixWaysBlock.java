@@ -1,23 +1,24 @@
 package wintersteve25.oniutils.common.blocks.base;
 
-import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.SixWayBlock;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.item.Item;
+import wintersteve25.oniutils.common.init.ONIBlocks;
 
-public class ONIBaseSixWaysBlock extends SixWayBlock implements IWaterLoggable {
+public class ONIBaseSixWaysBlock extends SixWayBlock {
     private final String regName;
 
-    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-
-    public ONIBaseSixWaysBlock(Properties p_i48440_1_, String regName) {
-        super(2F, p_i48440_1_);
+    public ONIBaseSixWaysBlock(Properties properties, String regName) {
+        super(2F, properties);
         this.regName = regName;
 
-        setDefaultState(getStateContainer().getBaseState().with(WATERLOGGED, false));
+        setDefaultState(getStateContainer().getBaseState().with(NORTH, Boolean.valueOf(false)).with(EAST, Boolean.valueOf(false)).with(SOUTH, Boolean.valueOf(false)).with(WEST, Boolean.valueOf(false)).with(UP, Boolean.valueOf(false)).with(DOWN, Boolean.valueOf(false)));
     }
 
     public String getRegName() {
         return regName;
+    }
+
+    public void initBlock(ONIBaseSixWaysBlock b, Item i) {
+        ONIBlocks.sixWaysList.put(b, i);
     }
 }

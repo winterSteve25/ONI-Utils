@@ -8,11 +8,14 @@ import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.fml.RegistryObject;
+import wintersteve25.oniutils.ONIUtils;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseSixWaysBlock;
 import wintersteve25.oniutils.common.blocks.base.bounding.ONIBoundingBlock;
 import wintersteve25.oniutils.common.blocks.base.bounding.ONIBoundingTE;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
@@ -20,6 +23,8 @@ import wintersteve25.oniutils.common.blocks.base.ONIBaseBlock;
 import wintersteve25.oniutils.common.blocks.modules.furniture.LightBulbBlock;
 import wintersteve25.oniutils.common.blocks.modules.oxygen.algae.AlgaeDiffuserBlock;
 import wintersteve25.oniutils.common.blocks.modules.oxygen.algae.AlgaeDiffuserTE;
+import wintersteve25.oniutils.common.blocks.modules.power.cables.EnumCableTypes;
+import wintersteve25.oniutils.common.blocks.modules.power.cables.WireBlock;
 import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenBlock;
 import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenContainer;
 import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenItemBlock;
@@ -31,6 +36,7 @@ import wintersteve25.oniutils.common.blocks.modules.resources.oxylite.OxyliteTE;
 import wintersteve25.oniutils.common.blocks.modules.resources.slime.SlimeBlock;
 import wintersteve25.oniutils.common.blocks.modules.resources.slime.SlimeTE;
 import wintersteve25.oniutils.common.utils.helper.MiscHelper;
+import wintersteve25.oniutils.common.utils.helper.ModelFileHelper;
 import wintersteve25.oniutils.common.utils.helper.RegistryHelper;
 
 import java.util.ArrayList;
@@ -65,17 +71,19 @@ public class ONIBlocks {
     public static final RegistryObject<TileEntityType<SlimeTE>> SLIME_TE = RegistryHelper.registerTE(MiscHelper.langToReg(Slime.getRegName()), () -> TileEntityType.Builder.create(SlimeTE::new, Slime).build(null));
 
     //Machines
+        //Power
     public static final CoalGenBlock COAL_GEN_BLOCK = new CoalGenBlock();
     public static final RegistryObject<TileEntityType<CoalGenTE>> COAL_GEN_TE = RegistryHelper.registerTE(MiscHelper.langToReg(COAL_GEN_BLOCK.getRegName()), () -> TileEntityType.Builder.create(CoalGenTE::new, COAL_GEN_BLOCK).build(null));
-    public static final RegistryObject<ContainerType<CoalGenContainer>> COAL_GEN_CONTAINER = RegistryHelper.registerContainer(MiscHelper.langToReg(COAL_GEN_BLOCK.getRegName()), () -> IForgeContainerType.create((windowId, inv, data) -> {
-        BlockPos pos = data.readBlockPos();
-        World world = inv.player.world;
-        return new CoalGenContainer(windowId, world, pos, inv, inv.player);
-    }));
+    public static final RegistryObject<ContainerType<CoalGenContainer>> COAL_GEN_CONTAINER = RegistryHelper.registerContainer(MiscHelper.langToReg(COAL_GEN_BLOCK.getRegName()), () -> IForgeContainerType.create((windowId, inv, data) -> new CoalGenContainer(windowId, inv.player.world, data.readBlockPos(), inv, inv.player)));
 
     public static final ManualGenBlock MANUAL_GEN_BLOCK = new ManualGenBlock();
     public static final RegistryObject<TileEntityType<ManualGenTE>> MANUAL_GEN_TE = RegistryHelper.registerTE(MiscHelper.langToReg(MANUAL_GEN_BLOCK.getRegName()), () -> TileEntityType.Builder.create(ManualGenTE::new, MANUAL_GEN_BLOCK).build(null));
 
+    public static final WireBlock WIRE_BLOCK = new WireBlock(EnumCableTypes.WIRE);
+    public static final WireBlock CONDUCTIVE_WIRE_BLOCK = new WireBlock(EnumCableTypes.CONDUCTIVE);
+    public static final WireBlock HEAVI_WATT_WIRE_BLOCK = new WireBlock(EnumCableTypes.HEAVIWATTS, AbstractBlock.Properties.create(Material.IRON).notSolid());
+
+        //Oxygen
     public static final AlgaeDiffuserBlock ALGAE_DIFFUSER_BLOCK = new AlgaeDiffuserBlock();
     public static final RegistryObject<TileEntityType<AlgaeDiffuserTE>> ALGAE_DIFFUSER_TE = RegistryHelper.registerTE(MiscHelper.langToReg(ALGAE_DIFFUSER_BLOCK.getRegName()), () -> TileEntityType.Builder.create(AlgaeDiffuserTE::new, ALGAE_DIFFUSER_BLOCK).build(null));
 
@@ -90,6 +98,7 @@ public class ONIBlocks {
     public static Map<ONIBaseBlock, Item> blockNoDataList = new HashMap<>();
     public static Map<ONIBaseDirectional, Item> directionalList = new HashMap<>();
     public static Map<ONIBaseDirectional, Item> directionalNoDataList = new HashMap<>();
+    public static Map<ONIBaseSixWaysBlock, Item> sixWaysList = new HashMap<>();
 
     public static void register(){
         MaficRock.initBlockNoData(MaficRock, null);
@@ -113,9 +122,13 @@ public class ONIBlocks {
         Slime.initBlockNoData(Slime, new SlimeBlock.SlimeBlockItem());
 
         //Machines
+            //Power
         COAL_GEN_BLOCK.initDirectionalNoData(COAL_GEN_BLOCK, new CoalGenItemBlock());
         MANUAL_GEN_BLOCK.initDirectionalNoData(MANUAL_GEN_BLOCK, null);
-
+        WIRE_BLOCK.initBlock(WIRE_BLOCK, null);
+        CONDUCTIVE_WIRE_BLOCK.initBlock(CONDUCTIVE_WIRE_BLOCK, null);
+        HEAVI_WATT_WIRE_BLOCK.initBlock(HEAVI_WATT_WIRE_BLOCK, null);
+            //Oxygen
         ALGAE_DIFFUSER_BLOCK.initDirectionalNoData(ALGAE_DIFFUSER_BLOCK, null);
 
         //Furniture

@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "oniutils:block/machines/coal_gen"
+    "all": "oniutils:block/machines/power/coal_gen"
   }
 }

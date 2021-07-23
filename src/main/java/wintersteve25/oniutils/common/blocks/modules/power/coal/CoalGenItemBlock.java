@@ -6,14 +6,14 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import wintersteve25.oniutils.client.renderers.geckolibs.machines.power.coal.CoalGenGeckoItemRenderer;
+import wintersteve25.oniutils.client.renderers.geckolibs.machines.power.CoalGenItemBlockRenderer;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseBlockItem;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.utils.helper.MiscHelper;
 
 public class CoalGenItemBlock extends ONIBaseBlockItem {
     public CoalGenItemBlock() {
-        super(ONIBlocks.COAL_GEN_BLOCK, MiscHelper.DEFAULT_ITEM_PROPERTY.setISTER(() -> CoalGenGeckoItemRenderer::new));
+        super(ONIBlocks.COAL_GEN_BLOCK, MiscHelper.DEFAULT_ITEM_PROPERTY.setISTER(() -> CoalGenItemBlockRenderer::new));
     }
 
     @Override

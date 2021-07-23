@@ -55,28 +55,6 @@ public abstract class ONIBaseInvTE extends ONIBaseTE {
         return super.write(tag);
     }
 
-    @Override
-    @Nullable
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(this.getPos(), 3, this.getUpdateTag());
-    }
-
-    @Override
-    public CompoundNBT getUpdateTag() {
-        return this.write(new CompoundNBT());
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        super.onDataPacket(net, pkt);
-        handleUpdateTag(world.getBlockState(pos),pkt.getNbtCompound());
-    }
-
-    public void updateBlock(){
-        BlockState state = world.getBlockState(pos);
-        world.notifyBlockUpdate(pos, state, state, 2);
-    }
-
     public static class ONIInventoryHandler extends ItemStackHandler {
         private final ONIBaseInvTE tile;
 

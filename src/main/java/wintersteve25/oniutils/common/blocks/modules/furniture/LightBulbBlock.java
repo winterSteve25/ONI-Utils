@@ -28,7 +28,7 @@ public class LightBulbBlock extends ONIBaseDirectional implements IDecorBlock {
     }
 
     @Override
-    public int decorAmount() {
-        return 40;
+    public int moraleBonusAmount() {
+        return 5;
     }
 }

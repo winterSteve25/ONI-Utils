@@ -26,6 +26,7 @@ import net.minecraftforge.common.ToolType;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.network.NetworkHooks;
 import wintersteve25.oniutils.ONIUtils;
+import wintersteve25.oniutils.client.renderers.geckolibs.base.ONIIHasGeoItem;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseMachineAnimated;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.utils.helper.ISHandlerHelper;
@@ -36,7 +37,7 @@ import javax.annotation.Nullable;
 import static wintersteve25.oniutils.common.utils.helper.MiscHelper.ONEPIXEL;
 
 @SuppressWarnings("deprecation")
-public class CoalGenBlock extends ONIBaseMachineAnimated {
+public class CoalGenBlock extends ONIBaseMachineAnimated implements ONIIHasGeoItem {
 
     private static final String regName = "Coal Generator";
 

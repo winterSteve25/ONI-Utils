@@ -6,6 +6,7 @@ import net.minecraftforge.common.data.LanguageProvider;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseBlock;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseSixWaysBlock;
 import wintersteve25.oniutils.common.blocks.base.gui.ONIBaseGuiTab;
 import wintersteve25.oniutils.common.effects.ONIBaseEffect;
 import wintersteve25.oniutils.common.init.ONIBlocks;
@@ -86,6 +87,9 @@ public class ONIEngLangProvider extends LanguageProvider {
             add("block.oniutils." + MiscHelper.langToReg(b.getRegName()), b.getRegName());
         }
         for (ONIBaseDirectional b : ONIBlocks.directionalNoDataList.keySet()) {
+            add("block.oniutils." + MiscHelper.langToReg(b.getRegName()), b.getRegName());
+        }
+        for (ONIBaseSixWaysBlock b : ONIBlocks.sixWaysList.keySet()) {
             add("block.oniutils." + MiscHelper.langToReg(b.getRegName()), b.getRegName());
         }
         for (ONIBaseEffect e : ONIEffects.effectList) {

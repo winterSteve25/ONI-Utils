@@ -3,6 +3,7 @@ package wintersteve25.oniutils.client.datagen;
 import net.minecraft.data.DataGenerator;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseBlock;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseSixWaysBlock;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.utils.helper.MiscHelper;
 
@@ -30,6 +31,10 @@ public class ONILootTableProvider extends LootTableBase {
         }
 
         for (ONIBaseDirectional b : ONIBlocks.directionalNoDataList.keySet()) {
+            lootTables.putIfAbsent(b, createStandardTable(MiscHelper.langToReg(b.getRegName()), b));
+        }
+
+        for (ONIBaseSixWaysBlock b : ONIBlocks.sixWaysList.keySet()) {
             lootTables.putIfAbsent(b, createStandardTable(MiscHelper.langToReg(b.getRegName()), b));
         }
     }

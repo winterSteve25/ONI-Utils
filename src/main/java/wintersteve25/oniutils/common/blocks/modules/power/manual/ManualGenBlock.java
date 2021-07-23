@@ -12,13 +12,14 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
+import wintersteve25.oniutils.client.renderers.geckolibs.base.ONIIHasGeoItem;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseMachineAnimated;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 
 import javax.annotation.Nullable;
 
 @SuppressWarnings("deprecation")
-public class ManualGenBlock extends ONIBaseMachineAnimated {
+public class ManualGenBlock extends ONIBaseMachineAnimated implements ONIIHasGeoItem {
 
     private static final String regName = "Manual Generator";
 

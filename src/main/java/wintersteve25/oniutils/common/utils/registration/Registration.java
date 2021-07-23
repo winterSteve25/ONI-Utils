@@ -13,6 +13,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseBlock;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseSixWaysBlock;
 import wintersteve25.oniutils.common.effects.ONIBaseEffect;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONIEffects;
@@ -74,6 +75,13 @@ public class Registration {
                 RegistryHelper.register(MiscHelper.langToReg(ndr.getRegName()), () -> ndr, ONIBlocks.directionalNoDataList.get(ndr));
             } else {
                 RegistryHelper.register(MiscHelper.langToReg(ndr.getRegName()), () -> ndr);
+            }
+        }
+        for (ONIBaseSixWaysBlock b : ONIBlocks.sixWaysList.keySet()) {
+            if (ONIBlocks.sixWaysList.get(b) != null) {
+                RegistryHelper.register(MiscHelper.langToReg(b.getRegName()), () -> b, ONIBlocks.sixWaysList.get(b));
+            } else {
+                RegistryHelper.register(MiscHelper.langToReg(b.getRegName()), () -> b);
             }
         }
     }

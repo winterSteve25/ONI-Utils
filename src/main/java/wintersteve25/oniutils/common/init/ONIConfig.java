@@ -10,6 +10,7 @@ public class ONIConfig {
     public static final String CAT_MACHINE = "machines";
     public static final String CAT_TEMP = "temperature";
     public static final String CAT_GAS = "gas";
+    public static final String CAT_MORALE = "morale";
     public static final String CAT_MISC = "misc";
 
     public static ForgeConfigSpec SERVER_CONFIG;
@@ -40,6 +41,8 @@ public class ONIConfig {
     public static ForgeConfigSpec.BooleanValue ENABLE_GAS;
     public static ForgeConfigSpec.DoubleValue PLAYER_BREATH_AMOUNT;
     public static ForgeConfigSpec.IntValue PLAYER_REQUIRED_OXYGEN_AMOUNT;
+
+    public static ForgeConfigSpec.BooleanValue ENABLE_MORALE;
 
     static {
         ForgeConfigSpec.Builder SERVERBUILDER = new ForgeConfigSpec.Builder();
@@ -81,6 +84,10 @@ public class ONIConfig {
         ENABLE_GAS = SERVERBUILDER.comment("Should the gas system be enabled?").define("enableGas", true);
         PLAYER_BREATH_AMOUNT = SERVERBUILDER.comment("How much grams of gas should player breath in per second in total?").defineInRange("playerBreathAmount", 1D, 1, MiscHelper.INT_MAX);
         PLAYER_REQUIRED_OXYGEN_AMOUNT = SERVERBUILDER.comment("How much grams of oxygen should player consume every second").defineInRange("playerConsumeAmount", 2, 1, MiscHelper.INT_MAX);
+        SERVERBUILDER.pop();
+
+        SERVERBUILDER.comment("Morale Settings").push(CAT_MORALE);
+        ENABLE_MORALE = SERVERBUILDER.comment("Should the morale system be enabled?").define("enableMorale", true);
         SERVERBUILDER.pop();
 
         SERVERBUILDER.comment("Misc").push(CAT_MISC);

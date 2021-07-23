@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "oniutils:block/machines/power/wire"
+      }
+    ]
+  }
+}

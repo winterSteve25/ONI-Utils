@@ -1,6 +1,5 @@
 package wintersteve25.oniutils.common.utils.registration;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -14,13 +13,16 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
-import wintersteve25.oniutils.client.renderers.geckolibs.machines.power.coal.CoalGenGeckoRenderer;
-import wintersteve25.oniutils.client.renderers.geckolibs.machines.power.manual.ManualGenGeckoRenderer;
+import wintersteve25.oniutils.client.renderers.geckolibs.base.GeckolibBlockRendererBase;
 import wintersteve25.oniutils.client.keybinds.ONIKeybinds;
 import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenGui;
+import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenTE;
+import wintersteve25.oniutils.common.blocks.modules.power.manual.ManualGenTE;
 import wintersteve25.oniutils.common.capability.gas.GasEventsHandler;
 import wintersteve25.oniutils.common.capability.germ.GermEventsHandler;
 import wintersteve25.oniutils.common.capability.germ.GermCapability;
+import wintersteve25.oniutils.common.capability.morale.MoraleCapability;
+import wintersteve25.oniutils.common.capability.morale.MoraleEventsHandler;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
 import wintersteve25.oniutils.common.capability.temperature.TemperatureCapability;
 import wintersteve25.oniutils.common.capability.trait.TraitCapability;
@@ -30,6 +32,7 @@ import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONICommands;
 import wintersteve25.oniutils.common.init.ONIConfig;
 import wintersteve25.oniutils.common.network.ONINetworking;
+import wintersteve25.oniutils.common.utils.helper.ONIGeoConstants;
 
 public class ONIGeneralEventsHandler {
 
@@ -53,6 +56,7 @@ public class ONIGeneralEventsHandler {
             MinecraftForge.EVENT_BUS.addListener(GermEventsHandler::infectOnTileInteract);
             MinecraftForge.EVENT_BUS.addListener(GermEventsHandler::playerTickEvent);
             MinecraftForge.EVENT_BUS.addListener(GermEventsHandler::keepGermWhilePlaced);
+            MinecraftForge.EVENT_BUS.addListener(GermEventsHandler::renderOverlayEvent);
         }
 
         //potr
@@ -72,11 +76,19 @@ public class ONIGeneralEventsHandler {
             }
         }
 
+        //gases
         if (ONIConfig.ENABLE_GAS.get()) {
             MinecraftForge.EVENT_BUS.addGenericListener(Chunk.class, GasEventsHandler::chunkAttach);
             MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, GasEventsHandler::entityAttach);
             MinecraftForge.EVENT_BUS.addListener(GasEventsHandler::tick);
             MinecraftForge.EVENT_BUS.addListener(GasEventsHandler::onPlayerCloned);
+        }
+
+        //morale
+        if (ONIConfig.ENABLE_MORALE.get()) {
+            MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, MoraleEventsHandler::playerAttach);
+            MinecraftForge.EVENT_BUS.addGenericListener(Chunk.class, MoraleEventsHandler::chunkAttach);
+            MinecraftForge.EVENT_BUS.addListener(MoraleEventsHandler::playerTick);
         }
 
         //Misc Event Listeners
@@ -91,8 +103,8 @@ public class ONIGeneralEventsHandler {
     public static void clientPreInit(FMLClientSetupEvent event) {
         //TESRs
         if (ModList.get().isLoaded("geckolib3")) {
-            ClientRegistry.bindTileEntityRenderer(ONIBlocks.COAL_GEN_TE.get(), CoalGenGeckoRenderer::new);
-            ClientRegistry.bindTileEntityRenderer(ONIBlocks.MANUAL_GEN_TE.get(), ManualGenGeckoRenderer::new);
+            ClientRegistry.bindTileEntityRenderer(ONIBlocks.COAL_GEN_TE.get(), t -> new GeckolibBlockRendererBase<CoalGenTE>(t, ONIGeoConstants.COAL_GEN_TE));
+            ClientRegistry.bindTileEntityRenderer(ONIBlocks.MANUAL_GEN_TE.get(), t -> new GeckolibBlockRendererBase<ManualGenTE>(t, ONIGeoConstants.MANUAL_GEN_TE));
         }
 
         //Keybindings
