@@ -17,7 +17,6 @@ public class ONICommands {
         dispatcher.register(Commands.literal("oniutils").redirect(source));
         dispatcher.register(Commands.literal("veiledascent").redirect(source));
 
-
-        ONIUtils.LOGGER.info("Registered ECE Commands!");
+        ONIUtils.LOGGER.info("Registered ONIUtils Commands!");
     }
 }

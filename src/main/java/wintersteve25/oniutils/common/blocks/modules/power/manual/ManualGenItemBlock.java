@@ -1,4 +1,4 @@
-package wintersteve25.oniutils.common.blocks.modules.power.coal;
+package wintersteve25.oniutils.common.blocks.modules.power.manual;
 
 import mekanism.common.util.WorldUtils;
 import net.minecraft.block.BlockState;
@@ -9,19 +9,19 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import wintersteve25.oniutils.client.renderers.geckolibs.machines.power.CoalGenItemBlockRenderer;
-import wintersteve25.oniutils.common.items.base.interfaces.ONIIColoredName;
-import wintersteve25.oniutils.common.items.base.interfaces.ONIIHasToolTip;
+import wintersteve25.oniutils.client.renderers.geckolibs.machines.power.ManualGenItemBlockRenderer;
 import wintersteve25.oniutils.common.items.base.ONIBaseBlockItem;
 import wintersteve25.oniutils.common.init.ONIBlocks;
+import wintersteve25.oniutils.common.items.base.interfaces.ONIIColoredName;
+import wintersteve25.oniutils.common.items.base.interfaces.ONIIHasToolTip;
 import wintersteve25.oniutils.common.utils.helper.MiscHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CoalGenItemBlock extends ONIBaseBlockItem implements ONIIHasToolTip, ONIIColoredName {
-    public CoalGenItemBlock() {
-        super(ONIBlocks.COAL_GEN_BLOCK, MiscHelper.DEFAULT_ITEM_PROPERTY.setISTER(() -> CoalGenItemBlockRenderer::new));
+public class ManualGenItemBlock extends ONIBaseBlockItem implements ONIIHasToolTip, ONIIColoredName {
+    public ManualGenItemBlock() {
+        super(ONIBlocks.MANUAL_GEN_BLOCK, MiscHelper.DEFAULT_ITEM_PROPERTY.setISTER(() -> ManualGenItemBlockRenderer::new));
     }
 
     @Override
@@ -74,14 +74,14 @@ public class CoalGenItemBlock extends ONIBaseBlockItem implements ONIIHasToolTip
     }
 
     @Override
-    public List<ITextComponent> tooltip() {
-        List<ITextComponent> list = new ArrayList<>();
-        list.add(new TranslationTextComponent("oniutils.tooltips.items.coal_gen"));
-        return list;
+    public TextFormatting color() {
+        return MiscHelper.POWER_CAT_COLOR;
     }
 
     @Override
-    public TextFormatting color() {
-        return MiscHelper.POWER_CAT_COLOR;
+    public List<ITextComponent> tooltip() {
+        List<ITextComponent> list = new ArrayList<>();
+        list.add(new TranslationTextComponent("oniutils.tooltips.items.manual_gen"));
+        return list;
     }
 }

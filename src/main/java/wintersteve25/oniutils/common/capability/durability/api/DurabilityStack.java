@@ -6,6 +6,14 @@ public class DurabilityStack implements IDurability {
 
     private int durability = 0;
 
+    public DurabilityStack() {
+
+    }
+
+    public DurabilityStack(int durability) {
+        this.durability = durability;
+    }
+
     @Override
     public int getDurability() {
         return durability;

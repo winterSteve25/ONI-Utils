@@ -30,6 +30,8 @@ import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenContainer;
 import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenItemBlock;
 import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenTE;
 import wintersteve25.oniutils.common.blocks.modules.power.manual.ManualGenBlock;
+import wintersteve25.oniutils.common.blocks.modules.power.manual.ManualGenContainer;
+import wintersteve25.oniutils.common.blocks.modules.power.manual.ManualGenItemBlock;
 import wintersteve25.oniutils.common.blocks.modules.power.manual.ManualGenTE;
 import wintersteve25.oniutils.common.blocks.modules.resources.oxylite.OxyliteBlock;
 import wintersteve25.oniutils.common.blocks.modules.resources.oxylite.OxyliteTE;
@@ -78,6 +80,7 @@ public class ONIBlocks {
 
     public static final ManualGenBlock MANUAL_GEN_BLOCK = new ManualGenBlock();
     public static final RegistryObject<TileEntityType<ManualGenTE>> MANUAL_GEN_TE = RegistryHelper.registerTE(MiscHelper.langToReg(MANUAL_GEN_BLOCK.getRegName()), () -> TileEntityType.Builder.create(ManualGenTE::new, MANUAL_GEN_BLOCK).build(null));
+    public static final RegistryObject<ContainerType<ManualGenContainer>> MANUAL_GEN_CONTAINER = RegistryHelper.registerContainer(MiscHelper.langToReg(MANUAL_GEN_BLOCK.getRegName()), () -> IForgeContainerType.create((windowId, inv, data) -> new ManualGenContainer(windowId, inv.player.world, data.readBlockPos(), inv, inv.player)));
 
     public static final WireBlock WIRE_BLOCK = new WireBlock(EnumCableTypes.WIRE);
     public static final WireBlock CONDUCTIVE_WIRE_BLOCK = new WireBlock(EnumCableTypes.CONDUCTIVE);
@@ -124,7 +127,7 @@ public class ONIBlocks {
         //Machines
             //Power
         COAL_GEN_BLOCK.initDirectionalNoData(COAL_GEN_BLOCK, new CoalGenItemBlock());
-        MANUAL_GEN_BLOCK.initDirectionalNoData(MANUAL_GEN_BLOCK, null);
+        MANUAL_GEN_BLOCK.initDirectionalNoData(MANUAL_GEN_BLOCK, new ManualGenItemBlock());
         WIRE_BLOCK.initBlock(WIRE_BLOCK, null);
         CONDUCTIVE_WIRE_BLOCK.initBlock(CONDUCTIVE_WIRE_BLOCK, null);
         HEAVI_WATT_WIRE_BLOCK.initBlock(HEAVI_WATT_WIRE_BLOCK, null);

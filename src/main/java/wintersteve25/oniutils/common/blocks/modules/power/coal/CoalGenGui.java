@@ -1,20 +1,13 @@
 package wintersteve25.oniutils.common.blocks.modules.power.coal;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.button.AbstractButton;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.blocks.base.gui.ONIBaseGuiContainer;
-import wintersteve25.oniutils.common.blocks.base.gui.ONIBaseGuiTab;
-import wintersteve25.oniutils.common.blocks.base.gui.ONIBaseGuiTabAlert;
-import wintersteve25.oniutils.common.blocks.base.gui.ONIBaseGuiTabInfo;
+import wintersteve25.oniutils.client.gui.ONIBaseGuiContainer;
 
 import javax.annotation.Nonnull;
 
@@ -52,5 +45,10 @@ public class CoalGenGui extends ONIBaseGuiContainer<CoalGenContainer> {
 
             super.powerToolTip(matrixStack, power, mouseX, mouseY, this.guiLeft, this.guiTop);
         }
+    }
+
+    @Override
+    protected boolean hasRedstoneOutputButton() {
+        return true;
     }
 }

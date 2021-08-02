@@ -20,6 +20,9 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseInvTE;
+import wintersteve25.oniutils.common.capability.durability.DurabilityCapability;
+import wintersteve25.oniutils.common.capability.durability.api.DurabilityStack;
+import wintersteve25.oniutils.common.capability.durability.api.IDurability;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
 import wintersteve25.oniutils.common.capability.plasma.api.EnumWattsTypes;
 import wintersteve25.oniutils.common.capability.plasma.api.IPlasma;
@@ -38,6 +41,8 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     private final AnimationFactory manager = new AnimationFactory(this);
     private final PlasmaStack plasmaHandler = new PlasmaStack(4000, EnumWattsTypes.LOW);
     private final LazyOptional<IPlasma> powerLazyOptional = LazyOptional.of(() -> plasmaHandler);
+    private final DurabilityStack durabilityStack = new DurabilityStack();
+    private final LazyOptional<IDurability> durabilityLazyOptional = LazyOptional.of(() -> durabilityStack);
     private final List<Item> valids = new ArrayList<>();
 
     private boolean removedFirstItem = false;
@@ -133,6 +138,9 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return itemLazyOptional.cast();
         }
+        if (cap == DurabilityCapability.DURABILITY_CAPABILITY) {
+            return durabilityLazyOptional.cast();
+        }
 
         return super.getCapability(cap, side);
     }
@@ -196,25 +204,21 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
                     this.world.removeBlock(this.getPos().east(), false);
                     this.world.removeBlock(this.getPos().up(), false);
                     this.world.removeBlock(this.getPos().up().east(), false);
-                    this.world.removeBlock(this.getPos(), false);
                     break;
                 case SOUTH:
                     this.world.removeBlock(this.getPos().west(), false);
                     this.world.removeBlock(this.getPos().up(), false);
                     this.world.removeBlock(this.getPos().up().west(), false);
-                    this.world.removeBlock(this.getPos(), false);
                     break;
                 case EAST:
                     this.world.removeBlock(this.getPos().south(), false);
                     this.world.removeBlock(this.getPos().up(), false);
                     this.world.removeBlock(this.getPos().up().south(), false);
-                    this.world.removeBlock(this.getPos(), false);
                     break;
                 case WEST:
                     this.world.removeBlock(this.getPos().north(), false);
                     this.world.removeBlock(this.getPos().up(), false);
                     this.world.removeBlock(this.getPos().up().north(), false);
-                    this.world.removeBlock(this.getPos(), false);
                     break;
             }
         }

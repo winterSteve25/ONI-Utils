@@ -4,10 +4,10 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
-import wintersteve25.oniutils.common.capability.morale.api.IDecorBlock;
+import wintersteve25.oniutils.common.capability.morale.api.IMoraleModifierBlock;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
 
-public class LightBulbBlock extends ONIBaseDirectional implements IDecorBlock {
+public class LightBulbBlock extends ONIBaseDirectional implements IMoraleModifierBlock {
     //public static BooleanProperty ON = BooleanProperty.create("on");
 
     public LightBulbBlock() {
@@ -28,7 +28,7 @@ public class LightBulbBlock extends ONIBaseDirectional implements IDecorBlock {
     }
 
     @Override
-    public int moraleBonusAmount() {
+    public int moraleModifier() {
         return 5;
     }
 }

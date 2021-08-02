@@ -18,6 +18,7 @@ import wintersteve25.oniutils.common.init.ONIConfig;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+//TODO: Rework playerTick method
 public class GasEventsHandler {
     private static AtomicInteger breathTimer = new AtomicInteger(20);
 

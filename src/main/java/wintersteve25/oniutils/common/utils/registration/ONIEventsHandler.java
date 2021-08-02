@@ -15,9 +15,14 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import wintersteve25.oniutils.client.renderers.geckolibs.base.GeckolibBlockRendererBase;
 import wintersteve25.oniutils.client.keybinds.ONIKeybinds;
+import wintersteve25.oniutils.client.renderers.geckolibs.machines.power.ManualGenBlockRenderer;
 import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenGui;
 import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenTE;
+import wintersteve25.oniutils.common.blocks.modules.power.manual.ManualGenGui;
 import wintersteve25.oniutils.common.blocks.modules.power.manual.ManualGenTE;
+import wintersteve25.oniutils.common.capability.durability.DurabilityCapability;
+import wintersteve25.oniutils.common.capability.durability.api.DurabilityStack;
+import wintersteve25.oniutils.common.capability.gas.GasCapability;
 import wintersteve25.oniutils.common.capability.gas.GasEventsHandler;
 import wintersteve25.oniutils.common.capability.germ.GermEventsHandler;
 import wintersteve25.oniutils.common.capability.germ.GermCapability;
@@ -34,7 +39,7 @@ import wintersteve25.oniutils.common.init.ONIConfig;
 import wintersteve25.oniutils.common.network.ONINetworking;
 import wintersteve25.oniutils.common.utils.helper.ONIGeoConstants;
 
-public class ONIGeneralEventsHandler {
+public class ONIEventsHandler {
 
     public static void preInit(FMLCommonSetupEvent evt) {
         ONINetworking.registerMessages();
@@ -43,6 +48,9 @@ public class ONIGeneralEventsHandler {
         TraitCapability.register();
         PlasmaCapability.register();
         TemperatureCapability.register();
+        GasCapability.register();
+        MoraleCapability.register();
+        DurabilityCapability.register();
 
         //germ events
         if (ONIConfig.ENABLE_GERMS.get()) {
@@ -80,7 +88,7 @@ public class ONIGeneralEventsHandler {
         if (ONIConfig.ENABLE_GAS.get()) {
             MinecraftForge.EVENT_BUS.addGenericListener(Chunk.class, GasEventsHandler::chunkAttach);
             MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, GasEventsHandler::entityAttach);
-            MinecraftForge.EVENT_BUS.addListener(GasEventsHandler::tick);
+//            MinecraftForge.EVENT_BUS.addListener(GasEventsHandler::tick);
             MinecraftForge.EVENT_BUS.addListener(GasEventsHandler::onPlayerCloned);
         }
 
@@ -88,8 +96,11 @@ public class ONIGeneralEventsHandler {
         if (ONIConfig.ENABLE_MORALE.get()) {
             MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, MoraleEventsHandler::playerAttach);
             MinecraftForge.EVENT_BUS.addGenericListener(Chunk.class, MoraleEventsHandler::chunkAttach);
-            MinecraftForge.EVENT_BUS.addListener(MoraleEventsHandler::playerTick);
+            MinecraftForge.EVENT_BUS.addListener(MoraleEventsHandler::playerLogIn);
+            MinecraftForge.EVENT_BUS.addListener(MoraleEventsHandler::placeBlock);
         }
+
+
 
         //Misc Event Listeners
     }
@@ -104,7 +115,7 @@ public class ONIGeneralEventsHandler {
         //TESRs
         if (ModList.get().isLoaded("geckolib3")) {
             ClientRegistry.bindTileEntityRenderer(ONIBlocks.COAL_GEN_TE.get(), t -> new GeckolibBlockRendererBase<CoalGenTE>(t, ONIGeoConstants.COAL_GEN_TE));
-            ClientRegistry.bindTileEntityRenderer(ONIBlocks.MANUAL_GEN_TE.get(), t -> new GeckolibBlockRendererBase<ManualGenTE>(t, ONIGeoConstants.MANUAL_GEN_TE));
+            ClientRegistry.bindTileEntityRenderer(ONIBlocks.MANUAL_GEN_TE.get(), ManualGenBlockRenderer::new);
         }
 
         //Keybindings
@@ -115,7 +126,6 @@ public class ONIGeneralEventsHandler {
 
         //GUI Attachments
         ScreenManager.registerFactory(ONIBlocks.COAL_GEN_CONTAINER.get(), CoalGenGui::new);
+        ScreenManager.registerFactory(ONIBlocks.MANUAL_GEN_CONTAINER.get(), ManualGenGui::new);
     }
-
-
 }

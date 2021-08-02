@@ -18,6 +18,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
@@ -70,7 +71,7 @@ public class CoalGenBlock extends ONIBaseMachineAnimated implements ONIIHasGeoIt
                 INamedContainerProvider containerProvider = new INamedContainerProvider() {
                     @Override
                     public ITextComponent getDisplayName() {
-                        return new TranslationTextComponent("");
+                        return new TranslationTextComponent("oniutils.gui.machines.coal_gen");
                     }
 
                     @Override

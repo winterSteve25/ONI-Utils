@@ -1,4 +1,4 @@
-package wintersteve25.oniutils.common.blocks.base.gui;
+package wintersteve25.oniutils.client.gui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -10,11 +10,11 @@ import java.util.List;
 
 public class ONIBaseGuiTabAlert extends ONIBaseGuiTab {
 
-    public final TranslationTextComponent WARNING_DURABILITY = new TranslationTextComponent(ONIBaseGuiTab.WARNING_DURABILITY);
-    public final TranslationTextComponent WARNING_TEMPERATURE = new TranslationTextComponent(ONIBaseGuiTab.WARNING_TEMPERATURE);
-    public final TranslationTextComponent WARNING_GAS_PRESSURE = new TranslationTextComponent(ONIBaseGuiTab.WARNING_GAS_PRESSURE);
-    public final TranslationTextComponent WARNING_WRONG_GAS = new TranslationTextComponent(ONIBaseGuiTab.WARNING_WRONG_GAS);
-    public final TranslationTextComponent WARNING_ALL_CLEAR = new TranslationTextComponent(ONIBaseGuiTab.WARNING_ALL_CLEAR);
+    public static final TranslationTextComponent WARNING_DURABILITY = new TranslationTextComponent(ONIBaseGuiTab.WARNING_DURABILITY);
+    public static final TranslationTextComponent WARNING_TEMPERATURE = new TranslationTextComponent(ONIBaseGuiTab.WARNING_TEMPERATURE);
+    public static final TranslationTextComponent WARNING_GAS_PRESSURE = new TranslationTextComponent(ONIBaseGuiTab.WARNING_GAS_PRESSURE);
+    public static final TranslationTextComponent WARNING_WRONG_GAS = new TranslationTextComponent(ONIBaseGuiTab.WARNING_WRONG_GAS);
+    public static final TranslationTextComponent WARNING_ALL_CLEAR = new TranslationTextComponent(ONIBaseGuiTab.WARNING_ALL_CLEAR);
 
     private final List<TranslationTextComponent> currentWarnings = new ArrayList<>();
 

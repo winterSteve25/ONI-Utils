@@ -1,12 +1,9 @@
-package wintersteve25.oniutils.common.blocks.base.gui;
+package wintersteve25.oniutils.client.gui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ONIBaseGuiTabInfo extends ONIBaseGuiTab {
 

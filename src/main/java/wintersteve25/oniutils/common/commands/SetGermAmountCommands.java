@@ -43,7 +43,7 @@ public class SetGermAmountCommands implements Command<CommandSource> {
         String name = StringArgumentType.getString(context, "germType");
 
         if (target == null) {
-            context.getSource().sendFeedback(new TranslationTextComponent("oniutils.commands.germs.set.failed.entityIsNull"), true);
+            context.getSource().sendFeedback(new TranslationTextComponent("oniutils.commands.set.failed.entityIsNull"), true);
             return 0;
         }
 

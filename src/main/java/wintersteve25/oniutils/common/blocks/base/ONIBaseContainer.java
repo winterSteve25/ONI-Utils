@@ -291,5 +291,7 @@ public abstract class ONIBaseContainer extends Container {
         return isWithinUsableDistance(IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos()), playerEntity, ONIBlocks.COAL_GEN_BLOCK  );
     }
 
+    public abstract String tabTitle();
+
     public abstract List<Item> validItems();
 }

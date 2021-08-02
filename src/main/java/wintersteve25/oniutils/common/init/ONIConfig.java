@@ -43,6 +43,7 @@ public class ONIConfig {
     public static ForgeConfigSpec.IntValue PLAYER_REQUIRED_OXYGEN_AMOUNT;
 
     public static ForgeConfigSpec.BooleanValue ENABLE_MORALE;
+    public static ForgeConfigSpec.IntValue MORALE_FOR_STRESS;
 
     static {
         ForgeConfigSpec.Builder SERVERBUILDER = new ForgeConfigSpec.Builder();
@@ -88,6 +89,7 @@ public class ONIConfig {
 
         SERVERBUILDER.comment("Morale Settings").push(CAT_MORALE);
         ENABLE_MORALE = SERVERBUILDER.comment("Should the morale system be enabled?").define("enableMorale", true);
+        MORALE_FOR_STRESS = SERVERBUILDER.comment("Below how many morale should players start stressing").defineInRange("moraleTillStress", 15, 1, MiscHelper.INT_MAX);
         SERVERBUILDER.pop();
 
         SERVERBUILDER.comment("Misc").push(CAT_MISC);

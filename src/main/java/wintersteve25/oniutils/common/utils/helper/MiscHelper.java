@@ -4,6 +4,7 @@ import mekanism.common.util.WorldUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import wintersteve25.oniutils.ONIUtils;
@@ -19,6 +20,10 @@ public class MiscHelper {
     public static final int INT_MAX = 2147483647;
     public static final double ONEPIXEL = 1D/16;
     public static final Item.Properties DEFAULT_ITEM_PROPERTY = new Item.Properties().group(ONIUtils.creativeTab);
+    public static final TextFormatting POWER_CAT_COLOR = TextFormatting.RED;
+    public static final TextFormatting OXYGEN_CAT_COLOR = TextFormatting.AQUA;
+    public static final TextFormatting VENTILATION_CAT_COLOR = TextFormatting.GREEN;
+    public static final TextFormatting PLUMING_CAT_COLOR = TextFormatting.BLUE;
 
     public static String langToReg(String lang) {
         String reg = lang.toLowerCase().replace(' ', '_').replace('-', '_');

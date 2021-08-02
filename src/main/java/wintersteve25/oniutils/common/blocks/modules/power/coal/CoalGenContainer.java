@@ -15,9 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CoalGenContainer extends ONIBaseContainer {
-
-    private final List<Item> validItems = new ArrayList<>();
-
     public CoalGenContainer(int windowId, World world, BlockPos pos, PlayerInventory playerInventory, PlayerEntity player) {
         super(windowId, world, pos, playerInventory, player, ONIBlocks.COAL_GEN_CONTAINER.get());
 
@@ -27,19 +24,23 @@ public class CoalGenContainer extends ONIBaseContainer {
             });
         }
 
-        validItems.add(Items.COAL);
-
         addPlayerSlots(8, 88);
 
         trackPower();
-        trackProgress();
         trackWorking();
         trackCapacity();
         trackProgress();
     }
 
     @Override
+    public String tabTitle() {
+        return "oniutils.gui.titles.coal_gen";
+    }
+
+    @Override
     public List<Item> validItems() {
+        List<Item> validItems = new ArrayList<>();
+        validItems.add(Items.COAL);
         return validItems;
     }
 }

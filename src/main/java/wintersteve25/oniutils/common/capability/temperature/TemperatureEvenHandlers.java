@@ -12,6 +12,7 @@ import wintersteve25.oniutils.common.capability.temperature.api.ICustomTemperatu
 
 import java.util.List;
 
+//TODO: Finish temperature
 public class TemperatureEvenHandlers {
     public static void chunkAttach(AttachCapabilitiesEvent<Chunk> event) {
         Chunk chunk = event.getObject();
