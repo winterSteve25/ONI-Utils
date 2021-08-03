@@ -5,13 +5,15 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.IRenderable;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseContainer;
 
-public class ONIBaseGuiTab extends AbstractGui implements IRenderable {
+public class ONIBaseGuiTab extends Screen {
 
     protected static final ResourceLocation BACKGROUND_LOCATION = new ResourceLocation(ONIUtils.MODID, "textures/gui/misc/tab_base.png");
 
@@ -42,6 +44,10 @@ public class ONIBaseGuiTab extends AbstractGui implements IRenderable {
 
     protected Minecraft mc;
     protected ONIBaseContainer container;
+
+    protected ONIBaseGuiTab() {
+        super(new TranslationTextComponent(""));
+    }
 
     public void init(int widthIn, int heightIn, Minecraft minecraftIn, ONIBaseContainer containerIn, String title) {
         this.width = widthIn;

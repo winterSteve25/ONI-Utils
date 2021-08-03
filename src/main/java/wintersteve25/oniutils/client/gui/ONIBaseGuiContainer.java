@@ -55,57 +55,6 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
     }
 
     @Override
-    public void tick() {
-        if (hasRedstoneOutputButton()) {
-            this.redstoneOutputTab.tick();
-        }
-
-        super.tick();
-    }
-
-    @Override
-    public void onClose() {
-        if (hasRedstoneOutputButton()) {
-            this.redstoneOutputTab.removed();
-        }
-
-        super.onClose();
-    }
-
-    @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        super.keyPressed(keyCode, scanCode, modifiers);
-        if (hasRedstoneOutputButton()) {
-            return !this.redstoneOutputTab.keyPressed(keyCode, scanCode, modifiers) && super.keyPressed(keyCode, scanCode, modifiers);
-        }
-
-        return super.keyPressed(keyCode, scanCode, modifiers);
-    }
-
-    @Override
-    public boolean charTyped(char codePoint, int modifiers) {
-        super.charTyped(codePoint, modifiers);
-        if (hasRedstoneOutputButton()) {
-            return this.redstoneOutputButton.charTyped(codePoint, modifiers) || super.charTyped(codePoint, modifiers);
-        }
-
-        return super.charTyped(codePoint, modifiers);
-    }
-
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (hasRedstoneOutputButton()) {
-            if (this.redstoneButton.mouseClicked(mouseX, mouseY, button)) {
-                return true;
-            } else {
-                return this.redstoneOutputTab.isVisible() || super.mouseClicked(mouseX, mouseY, button);
-            }
-        }
-
-        return super.mouseClicked(mouseX, mouseY, button);
-    }
-
-    @Override
     protected void init() {
         super.init();
 
@@ -121,7 +70,6 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
             this.redstoneOutputTab.init(this.width, this.height, this.minecraft, this.container, "oniutils.gui.titles.redstoneOutput");
             this.redstoneOutputButton = new RedstoneOutputButton();
             addButton(redstoneOutputButton);
-            this.children.add(this.redstoneOutputTab);
         }
         this.infoButton = new InfoButton();
         this.alertButton = new AlertButton();
@@ -201,7 +149,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
                 ONIBaseGuiContainer.this.alertTab.toggleVisibility();
             }
 
-            if (hasRedstoneOutputButton()) {
+            if (ONIBaseGuiContainer.this.hasRedstoneOutputButton()) {
                 if (ONIBaseGuiContainer.this.redstoneOutputTab.isVisible()) {
                     ONIBaseGuiContainer.this.redstoneOutputTab.toggleVisibility();
                 }
@@ -229,7 +177,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
                 ONIBaseGuiContainer.this.infoTab.toggleVisibility();
             }
 
-            if (hasRedstoneOutputButton()) {
+            if (ONIBaseGuiContainer.this.hasRedstoneOutputButton()) {
                 if (ONIBaseGuiContainer.this.redstoneOutputTab.isVisible()) {
                     ONIBaseGuiContainer.this.redstoneOutputTab.toggleVisibility();
                 }

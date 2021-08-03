@@ -78,8 +78,8 @@ public class ONIEngLangProvider extends LanguageProvider {
         add("oniutils.gui.warning.wrongGas", "Wrong Gas Input!");
         add("oniutils.gui.warning.allClear", "All Clear");
 
-        add(ONIBaseGuiTab.REDSTONE_LOW, "Low Threshold: ");
-        add(ONIBaseGuiTab.REDSTONE_HIGH, "High Threshold: ");
+        add(ONIBaseGuiTab.REDSTONE_LOW, "Low Threshold: %s");
+        add(ONIBaseGuiTab.REDSTONE_HIGH, "High Threshold: %s");
         add(ONIBaseGuiTab.REDSTONE_INVALID_NUMBER, "Invalid Number!");
 
         //keybinds
