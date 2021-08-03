@@ -69,8 +69,10 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         if (hasRedstoneOutputButton()) {
             this.redstoneOutputTab.init(this.width, this.height, this.minecraft, this.container, "oniutils.gui.titles.redstoneOutput");
             this.redstoneOutputButton = new RedstoneOutputButton();
+            this.children.add(redstoneOutputTab);
             addButton(redstoneOutputButton);
         }
+
         this.infoButton = new InfoButton();
         this.alertButton = new AlertButton();
         this.redstoneButton = new RedstoneButton();
