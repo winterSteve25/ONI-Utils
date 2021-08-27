@@ -11,9 +11,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
@@ -267,11 +264,6 @@ public class GermEventsHandler {
                 });
             }
         }
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public static void renderOverlayEvent(RenderGameOverlayEvent.Post event) {
-
     }
 
     private static boolean canTransferGerm(IGerms stack) {

@@ -13,8 +13,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONIConfig;
-import wintersteve25.oniutils.common.utils.registration.ONIEventsHandler;
-import wintersteve25.oniutils.common.utils.registration.Registration;
+import wintersteve25.oniutils.common.registration.ONIServerEventsHandler;
+import wintersteve25.oniutils.common.registration.Registration;
 //import wintersteve25.oniutils.common.compat.potr.AdPotherAddonEventHandlers;
 
 @Mod(ONIUtils.MODID)
@@ -29,9 +29,8 @@ public class ONIUtils {
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ONIConfig.SERVER_CONFIG);
         Registration.init();
 
-        modEventBus.addListener(ONIEventsHandler::preInit);
-        modEventBus.addListener(ONIEventsHandler::clientPreInit);
-        forgeEventBus.addListener(ONIEventsHandler::serverInit);
+        modEventBus.addListener(ONIServerEventsHandler::preInit);
+        forgeEventBus.addListener(ONIServerEventsHandler::command);
 
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -40,7 +39,7 @@ public class ONIUtils {
     public static final ItemGroup creativeTab = new ItemGroup("oniutils") {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(ONIBlocks.IgneousRock.get());
+            return new ItemStack(ONIBlocks.IgneousRock);
         }
     };
 

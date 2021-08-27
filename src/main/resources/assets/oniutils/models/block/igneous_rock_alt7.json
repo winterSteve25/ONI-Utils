@@ -1,6 +1,0 @@
-{
-    "parent": "block/cube_all",
-    "textures": {
-        "all": "oniutils:block/igneous_rock_alt7"
-    }
-}

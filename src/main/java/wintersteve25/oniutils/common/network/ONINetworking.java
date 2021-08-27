@@ -22,10 +22,15 @@ public class ONINetworking {
                 () -> "1.0",
                 s -> true,
                 s -> true);
-        INSTANCE.messageBuilder(TERedstoneButtonPacket.class, nextID())
-                .encoder(TERedstoneButtonPacket::encode)
-                .decoder(TERedstoneButtonPacket::new)
-                .consumer(TERedstoneButtonPacket::handle)
+        INSTANCE.messageBuilder(TEPosBasedPacket.class, nextID())
+                .encoder(TEPosBasedPacket::encode)
+                .decoder(TEPosBasedPacket::new)
+                .consumer(TEPosBasedPacket::handle)
+                .add();
+        INSTANCE.messageBuilder(ModificationGuiPacket.class, nextID())
+                .encoder(ModificationGuiPacket::encode)
+                .decoder(ModificationGuiPacket::new)
+                .consumer(ModificationGuiPacket::handle)
                 .add();
     }
 

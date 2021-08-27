@@ -1,7 +1,6 @@
 package wintersteve25.oniutils.common.blocks.modules.power.coal;
 
 import mekanism.common.util.VoxelShapeUtils;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,27 +17,25 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.ToolType;
-import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.network.NetworkHooks;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.client.renderers.geckolibs.base.ONIIHasGeoItem;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseMachineAnimated;
+import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasRedstoneOutput;
 import wintersteve25.oniutils.common.init.ONIBlocks;
-import wintersteve25.oniutils.common.utils.helper.ISHandlerHelper;
-import wintersteve25.oniutils.common.utils.helper.ModelFileHelper;
+import wintersteve25.oniutils.common.utils.ISHandlerHelper;
+import wintersteve25.oniutils.common.utils.ModelFileHelper;
 
 import javax.annotation.Nullable;
 
-import static wintersteve25.oniutils.common.utils.helper.MiscHelper.ONEPIXEL;
+import static wintersteve25.oniutils.common.utils.MiscHelper.ONEPIXEL;
 
 @SuppressWarnings("deprecation")
-public class CoalGenBlock extends ONIBaseMachineAnimated implements ONIIHasGeoItem {
+public class CoalGenBlock extends ONIBaseMachineAnimated implements ONIIHasGeoItem, ONIIHasRedstoneOutput {
 
     private static final String regName = "Coal Generator";
 
@@ -59,6 +56,9 @@ public class CoalGenBlock extends ONIBaseMachineAnimated implements ONIIHasGeoIt
     private static final VoxelShape SOUTH_R = VoxelShapeUtils.rotate(NORTH_R, Rotation.CLOCKWISE_180);
     private static final VoxelShape EAST_R = VoxelShapeUtils.rotate(NORTH_R, Rotation.CLOCKWISE_90);
 
+    private int lowThreshold = 20;
+    private int highThreshold = 80;
+
     public CoalGenBlock() {
         super(Properties.create(Material.IRON).harvestTool(ToolType.PICKAXE).hardnessAndResistance(1.4F, 5).setRequiresTool().notSolid(), regName, ModelFileHelper.createModelFile(new ResourceLocation(ONIUtils.MODID, "models/block/machines/coal_generator")), 0);
     }
@@ -67,6 +67,7 @@ public class CoalGenBlock extends ONIBaseMachineAnimated implements ONIIHasGeoIt
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
         if (!world.isRemote()) {
             TileEntity tileEntity = world.getTileEntity(pos);
+            super.onBlockActivated(state, world, pos, player, hand, rayTraceResult);
             if (tileEntity instanceof CoalGenTE) {
                 INamedContainerProvider containerProvider = new INamedContainerProvider() {
                     @Override
@@ -134,5 +135,30 @@ public class CoalGenBlock extends ONIBaseMachineAnimated implements ONIIHasGeoIt
             default:
                 return NORTH_R;
         }
+    }
+
+    @Override
+    public int lowThreshold() {
+        return this.lowThreshold;
+    }
+
+    @Override
+    public int highThreshold() {
+        return this.highThreshold;
+    }
+
+    @Override
+    public void setLowThreshold(int in) {
+        this.lowThreshold = in;
+    }
+
+    @Override
+    public void setHighThreshold(int in) {
+        this.highThreshold = in;
+    }
+
+    @Override
+    public TileEntity te() {
+        return ONIBlocks.COAL_GEN_TE.get().create();
     }
 }

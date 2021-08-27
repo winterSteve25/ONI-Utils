@@ -3,7 +3,7 @@ package wintersteve25.oniutils.common.network;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import wintersteve25.oniutils.client.renderers.overlays.GermOverlay;
-import wintersteve25.oniutils.common.utils.helper.GermPacketHelper;
+import wintersteve25.oniutils.common.utils.GermPacketHelper;
 
 import java.util.function.Supplier;
 

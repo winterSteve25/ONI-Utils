@@ -1,6 +1,6 @@
 package wintersteve25.oniutils.common.capability.trait.api;
 
-import wintersteve25.oniutils.common.utils.helper.MiscHelper;
+import wintersteve25.oniutils.common.utils.MiscHelper;
 
 import java.util.ArrayList;
 import java.util.List;

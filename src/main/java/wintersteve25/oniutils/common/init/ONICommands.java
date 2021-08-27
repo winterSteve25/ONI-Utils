@@ -10,11 +10,8 @@ import wintersteve25.oniutils.common.commands.SetGermAmountCommands;
 
 public class ONICommands {
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
-        LiteralArgumentBuilder<CommandSource> requires = Commands.literal("oniutils").requires((commandSource) -> {
-            return commandSource.hasPermissionLevel(3);
-        });
+        LiteralArgumentBuilder<CommandSource> requires = Commands.literal("oniutils").requires((commandSource) -> commandSource.hasPermissionLevel(3));
         LiteralCommandNode<CommandSource> source = dispatcher.register(requires.then(SetGermAmountCommands.register(dispatcher)));
-        dispatcher.register(Commands.literal("oniutils").redirect(source));
         dispatcher.register(Commands.literal("veiledascent").redirect(source));
 
         ONIUtils.LOGGER.info("Registered ONIUtils Commands!");

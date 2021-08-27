@@ -18,9 +18,8 @@ import wintersteve25.oniutils.common.init.ONIConfig;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-//TODO: Rework playerTick method
 public class GasEventsHandler {
-    private static AtomicInteger breathTimer = new AtomicInteger(20);
+    private static final AtomicInteger breathTimer = new AtomicInteger(20);
 
     public static void chunkAttach(AttachCapabilitiesEvent<Chunk> event) {
         Chunk chunk = event.getObject();
@@ -59,11 +58,9 @@ public class GasEventsHandler {
     public static void onPlayerCloned(PlayerEvent.Clone event) {
         if (event.isWasDeath()) {
             LazyOptional<IGas> capability = event.getOriginal().getCapability(GasCapability.GAS_CAPABILITY);
-            capability.ifPresent(oldStore -> {
-                event.getPlayer().getCapability(GasCapability.GAS_CAPABILITY).ifPresent(newStore -> {
-                    newStore.setGas(oldStore.getGas());
-                });
-            });
+            capability.ifPresent(oldStore -> event.getPlayer().getCapability(GasCapability.GAS_CAPABILITY).ifPresent(newStore -> {
+                newStore.setGas(oldStore.getGas());
+            }));
         }
     }
 

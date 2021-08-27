@@ -39,21 +39,6 @@ public class ManualGenBlock extends ONIBaseMachineAnimated implements ONIIHasGeo
 
     private static final String regName = "Manual Generator";
 
-//    private static final VoxelShape LEG_1 = Block.makeCuboidShape(3D, 0, 14D, 9D, 2D, 2D);
-//    private static final VoxelShape LEG_2 = Block.makeCuboidShape(16+7D, 0, 14D, 32-3D, 2D, 2D);
-//    private static final VoxelShape FRAME_1_STRAIGHT = Block.makeCuboidShape(7D, 2D, 13D, 32-8D, 3D, 3D);
-//    private static final VoxelShape FRAME_2_STRAIGHT = Block.makeCuboidShape(1D, 10D, 13D, 2D, 9+16D, 3D);
-//    private static final VoxelShape FRAME_3_STRAIGHT = Block.makeCuboidShape(32-2D, 9D, 13D, 32-1D, 9+16D, 3D);
-//    private static final VoxelShape FRAME_4_STRAIGHT = Block.makeCuboidShape(8D, 32-2D, 13D, 32-7D, 32-1D, 3D);
-//    private static final VoxelShape FRAME_STRAIGHT = VoxelShapes.or(FRAME_1_STRAIGHT, FRAME_2_STRAIGHT, FRAME_3_STRAIGHT, FRAME_4_STRAIGHT);
-//    private static final VoxelShape FRAME_1_TILTED = Block.makeCuboidShape(2D, 9D, 13D, 8D, 3D, 3D).;
-//    private static final VoxelShape FRAME_TILTED = VoxelShapes.or(FRAME_1_TILTED);
-//
-//    private static final VoxelShape NORTH = VoxelShapes.or(LEG_1, LEG_2, FRAME_STRAIGHT).simplify();
-//    private static final VoxelShape SOUTH = VoxelShapeUtils.rotate(NORTH, Rotation.CLOCKWISE_180);
-//    private static final VoxelShape WEST = VoxelShapeUtils.rotate(NORTH, Rotation.COUNTERCLOCKWISE_90);
-//    private static final VoxelShape EAST = VoxelShapeUtils.rotate(NORTH, Rotation.CLOCKWISE_90);
-
     private static final VoxelShape NORTH = VoxelShapes.or(Block.makeCuboidShape(0, 0, 0, 32, 1, 16),
             Block.makeCuboidShape(2, 31, 1, 30, 32, 14),
             Block.makeCuboidShape(0, 3, 1, 2, 32, 14),
@@ -78,20 +63,7 @@ public class ManualGenBlock extends ONIBaseMachineAnimated implements ONIIHasGeo
         if (!world.isRemote()) {
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof ManualGenTE) {
-                INamedContainerProvider containerProvider = new INamedContainerProvider() {
-                    @Override
-                    public ITextComponent getDisplayName() {
-                        return new TranslationTextComponent("oniutils.gui.machines.manual_gen");
-                    }
 
-                    @Override
-                    public Container createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
-                        return new ManualGenContainer(i, world, pos, playerInventory, playerEntity);
-                    }
-                };
-                NetworkHooks.openGui((ServerPlayerEntity) player, containerProvider, tileEntity.getPos());
-            } else {
-                ONIUtils.LOGGER.warn("Wrong tileEntity type found, failed to create container");
             }
         }
         return ActionResultType.SUCCESS;

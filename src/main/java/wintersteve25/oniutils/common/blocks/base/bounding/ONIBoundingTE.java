@@ -23,6 +23,7 @@ import java.util.Objects;
 
 /**
  * Modified from https://github.com/mekanism/Mekanism/blob/1.16.x/src/main/java/mekanism/common/tile/TileEntityBoundingBlock.java
+ * Compatible with MIT License https://github.com/mekanism/Mekanism/blob/1.16.x/LICENSE
  */
 public class ONIBoundingTE extends TileEntityUpdateable {
 

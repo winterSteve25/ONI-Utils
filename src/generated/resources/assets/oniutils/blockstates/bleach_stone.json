@@ -1,0 +1,42 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "oniutils:block/bleach_stone",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/bleach_stone_alt",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/bleach_stone_alt2",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/bleach_stone_alt3",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/bleach_stone_alt4",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/bleach_stone_alt5",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/bleach_stone_alt6",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/bleach_stone_alt7",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/bleach_stone_alt8",
+        "weight": 12
+      }
+    ]
+  }
+}

@@ -11,7 +11,7 @@ import wintersteve25.oniutils.client.gui.ONIBaseGuiTab;
 import wintersteve25.oniutils.common.effects.ONIBaseEffect;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONIEffects;
-import wintersteve25.oniutils.common.utils.helper.MiscHelper;
+import wintersteve25.oniutils.common.utils.MiscHelper;
 
 public class ONIEngLangProvider extends LanguageProvider {
     public ONIEngLangProvider(DataGenerator gen) {
@@ -21,9 +21,6 @@ public class ONIEngLangProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         autoGenLang();
-
-        //simple blocks
-        add(ONIBlocks.IgneousRock.get(), "Igneous Rock");
 
         //item groups
         add("itemGroup.oniutils", "Veiled Ascent");
@@ -81,6 +78,8 @@ public class ONIEngLangProvider extends LanguageProvider {
         add(ONIBaseGuiTab.REDSTONE_LOW, "Low Threshold: %s");
         add(ONIBaseGuiTab.REDSTONE_HIGH, "High Threshold: %s");
         add(ONIBaseGuiTab.REDSTONE_INVALID_NUMBER, "Invalid Number!");
+
+        add("oniutils.gui.items.modification.bonus", "Modification Value: %s");
 
         //keybinds
         add("oniutils.keybinds.category", "Veiled Ascent Keybinds");

@@ -1,0 +1,42 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "oniutils:block/igneous_rock",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/igneous_rock_alt",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/igneous_rock_alt2",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/igneous_rock_alt3",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/igneous_rock_alt4",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/igneous_rock_alt5",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/igneous_rock_alt6",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/igneous_rock_alt7",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/igneous_rock_alt8",
+        "weight": 12
+      }
+    ]
+  }
+}

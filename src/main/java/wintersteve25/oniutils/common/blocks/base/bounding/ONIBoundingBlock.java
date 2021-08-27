@@ -1,6 +1,5 @@
 package wintersteve25.oniutils.common.blocks.base.bounding;
 
-import mekanism.common.tile.interfaces.IBoundingBlock;
 import mekanism.common.util.WorldUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -11,7 +10,6 @@ import net.minecraft.client.particle.DiggingParticle;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.renderer.chunk.ChunkRenderCache;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemGroup;
@@ -36,7 +34,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseBlock;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseTE;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 
 import javax.annotation.Nonnull;
@@ -44,14 +41,17 @@ import javax.annotation.Nullable;
 
 /**
  * Modified from https://github.com/mekanism/Mekanism/blob/1.16.x/src/main/java/mekanism/common/block/BlockBounding.java
+ * Compatible with MIT License https://github.com/mekanism/Mekanism/blob/1.16.x/LICENSE
  */
 
 @SuppressWarnings("deprecation")
 public class ONIBoundingBlock extends ONIBaseBlock {
 
+    private boolean canOutputRedstone = false;
+
     @Nullable
     public static BlockPos getMainBlockPos(IBlockReader world, BlockPos thisPos) {
-        ONIBoundingTE te = (ONIBoundingTE)WorldUtils.getTileEntity(ONIBoundingTE.class, world, thisPos);
+        ONIBoundingTE te = (ONIBoundingTE) WorldUtils.getTileEntity(ONIBoundingTE.class, world, thisPos);
         return te != null && te.receivedCoords && !thisPos.equals(te.getMainPos()) ? te.getMainPos() : null;
     }
 
@@ -131,7 +131,7 @@ public class ONIBoundingBlock extends ONIBaseBlock {
         if (mainPos != null) {
             BlockState mainState = world.getBlockState(mainPos);
             if (!mainState.isAir(world, mainPos)) {
-                net.minecraft.loot.LootContext.Builder lootContextBuilder = (new net.minecraft.loot.LootContext.Builder((ServerWorld)world)).withRandom(world.rand).withParameter(LootParameters.field_237457_g_, Vector3d.copyCentered(mainPos)).withParameter(LootParameters.TOOL, ItemStack.EMPTY).withNullableParameter(LootParameters.BLOCK_ENTITY, mainState.hasTileEntity() ? WorldUtils.getTileEntity(world, mainPos) : null).withNullableParameter(LootParameters.THIS_ENTITY, explosion.getExploder());
+                net.minecraft.loot.LootContext.Builder lootContextBuilder = (new net.minecraft.loot.LootContext.Builder((ServerWorld) world)).withRandom(world.rand).withParameter(LootParameters.field_237457_g_, Vector3d.copyCentered(mainPos)).withParameter(LootParameters.TOOL, ItemStack.EMPTY).withNullableParameter(LootParameters.BLOCK_ENTITY, mainState.hasTileEntity() ? WorldUtils.getTileEntity(world, mainPos) : null).withNullableParameter(LootParameters.THIS_ENTITY, explosion.getExploder());
                 if (explosion.mode == Explosion.Mode.DESTROY) {
                     lootContextBuilder.withParameter(LootParameters.EXPLOSION_RADIUS, explosion.size);
                 }
@@ -210,13 +210,13 @@ public class ONIBoundingBlock extends ONIBaseBlock {
                     return VoxelShapes.empty();
                 }
 
-                world = ((ChunkRenderCache)world).world;
+                world = ((ChunkRenderCache) world).world;
                 mainState = (world).getBlockState(mainPos);
             }
 
             VoxelShape shape = mainState.getShape(world, mainPos, context);
             BlockPos offset = pos.subtract(mainPos);
-            return shape.withOffset((double)(-offset.getX()), (double)(-offset.getY()), (double)(-offset.getZ()));
+            return shape.withOffset((double) (-offset.getX()), (double) (-offset.getY()), (double) (-offset.getZ()));
         }
     }
 
@@ -242,32 +242,32 @@ public class ONIBoundingBlock extends ONIBaseBlock {
     @Override
     public boolean addHitEffects(BlockState state, World world, RayTraceResult target, ParticleManager manager) {
         if (target.getType() == RayTraceResult.Type.BLOCK && target instanceof BlockRayTraceResult) {
-            BlockRayTraceResult blockTarget = (BlockRayTraceResult)target;
+            BlockRayTraceResult blockTarget = (BlockRayTraceResult) target;
             BlockPos pos = blockTarget.getPos();
             BlockPos mainPos = getMainBlockPos(world, pos);
             if (mainPos != null) {
                 BlockState mainState = world.getBlockState(mainPos);
                 if (!mainState.isAir(world, mainPos)) {
                     AxisAlignedBB axisalignedbb = state.getShape(world, pos).getBoundingBox();
-                    double x = (double)pos.getX() + world.rand.nextDouble() * (axisalignedbb.maxX - axisalignedbb.minX - 0.2D) + 0.1D + axisalignedbb.minX;
-                    double y = (double)pos.getY() + world.rand.nextDouble() * (axisalignedbb.maxY - axisalignedbb.minY - 0.2D) + 0.1D + axisalignedbb.minY;
-                    double z = (double)pos.getZ() + world.rand.nextDouble() * (axisalignedbb.maxZ - axisalignedbb.minZ - 0.2D) + 0.1D + axisalignedbb.minZ;
+                    double x = (double) pos.getX() + world.rand.nextDouble() * (axisalignedbb.maxX - axisalignedbb.minX - 0.2D) + 0.1D + axisalignedbb.minX;
+                    double y = (double) pos.getY() + world.rand.nextDouble() * (axisalignedbb.maxY - axisalignedbb.minY - 0.2D) + 0.1D + axisalignedbb.minY;
+                    double z = (double) pos.getZ() + world.rand.nextDouble() * (axisalignedbb.maxZ - axisalignedbb.minZ - 0.2D) + 0.1D + axisalignedbb.minZ;
                     Direction side = blockTarget.getFace();
                     if (side == Direction.DOWN) {
-                        y = (double)pos.getY() + axisalignedbb.minY - 0.1D;
+                        y = (double) pos.getY() + axisalignedbb.minY - 0.1D;
                     } else if (side == Direction.UP) {
-                        y = (double)pos.getY() + axisalignedbb.maxY + 0.1D;
+                        y = (double) pos.getY() + axisalignedbb.maxY + 0.1D;
                     } else if (side == Direction.NORTH) {
-                        z = (double)pos.getZ() + axisalignedbb.minZ - 0.1D;
+                        z = (double) pos.getZ() + axisalignedbb.minZ - 0.1D;
                     } else if (side == Direction.SOUTH) {
-                        z = (double)pos.getZ() + axisalignedbb.maxZ + 0.1D;
+                        z = (double) pos.getZ() + axisalignedbb.maxZ + 0.1D;
                     } else if (side == Direction.WEST) {
-                        x = (double)pos.getX() + axisalignedbb.minX - 0.1D;
+                        x = (double) pos.getX() + axisalignedbb.minX - 0.1D;
                     } else if (side == Direction.EAST) {
-                        x = (double)pos.getX() + axisalignedbb.maxX + 0.1D;
+                        x = (double) pos.getX() + axisalignedbb.maxX + 0.1D;
                     }
 
-                    manager.addEffect((new DiggingParticle((ClientWorld)world, x, y, z, 0.0D, 0.0D, 0.0D, mainState)).setBlockPos(mainPos).multiplyVelocity(0.2F).multiplyParticleScaleBy(0.6F));
+                    manager.addEffect((new DiggingParticle((ClientWorld) world, x, y, z, 0.0D, 0.0D, 0.0D, mainState)).setBlockPos(mainPos).multiplyVelocity(0.2F).multiplyParticleScaleBy(0.6F));
                     return true;
                 }
             }
@@ -278,6 +278,5 @@ public class ONIBoundingBlock extends ONIBaseBlock {
 
     @Override
     public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-
     }
 }

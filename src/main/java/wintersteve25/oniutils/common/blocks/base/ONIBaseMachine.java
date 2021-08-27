@@ -1,21 +1,35 @@
 package wintersteve25.oniutils.common.blocks.base;
 
+import mekanism.api.IMekWrench;
+import mekanism.common.item.ItemConfigurator;
 import mekanism.common.tile.interfaces.IBoundingBlock;
+import mekanism.common.util.ItemDataUtils;
+import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.WorldUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.material.PushReaction;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.generators.ModelFile;
+import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasRedstoneOutput;
+import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ONIBaseMachine extends ONIBaseDirectional {
     public ONIBaseMachine(int harvestLevel, float hardness, float resistance, String regName, SoundType soundType, Material material, ModelFile modelFile, int angelOffset) {
@@ -80,5 +94,35 @@ public class ONIBaseMachine extends ONIBaseDirectional {
             }
         }
         super.onReplaced(state, world, pos, newState, isMoving);
+    }
+
+    @Override
+    public boolean canProvidePower(BlockState state) {
+        if (state.getBlock() instanceof ONIIHasRedstoneOutput) {
+            ONIIHasRedstoneOutput block = (ONIIHasRedstoneOutput) state.getBlock();
+            AtomicBoolean isLowTrue = new AtomicBoolean(false);
+            AtomicBoolean isHighTrue = new AtomicBoolean(false);
+
+            block.te().getCapability(PlasmaCapability.POWER_CAPABILITY).ifPresent(power -> {
+                if (power.getPower() / 100 < block.lowThreshold()) {
+                    isLowTrue.set(true);
+                }
+
+                if (power.getPower() / 100 > block.highThreshold()) {
+                    isHighTrue.set(true);
+                }
+            });
+
+            return isHighTrue.get() || isLowTrue.get();
+        }
+        return false;
+    }
+
+    @Override
+    public int getWeakPower(BlockState blockState, IBlockReader blockAccess, BlockPos pos, Direction side) {
+        if (this.canProvidePower(blockState)) {
+            return 15;
+        }
+        return 0;
     }
 }

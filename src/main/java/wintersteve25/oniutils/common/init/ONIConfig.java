@@ -1,7 +1,7 @@
 package wintersteve25.oniutils.common.init;
 
 import net.minecraftforge.common.ForgeConfigSpec;
-import wintersteve25.oniutils.common.utils.helper.MiscHelper;
+import wintersteve25.oniutils.common.utils.MiscHelper;
 
 public class ONIConfig {
     public static final String CAT_GERM = "germs";

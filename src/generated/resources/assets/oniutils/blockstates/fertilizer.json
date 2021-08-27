@@ -1,0 +1,14 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "oniutils:block/fertilizer",
+        "weight": 100
+      },
+      {
+        "model": "oniutils:block/fertilizer_alt",
+        "weight": 100
+      }
+    ]
+  }
+}

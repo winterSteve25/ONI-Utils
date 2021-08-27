@@ -1,7 +1,7 @@
 package wintersteve25.oniutils.common.capability.gas.api;
 
 import net.minecraftforge.common.IExtensibleEnum;
-import wintersteve25.oniutils.common.utils.helper.MiscHelper;
+import wintersteve25.oniutils.common.utils.MiscHelper;
 
 public enum EnumGasTypes implements IExtensibleEnum {
     //Blindness when oxygen is below 5%

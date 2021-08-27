@@ -1,6 +1,7 @@
 {
   "required": true,
   "package": "wintersteve25.oniutils.common.mixin",
+  "plugin": "wintersteve25.oniutils.common.mixin.ONIMixinPlugin",
   "compatibilityLevel": "JAVA_8",
   "refmap": "oniutils.refmap.json",
   "mixins": [

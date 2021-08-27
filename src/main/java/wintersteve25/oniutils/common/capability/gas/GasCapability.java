@@ -11,7 +11,7 @@ import net.minecraftforge.common.util.Constants;
 import wintersteve25.oniutils.common.capability.gas.api.EnumGasTypes;
 import wintersteve25.oniutils.common.capability.gas.api.GasStack;
 import wintersteve25.oniutils.common.capability.gas.api.IGas;
-import wintersteve25.oniutils.common.utils.helper.MiscHelper;
+import wintersteve25.oniutils.common.utils.MiscHelper;
 
 import javax.annotation.Nullable;
 

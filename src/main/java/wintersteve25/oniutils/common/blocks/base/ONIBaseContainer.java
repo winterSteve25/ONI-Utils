@@ -237,22 +237,37 @@ public abstract class ONIBaseContainer extends Container {
     }
 
     public int getEnergy() {
+        if (tileEntity == null) {
+            return 0;
+        }
         return tileEntity.getCapability(PlasmaCapability.POWER_CAPABILITY).map(IPlasma::getPower).orElse(0);
     }
 
     public int getProgress() {
+        if (tileEntity == null) {
+            return 0;
+        }
         return tileEntity.getProgress();
     }
 
     public int getTotalProgress() {
+        if (tileEntity == null) {
+            return 0;
+        }
         return tileEntity.getTotalProgress();
     }
 
     public int getWorking() {
+        if (tileEntity == null) {
+            return 0;
+        }
         return tileEntity.getWorking() ? 1 : 0;
     }
 
     public int getCapacity() {
+        if (tileEntity == null) {
+            return 0;
+        }
         return tileEntity.getCapability(PlasmaCapability.POWER_CAPABILITY).map(IPlasma::getCapacity).orElse(0);
     }
 
@@ -288,7 +303,15 @@ public abstract class ONIBaseContainer extends Container {
 
     @Override
     public boolean canInteractWith(PlayerEntity p_75145_1_) {
-        return isWithinUsableDistance(IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos()), playerEntity, ONIBlocks.COAL_GEN_BLOCK  );
+        if (tileEntity == null) {
+            return false;
+        }
+
+        if (tileEntity.getWorld() == null) {
+            return false;
+        }
+
+        return isWithinUsableDistance(IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos()), playerEntity, ONIBlocks.COAL_GEN_BLOCK);
     }
 
     public abstract String tabTitle();

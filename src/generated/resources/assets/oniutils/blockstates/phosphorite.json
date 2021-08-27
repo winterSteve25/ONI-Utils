@@ -1,0 +1,42 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "oniutils:block/phosphorite",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/phosphorite_alt",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/phosphorite_alt2",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/phosphorite_alt3",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/phosphorite_alt4",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/phosphorite_alt5",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/phosphorite_alt6",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/phosphorite_alt7",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/phosphorite_alt8",
+        "weight": 12
+      }
+    ]
+  }
+}

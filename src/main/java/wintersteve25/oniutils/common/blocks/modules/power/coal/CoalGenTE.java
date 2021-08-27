@@ -29,7 +29,7 @@ import wintersteve25.oniutils.common.capability.plasma.api.IPlasma;
 import wintersteve25.oniutils.common.capability.plasma.api.PlasmaStack;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONIConfig;
-import wintersteve25.oniutils.common.utils.helper.MiscHelper;
+import wintersteve25.oniutils.common.utils.MiscHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -44,7 +44,6 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     private final DurabilityStack durabilityStack = new DurabilityStack();
     private final LazyOptional<IDurability> durabilityLazyOptional = LazyOptional.of(() -> durabilityStack);
     private final List<Item> valids = new ArrayList<>();
-
     private boolean removedFirstItem = false;
 
     @Override

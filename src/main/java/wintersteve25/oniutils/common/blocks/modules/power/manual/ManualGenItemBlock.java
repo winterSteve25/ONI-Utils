@@ -14,7 +14,7 @@ import wintersteve25.oniutils.common.items.base.ONIBaseBlockItem;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.items.base.interfaces.ONIIColoredName;
 import wintersteve25.oniutils.common.items.base.interfaces.ONIIHasToolTip;
-import wintersteve25.oniutils.common.utils.helper.MiscHelper;
+import wintersteve25.oniutils.common.utils.MiscHelper;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -5,11 +5,11 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import wintersteve25.oniutils.client.renderers.geckolibs.base.GeckolibBlockRendererBase;
 import wintersteve25.oniutils.common.blocks.modules.power.manual.ManualGenTE;
-import wintersteve25.oniutils.common.utils.helper.ONIGeoConstants;
+import wintersteve25.oniutils.common.utils.ONIConstants;
 
 public class ManualGenBlockRenderer extends GeckolibBlockRendererBase<ManualGenTE> {
     public ManualGenBlockRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
-        super(rendererDispatcherIn, ONIGeoConstants.MANUAL_GEN_TE);
+        super(rendererDispatcherIn, ONIConstants.Geo.MANUAL_GEN_TE);
     }
 
     @Override

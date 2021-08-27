@@ -14,7 +14,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseContainer;
 import wintersteve25.oniutils.common.network.ONINetworking;
-import wintersteve25.oniutils.common.network.TERedstoneButtonPacket;
+import wintersteve25.oniutils.common.network.TEPosBasedPacket;
+import wintersteve25.oniutils.common.utils.ONIConstants;
 
 public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends ContainerScreen<T> {
 
@@ -37,20 +38,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
 
         if (hasRedstoneOutputButton()) {
             redstoneOutputTab = new ONIBaseGuiTabRedstone();
-        }
-    }
-
-    @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(matrixStack);
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
-        infoTab.updateText();
-        infoTab.render(matrixStack, mouseX, mouseY, partialTicks);
-        alertTab.render(matrixStack, mouseX, mouseY, partialTicks);
-
-        if (hasRedstoneOutputButton()) {
-            redstoneOutputTab.render(matrixStack, mouseX, mouseY, partialTicks);
+            redstoneOutputTab = redstoneOutputTab.create();
         }
     }
 
@@ -67,7 +55,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         this.alertTab.init(this.width, this.height, this.minecraft, this.container, "oniutils.gui.titles.warning");
 
         if (hasRedstoneOutputButton()) {
-            this.redstoneOutputTab.init(this.width, this.height, this.minecraft, this.container, "oniutils.gui.titles.redstoneOutput");
+            redstoneOutputTab.init(this.width, this.height, this.minecraft, this.container, "oniutils.gui.titles.redstoneOutput");
             this.redstoneOutputButton = new RedstoneOutputButton();
             this.children.add(redstoneOutputTab);
             addButton(redstoneOutputButton);
@@ -80,6 +68,20 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         addButton(infoButton);
         addButton(alertButton);
         addButton(redstoneButton);
+    }
+
+    @Override
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(matrixStack);
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
+        infoTab.updateText();
+        infoTab.render(matrixStack, mouseX, mouseY, partialTicks);
+        alertTab.render(matrixStack, mouseX, mouseY, partialTicks);
+
+        if (hasRedstoneOutputButton()) {
+            redstoneOutputTab.render(matrixStack, mouseX, mouseY, partialTicks);
+        }
     }
 
     @Override
@@ -165,6 +167,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
             this.setPosition(ONIBaseGuiContainer.this.guiLeft+1, ONIBaseGuiContainer.this.guiTop-17);
             ONIBaseGuiContainer.this.alertButton.setPosition(ONIBaseGuiContainer.this.guiLeft+18, ONIBaseGuiContainer.this.guiTop-17);
             ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft+35, ONIBaseGuiContainer.this.guiTop-17);
+            ONIBaseGuiContainer.this.redstoneOutputButton.setPosition(ONIBaseGuiContainer.this.guiLeft+52, ONIBaseGuiContainer.this.guiTop-17);
         }
     }
 
@@ -193,6 +196,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
             this.setPosition(ONIBaseGuiContainer.this.guiLeft+18, ONIBaseGuiContainer.this.guiTop-17);
             ONIBaseGuiContainer.this.infoButton.setPosition(ONIBaseGuiContainer.this.guiLeft+1, ONIBaseGuiContainer.this.guiTop-17);
             ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft+35, ONIBaseGuiContainer.this.guiTop-17);
+            ONIBaseGuiContainer.this.redstoneOutputButton.setPosition(ONIBaseGuiContainer.this.guiLeft+52, ONIBaseGuiContainer.this.guiTop-17);
         }
     }
 
@@ -237,7 +241,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
                 setU(83);
                 pressed = false;
             }
-            ONINetworking.sendToServer(new TERedstoneButtonPacket(container.getTileEntity()));
+            ONINetworking.sendToServer(new TEPosBasedPacket(container.getTileEntity(), ONIConstants.PacketType.REDSTONE_INPUT));
         }
     }
 

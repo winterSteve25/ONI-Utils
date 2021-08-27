@@ -4,6 +4,7 @@ import net.minecraft.util.ResourceLocation;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import wintersteve25.oniutils.ONIUtils;
+import wintersteve25.oniutils.common.utils.ResoureceLocationHelper;
 
 public class GeckolibModelBase<T extends IAnimatable> extends AnimatedGeoModel<T> {
     private final ResourceLocation rl1;
@@ -11,11 +12,11 @@ public class GeckolibModelBase<T extends IAnimatable> extends AnimatedGeoModel<T
     private final ResourceLocation rl3;
 
     public GeckolibModelBase(String pathModel, String pathTexture, String pathAnimation) {
-        this.rl1 = new ResourceLocation(ONIUtils.MODID, "geo/" + pathModel);
+        this.rl1 = ResoureceLocationHelper.ResourceLocationBuilder.getBuilder(ONIUtils.MODID).geoModel().addPath(pathModel).build();
         this.rl2 = new ResourceLocation(ONIUtils.MODID, "textures/block/" + pathTexture);
         this.rl3 = new ResourceLocation(ONIUtils.MODID, "animations/" + pathAnimation);
     }
-
+    
     @Override
     public ResourceLocation getModelLocation(T t) {
         return rl1;

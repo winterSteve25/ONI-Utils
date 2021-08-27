@@ -56,7 +56,6 @@ public class ONIBaseBlockItem extends BlockItem implements IAnimatable {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         if (this instanceof ONIIHasToolTip) {
             if (Screen.hasShiftDown()) {

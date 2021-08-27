@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "oniutils:block/polluted_ice",
+        "weight": 50
+      },
+      {
+        "model": "oniutils:block/polluted_ice_alt",
+        "weight": 50
+      },
+      {
+        "model": "oniutils:block/polluted_ice_alt2",
+        "weight": 50
+      }
+    ]
+  }
+}

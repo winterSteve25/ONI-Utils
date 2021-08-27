@@ -11,7 +11,7 @@ import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseBlock;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseSixWaysBlock;
 import wintersteve25.oniutils.common.init.ONIBlocks;
-import wintersteve25.oniutils.common.utils.helper.MiscHelper;
+import wintersteve25.oniutils.common.utils.MiscHelper;
 
 public class ONIModelProvider extends ItemModelProvider {
     public ONIModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
@@ -21,8 +21,6 @@ public class ONIModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
         autoGenModels();
-
-        ModelFile generated = getExistingFile(mcLoc("item/generated"));
     }
 
     private ItemModelBuilder builder(ModelFile itemGenerated, String name) {
@@ -56,5 +54,4 @@ public class ONIModelProvider extends ItemModelProvider {
             }
         }
     }
-
 }

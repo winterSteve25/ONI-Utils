@@ -102,7 +102,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.1.0'
+    minecraft 'net.minecraftforge:forge:1.16.5-36.2.0'
     compile fg.deobf("com.blamejared.crafttweaker:CraftTweaker-1.16.5:7.1.0.203")
     runtimeOnly fg.deobf("mezz.jei:jei-1.16.4:7.6.1.65")
     compileOnly fg.deobf("mezz.jei:jei-1.16.4:7.6.1.65:api")

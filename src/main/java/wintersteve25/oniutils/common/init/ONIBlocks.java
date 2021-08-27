@@ -1,20 +1,14 @@
 package wintersteve25.oniutils.common.init;
 
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.fml.RegistryObject;
-import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseSixWaysBlock;
 import wintersteve25.oniutils.common.blocks.base.bounding.ONIBoundingBlock;
 import wintersteve25.oniutils.common.blocks.base.bounding.ONIBoundingTE;
@@ -30,26 +24,22 @@ import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenContainer;
 import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenItemBlock;
 import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenTE;
 import wintersteve25.oniutils.common.blocks.modules.power.manual.ManualGenBlock;
-import wintersteve25.oniutils.common.blocks.modules.power.manual.ManualGenContainer;
 import wintersteve25.oniutils.common.blocks.modules.power.manual.ManualGenItemBlock;
 import wintersteve25.oniutils.common.blocks.modules.power.manual.ManualGenTE;
 import wintersteve25.oniutils.common.blocks.modules.resources.oxylite.OxyliteBlock;
 import wintersteve25.oniutils.common.blocks.modules.resources.oxylite.OxyliteTE;
 import wintersteve25.oniutils.common.blocks.modules.resources.slime.SlimeBlock;
 import wintersteve25.oniutils.common.blocks.modules.resources.slime.SlimeTE;
-import wintersteve25.oniutils.common.utils.helper.MiscHelper;
-import wintersteve25.oniutils.common.utils.helper.ModelFileHelper;
-import wintersteve25.oniutils.common.utils.helper.RegistryHelper;
+import wintersteve25.oniutils.common.utils.MiscHelper;
+import wintersteve25.oniutils.common.utils.RegistryHelper;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ONIBlocks {
-    public static final RegistryObject<ONIBaseBlock> IgneousRock = RegistryHelper.register("igneous_rock", () -> new ONIBaseBlock(1, 2, 6));
 
     //blocks
+    public static final ONIBaseBlock IgneousRock = new ONIBaseBlock(1, 2, 6, "Igneous Rock");
     public static final ONIBaseDirectional SedimentaryRock = new ONIBaseDirectional(0, 4, 10, "Sedimentary Rock", null, 0);
     public static final ONIBaseBlock MaficRock = new ONIBaseBlock(2, 5, 18, "Mafic Rock");
     public static final ONIBaseBlock Regolith = new ONIBaseBlock(1, 5, 18, "Regolith");
@@ -80,7 +70,6 @@ public class ONIBlocks {
 
     public static final ManualGenBlock MANUAL_GEN_BLOCK = new ManualGenBlock();
     public static final RegistryObject<TileEntityType<ManualGenTE>> MANUAL_GEN_TE = RegistryHelper.registerTE(MiscHelper.langToReg(MANUAL_GEN_BLOCK.getRegName()), () -> TileEntityType.Builder.create(ManualGenTE::new, MANUAL_GEN_BLOCK).build(null));
-    public static final RegistryObject<ContainerType<ManualGenContainer>> MANUAL_GEN_CONTAINER = RegistryHelper.registerContainer(MiscHelper.langToReg(MANUAL_GEN_BLOCK.getRegName()), () -> IForgeContainerType.create((windowId, inv, data) -> new ManualGenContainer(windowId, inv.player.world, data.readBlockPos(), inv, inv.player)));
 
     public static final WireBlock WIRE_BLOCK = new WireBlock(EnumCableTypes.WIRE);
     public static final WireBlock CONDUCTIVE_WIRE_BLOCK = new WireBlock(EnumCableTypes.CONDUCTIVE);
@@ -104,6 +93,7 @@ public class ONIBlocks {
     public static Map<ONIBaseSixWaysBlock, Item> sixWaysList = new HashMap<>();
 
     public static void register(){
+        IgneousRock.initBlockNoData(IgneousRock, null);
         MaficRock.initBlockNoData(MaficRock, null);
         Regolith.initBlockNoData(Regolith, null);
         Neutronium.initBlockNoData(Neutronium, null);

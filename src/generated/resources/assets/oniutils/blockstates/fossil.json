@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "oniutils:block/fossil",
+        "weight": 20
+      },
+      {
+        "model": "oniutils:block/fossil_alt",
+        "weight": 20
+      },
+      {
+        "model": "oniutils:block/fossil_alt2",
+        "weight": 20
+      },
+      {
+        "model": "oniutils:block/fossil_alt3",
+        "weight": 20
+      },
+      {
+        "model": "oniutils:block/fossil_alt4",
+        "weight": 20
+      },
+      {
+        "model": "oniutils:block/fossil_alt5",
+        "weight": 20
+      }
+    ]
+  }
+}

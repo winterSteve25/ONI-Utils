@@ -5,7 +5,7 @@ import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseBlock;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseSixWaysBlock;
 import wintersteve25.oniutils.common.init.ONIBlocks;
-import wintersteve25.oniutils.common.utils.helper.MiscHelper;
+import wintersteve25.oniutils.common.utils.MiscHelper;
 
 public class ONILootTableProvider extends LootTableBase {
     public ONILootTableProvider(DataGenerator p_i50789_1_) {
