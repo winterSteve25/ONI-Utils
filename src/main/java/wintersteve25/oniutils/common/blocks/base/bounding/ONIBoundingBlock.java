@@ -17,7 +17,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootParameters;
 import net.minecraft.pathfinding.PathType;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -30,8 +33,6 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseBlock;
 import wintersteve25.oniutils.common.init.ONIBlocks;
@@ -238,7 +239,6 @@ public class ONIBoundingBlock extends ONIBaseBlock {
         return false;
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public boolean addHitEffects(BlockState state, World world, RayTraceResult target, ParticleManager manager) {
         if (target.getType() == RayTraceResult.Type.BLOCK && target instanceof BlockRayTraceResult) {

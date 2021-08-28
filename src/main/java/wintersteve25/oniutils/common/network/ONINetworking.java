@@ -27,10 +27,10 @@ public class ONINetworking {
                 .decoder(TEPosBasedPacket::new)
                 .consumer(TEPosBasedPacket::handle)
                 .add();
-        INSTANCE.messageBuilder(ModificationGuiPacket.class, nextID())
-                .encoder(ModificationGuiPacket::encode)
-                .decoder(ModificationGuiPacket::new)
-                .consumer(ModificationGuiPacket::handle)
+        INSTANCE.messageBuilder(ModificationPacket.class, nextID())
+                .encoder(ModificationPacket::encode)
+                .decoder(ModificationPacket::new)
+                .consumer(ModificationPacket::handle)
                 .add();
     }
 

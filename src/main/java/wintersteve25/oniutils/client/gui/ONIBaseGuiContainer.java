@@ -10,8 +10,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseContainer;
 import wintersteve25.oniutils.common.network.ONINetworking;
 import wintersteve25.oniutils.common.network.TEPosBasedPacket;
@@ -114,8 +112,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         return j != 0 && i != 0 ? i * pixels / j : 0;
     }
 
-    @OnlyIn(Dist.CLIENT)
-    abstract static class Button extends AbstractButton {
+   abstract static class Button extends AbstractButton {
         protected Button(int x, int y) {
             super(x, y, 16, 16, StringTextComponent.EMPTY);
         }
@@ -142,7 +139,6 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         protected abstract void blitOverlay(MatrixStack matrixStack);
     }
 
-    @OnlyIn(Dist.CLIENT)
     protected class InfoButton extends SpriteButton {
         public InfoButton() {
             super(ONIBaseGuiContainer.this.guiLeft+1, ONIBaseGuiContainer.this.guiTop-17, 32, 240);
@@ -171,7 +167,6 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     protected class AlertButton extends SpriteButton {
         public AlertButton() {
             super(ONIBaseGuiContainer.this.guiLeft+18, ONIBaseGuiContainer.this.guiTop-17, 49, 240);
@@ -200,7 +195,6 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     protected class RedstoneOutputButton extends SpriteButton {
         public RedstoneOutputButton() {
             super(ONIBaseGuiContainer.this.guiLeft+52, ONIBaseGuiContainer.this.guiTop-17, 66, 240);
@@ -225,7 +219,6 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     protected class RedstoneButton extends SpriteButton {
         public RedstoneButton() {
             super(ONIBaseGuiContainer.this.guiLeft+35, ONIBaseGuiContainer.this.guiTop-17, 83, 240);
@@ -245,7 +238,6 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     protected abstract static class SpriteButton extends Button {
         protected int u;
         protected int v;

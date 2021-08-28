@@ -3,7 +3,7 @@ package wintersteve25.oniutils.common.init;
 import net.minecraftforge.common.ForgeConfigSpec;
 import wintersteve25.oniutils.common.utils.MiscHelper;
 
-public class ONIConfig {
+public class        ONIConfig {
     public static final String CAT_GERM = "germs";
 //    public static final String CAT_POTR = "potr";
     public static final String CAT_TRAITS = "traits";

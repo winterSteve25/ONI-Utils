@@ -15,6 +15,7 @@ import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.items.base.interfaces.ONIIColoredName;
 import wintersteve25.oniutils.common.items.base.interfaces.ONIIHasToolTip;
 import wintersteve25.oniutils.common.utils.MiscHelper;
+import wintersteve25.oniutils.common.utils.ONIConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +76,7 @@ public class ManualGenItemBlock extends ONIBaseBlockItem implements ONIIHasToolT
 
     @Override
     public TextFormatting color() {
-        return MiscHelper.POWER_CAT_COLOR;
+        return ONIConstants.TextColor.POWER_CAT_COLOR;
     }
 
     @Override

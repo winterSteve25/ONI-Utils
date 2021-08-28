@@ -1,5 +1,6 @@
 package wintersteve25.oniutils.common.utils;
 
+import net.minecraft.util.text.TextFormatting;
 import wintersteve25.oniutils.client.renderers.geckolibs.base.GeckolibModelBase;
 import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenItemBlock;
 import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenTE;
@@ -17,5 +18,14 @@ public final class ONIConstants {
         public static final byte REDSTONE_INPUT = 0;
         public static final byte REDSTONE_OUTPUT_LOW = 1;
         public static final byte REDSTONE_OUTPUT_HIGH = 2;
+
+        public static final byte MODIFICATION_GUI = 0;
+        public static final byte MODIFICATION_DATA = 1;
+    }
+    public static final class TextColor {
+        public static final TextFormatting POWER_CAT_COLOR = TextFormatting.RED;
+        public static final TextFormatting OXYGEN_CAT_COLOR = TextFormatting.AQUA;
+        public static final TextFormatting VENTILATION_CAT_COLOR = TextFormatting.GREEN;
+        public static final TextFormatting PLUMING_CAT_COLOR = TextFormatting.BLUE;
     }
 }

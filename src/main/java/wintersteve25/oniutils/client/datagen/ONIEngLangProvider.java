@@ -11,6 +11,9 @@ import wintersteve25.oniutils.client.gui.ONIBaseGuiTab;
 import wintersteve25.oniutils.common.effects.ONIBaseEffect;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONIEffects;
+import wintersteve25.oniutils.common.init.ONIItems;
+import wintersteve25.oniutils.common.items.base.interfaces.ONIIItem;
+import wintersteve25.oniutils.common.items.base.modifications.ONIBaseModification;
 import wintersteve25.oniutils.common.utils.MiscHelper;
 
 public class ONIEngLangProvider extends LanguageProvider {
@@ -49,6 +52,13 @@ public class ONIEngLangProvider extends LanguageProvider {
         add("oniutils.tooltips.items.holdShiftInfo", TextFormatting.DARK_GRAY + "Hold" + TextFormatting.WHITE + " <Sneak> " + TextFormatting.DARK_GRAY + "For More Info");
         add("oniutils.tooltips.items.coal_gen", TextFormatting.GRAY + "Coal Generator is a primitive generator that takes only coal, to generate a small amount of plasma");
         add("oniutils.tooltips.items.manual_gen", TextFormatting.GRAY + "Manual Generator will generate a tiny amount of plasma when a player is running on it. It will generate more power when the player has speed effect");
+        add("oniutils.tooltips.items.modification", TextFormatting.DARK_AQUA + "Modifications allow attributes of machines to be modified");
+        add("oniutils.tooltips.items.modification.velocity", TextFormatting.GRAY + "Velocity Modification allow you to modify machine's operating speed. Up to 125%/-125%. 25% more each tier");
+        add("oniutils.tooltips.items.modification.energy", TextFormatting.GRAY + "Plasma Conservation Modification allow you to modify machine's power consumption rate. Up to 110%/-110%. 10% more each tier");
+        add("oniutils.tooltips.items.modification.gas", TextFormatting.GRAY + "Gas Efficiency Modification allow you to modify machine's gas consumption rate. Up to 125%/-125%. 25% more each tier");
+        add("oniutils.tooltips.items.modification.fluid", TextFormatting.GRAY + "Fluid Efficiency Modification allow you to modify machine's fluid consumption rate. Up to 125%/-125%. 25% more each tier");
+        add("oniutils.tooltips.items.modification.temperature", TextFormatting.GRAY + "Temperature Modification allow you to modify machine's temperature capacity. Up to 120%/-120%. 20% more each tier");
+        add("oniutils.tooltips.items.modification.complexity", TextFormatting.GRAY + "Complexity Modification allow you to modify machine's required operation skill level. Up to 125%/-125%. 25% more each tier");
 
         //gui
         add("oniutils.gui.machines.power", "Plasma Stored: %s Pls");
@@ -104,6 +114,13 @@ public class ONIEngLangProvider extends LanguageProvider {
         }
         for (ONIBaseEffect e : ONIEffects.effectList) {
             add("effect.oniutils." + MiscHelper.langToReg(e.getRegName()), e.getRegName());
+        }
+        for (ONIIItem i : ONIItems.itemRegistryList) {
+            if (i.get() instanceof ONIBaseModification) {
+                add("item.oniutils." + MiscHelper.langToReg(i.getRegName()), "Modification:" + i.getRegName().substring(12));
+            } else {
+                add("item.oniutils." + MiscHelper.langToReg(i.getRegName()), i.getRegName());
+            }
         }
     }
 }
