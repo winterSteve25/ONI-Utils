@@ -37,6 +37,7 @@ public class ONIBaseModification extends ONIToolTipColorNameItem {
         if (!worldIn.isRemote()) {
             ItemStack heldItem = playerIn.getHeldItem(handIn);
             playerIn.swing(handIn, true);
+            System.out.println(getBonusDataFromItemStack(heldItem));
             ONINetworking.sendToClient(new ModificationPacket(heldItem, maxBonus, ONIConstants.PacketType.MODIFICATION_GUI), (ServerPlayerEntity) playerIn);
         }
         return super.onItemRightClick(worldIn, playerIn, handIn);
@@ -47,14 +48,9 @@ public class ONIBaseModification extends ONIToolTipColorNameItem {
     }
 
     public static ONIBaseModification create(String regName, TextFormatting color, int maxBonus, EnumModifications modType, ITextComponent... tooltips) {
-        ONIBaseModification mod = new ONIBaseModification(new Properties().group(ONIUtils.creativeTab).maxStackSize(1), regName, true, color, maxBonus, modType, tooltips);
+        ONIBaseModification mod = new ONIBaseModification(new Properties().group(ONIUtils.creativeTab).maxStackSize(1).setNoRepair(), regName, true, color, maxBonus, modType, tooltips);
         ONIItems.itemRegistryList.add(mod);
         return mod;
-    }
-
-    @Override
-    public int getDamage(ItemStack stack) {
-        return getBonusDataFromItemStack(stack);
     }
 
     @Override
@@ -65,6 +61,7 @@ public class ONIBaseModification extends ONIToolTipColorNameItem {
     public static void setBonusDataToItemStack(ItemStack modification, int bonusData) {
         CompoundNBT nbt = modification.getOrCreateTag();
         nbt.putInt("oniutils_bonus", bonusData);
+        modification.setTag(nbt);
         System.out.println(getBonusDataFromItemStack(modification));
     }
 

@@ -22,7 +22,7 @@ public class ONIModificationGUI extends Screen {
     private Widget sliderWidget;
 
     private final int maxBonus;
-    private static int bonus = 20;
+    private static int bonus = 0;
 
     public ONIModificationGUI(ItemStack modification, int maxBonus) {
         super(new TranslationTextComponent(""));
@@ -61,13 +61,6 @@ public class ONIModificationGUI extends Screen {
         RenderingHelper.renderItemStackInGui(matrixStack, i, j, 96, 96, 96, modification, false);
         sliderWidget.render(matrixStack, mouseX, mouseY, partialTicks);
         matrixStack.pop();
-
-        if (this.isDragging()) {
-            OptionSlider sliderWidge = (OptionSlider) sliderWidget;
-            if (sliderWidge.isMouseOver(mouseX, mouseY)) {
-                sliderWidge.changeSliderValue(mouseX);
-            }
-        }
     }
 
     @Override
@@ -77,6 +70,7 @@ public class ONIModificationGUI extends Screen {
     }
 
     public static void open(ItemStack modification, int maxBonus) {
+        Minecraft.getInstance().displayGuiScreen(null);
         Minecraft.getInstance().displayGuiScreen(new ONIModificationGUI(modification, maxBonus));
     }
 }
