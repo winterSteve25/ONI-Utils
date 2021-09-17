@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.OptionSlider;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.settings.SliderPercentageOption;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseContainer;
 import wintersteve25.oniutils.common.network.ONINetworking;
@@ -23,6 +24,8 @@ public class ONIBaseGuiTabRedstone extends ONIBaseGuiTab {
     private static int lowThreshold = 20;
     private static int highThreshold = 80;
 
+    public BlockPos posCache = null;
+
     @Override
     public void init(int widthIn, int heightIn, Minecraft minecraftIn, ONIBaseContainer containerIn, String title) {
         super.init(widthIn, heightIn, minecraftIn, containerIn, title);
@@ -35,6 +38,8 @@ public class ONIBaseGuiTabRedstone extends ONIBaseGuiTab {
 
         slider2 = new SliderPercentageOption(REDSTONE_HIGH, 0, 100, 1, gameSettings -> (double) highThreshold, (setting, value) -> highThreshold = value.intValue(), (gameSettings, sliderPercentageOption1) -> new TranslationTextComponent(REDSTONE_HIGH, sliderPercentageOption1.get(gameSettings)));
         sliderWidget2 = slider2.createWidget(Minecraft.getInstance().gameSettings, i, j + 48, 120);
+
+        posCache = containerIn.getTileEntity().getPos();
 
         this.children.add(sliderWidget);
         this.children.add(sliderWidget2);
@@ -82,25 +87,17 @@ public class ONIBaseGuiTabRedstone extends ONIBaseGuiTab {
     }
 
     public ONIBaseGuiTabRedstone create() {
+        ONIBaseGuiTabRedstone tab = new ONIBaseGuiTabRedstone();
+
         if (lowThreshold != 20) {
-            ONIBaseGuiTabRedstone tab = new ONIBaseGuiTabRedstone();
             tab.setLowCache(lowThreshold);
-            if (highThreshold != 80) {
-                tab.setHighCache(highThreshold);
-            }
-            return tab;
         }
 
         if (highThreshold != 80) {
-            ONIBaseGuiTabRedstone tab = new ONIBaseGuiTabRedstone();
             tab.setHighCache(highThreshold);
-            if (lowThreshold != 20) {
-                tab.setLowCache(lowThreshold);
-            }
-            return tab;
         }
 
-        return new ONIBaseGuiTabRedstone();
+        return tab;
     }
 
     public void setLowCache(int in) {
@@ -109,6 +106,10 @@ public class ONIBaseGuiTabRedstone extends ONIBaseGuiTab {
 
     public void setHighCache(int in) {
         highThreshold = in;
+    }
+
+    public void setPosCache(BlockPos in) {
+        posCache = in;
     }
 
     @Override

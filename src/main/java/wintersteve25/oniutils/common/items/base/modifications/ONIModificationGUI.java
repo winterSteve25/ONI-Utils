@@ -28,6 +28,7 @@ public class ONIModificationGUI extends Screen {
         super(new TranslationTextComponent(""));
         this.modification = modification;
         this.maxBonus = maxBonus;
+        bonus = modification.getOrCreateTag().getInt("oniutils_bonus");
     }
 
     @Override

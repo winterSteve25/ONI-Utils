@@ -41,7 +41,7 @@ public class ModificationPacket {
                     ONIModificationGUI.open(mod, bonusData);
                     break;
                 case ONIConstants.PacketType.MODIFICATION_DATA:
-                    ONIBaseModification.setBonusDataToItemStack(mod, bonusData);
+                    ONIBaseModification.setBonusDataToItemStack(ctx.get().getSender(), bonusData);
                     break;
             }
         });

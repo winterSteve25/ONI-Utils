@@ -1,8 +1,5 @@
 package wintersteve25.oniutils.common.items.base.modifications;
 
-import com.google.common.collect.ImmutableList;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -11,9 +8,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.init.ONIItems;
 import wintersteve25.oniutils.common.items.base.ONIToolTipColorNameItem;
@@ -37,7 +32,7 @@ public class ONIBaseModification extends ONIToolTipColorNameItem {
         if (!worldIn.isRemote()) {
             ItemStack heldItem = playerIn.getHeldItem(handIn);
             playerIn.swing(handIn, true);
-            System.out.println(getBonusDataFromItemStack(heldItem));
+            ONIUtils.LOGGER.info(getBonusDataFromItemStack(heldItem));
             ONINetworking.sendToClient(new ModificationPacket(heldItem, maxBonus, ONIConstants.PacketType.MODIFICATION_GUI), (ServerPlayerEntity) playerIn);
         }
         return super.onItemRightClick(worldIn, playerIn, handIn);
@@ -54,15 +49,18 @@ public class ONIBaseModification extends ONIToolTipColorNameItem {
     }
 
     @Override
+    public boolean hasEffect(ItemStack stack) {
+        return getBonusDataFromItemStack(stack) != 0;
+    }
+
+    @Override
     public boolean isEnchantable(ItemStack stack) {
         return false;
     }
 
-    public static void setBonusDataToItemStack(ItemStack modification, int bonusData) {
-        CompoundNBT nbt = modification.getOrCreateTag();
+    public static void setBonusDataToItemStack(ServerPlayerEntity modification, int bonusData) {
+        CompoundNBT nbt = modification.getHeldItemMainhand().getOrCreateTag();
         nbt.putInt("oniutils_bonus", bonusData);
-        modification.setTag(nbt);
-        System.out.println(getBonusDataFromItemStack(modification));
     }
 
     public static int getBonusDataFromItemStack(ItemStack modification) {
