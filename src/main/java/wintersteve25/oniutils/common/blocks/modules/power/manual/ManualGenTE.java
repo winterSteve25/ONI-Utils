@@ -26,6 +26,7 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import wintersteve25.oniutils.client.keybinds.ONIKeybinds;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseTE;
+import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasProgress;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
 import wintersteve25.oniutils.common.capability.plasma.api.EnumWattsTypes;
 import wintersteve25.oniutils.common.capability.plasma.api.IPlasma;
@@ -37,7 +38,7 @@ import wintersteve25.oniutils.common.utils.MiscHelper;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class ManualGenTE extends ONIBaseTE implements ITickableTileEntity, IAnimatable, IBoundingBlock {
+public class ManualGenTE extends ONIBaseTE implements ITickableTileEntity, IAnimatable, IBoundingBlock, ONIIHasProgress {
 
     private final AnimationFactory manager = new AnimationFactory(this);
     private PlasmaStack plasmaHandler = new PlasmaStack(2000, EnumWattsTypes.LOW);
@@ -45,14 +46,15 @@ public class ManualGenTE extends ONIBaseTE implements ITickableTileEntity, IAnim
 
     public boolean hasPlayer = false;
 
-    @Override
-    protected int totalProgress() {
-        return ONIConfig.MANUAL_GEN_PROCESS_TIME.get();
-    }
-
     private BlockState state;
     private BlockPos pos;
     private ServerPlayerEntity player;
+
+    private int progress = 0;
+    private int totalProgress = ONIConfig.COAL_GEN_PROCESS_TIME.get();
+    private boolean isForceStopped = false;
+    private boolean isInverted = false;
+    private boolean isWorking = false;
 
     public ManualGenTE() {
         super(ONIBlocks.MANUAL_GEN_TE.get());
@@ -143,7 +145,7 @@ public class ManualGenTE extends ONIBaseTE implements ITickableTileEntity, IAnim
 
     private <E extends TileEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         event.getController().transitionLengthTicks = 0;
-        if (super.getWorking()) {
+        if (getWorking()) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.manual_gen.new", true));
             return PlayState.CONTINUE;
         } else {
@@ -219,5 +221,55 @@ public class ManualGenTE extends ONIBaseTE implements ITickableTileEntity, IAnim
                     break;
             }
         }
+    }
+
+    @Override
+    public int getProgress() {
+        return progress;
+    }
+
+    @Override
+    public void setProgress(int progress) {
+        this.progress = progress;
+    }
+
+    @Override
+    public int getTotalProgress() {
+        return totalProgress;
+    }
+
+    @Override
+    public void setTotalProgress(int progress) {
+        this.totalProgress = progress;
+    }
+
+    @Override
+    public boolean getForceStopped() {
+        return isForceStopped;
+    }
+
+    @Override
+    public void setForceStopped(boolean forceStopped) {
+        this.isForceStopped = forceStopped;
+    }
+
+    @Override
+    public boolean isInverted() {
+        return isInverted;
+    }
+
+    @Override
+    public void toggleInverted() {
+        isInverted = !isInverted;
+    }
+
+    @Override
+    public boolean getWorking() {
+        return isWorking;
+    }
+
+    @Override
+    public void setWorking(boolean isWorking) {
+        this.isWorking = isWorking;
     }
 }

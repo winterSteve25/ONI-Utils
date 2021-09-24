@@ -29,7 +29,7 @@ public class ONIUtils {
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ONIConfig.SERVER_CONFIG);
         Registration.init();
 
-        modEventBus.addListener(ONIServerEventsHandler::preInit);
+        modEventBus.addListener(ONIServerEventsHandler::commonSetup);
         forgeEventBus.addListener(ONIServerEventsHandler::command);
 
         MinecraftForge.EVENT_BUS.register(this);

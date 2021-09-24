@@ -25,7 +25,7 @@ import wintersteve25.oniutils.common.network.ONINetworking;
 
 public class ONIServerEventsHandler {
 
-    public static void preInit(FMLCommonSetupEvent evt) {
+    public static void commonSetup(FMLCommonSetupEvent evt) {
         ONINetworking.registerMessages();
 
         GermCapability.register();

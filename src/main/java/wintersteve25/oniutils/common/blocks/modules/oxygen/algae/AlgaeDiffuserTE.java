@@ -24,8 +24,8 @@ import java.util.List;
 
 public class AlgaeDiffuserTE extends ONIBaseInvTE implements ITickableTileEntity {
 
-    private PlasmaStack plasmaHandler = new PlasmaStack(500, EnumWattsTypes.LOW);
-    private LazyOptional<IPlasma> powerLazyOptional = LazyOptional.of(() -> plasmaHandler);
+    private final PlasmaStack plasmaHandler = new PlasmaStack(500, EnumWattsTypes.LOW);
+    private final LazyOptional<IPlasma> powerLazyOptional = LazyOptional.of(() -> plasmaHandler);
     private static final List<Item> valids = new ArrayList<>();
 
     public AlgaeDiffuserTE() {
@@ -55,16 +55,6 @@ public class AlgaeDiffuserTE extends ONIBaseInvTE implements ITickableTileEntity
     @Override
     public int getInvSize() {
         return 1;
-    }
-
-    @Override
-    public List<Item> validItems() {
-        return valids;
-    }
-
-    @Override
-    protected int totalProgress() {
-        return ONIConfig.ALGAE_DIFFUSER_PROCESS_TIME.get();
     }
 
     @Nonnull

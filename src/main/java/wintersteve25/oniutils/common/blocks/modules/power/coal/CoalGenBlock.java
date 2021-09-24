@@ -35,7 +35,7 @@ import javax.annotation.Nullable;
 import static wintersteve25.oniutils.common.utils.MiscHelper.ONEPIXEL;
 
 @SuppressWarnings("deprecation")
-public class CoalGenBlock extends ONIBaseMachineAnimated implements ONIIHasGeoItem, ONIIHasRedstoneOutput {
+public class CoalGenBlock extends ONIBaseMachineAnimated implements ONIIHasGeoItem {
 
     private static final String regName = "Coal Generator";
 
@@ -135,30 +135,5 @@ public class CoalGenBlock extends ONIBaseMachineAnimated implements ONIIHasGeoIt
             default:
                 return NORTH_R;
         }
-    }
-
-    @Override
-    public int lowThreshold() {
-        return this.lowThreshold;
-    }
-
-    @Override
-    public int highThreshold() {
-        return this.highThreshold;
-    }
-
-    @Override
-    public void setLowThreshold(int in) {
-        this.lowThreshold = in;
-    }
-
-    @Override
-    public void setHighThreshold(int in) {
-        this.highThreshold = in;
-    }
-
-    @Override
-    public TileEntity te() {
-        return ONIBlocks.COAL_GEN_TE.get().create();
     }
 }

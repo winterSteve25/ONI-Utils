@@ -1,6 +1,6 @@
 package wintersteve25.oniutils.common.blocks.base.interfaces;
 
-public interface ONIIHasRedstoneOutput extends ONIIHasTE{
+public interface ONIIHasRedstoneOutput {
     int lowThreshold();
 
     int highThreshold();

@@ -36,7 +36,6 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
 
         if (hasRedstoneOutputButton()) {
             redstoneOutputTab = new ONIBaseGuiTabRedstone();
-            redstoneOutputTab = redstoneOutputTab.create();
         }
     }
 

@@ -7,7 +7,6 @@ import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.IntReferenceHolder;
 import net.minecraft.util.math.BlockPos;
@@ -15,6 +14,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasProgress;
+import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIWorkable;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
 import wintersteve25.oniutils.common.capability.plasma.api.IPlasma;
 import wintersteve25.oniutils.common.init.ONIBlocks;
@@ -67,88 +68,103 @@ public abstract class ONIBaseContainer extends Container {
     }
 
     protected void trackProgress() {
-        trackInt(new IntReferenceHolder() {
-            @Override
-            public int get() {
-                return getProgress() & 0xffff;
-            }
+        if (tileEntity instanceof ONIIHasProgress) {
+            ONIIHasProgress hasProgress = (ONIIHasProgress) tileEntity;
+            trackInt(new IntReferenceHolder() {
+                @Override
+                public int get() {
+                    return getProgress() & 0xffff;
+                }
 
-            @Override
-            public void set(int value) {
-                int progressStored = getProgress() & 0xffff0000;
-                tileEntity.setProgress(progressStored + (value & 0xffff));
-            }
-        });
-        trackInt(new IntReferenceHolder() {
-            @Override
-            public int get() {
-                return (getProgress() >> 16) & 0xffff;
-            }
+                @Override
+                public void set(int value) {
+                    int progressStored = getProgress() & 0xffff0000;
+                    hasProgress.setProgress(progressStored + (value & 0xffff));
+                }
+            });
+            trackInt(new IntReferenceHolder() {
+                @Override
+                public int get() {
+                    return (getProgress() >> 16) & 0xffff;
+                }
 
-            @Override
-            public void set(int value) {
-                int progressStored = getProgress() & 0x0000ffff;
-                tileEntity.setProgress(progressStored | (value << 16));
-            }
-        });
+                @Override
+                public void set(int value) {
+                    int progressStored = getProgress() & 0x0000ffff;
+                    hasProgress.setProgress(progressStored | (value << 16));
+                }
+            });
+        } else {
+            throw new UnsupportedOperationException("Trying to track progress on a machine that does not support progress!");
+        }
     }
 
     protected void trackTotalProgress() {
-        trackInt(new IntReferenceHolder() {
-            @Override
-            public int get() {
-                return getTotalProgress() & 0xffff;
-            }
+        if (tileEntity instanceof ONIIHasProgress) {
+            ONIIHasProgress hasProgress = (ONIIHasProgress) tileEntity;
+            trackInt(new IntReferenceHolder() {
+                @Override
+                public int get() {
+                    return getTotalProgress() & 0xffff;
+                }
 
-            @Override
-            public void set(int value) {
-                int progressStored = getTotalProgress() & 0xffff0000;
-                tileEntity.setTotalProgress(progressStored + (value & 0xffff));
-            }
-        });
-        trackInt(new IntReferenceHolder() {
-            @Override
-            public int get() {
-                return (getTotalProgress() >> 16) & 0xffff;
-            }
+                @Override
+                public void set(int value) {
+                    int progressStored = getTotalProgress() & 0xffff0000;
+                    hasProgress.setTotalProgress(progressStored + (value & 0xffff));
+                }
+            });
+            trackInt(new IntReferenceHolder() {
+                @Override
+                public int get() {
+                    return (getTotalProgress() >> 16) & 0xffff;
+                }
 
-            @Override
-            public void set(int value) {
-                int progressStored = getTotalProgress() & 0x0000ffff;
-                tileEntity.setTotalProgress(progressStored | (value << 16));
-            }
-        });
+                @Override
+                public void set(int value) {
+                    int progressStored = getTotalProgress() & 0x0000ffff;
+                    hasProgress.setTotalProgress(progressStored | (value << 16));
+                }
+            });
+        } else {
+            throw new UnsupportedOperationException("Trying to track total progress on a machine that does not support progress!");
+        }
     }
 
     protected void trackWorking() {
-        trackInt(new IntReferenceHolder() {
-            @Override
-            public int get() {
-                return getWorking() & 0xffff;
-            }
+        if (tileEntity instanceof ONIIWorkable) {
+            ONIIWorkable workable = (ONIIWorkable) tileEntity;
+            trackInt(new IntReferenceHolder() {
+                @Override
+                public int get() {
+                    return getWorking() & 0xffff;
+                }
 
-            @Override
-            public void set(int value) {
-                int workingStored = getWorking() & 0xffff0000;
-                int cache = workingStored + (value & 0xffff);
+                @Override
+                public void set(int value) {
+                    int workingStored = getWorking() & 0xffff0000;
+                    int cache = workingStored + (value & 0xffff);
 
-                tileEntity.setWorking(cache == 1);
-            }
-        });
-        trackInt(new IntReferenceHolder() {
-            @Override
-            public int get() {
-                return (getWorking() >> 16) & 0xffff;
-            }
+                    workable.setWorking(cache == 1);
+                }
+            });
+            trackInt(new IntReferenceHolder() {
+                @Override
+                public int get() {
+                    return (getWorking() >> 16) & 0xffff;
+                }
 
-            @Override
-            public void set(int value) {
-                int workingStored = getWorking() & 0x0000ffff;
-                int cache = workingStored | (value << 16);
+                @Override
+                public void set(int value) {
+                    int workingStored = getWorking() & 0x0000ffff;
+                    int cache = workingStored | (value << 16);
 
-                tileEntity.setWorking(cache == 1);
-            }
-        });
+                    workable.setWorking(cache == 1);
+                }
+            });
+        } else {
+            throw new UnsupportedOperationException("Trying to track total progress on a machine that does not support progress!");
+        }
     }
 
     protected void trackCapacity() {
@@ -244,24 +260,27 @@ public abstract class ONIBaseContainer extends Container {
     }
 
     public int getProgress() {
-        if (tileEntity == null) {
-            return 0;
+        if (tileEntity instanceof ONIIHasProgress) {
+            ONIIHasProgress hasProgress = (ONIIHasProgress) tileEntity;
+            return hasProgress.getProgress();
         }
-        return tileEntity.getProgress();
+        throw new UnsupportedOperationException("trying to get progress on an tile that does not support progress");
     }
 
     public int getTotalProgress() {
-        if (tileEntity == null) {
-            return 0;
+        if (tileEntity instanceof ONIIHasProgress) {
+            ONIIHasProgress hasProgress = (ONIIHasProgress) tileEntity;
+            return hasProgress.getTotalProgress();
         }
-        return tileEntity.getTotalProgress();
+        throw new UnsupportedOperationException("trying to get progress on an tile that does not support progress");
     }
 
     public int getWorking() {
-        if (tileEntity == null) {
-            return 0;
+        if (tileEntity instanceof ONIIWorkable) {
+            ONIIWorkable workable = (ONIIWorkable) tileEntity;
+            return workable.getWorking() ? 1 : 0;
         }
-        return tileEntity.getWorking() ? 1 : 0;
+        throw new UnsupportedOperationException("trying to get progress on an tile that does not support progress");
     }
 
     public int getCapacity() {

@@ -20,6 +20,9 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseInvTE;
+import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasProgress;
+import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasRedstoneOutput;
+import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasValidItems;
 import wintersteve25.oniutils.common.capability.durability.DurabilityCapability;
 import wintersteve25.oniutils.common.capability.durability.api.DurabilityStack;
 import wintersteve25.oniutils.common.capability.durability.api.IDurability;
@@ -36,7 +39,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAnimatable, IBoundingBlock {
+public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAnimatable, IBoundingBlock, ONIIHasProgress, ONIIHasRedstoneOutput, ONIIHasValidItems {
 
     private final AnimationFactory manager = new AnimationFactory(this);
     private final PlasmaStack plasmaHandler = new PlasmaStack(4000, EnumWattsTypes.LOW);
@@ -46,10 +49,14 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     private final List<Item> valids = new ArrayList<>();
     private boolean removedFirstItem = false;
 
-    @Override
-    protected int totalProgress() {
-        return ONIConfig.COAL_GEN_PROCESS_TIME.get();
-    }
+    private int progress = 0;
+    private int totalProgress = ONIConfig.COAL_GEN_PROCESS_TIME.get();
+    private boolean isForceStopped = false;
+    private boolean isInverted = false;
+    private boolean isWorking = false;
+
+    private int lowThreshold = 20;
+    private int highThreshold = 80;
 
     public CoalGenTE() {
         super(ONIBlocks.COAL_GEN_TE.get());
@@ -84,7 +91,7 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
                 } else {
                     if (plasmaHandler.canGenerate(ONIConfig.COAL_GEN_PLASMA_OUTPUT.get())) {
                         if (!itemHandler.getStackInSlot(0).isEmpty()) {
-                            progress = totalProgress();
+                            progress = getTotalProgress();
                             setWorking(true);
                         } else {
                             setWorking(false);
@@ -146,7 +153,7 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
 
     private <E extends TileEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         event.getController().transitionLengthTicks = 80;
-        if (super.getWorking()) {
+        if (getWorking()) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.motor.new", true));
             return PlayState.CONTINUE;
         } else {
@@ -221,5 +228,77 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
                     break;
             }
         }
+    }
+
+    @Override
+    public int getProgress() {
+        return progress;
+    }
+
+    @Override
+    public void setProgress(int progress) {
+        this.progress = progress;
+    }
+
+    @Override
+    public int getTotalProgress() {
+        return totalProgress;
+    }
+
+    @Override
+    public void setTotalProgress(int progress) {
+        this.totalProgress = progress;
+    }
+
+    @Override
+    public boolean getForceStopped() {
+        return isForceStopped;
+    }
+
+    @Override
+    public void setForceStopped(boolean forceStopped) {
+        this.isForceStopped = forceStopped;
+    }
+
+    @Override
+    public boolean isInverted() {
+        return isInverted;
+    }
+
+    @Override
+    public void toggleInverted() {
+        isInverted = !isInverted;
+    }
+
+    @Override
+    public boolean getWorking() {
+        return isWorking;
+    }
+
+    @Override
+    public void setWorking(boolean isWorking) {
+        this.isWorking = isWorking;
+    }
+
+    @Override
+    public int lowThreshold() {
+        return lowThreshold;
+    }
+
+    @Override
+    public int highThreshold() {
+        return highThreshold;
+    }
+
+    @Override
+    public void setLowThreshold(int in) {
+        lowThreshold = in;
+        updateBlock();
+    }
+
+    @Override
+    public void setHighThreshold(int in) {
+        highThreshold = in;
+        updateBlock();
     }
 }

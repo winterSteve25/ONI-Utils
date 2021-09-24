@@ -14,6 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.generators.ModelFile;
+import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIForceStoppable;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasRedstoneOutput;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
 
@@ -34,11 +35,6 @@ public class ONIBaseMachine extends ONIBaseDirectional {
     public boolean hasTileEntity(BlockState state) {
         return true;
     }
-
-//    @Override
-//    public void neighborChanged(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Block neighborBlock, @Nonnull BlockPos neighborPos, boolean isMoving) {
-//        world.getBlockState(pos).neighborChanged(world, pos, neighborBlock, neighborPos, isMoving);
-//    }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext blockItemUseContext) {
@@ -68,10 +64,13 @@ public class ONIBaseMachine extends ONIBaseDirectional {
             ((IBoundingBlock) tile).onPlace();
         }
 
-        if (tile.isInverted()) {
-            tile.setForceStopped(!worldIn.isBlockPowered(pos));
-        } else {
-            tile.setForceStopped(worldIn.isBlockPowered(pos));
+        if (tile instanceof ONIIForceStoppable) {
+            ONIIForceStoppable forceStoppable = (ONIIForceStoppable) tile;
+            if (forceStoppable.isInverted()) {
+                forceStoppable.setForceStopped(!worldIn.isBlockPowered(pos));
+            } else {
+                forceStoppable.setForceStopped(worldIn.isBlockPowered(pos));
+            }
         }
     }
 
@@ -87,31 +86,24 @@ public class ONIBaseMachine extends ONIBaseDirectional {
     }
 
     @Override
-    public boolean canProvidePower(BlockState state) {
-        if (state.getBlock() instanceof ONIIHasRedstoneOutput) {
-            ONIIHasRedstoneOutput block = (ONIIHasRedstoneOutput) state.getBlock();
+    public int getWeakPower(BlockState blockState, IBlockReader blockAccess, BlockPos pos, Direction side) {
+        TileEntity tile = WorldUtils.getTileEntity(blockAccess, pos);
+        if (tile instanceof ONIIHasRedstoneOutput) {
+            ONIIHasRedstoneOutput redstoneOutput = (ONIIHasRedstoneOutput) tile;
             AtomicBoolean isLowTrue = new AtomicBoolean(false);
             AtomicBoolean isHighTrue = new AtomicBoolean(false);
 
-            block.te().getCapability(PlasmaCapability.POWER_CAPABILITY).ifPresent(power -> {
-                if (power.getPower() / 100 < block.lowThreshold()) {
+            tile.getCapability(PlasmaCapability.POWER_CAPABILITY).ifPresent(power -> {
+                if (power.getPower() / 100 < redstoneOutput.lowThreshold()) {
                     isLowTrue.set(true);
                 }
 
-                if (power.getPower() / 100 > block.highThreshold()) {
+                if (power.getPower() / 100 > redstoneOutput.highThreshold()) {
                     isHighTrue.set(true);
                 }
             });
 
-            return isHighTrue.get() || isLowTrue.get();
-        }
-        return false;
-    }
-
-    @Override
-    public int getWeakPower(BlockState blockState, IBlockReader blockAccess, BlockPos pos, Direction side) {
-        if (this.canProvidePower(blockState)) {
-            return 15;
+            return isHighTrue.get() || isLowTrue.get() ? 15 : 0;
         }
         return 0;
     }
