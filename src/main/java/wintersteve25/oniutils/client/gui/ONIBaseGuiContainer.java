@@ -19,13 +19,14 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
 
     public static ResourceLocation bg = null;
 
-    protected final ONIBaseGuiTabInfo infoTab;
+    protected ONIBaseGuiTabInfo infoTab;
     protected final ONIBaseGuiTabAlert alertTab;
     protected ONIBaseGuiTabRedstone redstoneOutputTab;
     protected InfoButton infoButton;
     protected AlertButton alertButton;
     protected RedstoneButton redstoneButton;
     protected RedstoneOutputButton redstoneOutputButton;
+    protected ONIBaseGuiTab currentTab;
 
     public ONIBaseGuiContainer(T container, PlayerInventory inv, ITextComponent name, ResourceLocation resourceLocation) {
         super(container, inv, name);
@@ -33,6 +34,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         bg = resourceLocation;
         infoTab = new ONIBaseGuiTabInfo();
         alertTab = new ONIBaseGuiTabAlert();
+        currentTab = infoTab;
 
         if (hasRedstoneOutputButton()) {
             redstoneOutputTab = new ONIBaseGuiTabRedstone();
@@ -43,10 +45,10 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
     protected void init() {
         super.init();
 
-        this.guiLeft = this.infoTab.getGuiLeftTopPosition(this.width, this.xSize);
+        this.guiLeft = this.currentTab.getGuiLeftTopPosition(this.width, this.xSize);
         this.guiTop = (this.height - this.getYSize()) / 2;
 
-        this.infoTab.init(this.width, this.height, this.minecraft, this.container, this.container.tabTitle());
+        this.infoTab.init(this.width, this.height, this.minecraft, this.container, this.container.getTileEntity().machineName());
         this.infoTab.updateText();
 
         this.alertTab.init(this.width, this.height, this.minecraft, this.container, "oniutils.gui.titles.warning");
@@ -73,11 +75,9 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
         infoTab.updateText();
-        infoTab.render(matrixStack, mouseX, mouseY, partialTicks);
-        alertTab.render(matrixStack, mouseX, mouseY, partialTicks);
 
-        if (hasRedstoneOutputButton()) {
-            redstoneOutputTab.render(matrixStack, mouseX, mouseY, partialTicks);
+        if (currentTab != null) {
+            currentTab.render(matrixStack, mouseX, mouseY, partialTicks);
         }
     }
 
@@ -152,17 +152,20 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
                 if (ONIBaseGuiContainer.this.redstoneOutputTab.isVisible()) {
                     ONIBaseGuiContainer.this.redstoneOutputTab.toggleVisibility();
                 }
-
-                ONIBaseGuiContainer.this.redstoneOutputButton.setPosition(ONIBaseGuiContainer.this.guiLeft+52, ONIBaseGuiContainer.this.guiTop-17);
             }
 
+            ONIBaseGuiContainer.this.currentTab = infoTab;
             ONIBaseGuiContainer.this.infoTab.toggleVisibility();
             ONIBaseGuiContainer.this.guiLeft = ONIBaseGuiContainer.this.infoTab.getGuiLeftTopPosition(ONIBaseGuiContainer.this.width, ONIBaseGuiContainer.this.xSize);
 
             this.setPosition(ONIBaseGuiContainer.this.guiLeft+1, ONIBaseGuiContainer.this.guiTop-17);
             ONIBaseGuiContainer.this.alertButton.setPosition(ONIBaseGuiContainer.this.guiLeft+18, ONIBaseGuiContainer.this.guiTop-17);
-            ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft+35, ONIBaseGuiContainer.this.guiTop-17);
-            ONIBaseGuiContainer.this.redstoneOutputButton.setPosition(ONIBaseGuiContainer.this.guiLeft+52, ONIBaseGuiContainer.this.guiTop-17);
+            ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft+158, ONIBaseGuiContainer.this.guiTop-17);
+
+            //janky but works
+            if (ONIBaseGuiContainer.this.hasRedstoneOutputButton()) {
+                ONIBaseGuiContainer.this.redstoneOutputButton.setPosition(ONIBaseGuiContainer.this.guiLeft+35, ONIBaseGuiContainer.this.guiTop-17);
+            }
         }
     }
 
@@ -180,23 +183,26 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
                 if (ONIBaseGuiContainer.this.redstoneOutputTab.isVisible()) {
                     ONIBaseGuiContainer.this.redstoneOutputTab.toggleVisibility();
                 }
-
-                ONIBaseGuiContainer.this.redstoneOutputButton.setPosition(ONIBaseGuiContainer.this.guiLeft+52, ONIBaseGuiContainer.this.guiTop-17);
             }
 
+            ONIBaseGuiContainer.this.currentTab = alertTab;
             ONIBaseGuiContainer.this.alertTab.toggleVisibility();
             ONIBaseGuiContainer.this.guiLeft = ONIBaseGuiContainer.this.alertTab.getGuiLeftTopPosition(ONIBaseGuiContainer.this.width, ONIBaseGuiContainer.this.xSize);
 
             this.setPosition(ONIBaseGuiContainer.this.guiLeft+18, ONIBaseGuiContainer.this.guiTop-17);
             ONIBaseGuiContainer.this.infoButton.setPosition(ONIBaseGuiContainer.this.guiLeft+1, ONIBaseGuiContainer.this.guiTop-17);
-            ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft+35, ONIBaseGuiContainer.this.guiTop-17);
-            ONIBaseGuiContainer.this.redstoneOutputButton.setPosition(ONIBaseGuiContainer.this.guiLeft+52, ONIBaseGuiContainer.this.guiTop-17);
+            ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft+158, ONIBaseGuiContainer.this.guiTop-17);
+
+            //janky but works
+            if (ONIBaseGuiContainer.this.hasRedstoneOutputButton()) {
+                ONIBaseGuiContainer.this.redstoneOutputButton.setPosition(ONIBaseGuiContainer.this.guiLeft+35, ONIBaseGuiContainer.this.guiTop-17);
+            }
         }
     }
 
     protected class RedstoneOutputButton extends SpriteButton {
         public RedstoneOutputButton() {
-            super(ONIBaseGuiContainer.this.guiLeft+52, ONIBaseGuiContainer.this.guiTop-17, 66, 240);
+            super(ONIBaseGuiContainer.this.guiLeft+35, ONIBaseGuiContainer.this.guiTop-17, 66, 240);
         }
 
         public void onPress() {
@@ -208,19 +214,20 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
                 ONIBaseGuiContainer.this.alertTab.toggleVisibility();
             }
 
+            ONIBaseGuiContainer.this.currentTab = redstoneOutputTab;
             ONIBaseGuiContainer.this.redstoneOutputTab.toggleVisibility();
             ONIBaseGuiContainer.this.guiLeft = ONIBaseGuiContainer.this.redstoneOutputTab.getGuiLeftTopPosition(ONIBaseGuiContainer.this.width, ONIBaseGuiContainer.this.xSize);
 
-            this.setPosition(ONIBaseGuiContainer.this.guiLeft+52, ONIBaseGuiContainer.this.guiTop-17);
+            this.setPosition(ONIBaseGuiContainer.this.guiLeft+35, ONIBaseGuiContainer.this.guiTop-17);
             ONIBaseGuiContainer.this.infoButton.setPosition(ONIBaseGuiContainer.this.guiLeft+1, ONIBaseGuiContainer.this.guiTop-17);
             ONIBaseGuiContainer.this.alertButton.setPosition(ONIBaseGuiContainer.this.guiLeft+18, ONIBaseGuiContainer.this.guiTop-17);
-            ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft+35, ONIBaseGuiContainer.this.guiTop-17);
+            ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft+158, ONIBaseGuiContainer.this.guiTop-17);
         }
     }
 
     protected class RedstoneButton extends SpriteButton {
         public RedstoneButton() {
-            super(ONIBaseGuiContainer.this.guiLeft+35, ONIBaseGuiContainer.this.guiTop-17, 83, 240);
+            super(ONIBaseGuiContainer.this.guiLeft+158, ONIBaseGuiContainer.this.guiTop-17, 83, 240);
         }
 
         boolean pressed = false;

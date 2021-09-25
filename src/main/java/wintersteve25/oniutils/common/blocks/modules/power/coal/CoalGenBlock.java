@@ -5,27 +5,22 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
-import net.minecraftforge.fml.network.NetworkHooks;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.client.renderers.geckolibs.base.ONIIHasGeoItem;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseMachineAnimated;
-import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasRedstoneOutput;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.utils.ISHandlerHelper;
 import wintersteve25.oniutils.common.utils.ModelFileHelper;
@@ -60,32 +55,7 @@ public class CoalGenBlock extends ONIBaseMachineAnimated implements ONIIHasGeoIt
     private int highThreshold = 80;
 
     public CoalGenBlock() {
-        super(Properties.create(Material.IRON).harvestTool(ToolType.PICKAXE).hardnessAndResistance(1.4F, 5).setRequiresTool().notSolid(), regName, ModelFileHelper.createModelFile(new ResourceLocation(ONIUtils.MODID, "models/block/machines/coal_generator")), 0);
-    }
-
-    @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
-        if (!world.isRemote()) {
-            TileEntity tileEntity = world.getTileEntity(pos);
-            super.onBlockActivated(state, world, pos, player, hand, rayTraceResult);
-            if (tileEntity instanceof CoalGenTE) {
-                INamedContainerProvider containerProvider = new INamedContainerProvider() {
-                    @Override
-                    public ITextComponent getDisplayName() {
-                        return new TranslationTextComponent("oniutils.gui.machines.coal_gen");
-                    }
-
-                    @Override
-                    public Container createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
-                        return new CoalGenContainer(i, world, pos, playerInventory, playerEntity);
-                    }
-                };
-                NetworkHooks.openGui((ServerPlayerEntity) player, containerProvider, tileEntity.getPos());
-            } else {
-                ONIUtils.LOGGER.warn("Wrong tileEntity type found, failed to create container");
-            }
-        }
-        return ActionResultType.SUCCESS;
+        super(Properties.create(Material.IRON).harvestTool(ToolType.PICKAXE).hardnessAndResistance(1.4F, 5).setRequiresTool().notSolid(), regName, ModelFileHelper.createModelFile(new ResourceLocation(ONIUtils.MODID, "models/block/machines/coal_generator")), 0, CoalGenTE.class);
     }
 
     @Override
@@ -135,5 +105,15 @@ public class CoalGenBlock extends ONIBaseMachineAnimated implements ONIIHasGeoIt
             default:
                 return NORTH_R;
         }
+    }
+
+    @Override
+    public String machineName() {
+        return "oniutils.gui.machines.coal_gen";
+    }
+
+    @Override
+    public Container container(int i, World world, BlockPos pos, PlayerInventory playerInventory, PlayerEntity playerEntity) {
+        return new CoalGenContainer(i, world, pos, playerInventory, playerEntity);
     }
 }

@@ -24,9 +24,6 @@ public class CoalGenGui extends ONIBaseGuiContainer<CoalGenContainer> {
 
             int power = container.getEnergy();
 
-//            int totalProgress = ONIConfig.COAL_GEN_PROCESS_TIME.get();
-//            int percentProgress = 100 - ((totalProgress-progress)/totalProgress*100);
-
             this.blit(matrixStack, this.guiLeft +  106, this.guiTop +  25 + (int) ((container.getCapacity() - power) / 83.3), 177, (int) ((container.getCapacity() - power) / 83.3), 16, (int) (48 - ((container.getCapacity() - power) / 83.3) + 1));
 
             if (container.getWorking() == 1) {

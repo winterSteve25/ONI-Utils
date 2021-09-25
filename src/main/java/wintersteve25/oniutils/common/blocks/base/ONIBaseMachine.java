@@ -6,29 +6,46 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.fml.network.NetworkHooks;
+import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIForceStoppable;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasRedstoneOutput;
+import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenTE;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ONIBaseMachine extends ONIBaseDirectional {
-    public ONIBaseMachine(int harvestLevel, float hardness, float resistance, String regName, SoundType soundType, Material material, ModelFile modelFile, int angelOffset) {
+public abstract class ONIBaseMachine extends ONIBaseDirectional {
+    private final Class<? extends TileEntity> teClass;
+
+    public ONIBaseMachine(int harvestLevel, float hardness, float resistance, String regName, SoundType soundType, Material material, ModelFile modelFile, int angelOffset, Class<? extends TileEntity> teClass) {
         super(harvestLevel, hardness, resistance, regName, soundType, material, modelFile, angelOffset);
+        this.teClass = teClass;
     }
 
-    public ONIBaseMachine(String regName, Properties properties, ModelFile modelFile, int angelOffset) {
+    public ONIBaseMachine(String regName, Properties properties, ModelFile modelFile, int angelOffset, Class<? extends TileEntity> teClass) {
         super(regName, properties, modelFile, angelOffset);
+        this.teClass = teClass;
     }
 
     @Override
@@ -94,11 +111,11 @@ public class ONIBaseMachine extends ONIBaseDirectional {
             AtomicBoolean isHighTrue = new AtomicBoolean(false);
 
             tile.getCapability(PlasmaCapability.POWER_CAPABILITY).ifPresent(power -> {
-                if (power.getPower() / 100 < redstoneOutput.lowThreshold()) {
+                if ((power.getPower() / power.getCapacity())*100 < redstoneOutput.lowThreshold()) {
                     isLowTrue.set(true);
                 }
 
-                if (power.getPower() / 100 > redstoneOutput.highThreshold()) {
+                if ((power.getPower() / power.getCapacity())*100 > redstoneOutput.highThreshold()) {
                     isHighTrue.set(true);
                 }
             });
@@ -107,4 +124,33 @@ public class ONIBaseMachine extends ONIBaseDirectional {
         }
         return 0;
     }
+
+    @Override
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
+        if (!world.isRemote() && machineName() != null && !machineName().isEmpty()) {
+            TileEntity tileEntity = world.getTileEntity(pos);
+            super.onBlockActivated(state, world, pos, player, hand, rayTraceResult);
+            if (teClass.isInstance(tileEntity)) {
+                INamedContainerProvider containerProvider = new INamedContainerProvider() {
+                    @Override
+                    public ITextComponent getDisplayName() {
+                        return new TranslationTextComponent(machineName());
+                    }
+
+                    @Override
+                    public Container createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
+                        return container(i, world, pos, playerInventory, playerEntity);
+                    }
+                };
+                NetworkHooks.openGui((ServerPlayerEntity) player, containerProvider, tileEntity.getPos());
+            } else {
+                ONIUtils.LOGGER.warn("Wrong tileEntity type found, failed to create container");
+            }
+        }
+        return ActionResultType.SUCCESS;
+    }
+
+    public abstract String machineName();
+
+    public abstract Container container(int i, World world, BlockPos pos, PlayerInventory playerInventory, PlayerEntity playerEntity);
 }

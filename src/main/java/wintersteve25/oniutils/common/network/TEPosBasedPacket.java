@@ -46,10 +46,9 @@ public class TEPosBasedPacket {
     }
 
     public void handle(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
             if (pos != null) {
                 ServerPlayerEntity player = ctx.get().getSender();
-                ONIBaseTE te = WorldUtils.getTileEntity(ONIBaseTE.class, player.getServerWorld(), pos);
+                ONIBaseTE te = WorldUtils.getTileEntity(ONIBaseTE.class, player.getEntityWorld(), pos);
                 if (te != null) {
                     switch (packetType) {
                         case ONIConstants.PacketType.REDSTONE_INPUT:
@@ -61,25 +60,22 @@ public class TEPosBasedPacket {
                         case ONIConstants.PacketType.REDSTONE_OUTPUT_LOW:
                             if (te instanceof ONIIHasRedstoneOutput) {
                                 ONIIHasRedstoneOutput tile = (ONIIHasRedstoneOutput) te;
-                                tile.setLowThreshold(thresholdValue);
+                                ctx.get().enqueueWork(() -> tile.setLowThreshold(thresholdValue));
                             } else {
-                                ONIUtils.LOGGER.error("Sent redstone output packet but tile does not support redstone output, Pos: {}", pos);
+                                ONIUtils.LOGGER.warn("Sent redstone output packet but tile does not support redstone output, Pos: {}", pos);
                             }
                             break;
                         case ONIConstants.PacketType.REDSTONE_OUTPUT_HIGH:
                             if (te instanceof ONIIHasRedstoneOutput) {
                                 ONIIHasRedstoneOutput tile = (ONIIHasRedstoneOutput) te;
-                                tile.setHighThreshold(thresholdValue);
+                                ctx.get().enqueueWork(() -> tile.setHighThreshold(thresholdValue));
                             } else {
-                                ONIUtils.LOGGER.error("Sent redstone output packet but tile does not support redstone output, Pos: {}", pos);
+                                ONIUtils.LOGGER.warn("Sent redstone output packet but tile does not support redstone output, Pos: {}", pos);
                             }
                             break;
-                        case ONIConstants.PacketType.NBT:
-
                     }
                 }
             }
-        });
 
         ctx.get().setPacketHandled(true);
     }

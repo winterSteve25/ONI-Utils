@@ -1,5 +1,6 @@
 package wintersteve25.oniutils.common.blocks.modules.power.coal;
 
+import com.google.common.collect.Lists;
 import mekanism.common.tile.interfaces.IBoundingBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
@@ -11,7 +12,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -36,7 +36,6 @@ import wintersteve25.oniutils.common.utils.MiscHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAnimatable, IBoundingBlock, ONIIHasProgress, ONIIHasRedstoneOutput, ONIIHasValidItems {
@@ -46,7 +45,6 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     private final LazyOptional<IPlasma> powerLazyOptional = LazyOptional.of(() -> plasmaHandler);
     private final DurabilityStack durabilityStack = new DurabilityStack();
     private final LazyOptional<IDurability> durabilityLazyOptional = LazyOptional.of(() -> durabilityStack);
-    private final List<Item> valids = new ArrayList<>();
     private boolean removedFirstItem = false;
 
     private int progress = 0;
@@ -60,7 +58,6 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
 
     public CoalGenTE() {
         super(ONIBlocks.COAL_GEN_TE.get());
-        valids.add(Items.COAL);
     }
 
     @Override
@@ -113,14 +110,18 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
 
     @Override
     public void read(BlockState state, CompoundNBT tag) {
-        plasmaHandler.read(tag.getCompound("plasma"));
+        if (isServer()) {
+            plasmaHandler.read(tag.getCompound("plasma"));
+        }
 
         super.read(state, tag);
     }
 
     @Override
     public CompoundNBT write(CompoundNBT tag) {
-        tag.put("plasma", plasmaHandler.write());
+        if (isServer()) {
+            tag.put("plasma", plasmaHandler.write());
+        }
 
         return super.write(tag);
     }
@@ -132,7 +133,7 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
 
     @Override
     public List<Item> validItems() {
-        return valids;
+        return Lists.newArrayList(Items.COAL);
     }
 
     @Nonnull
@@ -140,9 +141,6 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         if (cap == PlasmaCapability.POWER_CAPABILITY) {
             return powerLazyOptional.cast();
-        }
-        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return itemLazyOptional.cast();
         }
         if (cap == DurabilityCapability.DURABILITY_CAPABILITY) {
             return durabilityLazyOptional.cast();

@@ -49,7 +49,7 @@ public class ManualGenBlock extends ONIBaseMachineAnimated implements ONIIHasGeo
     private static final VoxelShape EAST = VoxelShapeUtils.rotate(NORTH, Rotation.CLOCKWISE_90);
 
     public ManualGenBlock() {
-        super(Properties.create(Material.IRON).harvestLevel(0).harvestTool(ToolType.PICKAXE).hardnessAndResistance(3, 3).notSolid().setRequiresTool(), regName, null, 0);
+        super(Properties.create(Material.IRON).harvestLevel(0).harvestTool(ToolType.PICKAXE).hardnessAndResistance(3, 3).notSolid().setRequiresTool(), regName, null, 0, ManualGenTE.class);
     }
 
     @Nullable
@@ -67,6 +67,16 @@ public class ManualGenBlock extends ONIBaseMachineAnimated implements ONIIHasGeo
             }
         }
         return ActionResultType.SUCCESS;
+    }
+
+    @Override
+    public String machineName() {
+        return null;
+    }
+
+    @Override
+    public Container container(int i, World world, BlockPos pos, PlayerInventory playerInventory, PlayerEntity playerEntity) {
+        return null;
     }
 
     @Override

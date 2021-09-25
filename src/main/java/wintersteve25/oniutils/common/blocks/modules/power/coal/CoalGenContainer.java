@@ -1,5 +1,6 @@
 package wintersteve25.oniutils.common.blocks.modules.power.coal;
 
+import com.google.common.collect.Lists;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
@@ -19,9 +20,7 @@ public class CoalGenContainer extends ONIBaseContainer {
         super(windowId, world, pos, playerInventory, player, ONIBlocks.COAL_GEN_CONTAINER.get());
 
         if (tileEntity != null) {
-            tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h -> {
-                addSlot(new SlotItemHandler(h, 0, 55, 32));
-            });
+            tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h -> addSlot(new SlotItemHandler(h, 0, 55, 32)));
         }
 
         addPlayerSlots(8, 88);
@@ -33,14 +32,7 @@ public class CoalGenContainer extends ONIBaseContainer {
     }
 
     @Override
-    public String tabTitle() {
-        return "oniutils.gui.titles.coal_gen";
-    }
-
-    @Override
     public List<Item> validItems() {
-        List<Item> validItems = new ArrayList<>();
-        validItems.add(Items.COAL);
-        return validItems;
+        return Lists.newArrayList(Items.COAL);
     }
 }

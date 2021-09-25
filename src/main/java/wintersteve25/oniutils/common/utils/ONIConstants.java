@@ -18,7 +18,6 @@ public final class ONIConstants {
         public static final byte REDSTONE_INPUT = 0;
         public static final byte REDSTONE_OUTPUT_LOW = 1;
         public static final byte REDSTONE_OUTPUT_HIGH = 2;
-        public static final byte NBT = 3;
 
         public static final byte MODIFICATION_GUI = 0;
         public static final byte MODIFICATION_DATA = 1;
