@@ -3,14 +3,13 @@ package wintersteve25.oniutils.client.gui;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
-import wintersteve25.oniutils.ONIUtils;
+import wintersteve25.oniutils.client.utils.RenderingHelper;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseContainer;
+import wintersteve25.oniutils.common.utils.ONIConstants;
 
 public class ONIBaseGuiTabModification extends ONIBaseGuiTab {
-    private static final ResourceLocation BACKGROUND = new ResourceLocation(ONIUtils.MODID, "textures/gui/misc/tab_advanced.png");
     private int slots = 6;
     private static int errorCoolDown = 0;
 
@@ -31,7 +30,7 @@ public class ONIBaseGuiTabModification extends ONIBaseGuiTab {
         if (this.isVisible()) {
             RenderSystem.pushMatrix();
             RenderSystem.translatef(0.0F, 0.0F, -0.2F);
-            this.mc.getTextureManager().bindTexture(BACKGROUND);
+            this.mc.getTextureManager().bindTexture(BACKGROUND_LOCATION);
             RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             int i = getGuiLeftTopPosition(this.width, 177) - 147;
             int j = (this.height - 167) / 2;
@@ -45,12 +44,12 @@ public class ONIBaseGuiTabModification extends ONIBaseGuiTab {
                     slotFixX = 0;
                     slotFixY += 20;
                 }
-                if (mouseX > i + 10 + slotFixX && mouseX < i + 10 + slotFixX + 17
-                        && mouseY > j + 25 + slotFixY && mouseY < j + 25 + slotFixY + 17) {
-                    this.blit(matrixStack, i + 10 + slotFixX, j + 25 + slotFixY, 18, 238, 18, 18);
-                } else {
-                    this.blit(matrixStack, i + 10 + slotFixX, j + 25 + slotFixY, 0, 238, 18, 18);
-                }
+                RenderingHelper.renderSlotWithHover(this, matrixStack, i + 10 + slotFixX, j + 25 + slotFixY, mouseX, mouseY);
+//                if (mouseX > i + 10 + slotFixX && mouseX < i + 10 + slotFixX + 17 && mouseY > j + 25 + slotFixY && mouseY < j + 25 + slotFixY + 17) {
+//                    RenderingHelper.renderWidget(this, ONIConstants.Resources.ITEM_SLOT_HOVER, matrixStack, i + 10 + slotFixX, j + 25 + slotFixY);
+//                } else {
+//                    RenderingHelper.renderWidget(this, ONIConstants.Resources.ITEM_SLOT, matrixStack, i + 10 + slotFixX, j + 25 + slotFixY);
+//                }
                 slotFixX += 20;
             }
 

@@ -14,7 +14,7 @@ import java.awt.image.RenderedImage;
 
 public class ONIBaseGuiTab extends Screen {
 
-    protected static ResourceLocation BACKGROUND_LOCATION = new ResourceLocation(ONIUtils.MODID, "textures/gui/misc/tab_base.png");
+    protected static final ResourceLocation BACKGROUND_LOCATION = new ResourceLocation(ONIUtils.MODID, "textures/gui/misc/tab_base.png");
 
     public static final String ENERGY = "oniutils.gui.info.energy";
     public static final String PRODUCING_ENERGY = "oniutils.gui.info.producingEnergy";
