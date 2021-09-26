@@ -15,6 +15,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasProgress;
+import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasValidItems;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIModifiable;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIWorkable;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
@@ -23,7 +24,7 @@ import wintersteve25.oniutils.common.init.ONIBlocks;
 
 import java.util.List;
 
-public abstract class ONIBaseContainer extends Container {
+public class ONIBaseContainer extends Container {
 
     protected ONIBaseTE tileEntity;
     protected PlayerEntity playerEntity;
@@ -169,7 +170,7 @@ public abstract class ONIBaseContainer extends Container {
         }
     }
 
-    protected void trackCapacity() {
+    protected void trackPowerCapacity() {
         trackInt(new IntReferenceHolder() {
             @Override
             public int get() {
@@ -204,7 +205,7 @@ public abstract class ONIBaseContainer extends Container {
     public ItemStack transferStackInSlot(PlayerEntity player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.getSlot(index);
-        if (slot != null && slot.getHasStack()) {
+        if (slot.getHasStack()) {
             ItemStack stack = slot.getStack();
             itemstack = stack.copy();
             if (index == 0) {
@@ -335,7 +336,13 @@ public abstract class ONIBaseContainer extends Container {
         return isWithinUsableDistance(IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos()), playerEntity, ONIBlocks.COAL_GEN_BLOCK);
     }
 
-    public abstract List<Item> validItems();
+    public List<Item> validItems() {
+        if (tileEntity instanceof ONIIHasValidItems) {
+            ONIIHasValidItems hasValidItems = (ONIIHasValidItems) tileEntity;
+            return hasValidItems.validItems();
+        }
+        return null;
+    }
 
     public void setModTabOpen(boolean in) {
         this.isModTabOpen = in;

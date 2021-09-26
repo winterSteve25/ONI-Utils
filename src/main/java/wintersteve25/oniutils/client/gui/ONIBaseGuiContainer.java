@@ -369,10 +369,9 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
             this.blit(matrixStack, this.x, this.y, this.u, this.v, 16, 16);
         }
     }
-
-    protected abstract boolean hasRedstoneOutputButton();
-
     protected boolean hasModButton() {
         return this.container.getTileEntity() instanceof ONIIModifiable;
     }
+
+    protected abstract boolean hasRedstoneOutputButton();
 }

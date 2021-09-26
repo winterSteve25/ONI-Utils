@@ -11,7 +11,7 @@ import javax.annotation.Nonnull;
 
 public class CoalGenGui extends ONIBaseGuiContainer<CoalGenContainer> {
 
-    private static ResourceLocation bg = new ResourceLocation(ONIUtils.MODID, "textures/gui/machines/coal_gen_gui.png");
+    private static final ResourceLocation bg = new ResourceLocation(ONIUtils.MODID, "textures/gui/machines/coal_gen_gui.png");
 
     public CoalGenGui(CoalGenContainer container, PlayerInventory inv, ITextComponent name) {
         super(container, inv, name, bg);
@@ -24,7 +24,7 @@ public class CoalGenGui extends ONIBaseGuiContainer<CoalGenContainer> {
 
             int power = container.getEnergy();
 
-            this.blit(matrixStack, this.guiLeft +  106, this.guiTop +  25 + (int) ((container.getCapacity() - power) / 83.3), 177, (int) ((container.getCapacity() - power) / 83.3), 16, (int) (48 - ((container.getCapacity() - power) / 83.3) + 1));
+            this.blit(matrixStack, this.guiLeft + 106, this.guiTop + 25 + (int) ((container.getCapacity() - power) / 83.3), 177, (int) ((container.getCapacity() - power) / 83.3), 16, (int) (48 - ((container.getCapacity() - power) / 83.3) + 1));
 
             if (container.getWorking() == 1) {
                 int p = getProgressScaledHorizontal(22);
