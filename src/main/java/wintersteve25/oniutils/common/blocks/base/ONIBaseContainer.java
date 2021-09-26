@@ -353,4 +353,31 @@ public abstract class ONIBaseContainer extends Container {
         }
         return 0;
     }
+
+    public void addModificationSlots(IItemHandler itemHandler) {
+        int slotFixX = 0;
+        int slotFixY = 0;
+        int index = 0;
+
+        for (int a = 0; a < getModSlotAmount(); a++) {
+            if (slotFixX > 100) {
+                slotFixX = 0;
+                slotFixY += 20;
+            }
+            addSlot(new ONIModSlotHandler(itemHandler, index, -136 + slotFixX, 26 + slotFixY));
+            slotFixX += 20;
+            index++;
+        }
+    }
+
+    public class ONIModSlotHandler extends SlotItemHandler {
+        public ONIModSlotHandler(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
+            super(itemHandler, index, xPosition, yPosition);
+        }
+
+        @Override
+        public boolean isEnabled() {
+            return ONIBaseContainer.this.isModTabOpen();
+        }
+    }
 }

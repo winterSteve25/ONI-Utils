@@ -29,8 +29,10 @@ import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIForceStoppable;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasGui;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasRedstoneOutput;
+import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIModifiable;
 import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenTE;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
+import wintersteve25.oniutils.common.utils.ISHandlerHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -124,6 +126,28 @@ public abstract class ONIBaseMachine extends ONIBaseDirectional {
             return isHighTrue.get() || isLowTrue.get() ? 15 : 0;
         }
         return 0;
+    }
+
+    @Override
+    public void onBlockHarvested(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+        if (teClass.isInstance(world.getTileEntity(pos))) {
+            if (world.getTileEntity(pos) instanceof ONIBaseInvTE) {
+                ONIBaseInvTE te = (ONIBaseInvTE) world.getTileEntity(pos);
+                if (te != null) {
+                    if (te.hasItem()) {
+                        ISHandlerHelper.dropInventory(te, world, state, pos, te.getInvSize());
+                    }
+
+                    if (te instanceof ONIIModifiable) {
+                        ONIIModifiable modifiable = (ONIIModifiable) te;
+                        if (modifiable.modContext().containsUpgrades()) {
+                            ISHandlerHelper.dropInventory(modifiable.modContext().getUpgradeHandler(), world, state, pos, modifiable.modContext().getMaxModAmount());
+                        }
+                    }
+                }
+            }
+        }
+        super.onBlockHarvested(world, pos, state, player);
     }
 
     @Override

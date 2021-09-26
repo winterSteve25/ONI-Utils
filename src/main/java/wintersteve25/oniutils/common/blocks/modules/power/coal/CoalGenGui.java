@@ -27,14 +27,14 @@ public class CoalGenGui extends ONIBaseGuiContainer<CoalGenContainer> {
             this.blit(matrixStack, this.guiLeft +  106, this.guiTop +  25 + (int) ((container.getCapacity() - power) / 83.3), 177, (int) ((container.getCapacity() - power) / 83.3), 16, (int) (48 - ((container.getCapacity() - power) / 83.3) + 1));
 
             if (container.getWorking() == 1) {
-                int p = getProgressScaled(22);
-                int f = getProgressScaled(13);
+                int p = getProgressScaledHorizontal(22);
+                int f = getProgressScaledVertical(13);
 
                 //burn
-                this.blit(matrixStack, this.guiLeft + 56, this.guiTop + 51, 197, 1, 14, f+1);
+                this.blit(matrixStack, this.guiLeft + 56, this.guiTop + 51 + f, 197, 1+f, 14, 14-f);
 
                 //progress
-                this.blit(matrixStack, this.guiLeft + 78, this.guiTop + 36, 177, 51, p+1, 10);
+                this.blit(matrixStack, this.guiLeft + 78, this.guiTop + 36, 177, 51, p, 10);
             }
 
             super.powerToolTip(matrixStack, power, mouseX, mouseY, this.guiLeft, this.guiTop);

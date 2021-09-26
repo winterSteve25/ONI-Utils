@@ -10,6 +10,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseContainer;
 
+import java.awt.image.RenderedImage;
+
 public class ONIBaseGuiTab extends Screen {
 
     protected static ResourceLocation BACKGROUND_LOCATION = new ResourceLocation(ONIUtils.MODID, "textures/gui/misc/tab_base.png");
@@ -74,7 +76,7 @@ public class ONIBaseGuiTab extends Screen {
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         if (this.isVisible()) {
             RenderSystem.pushMatrix();
-            RenderSystem.translatef(0.0F, 0.0F, 100.0F);
+            RenderSystem.translatef(0.0F, 0.0F, 0.0F);
             this.mc.getTextureManager().bindTexture(BACKGROUND_LOCATION);
             RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             int i = getGuiLeftTopPosition(this.width, 177) - 147;

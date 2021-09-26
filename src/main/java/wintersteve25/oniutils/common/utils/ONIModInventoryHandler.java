@@ -1,11 +1,15 @@
 package wintersteve25.oniutils.common.utils;
 
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
+import wintersteve25.oniutils.client.gui.ONIBaseGuiTabModification;
 import wintersteve25.oniutils.common.items.base.enums.EnumModifications;
 import wintersteve25.oniutils.common.items.modules.modifications.ModificationContext;
 import wintersteve25.oniutils.common.items.modules.modifications.ONIBaseModification;
+import wintersteve25.oniutils.common.network.ONINetworking;
+import wintersteve25.oniutils.common.network.RenderErrorPacket;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
@@ -36,7 +40,12 @@ public class ONIModInventoryHandler extends ItemStackHandler {
 
         if (item instanceof ONIBaseModification) {
             ONIBaseModification mod = (ONIBaseModification) item;
-            return validMods.contains(mod.getModType());
+            if (validMods.contains(mod.getModType())) {
+                return true;
+            } else {
+                sendError();
+                return false;
+            }
         }
 
         return false;
@@ -59,6 +68,19 @@ public class ONIModInventoryHandler extends ItemStackHandler {
             }
         }
 
+        sendError();
         return stack;
+    }
+
+    private void sendError() {
+        if (context.getParent() == null) return;
+        if (context.getParent().getWorld() == null) return;
+
+        if (context.getParent().isRemote()) {
+            ONIBaseGuiTabModification.addError();
+        } else {
+            if (context.getParent().getWorld().getPlayers().get(0) == null) return;
+            ONINetworking.sendToClient(new RenderErrorPacket(), (ServerPlayerEntity) context.getParent().getWorld().getPlayers().get(0));
+        }
     }
 }

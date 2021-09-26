@@ -25,12 +25,7 @@ public class CoalGenContainer extends ONIBaseContainer {
                     ModificationContext.ONICombinedInvWrapper combinedInvWrapper = (ModificationContext.ONICombinedInvWrapper) h;
                     addSlot(new SlotItemHandler(combinedInvWrapper.getHandlerFromIndex(0), 0, 55, 32));
 
-                    addSlot(new SlotItemHandler(combinedInvWrapper.getHandlerFromIndex(1), 0, 55, 48) {
-                        @Override
-                        public boolean isEnabled() {
-                            return isModTabOpen();
-                        }
-                    });
+                    addModificationSlots(combinedInvWrapper.getHandlerFromIndex(1));
                 }
             });
         }

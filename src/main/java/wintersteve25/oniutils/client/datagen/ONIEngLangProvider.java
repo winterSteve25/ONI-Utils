@@ -62,13 +62,14 @@ public class ONIEngLangProvider extends LanguageProvider {
 
         //gui
         add("oniutils.gui.machines.power", "Plasma Stored: %s Pls");
+        add("oniutils.gui.machines.upgradeNotSupported", "Modification Not Supported");
 
         add("oniutils.gui.titles.warning", TextFormatting.DARK_RED + "Warnings");
         add("oniutils.gui.titles.redstoneOutput", TextFormatting.RED + "Redstone Output");
         add("oniutils.gui.titles.modifications", TextFormatting.DARK_AQUA + "Modifications");
 
-        add("oniutils.gui.titles.coal_gen", "Coal Generator");
-        add("oniutils.gui.titles.manual_gen", "Manual Generator");
+        add("oniutils.gui.titles.coal_gen", TextFormatting.WHITE + "Coal Generator");
+        add("oniutils.gui.titles.manual_gen", TextFormatting.WHITE + "Manual Generator");
 
         add("oniutils.gui.info.energy", "Plasma Stored: %s");
         add("oniutils.gui.info.producingEnergy", "Producing Plasma: %s");

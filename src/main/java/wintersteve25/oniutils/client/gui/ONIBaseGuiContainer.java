@@ -68,7 +68,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         }
 
         if (hasModButton()) {
-            modificationTab.init(this.width, this.height, this.minecraft, this.container, "oniutils.gui.titles.modification");
+            modificationTab.init(this.width, this.height, this.minecraft, this.container, "oniutils.gui.titles.modifications");
             this.modificationButton = new ModificationButton();
             addButton(modificationButton);
         }
@@ -118,10 +118,33 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         }
     }
 
-    protected int getProgressScaled(int pixels) {
-        int i = container.getProgress();
-        int j = container.getTotalProgress();
-        return j != 0 && i != 0 ? i * pixels / j : 0;
+    protected int getProgressScaledHorizontal(float pixels) {
+        float i = container.getProgress();
+        float j = container.getTotalProgress();
+
+        if (i != 0 && j != 0) {
+            float pixelRequiredEachTick = pixels/j;
+            float progressPercentage = i/j*100;
+            float progressPercentageInverted = 100 - progressPercentage;
+            float pixelsAmount = pixelRequiredEachTick * progressPercentageInverted;
+            return (int) pixelsAmount;
+        }
+
+        return 0;
+    }
+
+    protected int getProgressScaledVertical(float pixels) {
+        float i = container.getProgress();
+        float j = container.getTotalProgress();
+
+        if (i != 0 && j != 0) {
+            float pixelRequiredEachTick = pixels/j;
+            float progressPercentage = i/j*100;
+            float pixelsAmount = pixelRequiredEachTick * progressPercentage;
+            return (int) pixelsAmount;
+        }
+
+        return 0;
     }
 
    abstract static class Button extends AbstractButton {
@@ -172,6 +195,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
                     ONIBaseGuiContainer.this.modificationTab.toggleVisibility();
                 }
             }
+
 
             ONIBaseGuiContainer.this.currentTab = infoTab;
             ONIBaseGuiContainer.this.infoTab.toggleVisibility();
@@ -322,7 +346,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         }
     }
 
-    protected abstract static class SpriteButton extends Button {
+    protected abstract class SpriteButton extends Button {
         protected int u;
         protected int v;
 

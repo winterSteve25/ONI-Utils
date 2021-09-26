@@ -9,14 +9,13 @@ import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import net.minecraftforge.items.wrapper.EmptyHandler;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseInvTE;
 import wintersteve25.oniutils.common.items.base.enums.EnumModifications;
-import wintersteve25.oniutils.common.utils.ONIInventoryHandler;
 import wintersteve25.oniutils.common.utils.ONIModInventoryHandler;
 
 public class ModificationContext {
 
     private final ONIBaseInvTE parent;
 
-    private final ItemStackHandler upgradeHandler;
+    private final ONIModInventoryHandler upgradeHandler;
     private final int maxModAmount;
     private final EnumModifications[] validMods;
 
@@ -49,10 +48,6 @@ public class ModificationContext {
         return maxModAmount;
     }
 
-    public CombinedInvWrapper getCombinedInventory() {
-        return combinedInventory;
-    }
-
     public LazyOptional<IItemHandler> getCombinedLazyOptional() {
         return combinedLazyOptional;
     }
@@ -61,8 +56,17 @@ public class ModificationContext {
         return validMods;
     }
 
-    public ItemStackHandler getUpgradeHandler() {
+    public ONIModInventoryHandler getUpgradeHandler() {
         return upgradeHandler;
+    }
+
+    public boolean containsUpgrades() {
+        for (int i = 0; i < getMaxModAmount(); i++) {
+            if (!upgradeHandler.getStackInSlot(i).isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static class ONICombinedInvWrapper extends CombinedInvWrapper {
