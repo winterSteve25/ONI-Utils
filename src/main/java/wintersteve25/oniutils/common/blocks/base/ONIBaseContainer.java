@@ -15,6 +15,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasProgress;
+import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIModifiable;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIWorkable;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
 import wintersteve25.oniutils.common.capability.plasma.api.IPlasma;
@@ -27,6 +28,7 @@ public abstract class ONIBaseContainer extends Container {
     protected ONIBaseTE tileEntity;
     protected PlayerEntity playerEntity;
     protected IItemHandler playerInventory;
+    private boolean isModTabOpen = false;
 
     protected ONIBaseContainer(int windowId, World world, BlockPos pos, PlayerInventory playerInventory, PlayerEntity player, ContainerType container) {
         super(container, windowId);
@@ -65,8 +67,6 @@ public abstract class ONIBaseContainer extends Container {
                 });
             }
         });
-
-        System.out.println(tileEntity.getUpdateTag().getInt(""));
     }
 
     protected void trackProgress() {
@@ -336,4 +336,21 @@ public abstract class ONIBaseContainer extends Container {
     }
 
     public abstract List<Item> validItems();
+
+    public void setModTabOpen(boolean in) {
+        this.isModTabOpen = in;
+    }
+
+    public boolean isModTabOpen() {
+        return isModTabOpen;
+    }
+
+    public int getModSlotAmount() {
+        if (getTileEntity() instanceof ONIIModifiable) {
+            ONIIModifiable modifiable = (ONIIModifiable) getTileEntity();
+            if (modifiable == null || modifiable.modContext() == null) return 0;
+            return modifiable.modContext().getMaxModAmount();
+        }
+        return 0;
+    }
 }

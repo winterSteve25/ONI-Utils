@@ -1,11 +1,10 @@
 package wintersteve25.oniutils.common.network;
 
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
-import wintersteve25.oniutils.common.items.base.modifications.ONIBaseModification;
-import wintersteve25.oniutils.common.items.base.modifications.ONIModificationGUI;
+import wintersteve25.oniutils.common.items.modules.modifications.ONIBaseModification;
+import wintersteve25.oniutils.common.items.modules.modifications.ONIModificationGUI;
 import wintersteve25.oniutils.common.utils.ONIConstants;
 
 import java.util.function.Supplier;

@@ -1,4 +1,4 @@
-package wintersteve25.oniutils.common.items.base.modifications;
+package wintersteve25.oniutils.common.items.modules.modifications;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;

@@ -46,24 +46,22 @@ public class ONIBaseGuiTabRedstone extends ONIBaseGuiTab {
 
         SliderPercentageOption slider2 = new SliderPercentageOption(REDSTONE_HIGH, 0, 100, 1, gameSettings -> (double) highThreshold, (setting, value) -> highThreshold = value.intValue(), (gameSettings, sliderPercentageOption1) -> new TranslationTextComponent(REDSTONE_HIGH, sliderPercentageOption1.get(gameSettings)));
         sliderWidget2 = slider2.createWidget(Minecraft.getInstance().gameSettings, i, j + 48, 120);
-
-        this.children.add(sliderWidget);
-        this.children.add(sliderWidget2);
     }
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        OptionSlider sliderWidge = (OptionSlider) sliderWidget;
-        OptionSlider sliderWidge2 = (OptionSlider) sliderWidget2;
+        if (isVisible()) {
+            OptionSlider sliderWidge = (OptionSlider) sliderWidget;
+            OptionSlider sliderWidge2 = (OptionSlider) sliderWidget2;
 
-        if (sliderWidge.isMouseOver(mouseX, mouseY)) {
-            sliderWidge.onClick(mouseX, mouseY);
+            if (sliderWidge.isMouseOver(mouseX, mouseY)) {
+                sliderWidge.onClick(mouseX, mouseY);
+            }
+
+            if (sliderWidge2.isMouseOver(mouseX, mouseY)) {
+                sliderWidge2.onClick(mouseX, mouseY);
+            }
         }
-
-        if (sliderWidge2.isMouseOver(mouseX, mouseY)) {
-            sliderWidge2.onClick(mouseX, mouseY);
-        }
-
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
@@ -93,10 +91,24 @@ public class ONIBaseGuiTabRedstone extends ONIBaseGuiTab {
     }
 
     @Override
+    public void toggleVisibility() {
+        super.toggleVisibility();
+        if (isVisible()) {
+            this.children.add(sliderWidget);
+            this.children.add(sliderWidget2);
+        } else {
+            this.children.remove(sliderWidget);
+            this.children.remove(sliderWidget2);
+        }
+    }
+
+    @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        ONINetworking.sendToServer(new TEPosBasedPacket(this.container.getTileEntity(), ONIConstants.PacketType.REDSTONE_OUTPUT_LOW, lowThreshold));
-        ONINetworking.sendToServer(new TEPosBasedPacket(this.container.getTileEntity(), ONIConstants.PacketType.REDSTONE_OUTPUT_HIGH, highThreshold));
-        updateClientThreshold();
+        if (isVisible()) {
+            ONINetworking.sendToServer(new TEPosBasedPacket(this.container.getTileEntity(), ONIConstants.PacketType.REDSTONE_OUTPUT_LOW, lowThreshold));
+            ONINetworking.sendToServer(new TEPosBasedPacket(this.container.getTileEntity(), ONIConstants.PacketType.REDSTONE_OUTPUT_HIGH, highThreshold));
+            updateClientThreshold();
+        }
         return super.mouseReleased(mouseX, mouseY, button);
     }
 

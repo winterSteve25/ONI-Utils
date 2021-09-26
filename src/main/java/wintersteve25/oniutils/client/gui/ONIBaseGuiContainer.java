@@ -10,7 +10,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseContainer;
+import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIModifiable;
 import wintersteve25.oniutils.common.network.ONINetworking;
 import wintersteve25.oniutils.common.network.TEPosBasedPacket;
 import wintersteve25.oniutils.common.utils.ONIConstants;
@@ -22,10 +24,12 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
     protected ONIBaseGuiTabInfo infoTab;
     protected final ONIBaseGuiTabAlert alertTab;
     protected ONIBaseGuiTabRedstone redstoneOutputTab;
+    protected ONIBaseGuiTabModification modificationTab;
     protected InfoButton infoButton;
     protected AlertButton alertButton;
-    protected RedstoneButton redstoneButton;
     protected RedstoneOutputButton redstoneOutputButton;
+    protected ModificationButton modificationButton;
+    protected RedstoneButton redstoneButton;
     protected ONIBaseGuiTab currentTab;
 
     public ONIBaseGuiContainer(T container, PlayerInventory inv, ITextComponent name, ResourceLocation resourceLocation) {
@@ -38,6 +42,9 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
 
         if (hasRedstoneOutputButton()) {
             redstoneOutputTab = new ONIBaseGuiTabRedstone();
+        }
+        if (hasModButton()) {
+            modificationTab = new ONIBaseGuiTabModification();
         }
     }
 
@@ -58,6 +65,12 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
             this.redstoneOutputButton = new RedstoneOutputButton();
             this.children.add(redstoneOutputTab);
             addButton(redstoneOutputButton);
+        }
+
+        if (hasModButton()) {
+            modificationTab.init(this.width, this.height, this.minecraft, this.container, "oniutils.gui.titles.modification");
+            this.modificationButton = new ModificationButton();
+            addButton(modificationButton);
         }
 
         this.infoButton = new InfoButton();
@@ -154,6 +167,12 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
                 }
             }
 
+            if (ONIBaseGuiContainer.this.hasModButton()) {
+                if (ONIBaseGuiContainer.this.modificationTab.isVisible) {
+                    ONIBaseGuiContainer.this.modificationTab.toggleVisibility();
+                }
+            }
+
             ONIBaseGuiContainer.this.currentTab = infoTab;
             ONIBaseGuiContainer.this.infoTab.toggleVisibility();
             ONIBaseGuiContainer.this.guiLeft = ONIBaseGuiContainer.this.infoTab.getGuiLeftTopPosition(ONIBaseGuiContainer.this.width, ONIBaseGuiContainer.this.xSize);
@@ -165,6 +184,10 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
             //janky but works
             if (ONIBaseGuiContainer.this.hasRedstoneOutputButton()) {
                 ONIBaseGuiContainer.this.redstoneOutputButton.setPosition(ONIBaseGuiContainer.this.guiLeft+35, ONIBaseGuiContainer.this.guiTop-17);
+            }
+
+            if (ONIBaseGuiContainer.this.hasModButton()) {
+                ONIBaseGuiContainer.this.modificationButton.setPosition(ONIBaseGuiContainer.this.guiLeft+52, ONIBaseGuiContainer.this.guiTop-17);
             }
         }
     }
@@ -185,6 +208,12 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
                 }
             }
 
+            if (ONIBaseGuiContainer.this.hasModButton()) {
+                if (ONIBaseGuiContainer.this.modificationTab.isVisible) {
+                    ONIBaseGuiContainer.this.modificationTab.toggleVisibility();
+                }
+            }
+
             ONIBaseGuiContainer.this.currentTab = alertTab;
             ONIBaseGuiContainer.this.alertTab.toggleVisibility();
             ONIBaseGuiContainer.this.guiLeft = ONIBaseGuiContainer.this.alertTab.getGuiLeftTopPosition(ONIBaseGuiContainer.this.width, ONIBaseGuiContainer.this.xSize);
@@ -196,6 +225,10 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
             //janky but works
             if (ONIBaseGuiContainer.this.hasRedstoneOutputButton()) {
                 ONIBaseGuiContainer.this.redstoneOutputButton.setPosition(ONIBaseGuiContainer.this.guiLeft+35, ONIBaseGuiContainer.this.guiTop-17);
+            }
+
+            if (ONIBaseGuiContainer.this.hasModButton()) {
+                ONIBaseGuiContainer.this.modificationButton.setPosition(ONIBaseGuiContainer.this.guiLeft+52, ONIBaseGuiContainer.this.guiTop-17);
             }
         }
     }
@@ -214,6 +247,12 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
                 ONIBaseGuiContainer.this.alertTab.toggleVisibility();
             }
 
+            if (ONIBaseGuiContainer.this.hasModButton()) {
+                if (ONIBaseGuiContainer.this.modificationTab.isVisible) {
+                    ONIBaseGuiContainer.this.modificationTab.toggleVisibility();
+                }
+            }
+
             ONIBaseGuiContainer.this.currentTab = redstoneOutputTab;
             ONIBaseGuiContainer.this.redstoneOutputTab.toggleVisibility();
             ONIBaseGuiContainer.this.guiLeft = ONIBaseGuiContainer.this.redstoneOutputTab.getGuiLeftTopPosition(ONIBaseGuiContainer.this.width, ONIBaseGuiContainer.this.xSize);
@@ -222,6 +261,45 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
             ONIBaseGuiContainer.this.infoButton.setPosition(ONIBaseGuiContainer.this.guiLeft+1, ONIBaseGuiContainer.this.guiTop-17);
             ONIBaseGuiContainer.this.alertButton.setPosition(ONIBaseGuiContainer.this.guiLeft+18, ONIBaseGuiContainer.this.guiTop-17);
             ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft+158, ONIBaseGuiContainer.this.guiTop-17);
+
+            if (ONIBaseGuiContainer.this.hasModButton()) {
+                ONIBaseGuiContainer.this.modificationButton.setPosition(ONIBaseGuiContainer.this.guiLeft+52, ONIBaseGuiContainer.this.guiTop-17);
+            }
+        }
+    }
+
+    protected class ModificationButton extends SpriteButton {
+        public ModificationButton() {
+            super(ONIBaseGuiContainer.this.guiLeft+52, ONIBaseGuiContainer.this.guiTop-17, 117, 240);
+        }
+
+        public void onPress() {
+            if (ONIBaseGuiContainer.this.infoTab.isVisible()) {
+                ONIBaseGuiContainer.this.infoTab.toggleVisibility();
+            }
+
+            if (ONIBaseGuiContainer.this.alertTab.isVisible()) {
+                ONIBaseGuiContainer.this.alertTab.toggleVisibility();
+            }
+
+            if (ONIBaseGuiContainer.this.hasRedstoneOutputButton()) {
+                if (ONIBaseGuiContainer.this.redstoneOutputTab.isVisible()) {
+                    ONIBaseGuiContainer.this.redstoneOutputTab.toggleVisibility();
+                }
+            }
+
+            ONIBaseGuiContainer.this.currentTab = modificationTab;
+            ONIBaseGuiContainer.this.modificationTab.toggleVisibility();
+            ONIBaseGuiContainer.this.guiLeft = ONIBaseGuiContainer.this.modificationTab.getGuiLeftTopPosition(ONIBaseGuiContainer.this.width, ONIBaseGuiContainer.this.xSize);
+
+            this.setPosition(ONIBaseGuiContainer.this.guiLeft+52, ONIBaseGuiContainer.this.guiTop-17);
+            ONIBaseGuiContainer.this.infoButton.setPosition(ONIBaseGuiContainer.this.guiLeft+1, ONIBaseGuiContainer.this.guiTop-17);
+            ONIBaseGuiContainer.this.alertButton.setPosition(ONIBaseGuiContainer.this.guiLeft+18, ONIBaseGuiContainer.this.guiTop-17);
+            ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft+158, ONIBaseGuiContainer.this.guiTop-17);
+
+            if (ONIBaseGuiContainer.this.hasRedstoneOutputButton()) {
+                ONIBaseGuiContainer.this.redstoneOutputButton.setPosition(ONIBaseGuiContainer.this.guiLeft+35, ONIBaseGuiContainer.this.guiTop-17);
+            }
         }
     }
 
@@ -269,4 +347,8 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
     }
 
     protected abstract boolean hasRedstoneOutputButton();
+
+    protected boolean hasModButton() {
+        return this.container.getTileEntity() instanceof ONIIModifiable;
+    }
 }

@@ -71,12 +71,7 @@ public class ManualGenBlock extends ONIBaseMachineAnimated implements ONIIHasGeo
 
     @Override
     public String machineName() {
-        return null;
-    }
-
-    @Override
-    public Container container(int i, World world, BlockPos pos, PlayerInventory playerInventory, PlayerEntity playerEntity) {
-        return null;
+        return "oniutils.gui.titles.manual_gen";
     }
 
     @Override

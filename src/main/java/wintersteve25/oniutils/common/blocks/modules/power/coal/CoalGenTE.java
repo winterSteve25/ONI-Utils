@@ -12,6 +12,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -23,6 +25,7 @@ import wintersteve25.oniutils.common.blocks.base.ONIBaseInvTE;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasProgress;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasRedstoneOutput;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasValidItems;
+import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIModifiable;
 import wintersteve25.oniutils.common.capability.durability.DurabilityCapability;
 import wintersteve25.oniutils.common.capability.durability.api.DurabilityStack;
 import wintersteve25.oniutils.common.capability.durability.api.IDurability;
@@ -32,14 +35,17 @@ import wintersteve25.oniutils.common.capability.plasma.api.IPlasma;
 import wintersteve25.oniutils.common.capability.plasma.api.PlasmaStack;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONIConfig;
+import wintersteve25.oniutils.common.items.base.enums.EnumModifications;
+import wintersteve25.oniutils.common.items.modules.modifications.ModificationContext;
 import wintersteve25.oniutils.common.utils.MiscHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAnimatable, IBoundingBlock, ONIIHasProgress, ONIIHasRedstoneOutput, ONIIHasValidItems {
+public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAnimatable, IBoundingBlock, ONIIHasProgress, ONIIHasRedstoneOutput, ONIIHasValidItems, ONIIModifiable {
 
+    public final ModificationContext modificationContext = new ModificationContext(this, 12, EnumModifications.values());
     private final AnimationFactory manager = new AnimationFactory(this);
     private final PlasmaStack plasmaHandler = new PlasmaStack(4000, EnumWattsTypes.LOW);
     private final LazyOptional<IPlasma> powerLazyOptional = LazyOptional.of(() -> plasmaHandler);
@@ -64,7 +70,7 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     public void tick() {
         super.tick();
 
-        if (!world.isRemote()) {
+        if (isServer()) {
             if (getForceStopped()) {
                 setWorking(false);
             }
@@ -110,18 +116,16 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
 
     @Override
     public void read(BlockState state, CompoundNBT tag) {
-        if (isServer()) {
-            plasmaHandler.read(tag.getCompound("plasma"));
-        }
+        plasmaHandler.read(tag.getCompound("plasma"));
+        modificationContext.deserializeNBT(tag.getCompound("modifications"));
 
         super.read(state, tag);
     }
 
     @Override
     public CompoundNBT write(CompoundNBT tag) {
-        if (isServer()) {
-            tag.put("plasma", plasmaHandler.write());
-        }
+        tag.put("plasma", plasmaHandler.write());
+        tag.put("modifications", modificationContext.serializeNBT());
 
         return super.write(tag);
     }
@@ -139,6 +143,9 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            return modificationContext.getCombinedLazyOptional().cast();
+        }
         if (cap == PlasmaCapability.POWER_CAPABILITY) {
             return powerLazyOptional.cast();
         }
@@ -298,5 +305,10 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     public void setHighThreshold(int in) {
         highThreshold = in;
         updateBlock();
+    }
+
+    @Override
+    public ModificationContext modContext() {
+        return modificationContext;
     }
 }

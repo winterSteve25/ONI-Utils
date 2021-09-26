@@ -12,7 +12,7 @@ import wintersteve25.oniutils.common.blocks.base.ONIBaseContainer;
 
 public class ONIBaseGuiTab extends Screen {
 
-    protected static final ResourceLocation BACKGROUND_LOCATION = new ResourceLocation(ONIUtils.MODID, "textures/gui/misc/tab_base.png");
+    protected static ResourceLocation BACKGROUND_LOCATION = new ResourceLocation(ONIUtils.MODID, "textures/gui/misc/tab_base.png");
 
     public static final String ENERGY = "oniutils.gui.info.energy";
     public static final String PRODUCING_ENERGY = "oniutils.gui.info.producingEnergy";
@@ -33,7 +33,7 @@ public class ONIBaseGuiTab extends Screen {
     public static final String REDSTONE_HIGH = "oniutils.gui.redstone.high";
     public static final String REDSTONE_INVALID_NUMBER = "oniutils.gui.redstone.invalid_number";
 
-    private TranslationTextComponent title;
+    protected TranslationTextComponent title;
 
     protected int width;
     protected int height;

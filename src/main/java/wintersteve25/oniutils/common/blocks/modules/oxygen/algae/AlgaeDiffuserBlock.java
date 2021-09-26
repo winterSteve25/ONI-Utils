@@ -20,9 +20,4 @@ public class AlgaeDiffuserBlock extends ONIBaseMachineAnimated implements ONIIHa
     public String machineName() {
         return null;
     }
-
-    @Override
-    public Container container(int i, World world, BlockPos pos, PlayerInventory playerInventory, PlayerEntity playerEntity) {
-        return null;
-    }
 }

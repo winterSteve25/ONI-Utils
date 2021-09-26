@@ -13,7 +13,7 @@ import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONIEffects;
 import wintersteve25.oniutils.common.init.ONIItems;
 import wintersteve25.oniutils.common.items.base.interfaces.ONIIItem;
-import wintersteve25.oniutils.common.items.base.modifications.ONIBaseModification;
+import wintersteve25.oniutils.common.items.modules.modifications.ONIBaseModification;
 import wintersteve25.oniutils.common.utils.MiscHelper;
 
 public class ONIEngLangProvider extends LanguageProvider {
@@ -62,11 +62,11 @@ public class ONIEngLangProvider extends LanguageProvider {
 
         //gui
         add("oniutils.gui.machines.power", "Plasma Stored: %s Pls");
-        add("oniutils.gui.machines.coal_gen", TextFormatting.BLACK + "Coal Generator");
-        add("oniutils.gui.machines.manual_gen", TextFormatting.BLACK + "Manual Generator");
 
         add("oniutils.gui.titles.warning", TextFormatting.DARK_RED + "Warnings");
         add("oniutils.gui.titles.redstoneOutput", TextFormatting.RED + "Redstone Output");
+        add("oniutils.gui.titles.modifications", TextFormatting.DARK_AQUA + "Modifications");
+
         add("oniutils.gui.titles.coal_gen", "Coal Generator");
         add("oniutils.gui.titles.manual_gen", "Manual Generator");
 

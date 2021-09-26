@@ -27,6 +27,7 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.fml.network.NetworkHooks;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIForceStoppable;
+import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasGui;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasRedstoneOutput;
 import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenTE;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
@@ -131,18 +132,21 @@ public abstract class ONIBaseMachine extends ONIBaseDirectional {
             TileEntity tileEntity = world.getTileEntity(pos);
             super.onBlockActivated(state, world, pos, player, hand, rayTraceResult);
             if (teClass.isInstance(tileEntity)) {
-                INamedContainerProvider containerProvider = new INamedContainerProvider() {
-                    @Override
-                    public ITextComponent getDisplayName() {
-                        return new TranslationTextComponent(machineName());
-                    }
+                if (state.getBlock() instanceof ONIIHasGui) {
+                    ONIIHasGui hasGui = (ONIIHasGui) state.getBlock();
+                    INamedContainerProvider containerProvider = new INamedContainerProvider() {
+                        @Override
+                        public ITextComponent getDisplayName() {
+                            return new TranslationTextComponent(machineName());
+                        }
 
-                    @Override
-                    public Container createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
-                        return container(i, world, pos, playerInventory, playerEntity);
-                    }
-                };
-                NetworkHooks.openGui((ServerPlayerEntity) player, containerProvider, tileEntity.getPos());
+                        @Override
+                        public Container createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
+                            return hasGui.container(i, world, pos, playerInventory, playerEntity);
+                        }
+                    };
+                    NetworkHooks.openGui((ServerPlayerEntity) player, containerProvider, tileEntity.getPos());
+                }
             } else {
                 ONIUtils.LOGGER.warn("Wrong tileEntity type found, failed to create container");
             }
@@ -151,6 +155,4 @@ public abstract class ONIBaseMachine extends ONIBaseDirectional {
     }
 
     public abstract String machineName();
-
-    public abstract Container container(int i, World world, BlockPos pos, PlayerInventory playerInventory, PlayerEntity playerEntity);
 }

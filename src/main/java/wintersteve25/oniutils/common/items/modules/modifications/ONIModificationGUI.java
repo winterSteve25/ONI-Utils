@@ -1,10 +1,9 @@
-package wintersteve25.oniutils.common.items.base.modifications;
+package wintersteve25.oniutils.common.items.modules.modifications;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.OptionSlider;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.settings.SliderPercentageOption;
 import net.minecraft.item.ItemStack;

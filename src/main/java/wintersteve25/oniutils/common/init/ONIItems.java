@@ -2,7 +2,7 @@ package wintersteve25.oniutils.common.init;
 
 import wintersteve25.oniutils.common.items.base.enums.EnumModifications;
 import wintersteve25.oniutils.common.items.base.interfaces.ONIIItem;
-import wintersteve25.oniutils.common.items.base.modifications.ONIBaseModification;
+import wintersteve25.oniutils.common.items.modules.modifications.ONIBaseModification;
 
 import java.util.ArrayList;
 import java.util.List;

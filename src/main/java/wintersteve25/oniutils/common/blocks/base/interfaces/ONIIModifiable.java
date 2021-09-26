@@ -1,12 +1,10 @@
 package wintersteve25.oniutils.common.blocks.base.interfaces;
 
-import net.minecraft.item.Item;
-
-import java.util.List;
+import wintersteve25.oniutils.common.items.modules.modifications.ModificationContext;
 
 /**
  * Should be implemented in a {@link wintersteve25.oniutils.common.blocks.base.ONIBaseInvTE}
  */
-public interface ONIIHasValidItems {
-    List<Item> validItems();
+public interface ONIIModifiable {
+    ModificationContext modContext();
 }

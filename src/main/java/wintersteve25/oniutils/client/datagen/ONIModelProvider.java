@@ -13,7 +13,7 @@ import wintersteve25.oniutils.common.blocks.base.ONIBaseSixWaysBlock;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONIItems;
 import wintersteve25.oniutils.common.items.base.interfaces.ONIIItem;
-import wintersteve25.oniutils.common.items.base.modifications.ONIBaseModification;
+import wintersteve25.oniutils.common.items.modules.modifications.ONIBaseModification;
 import wintersteve25.oniutils.common.utils.MiscHelper;
 
 public class ONIModelProvider extends ItemModelProvider {
