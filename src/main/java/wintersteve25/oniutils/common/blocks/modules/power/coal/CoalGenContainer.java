@@ -42,6 +42,11 @@ public class CoalGenContainer extends ONIContainerImpl {
     }
 
     @Override
+    public boolean shouldTrackTotalProgress() {
+        return false;
+    }
+
+    @Override
     public boolean shouldAddInternalInventory() {
         return true;
     }

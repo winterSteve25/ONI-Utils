@@ -19,7 +19,7 @@ public class ONIItems {
         for (EnumModifications modifications : EnumModifications.values()) {
             for (int i = 0; i < modifications.getTiers(); i++) {
                 int tier = i+1;
-                ONIBaseModification.create("Modification " + modifications.getName() + " Tier " + tier, modifications.getColor(), 100 + modifications.getBonusEachTier() * tier, modifications, modifications.getTooltips());
+                ONIBaseModification.create("Modification " + modifications.getName() + " Tier " + tier, modifications.getColor(), modifications.getBonusEachTier() * tier, modifications, modifications.getTooltips());
             }
         }
     }

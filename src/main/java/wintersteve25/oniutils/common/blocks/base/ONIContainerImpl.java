@@ -64,6 +64,10 @@ public abstract class ONIContainerImpl extends ONIBaseContainer {
         if (shouldTrackProgress()) {
             trackProgress();
         }
+
+        if (shouldTrackTotalProgress()) {
+            trackTotalProgress();
+        }
     }
 
     public abstract boolean shouldAddPlaySlots();
@@ -75,6 +79,8 @@ public abstract class ONIContainerImpl extends ONIBaseContainer {
     public abstract boolean shouldTrackPowerCapacity();
 
     public abstract boolean shouldTrackProgress();
+
+    public abstract boolean shouldTrackTotalProgress();
 
     public abstract boolean shouldAddInternalInventory();
 

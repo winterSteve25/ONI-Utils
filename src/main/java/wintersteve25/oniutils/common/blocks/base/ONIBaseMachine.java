@@ -30,7 +30,6 @@ import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIForceStoppable;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasGui;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasRedstoneOutput;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIModifiable;
-import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenTE;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
 import wintersteve25.oniutils.common.utils.ISHandlerHelper;
 
@@ -141,7 +140,7 @@ public abstract class ONIBaseMachine extends ONIBaseDirectional {
                     if (te instanceof ONIIModifiable) {
                         ONIIModifiable modifiable = (ONIIModifiable) te;
                         if (modifiable.modContext().containsUpgrades()) {
-                            ISHandlerHelper.dropInventory(modifiable.modContext().getUpgradeHandler(), world, state, pos, modifiable.modContext().getMaxModAmount());
+                            ISHandlerHelper.dropInventory(modifiable.modContext().getModHandler(), world, state, pos, modifiable.modContext().getMaxModAmount());
                         }
                     }
                 }

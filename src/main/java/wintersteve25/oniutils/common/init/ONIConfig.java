@@ -71,7 +71,7 @@ public class        ONIConfig {
         MANUAL_GEN_PROCESS_TIME = SERVERBUILDER.comment("Every how many ticks should manual generator generates power?").defineInRange("manualGenProgressSpeed", 5, 1, MiscHelper.INT_MAX);
 
         COAL_GEN_PLASMA_OUTPUT = SERVERBUILDER.comment("How much plasma should manual generator generate per tick").defineInRange("coalGenPlasmaPerTick", 40, 1, MiscHelper.INT_MAX);
-        COAL_GEN_PROCESS_TIME = SERVERBUILDER.comment("Every how many ticks should manual generator consume coal").defineInRange("coalGenConsumeSpeed", 80, 1, MiscHelper.INT_MAX);
+        COAL_GEN_PROCESS_TIME = SERVERBUILDER.comment("Every how many ticks should manual generator consume coal").defineInRange("coalGenConsumeSpeed", 400, 1, MiscHelper.INT_MAX);
 
         ALGAE_DIFFUSER_PLASMA_INPUT = SERVERBUILDER.comment("How much plasma should algae diffuser take per tick").defineInRange("algaeDiffuserPlasmaPerTick", 15, 1, MiscHelper.INT_MAX);
         ALGAE_DIFFUSER_PROCESS_TIME = SERVERBUILDER.comment("Every how many ticks should algae diffuser consume algae").defineInRange("algaeDiffuserConsumeSpeed", 200, 1, MiscHelper.INT_MAX);

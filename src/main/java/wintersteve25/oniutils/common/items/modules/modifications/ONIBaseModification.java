@@ -32,7 +32,6 @@ public class ONIBaseModification extends ONIToolTipColorNameItem {
         if (!worldIn.isRemote()) {
             ItemStack heldItem = playerIn.getHeldItem(handIn);
             playerIn.swing(handIn, true);
-            ONIUtils.LOGGER.info(getBonusDataFromItemStack(heldItem));
             ONINetworking.sendToClient(new ModificationPacket(heldItem, maxBonus, ONIConstants.PacketType.MODIFICATION_GUI), (ServerPlayerEntity) playerIn);
         }
         return super.onItemRightClick(worldIn, playerIn, handIn);

@@ -7,7 +7,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import wintersteve25.oniutils.client.utils.RenderingHelper;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseContainer;
-import wintersteve25.oniutils.common.utils.ONIConstants;
 
 public class ONIBaseGuiTabModification extends ONIBaseGuiTab {
     private int slots = 6;
@@ -45,11 +44,6 @@ public class ONIBaseGuiTabModification extends ONIBaseGuiTab {
                     slotFixY += 20;
                 }
                 RenderingHelper.renderSlotWithHover(this, matrixStack, i + 10 + slotFixX, j + 25 + slotFixY, mouseX, mouseY);
-//                if (mouseX > i + 10 + slotFixX && mouseX < i + 10 + slotFixX + 17 && mouseY > j + 25 + slotFixY && mouseY < j + 25 + slotFixY + 17) {
-//                    RenderingHelper.renderWidget(this, ONIConstants.Resources.ITEM_SLOT_HOVER, matrixStack, i + 10 + slotFixX, j + 25 + slotFixY);
-//                } else {
-//                    RenderingHelper.renderWidget(this, ONIConstants.Resources.ITEM_SLOT, matrixStack, i + 10 + slotFixX, j + 25 + slotFixY);
-//                }
                 slotFixX += 20;
             }
 

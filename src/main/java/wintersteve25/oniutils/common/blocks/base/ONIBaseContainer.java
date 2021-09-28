@@ -43,7 +43,7 @@ public class ONIBaseContainer extends Container {
         trackInt(new IntReferenceHolder() {
             @Override
             public int get() {
-                return getEnergy() & 0xffff;
+                return getPower() & 0xffff;
             }
 
             @Override
@@ -57,7 +57,7 @@ public class ONIBaseContainer extends Container {
         trackInt(new IntReferenceHolder() {
             @Override
             public int get() {
-                return (getEnergy() >> 16) & 0xffff;
+                return (getPower() >> 16) & 0xffff;
             }
 
             @Override
@@ -174,7 +174,7 @@ public class ONIBaseContainer extends Container {
         trackInt(new IntReferenceHolder() {
             @Override
             public int get() {
-                return getCapacity() & 0xffff;
+                return getPowerCapacity() & 0xffff;
             }
 
             @Override
@@ -188,7 +188,7 @@ public class ONIBaseContainer extends Container {
         trackInt(new IntReferenceHolder() {
             @Override
             public int get() {
-                return (getCapacity() >> 16) & 0xffff;
+                return (getPowerCapacity() >> 16) & 0xffff;
             }
 
             @Override
@@ -255,7 +255,7 @@ public class ONIBaseContainer extends Container {
         return itemstack;
     }
 
-    public int getEnergy() {
+    public int getPower() {
         if (tileEntity == null) {
             return 0;
         }
@@ -286,7 +286,7 @@ public class ONIBaseContainer extends Container {
         throw new UnsupportedOperationException("trying to get progress on an tile that does not support progress");
     }
 
-    public int getCapacity() {
+    public int getPowerCapacity() {
         if (tileEntity == null) {
             return 0;
         }

@@ -150,6 +150,19 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         return 0;
     }
 
+    protected int getPowerScaledVertical(float pixels) {
+        float i = container.getPower();
+        float j = container.getPowerCapacity();
+
+        if (i != 0 && j != 0) {
+            float pixelRequiredEachUnit = pixels/j;
+            float pixelsAmount = pixelRequiredEachUnit*i;
+            return (int) pixelsAmount;
+        }
+
+        return 0;
+    }
+
    abstract static class Button extends AbstractButton {
         protected Button(int x, int y) {
             super(x, y, 16, 16, StringTextComponent.EMPTY);

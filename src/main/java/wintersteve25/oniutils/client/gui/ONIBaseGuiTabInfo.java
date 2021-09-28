@@ -28,7 +28,7 @@ public class ONIBaseGuiTabInfo extends ONIBaseGuiTab {
     }
 
     public void updateText() {
-        ENERGY = new TranslationTextComponent(ONIBaseGuiTab.ENERGY, container.getEnergy());
+        ENERGY = new TranslationTextComponent(ONIBaseGuiTab.ENERGY, container.getPower());
         PRODUCING_ENERGY = new TranslationTextComponent(ONIBaseGuiTab.PRODUCING_ENERGY);
         CONSUMING_ENERGY = new TranslationTextComponent(ONIBaseGuiTab.CONSUMING_ENERGY);
         PROGRESS = new TranslationTextComponent(ONIBaseGuiTab.PROGRESS);

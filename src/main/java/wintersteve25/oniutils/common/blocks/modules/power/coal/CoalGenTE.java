@@ -36,6 +36,7 @@ import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONIConfig;
 import wintersteve25.oniutils.common.items.base.enums.EnumModifications;
 import wintersteve25.oniutils.common.items.modules.modifications.ModificationContext;
+import wintersteve25.oniutils.common.items.modules.modifications.ModificationHandler;
 import wintersteve25.oniutils.common.utils.MiscHelper;
 
 import javax.annotation.Nonnull;
@@ -45,6 +46,7 @@ import java.util.List;
 public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAnimatable, IBoundingBlock, ONIIHasProgress, ONIIHasRedstoneOutput, ONIIHasValidItems, ONIIModifiable {
 
     public final ModificationContext modificationContext = new ModificationContext(this, 9, EnumModifications.SPEED, EnumModifications.TEMPERATURE, EnumModifications.COMPLEXITY);
+    private final ModificationHandler modificationHandler = new ModificationHandler(modificationContext);
     private final AnimationFactory manager = new AnimationFactory(this);
     private final PlasmaStack plasmaHandler = new PlasmaStack(4000, EnumWattsTypes.LOW);
     private final LazyOptional<IPlasma> powerLazyOptional = LazyOptional.of(() -> plasmaHandler);
@@ -81,7 +83,7 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
                             itemHandler.extractItem(0, 1, false);
                             removedFirstItem = true;
                         }
-                        progress--;
+                        progress-=modificationHandler.getProgressSpeed();
                         plasmaHandler.addPower(ONIConfig.COAL_GEN_PLASMA_OUTPUT.get());
                         setWorking(true);
                         if (progress <= 0) {
