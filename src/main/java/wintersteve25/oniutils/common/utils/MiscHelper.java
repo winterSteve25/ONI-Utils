@@ -1,5 +1,6 @@
 package wintersteve25.oniutils.common.utils;
 
+import jdk.nashorn.internal.runtime.arrays.ArrayIndex;
 import mekanism.common.util.WorldUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
@@ -13,6 +14,9 @@ import wintersteve25.oniutils.common.blocks.base.bounding.ONIBoundingTE;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class MiscHelper {
@@ -54,5 +58,19 @@ public class MiscHelper {
                 }
             }
         }
+    }
+
+    public static <K, V> HashMap<K, V> newHashmap(List<K> keys, List<V> values) {
+        HashMap<K, V> map = new HashMap<>();
+
+        for (int i = 0; i < keys.size(); i++) {
+            try {
+                map.put(keys.get(i), values.get(i));
+            } catch (ArrayIndexOutOfBoundsException e){
+                return map;
+            }
+        }
+
+        return map;
     }
 }

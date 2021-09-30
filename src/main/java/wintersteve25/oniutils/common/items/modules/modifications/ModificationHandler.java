@@ -18,20 +18,27 @@ public class ModificationHandler {
     }
 
     public int getProgressSpeed() {
-        int defaultSpeed = 5;
+        int defaultSpeed = 10;
+        float bonusSpeed = 0;
 
         for (ItemStack stack : installedMods()) {
             if (stack.getItem() instanceof ONIBaseModification) {
                 ONIBaseModification modification = (ONIBaseModification) stack.getItem();
                 EnumModifications modType = modification.getModType();
                 if (modType == EnumModifications.SPEED) {
-                    float percentage = (float) (ONIBaseModification.getBonusDataFromItemStack(stack)/100.0);
-                    float bonusSpeed = defaultSpeed*percentage;
-                    return (int) (defaultSpeed+bonusSpeed);
+                    float percentage = (float) (ONIBaseModification.getBonusDataFromItemStack(stack) / 100.0);
+                    bonusSpeed += defaultSpeed * percentage;
                 }
             }
         }
 
-        return defaultSpeed;
+        return Math.round(defaultSpeed + bonusSpeed);
+    }
+
+    public int getPlasmaOutputPerTick(int totalTicks, int totalOutput) {
+        int totalAmountOfTicksToComplete = totalTicks/getProgressSpeed();
+        int outputPerTick = totalOutput/totalAmountOfTicksToComplete;
+        ONIUtils.LOGGER.info(outputPerTick + ", {}", totalAmountOfTicksToComplete);
+        return outputPerTick;
     }
 }

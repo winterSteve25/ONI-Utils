@@ -2,6 +2,7 @@ package wintersteve25.oniutils.common.utils;
 
 import net.minecraft.util.Tuple;
 
+//TODO: Stop being lazy and using a tuple in a triplet, why dont you just use 2 tuple in a tuple in this case? also pairs exist!
 public class TextureElement extends Triplet<Integer, Integer, Tuple<Integer, Integer>>{
     public TextureElement(int U, int V, int width, int height) {
         super(U, V, new Tuple<>(width, height));

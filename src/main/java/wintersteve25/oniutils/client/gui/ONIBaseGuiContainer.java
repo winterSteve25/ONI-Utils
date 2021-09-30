@@ -1,5 +1,6 @@
 package wintersteve25.oniutils.client.gui;
 
+import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -7,9 +8,8 @@ import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.button.AbstractButton;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.*;
+import net.minecraftforge.fml.client.gui.GuiUtils;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseContainer;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIModifiable;
 import wintersteve25.oniutils.common.network.ONINetworking;
@@ -109,6 +109,15 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         }
     }
 
+    @Override
+    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
+        if (shouldKeepInventoryText()) {
+            super.drawGuiContainerForegroundLayer(matrixStack, x, y);
+        } else {
+            this.font.func_243248_b(matrixStack, this.title, (float) this.titleX, (float) this.titleY, 4210752);
+        }
+    }
+
     protected void powerToolTip(MatrixStack matrixStack, int power, int mouseX, int mouseY, int i, int j) {
         if (mouseX > i + 105 && mouseY > j + 24 && mouseX < i + 122 && mouseY < j + 73) {
             renderTooltip(matrixStack, new TranslationTextComponent("oniutils.gui.machines.power", power), mouseX, mouseY);
@@ -122,29 +131,12 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
     }
 
     protected int getProgressScaledHorizontal(float pixels) {
-        float i = container.getProgress();
-        float j = container.getTotalProgress();
+        float totalProgress = container.getTotalProgress();
+        float progress = totalProgress - container.getProgress();
 
-        if (i != 0 && j != 0) {
-            float pixelRequiredEachTick = pixels/j;
-            float progressPercentage = i/j*100;
-            float progressPercentageInverted = 100 - progressPercentage;
-            float pixelsAmount = pixelRequiredEachTick * progressPercentageInverted;
-            return (int) pixelsAmount;
-        }
-
-        return 0;
-    }
-
-    protected int getProgressScaledVertical(float pixels) {
-        float i = container.getProgress();
-        float j = container.getTotalProgress();
-
-        if (i != 0 && j != 0) {
-            float pixelRequiredEachTick = pixels/j;
-            float progressPercentage = i/j*100;
-            float pixelsAmount = pixelRequiredEachTick * progressPercentage;
-            return (int) pixelsAmount;
+        if (totalProgress != 0) {
+            float result = progress*pixels/totalProgress;
+            return Math.round(result);
         }
 
         return 0;
@@ -155,17 +147,24 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         float j = container.getPowerCapacity();
 
         if (i != 0 && j != 0) {
-            float pixelRequiredEachUnit = pixels/j;
-            float pixelsAmount = pixelRequiredEachUnit*i;
+            float pixelRequiredEachUnit = pixels / j;
+            float pixelsAmount = pixelRequiredEachUnit * i;
             return (int) pixelsAmount;
         }
 
         return 0;
     }
 
-   abstract static class Button extends AbstractButton {
-        protected Button(int x, int y) {
+    protected boolean shouldKeepInventoryText() {
+        return false;
+    }
+
+    abstract class Button extends AbstractButton {
+        private final ITextProperties name;
+
+        protected Button(int x, int y, ITextProperties name) {
             super(x, y, 16, 16, StringTextComponent.EMPTY);
+            this.name = name;
         }
 
         public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
@@ -180,6 +179,10 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
 
             this.blit(matrixStack, this.x, this.y, j, 0, this.width, this.height);
             this.blitOverlay(matrixStack);
+
+            if (this.isHovered()) {
+                GuiUtils.drawHoveringText(matrixStack, Lists.newArrayList(name), mouseX, mouseY, ONIBaseGuiContainer.this.width, ONIBaseGuiContainer.this.height, 200, ONIBaseGuiContainer.this.minecraft.fontRenderer);
+            }
         }
 
         public void setPosition(int xIn, int yIn) {
@@ -192,7 +195,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
 
     protected class InfoButton extends SpriteButton {
         public InfoButton() {
-            super(ONIBaseGuiContainer.this.guiLeft+1, ONIBaseGuiContainer.this.guiTop-17, ONIConstants.Resources.INFO_BUTTON.getA(), ONIConstants.Resources.INFO_BUTTON.getB());
+            super(ONIBaseGuiContainer.this.guiLeft + 1, ONIBaseGuiContainer.this.guiTop - 17, ONIConstants.Resources.INFO_BUTTON.getA(), ONIConstants.Resources.INFO_BUTTON.getB(), new TranslationTextComponent(ONIBaseGuiContainer.this.container.getTileEntity().machineName()));
         }
 
         public void onPress() {
@@ -217,24 +220,24 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
             ONIBaseGuiContainer.this.infoTab.toggleVisibility();
             ONIBaseGuiContainer.this.guiLeft = ONIBaseGuiContainer.this.infoTab.getGuiLeftTopPosition(ONIBaseGuiContainer.this.width, ONIBaseGuiContainer.this.xSize);
 
-            this.setPosition(ONIBaseGuiContainer.this.guiLeft+1, ONIBaseGuiContainer.this.guiTop-17);
-            ONIBaseGuiContainer.this.alertButton.setPosition(ONIBaseGuiContainer.this.guiLeft+18, ONIBaseGuiContainer.this.guiTop-17);
-            ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft+158, ONIBaseGuiContainer.this.guiTop-17);
+            this.setPosition(ONIBaseGuiContainer.this.guiLeft + 1, ONIBaseGuiContainer.this.guiTop - 17);
+            ONIBaseGuiContainer.this.alertButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 18, ONIBaseGuiContainer.this.guiTop - 17);
+            ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 158, ONIBaseGuiContainer.this.guiTop - 17);
 
             //janky but works
             if (ONIBaseGuiContainer.this.hasRedstoneOutputButton()) {
-                ONIBaseGuiContainer.this.redstoneOutputButton.setPosition(ONIBaseGuiContainer.this.guiLeft+35, ONIBaseGuiContainer.this.guiTop-17);
+                ONIBaseGuiContainer.this.redstoneOutputButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 35, ONIBaseGuiContainer.this.guiTop - 17);
             }
 
             if (ONIBaseGuiContainer.this.hasModButton()) {
-                ONIBaseGuiContainer.this.modificationButton.setPosition(ONIBaseGuiContainer.this.guiLeft+52, ONIBaseGuiContainer.this.guiTop-17);
+                ONIBaseGuiContainer.this.modificationButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 52, ONIBaseGuiContainer.this.guiTop - 17);
             }
         }
     }
 
     protected class AlertButton extends SpriteButton {
         public AlertButton() {
-            super(ONIBaseGuiContainer.this.guiLeft+18, ONIBaseGuiContainer.this.guiTop-17, ONIConstants.Resources.ALERT_BUTTON.getA(), ONIConstants.Resources.ALERT_BUTTON.getB());
+            super(ONIBaseGuiContainer.this.guiLeft + 18, ONIBaseGuiContainer.this.guiTop - 17, ONIConstants.Resources.ALERT_BUTTON.getA(), ONIConstants.Resources.ALERT_BUTTON.getB(), new TranslationTextComponent("oniutils.gui.titles.warning"));
         }
 
         public void onPress() {
@@ -258,24 +261,24 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
             ONIBaseGuiContainer.this.alertTab.toggleVisibility();
             ONIBaseGuiContainer.this.guiLeft = ONIBaseGuiContainer.this.alertTab.getGuiLeftTopPosition(ONIBaseGuiContainer.this.width, ONIBaseGuiContainer.this.xSize);
 
-            this.setPosition(ONIBaseGuiContainer.this.guiLeft+18, ONIBaseGuiContainer.this.guiTop-17);
-            ONIBaseGuiContainer.this.infoButton.setPosition(ONIBaseGuiContainer.this.guiLeft+1, ONIBaseGuiContainer.this.guiTop-17);
-            ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft+158, ONIBaseGuiContainer.this.guiTop-17);
+            this.setPosition(ONIBaseGuiContainer.this.guiLeft + 18, ONIBaseGuiContainer.this.guiTop - 17);
+            ONIBaseGuiContainer.this.infoButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 1, ONIBaseGuiContainer.this.guiTop - 17);
+            ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 158, ONIBaseGuiContainer.this.guiTop - 17);
 
             //janky but works
             if (ONIBaseGuiContainer.this.hasRedstoneOutputButton()) {
-                ONIBaseGuiContainer.this.redstoneOutputButton.setPosition(ONIBaseGuiContainer.this.guiLeft+35, ONIBaseGuiContainer.this.guiTop-17);
+                ONIBaseGuiContainer.this.redstoneOutputButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 35, ONIBaseGuiContainer.this.guiTop - 17);
             }
 
             if (ONIBaseGuiContainer.this.hasModButton()) {
-                ONIBaseGuiContainer.this.modificationButton.setPosition(ONIBaseGuiContainer.this.guiLeft+52, ONIBaseGuiContainer.this.guiTop-17);
+                ONIBaseGuiContainer.this.modificationButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 52, ONIBaseGuiContainer.this.guiTop - 17);
             }
         }
     }
 
     protected class RedstoneOutputButton extends SpriteButton {
         public RedstoneOutputButton() {
-            super(ONIBaseGuiContainer.this.guiLeft+35, ONIBaseGuiContainer.this.guiTop-17, ONIConstants.Resources.REDSTONE_OUTPUT_BUTTON.getA(), ONIConstants.Resources.REDSTONE_OUTPUT_BUTTON.getB());
+            super(ONIBaseGuiContainer.this.guiLeft + 35, ONIBaseGuiContainer.this.guiTop - 17, ONIConstants.Resources.REDSTONE_OUTPUT_BUTTON.getA(), ONIConstants.Resources.REDSTONE_OUTPUT_BUTTON.getB(), new TranslationTextComponent("oniutils.gui.titles.redstoneOutput"));
         }
 
         public void onPress() {
@@ -297,20 +300,20 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
             ONIBaseGuiContainer.this.redstoneOutputTab.toggleVisibility();
             ONIBaseGuiContainer.this.guiLeft = ONIBaseGuiContainer.this.redstoneOutputTab.getGuiLeftTopPosition(ONIBaseGuiContainer.this.width, ONIBaseGuiContainer.this.xSize);
 
-            this.setPosition(ONIBaseGuiContainer.this.guiLeft+35, ONIBaseGuiContainer.this.guiTop-17);
-            ONIBaseGuiContainer.this.infoButton.setPosition(ONIBaseGuiContainer.this.guiLeft+1, ONIBaseGuiContainer.this.guiTop-17);
-            ONIBaseGuiContainer.this.alertButton.setPosition(ONIBaseGuiContainer.this.guiLeft+18, ONIBaseGuiContainer.this.guiTop-17);
-            ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft+158, ONIBaseGuiContainer.this.guiTop-17);
+            this.setPosition(ONIBaseGuiContainer.this.guiLeft + 35, ONIBaseGuiContainer.this.guiTop - 17);
+            ONIBaseGuiContainer.this.infoButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 1, ONIBaseGuiContainer.this.guiTop - 17);
+            ONIBaseGuiContainer.this.alertButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 18, ONIBaseGuiContainer.this.guiTop - 17);
+            ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 158, ONIBaseGuiContainer.this.guiTop - 17);
 
             if (ONIBaseGuiContainer.this.hasModButton()) {
-                ONIBaseGuiContainer.this.modificationButton.setPosition(ONIBaseGuiContainer.this.guiLeft+52, ONIBaseGuiContainer.this.guiTop-17);
+                ONIBaseGuiContainer.this.modificationButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 52, ONIBaseGuiContainer.this.guiTop - 17);
             }
         }
     }
 
     protected class ModificationButton extends SpriteButton {
         public ModificationButton() {
-            super(ONIBaseGuiContainer.this.guiLeft+52, ONIBaseGuiContainer.this.guiTop-17, ONIConstants.Resources.MODIFICATION_BUTTON.getA(), ONIConstants.Resources.MODIFICATION_BUTTON.getB());
+            super(ONIBaseGuiContainer.this.guiLeft + 52, ONIBaseGuiContainer.this.guiTop - 17, ONIConstants.Resources.MODIFICATION_BUTTON.getA(), ONIConstants.Resources.MODIFICATION_BUTTON.getB(), new TranslationTextComponent("oniutils.gui.titles.modifications"));
         }
 
         public void onPress() {
@@ -332,23 +335,26 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
             ONIBaseGuiContainer.this.modificationTab.toggleVisibility();
             ONIBaseGuiContainer.this.guiLeft = ONIBaseGuiContainer.this.modificationTab.getGuiLeftTopPosition(ONIBaseGuiContainer.this.width, ONIBaseGuiContainer.this.xSize);
 
-            this.setPosition(ONIBaseGuiContainer.this.guiLeft+52, ONIBaseGuiContainer.this.guiTop-17);
-            ONIBaseGuiContainer.this.infoButton.setPosition(ONIBaseGuiContainer.this.guiLeft+1, ONIBaseGuiContainer.this.guiTop-17);
-            ONIBaseGuiContainer.this.alertButton.setPosition(ONIBaseGuiContainer.this.guiLeft+18, ONIBaseGuiContainer.this.guiTop-17);
-            ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft+158, ONIBaseGuiContainer.this.guiTop-17);
+            this.setPosition(ONIBaseGuiContainer.this.guiLeft + 52, ONIBaseGuiContainer.this.guiTop - 17);
+            ONIBaseGuiContainer.this.infoButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 1, ONIBaseGuiContainer.this.guiTop - 17);
+            ONIBaseGuiContainer.this.alertButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 18, ONIBaseGuiContainer.this.guiTop - 17);
+            ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 158, ONIBaseGuiContainer.this.guiTop - 17);
 
             if (ONIBaseGuiContainer.this.hasRedstoneOutputButton()) {
-                ONIBaseGuiContainer.this.redstoneOutputButton.setPosition(ONIBaseGuiContainer.this.guiLeft+35, ONIBaseGuiContainer.this.guiTop-17);
+                ONIBaseGuiContainer.this.redstoneOutputButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 35, ONIBaseGuiContainer.this.guiTop - 17);
             }
         }
     }
 
     protected class RedstoneButton extends SpriteButton {
         public RedstoneButton() {
-            super(ONIBaseGuiContainer.this.guiLeft+158, ONIBaseGuiContainer.this.guiTop-17, ONIConstants.Resources.REDSTONE_BUTTON_ON.getA(), ONIConstants.Resources.REDSTONE_BUTTON_ON.getB());
+            super(ONIBaseGuiContainer.this.guiLeft + 158, ONIBaseGuiContainer.this.guiTop - 17, ONIConstants.Resources.REDSTONE_BUTTON_ON.getA(), ONIConstants.Resources.REDSTONE_BUTTON_ON.getB(), new TranslationTextComponent("oniutils.gui.titles.invert"));
+            if (ONIBaseGuiContainer.this.container.getForceStopped() == 1) {
+                setU(ONIConstants.Resources.REDSTONE_BUTTON_OFF.getA());
+            }
         }
 
-        boolean pressed = false;
+        boolean pressed = ONIBaseGuiContainer.this.container.getForceStopped() == 1;
 
         public void onPress() {
             if (!pressed) {
@@ -362,12 +368,12 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         }
     }
 
-    protected abstract static class SpriteButton extends Button {
+    protected abstract class SpriteButton extends Button {
         protected int u;
         protected int v;
 
-        protected SpriteButton(int x, int y, int u, int v) {
-            super(x, y);
+        protected SpriteButton(int x, int y, int u, int v, ITextProperties name) {
+            super(x, y, name);
 
             this.u = u;
             this.v = v;
@@ -385,6 +391,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
             this.blit(matrixStack, this.x, this.y, this.u, this.v, 16, 16);
         }
     }
+
     protected boolean hasModButton() {
         return this.container.getTileEntity() instanceof ONIIModifiable;
     }

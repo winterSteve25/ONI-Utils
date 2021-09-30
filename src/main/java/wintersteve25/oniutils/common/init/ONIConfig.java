@@ -30,7 +30,7 @@ public class        ONIConfig {
     public static ForgeConfigSpec.IntValue MANUAL_GEN_PLASMA_OUTPUT_SPEED;
     public static ForgeConfigSpec.IntValue MANUAL_GEN_PROCESS_TIME;
 
-    public static ForgeConfigSpec.IntValue COAL_GEN_PLASMA_OUTPUT;
+    public static ForgeConfigSpec.IntValue COAL_GEN_POWER_PRODUCE;
     public static ForgeConfigSpec.IntValue COAL_GEN_PROCESS_TIME;
 
     public static ForgeConfigSpec.IntValue ALGAE_DIFFUSER_PLASMA_INPUT;
@@ -70,8 +70,8 @@ public class        ONIConfig {
         MANUAL_GEN_PLASMA_OUTPUT_SPEED = SERVERBUILDER.comment("How much plasma should manual generator generate per tick when player has speed effect").defineInRange("manualGenPlasmaPerTickSpeed", 600, 1, MiscHelper.INT_MAX);
         MANUAL_GEN_PROCESS_TIME = SERVERBUILDER.comment("Every how many ticks should manual generator generates power?").defineInRange("manualGenProgressSpeed", 5, 1, MiscHelper.INT_MAX);
 
-        COAL_GEN_PLASMA_OUTPUT = SERVERBUILDER.comment("How much plasma should manual generator generate per tick").defineInRange("coalGenPlasmaPerTick", 40, 1, MiscHelper.INT_MAX);
-        COAL_GEN_PROCESS_TIME = SERVERBUILDER.comment("Every how many ticks should manual generator consume coal").defineInRange("coalGenConsumeSpeed", 400, 1, MiscHelper.INT_MAX);
+        COAL_GEN_POWER_PRODUCE = SERVERBUILDER.comment("How much plasma should each coal generate in the coal generator").defineInRange("coalGenPowerProduction", 2000, 1, MiscHelper.INT_MAX);
+        COAL_GEN_PROCESS_TIME = SERVERBUILDER.comment("Every how many ticks should manual generator consume coal").defineInRange("coalGenConsumeSpeed", 800, 1, MiscHelper.INT_MAX);
 
         ALGAE_DIFFUSER_PLASMA_INPUT = SERVERBUILDER.comment("How much plasma should algae diffuser take per tick").defineInRange("algaeDiffuserPlasmaPerTick", 15, 1, MiscHelper.INT_MAX);
         ALGAE_DIFFUSER_PROCESS_TIME = SERVERBUILDER.comment("Every how many ticks should algae diffuser consume algae").defineInRange("algaeDiffuserConsumeSpeed", 200, 1, MiscHelper.INT_MAX);

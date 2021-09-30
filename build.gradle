@@ -18,7 +18,7 @@ mixin {
     add sourceSets.main, "oniutils.refmap.json"
 }
 
-version = '1.0'
+version = "${version}"
 group = 'wintersteve25.oniutils' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'oniutils'
 
@@ -104,8 +104,8 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.0'
     compile fg.deobf("com.blamejared.crafttweaker:CraftTweaker-1.16.5:7.1.0.203")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.16.4:7.6.1.65")
-    compileOnly fg.deobf("mezz.jei:jei-1.16.4:7.6.1.65:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
     implementation fg.deobf("team.chisel.ctm:CTM:MC1.16.1-1.1.2.6")
     compile fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:1.16-3.1.4-22")
     implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.40')
@@ -114,8 +114,9 @@ dependencies {
 //    compile fg.deobf ('curse.maven:adchimneys-244830:3357470')
     compile fg.deobf ('curse.maven:pmmo-353935:3354382')
     compile fg.deobf ('curse.maven:corpse-316582:3338002')
-    compile fg.deobf ("mekanism:Mekanism:1.16.5-10.0.21.448:api")
-    compile fg.deobf ("mekanism:Mekanism:1.16.5-10.0.21.448")
+    compile fg.deobf ("mekanism:Mekanism:${mekanism_version}:api")
+    compile fg.deobf ("mekanism:Mekanism:${mekanism_version}")
+    runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}:generators")// Mekanism: Generators
 
     annotationProcessor 'org.spongepowered:mixin:0.8.2:processor'
 }
@@ -126,7 +127,7 @@ jar {
         attributes([
                 "Specification-Title": "ONIUtils",
                 "Specification-Vendor": "oniutilssareus",
-                "Specification-Version": "1.0.0", // We are version 1 of ourselves
+                "Specification-Version": "${version}", // We are version 1 of ourselves
                 "Implementation-Title": project.name,
                 "Implementation-Version": "${version}",
                 "Implementation-Vendor" :"oniutilssareus",

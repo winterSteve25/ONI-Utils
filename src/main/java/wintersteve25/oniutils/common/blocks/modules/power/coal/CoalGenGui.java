@@ -37,7 +37,7 @@ public class CoalGenGui extends ONIBaseGuiContainer<CoalGenContainer> {
 
         if (container.getWorking() == 1) {
             int p = getProgressScaledHorizontal(22);
-            int f = getProgressScaledVertical(13);
+            int f = getProgressScaledHorizontal(13);
 
             //burn
             RenderingHelper.renderAnimatedFlame(this, matrixStack, this.guiLeft + 56, this.guiTop + 51 + f, f);

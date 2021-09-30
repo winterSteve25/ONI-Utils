@@ -8,6 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
+import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasRedstoneOutput;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIModifiable;
 import wintersteve25.oniutils.common.items.modules.modifications.ModificationContext;
 
@@ -27,7 +28,7 @@ public abstract class ONIContainerImpl extends ONIBaseContainer {
                             int index = 0;
 
                             for(Tuple<Integer, Integer> tuple : internalInventorySlotsArrangement()) {
-                                addSlot(new SlotItemHandler(combinedInvWrapper.getHandlerFromIndex(0), index, tuple.getA(), tuple.getB()));
+                                addMachineSlot(combinedInvWrapper.getHandlerFromIndex(0), index, tuple);
                                 index++;
                             }
 
@@ -37,7 +38,7 @@ public abstract class ONIContainerImpl extends ONIBaseContainer {
                         int index = 0;
 
                         for(Tuple<Integer, Integer> tuple : internalInventorySlotsArrangement()) {
-                            addSlot(new SlotItemHandler(h, index, tuple.getA(), tuple.getB()));
+                            addMachineSlot(h, index, tuple);
                             index++;
                         }
                     }
@@ -68,6 +69,8 @@ public abstract class ONIContainerImpl extends ONIBaseContainer {
         if (shouldTrackTotalProgress()) {
             trackTotalProgress();
         }
+
+        trackRedstoneInverted();
     }
 
     public abstract boolean shouldAddPlaySlots();

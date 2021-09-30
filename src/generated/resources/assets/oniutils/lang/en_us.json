@@ -68,6 +68,7 @@
   "oniutils.gui.redstone.invalid_number": "Invalid Number!",
   "oniutils.gui.redstone.low": "Low Threshold: %s",
   "oniutils.gui.titles.coal_gen": "\u00A7fCoal Generator",
+  "oniutils.gui.titles.invert": "Invert Redstone",
   "oniutils.gui.titles.manual_gen": "\u00A7fManual Generator",
   "oniutils.gui.titles.modifications": "\u00A73Modifications",
   "oniutils.gui.titles.redstoneOutput": "\u00A7cRedstone Output",

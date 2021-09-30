@@ -1,6 +1,7 @@
 package wintersteve25.oniutils.common.blocks.modules.power.coal;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import mekanism.common.tile.interfaces.IBoundingBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
@@ -41,6 +42,8 @@ import wintersteve25.oniutils.common.utils.MiscHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAnimatable, IBoundingBlock, ONIIHasProgress, ONIIHasRedstoneOutput, ONIIHasValidItems, ONIIModifiable {
@@ -76,15 +79,18 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
                 setWorking(false);
             }
 
+            int plasmaEachTick = modificationHandler.getPlasmaOutputPerTick(getTotalProgress(), ONIConfig.COAL_GEN_POWER_PRODUCE.get());
+
             if (!getForceStopped()) {
                 if (progress > 0) {
-                    if (plasmaHandler.canGenerate(ONIConfig.COAL_GEN_PLASMA_OUTPUT.get())) {
+                    int progressSpeed = modificationHandler.getProgressSpeed();
+                    if (plasmaHandler.canGenerate(plasmaEachTick)) {
                         if (!removedFirstItem) {
                             itemHandler.extractItem(0, 1, false);
                             removedFirstItem = true;
                         }
-                        progress-=modificationHandler.getProgressSpeed();
-                        plasmaHandler.addPower(ONIConfig.COAL_GEN_PLASMA_OUTPUT.get());
+                        progress-=progressSpeed;
+                        plasmaHandler.addPower(plasmaEachTick);
                         setWorking(true);
                         if (progress <= 0) {
                             removedFirstItem = false;
@@ -93,7 +99,7 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
                         }
                     }
                 } else {
-                    if (plasmaHandler.canGenerate(ONIConfig.COAL_GEN_PLASMA_OUTPUT.get())) {
+                    if (plasmaHandler.canGenerate(plasmaEachTick)) {
                         if (!itemHandler.getStackInSlot(0).isEmpty()) {
                             progress = getTotalProgress();
                             setWorking(true);
@@ -105,7 +111,7 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
                 }
             }
 
-            if (!plasmaHandler.canGenerate(ONIConfig.COAL_GEN_PLASMA_OUTPUT.get())) {
+            if (!plasmaHandler.canGenerate(plasmaEachTick)) {
                 removedFirstItem = false;
                 setWorking(false);
                 progress = 0;
@@ -137,8 +143,8 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     }
 
     @Override
-    public List<Item> validItems() {
-        return Lists.newArrayList(Items.COAL);
+    public HashMap<Item, Integer> validItems() {
+        return MiscHelper.newHashmap(Arrays.asList(Items.COAL), Arrays.asList(0));
     }
 
     @Nonnull
@@ -311,5 +317,10 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     @Override
     public ModificationContext modContext() {
         return modificationContext;
+    }
+
+    @Override
+    public ModificationHandler modHandler() {
+        return modificationHandler;
     }
 }

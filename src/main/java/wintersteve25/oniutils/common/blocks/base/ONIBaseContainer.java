@@ -9,22 +9,22 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.IntReferenceHolder;
+import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
-import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasProgress;
-import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasValidItems;
-import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIModifiable;
-import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIWorkable;
+import wintersteve25.oniutils.common.blocks.base.interfaces.*;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
 import wintersteve25.oniutils.common.capability.plasma.api.IPlasma;
 import wintersteve25.oniutils.common.init.ONIBlocks;
+import wintersteve25.oniutils.common.items.modules.modifications.ONIBaseModification;
 
-import java.util.List;
+import javax.annotation.Nonnull;
+import java.util.HashMap;
 
-public class ONIBaseContainer extends Container {
+public abstract class ONIBaseContainer extends Container {
 
     protected ONIBaseTE tileEntity;
     protected PlayerEntity playerEntity;
@@ -37,6 +37,75 @@ public class ONIBaseContainer extends Container {
         tileEntity = (ONIBaseTE) (world.getTileEntity(pos));
         this.playerEntity = player;
         this.playerInventory = new InvWrapper(playerInventory);
+    }
+
+    @Override
+    public ItemStack transferStackInSlot(PlayerEntity player, int index) {
+        ItemStack itemstack = ItemStack.EMPTY;
+        Slot slot = this.getSlot(index);
+        if (slot.getHasStack()) {
+            ItemStack stack = slot.getStack();
+            itemstack = stack.copy();
+
+            int startPlayerInvIndex = getInvSize() + getModSlotAmount();
+            int startPlayerHBIndex = getInvSize() + getModSlotAmount() + 27;
+            int endPlayerInvIndex = inventorySlots.size();
+            int startMachineIndex = 0;
+            int startModSlotIndex = getInvSize();
+
+            if (slot instanceof ONIMachineSlotHandler || slot instanceof ONIModSlotHandler) {
+                if (!this.mergeItemStack(stack, startPlayerInvIndex, endPlayerInvIndex, true)) {
+                    return ItemStack.EMPTY;
+                }
+                slot.onSlotChange(stack, itemstack);
+            } else {
+                if (itemstack.getItem() instanceof ONIBaseModification) {
+                    if (!this.mergeItemStack(stack, startModSlotIndex, startPlayerInvIndex, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                    slot.onSlotChange(stack, itemstack);
+                }
+                if (index >= startPlayerHBIndex) {
+                    if (!this.mergeItemStack(stack, startMachineIndex, startPlayerHBIndex, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                }
+                if (index >= startPlayerInvIndex && index < endPlayerInvIndex) {
+                    if (!this.mergeItemStack(stack, startMachineIndex, startPlayerInvIndex, false)) {
+                        if (!this.mergeItemStack(stack, startPlayerHBIndex, endPlayerInvIndex, false)) {
+                            return ItemStack.EMPTY;
+                        }
+                    }
+                }
+            }
+
+            if (stack.isEmpty()) {
+                slot.putStack(ItemStack.EMPTY);
+            } else {
+                slot.onSlotChanged();
+            }
+
+            if (stack.getCount() == itemstack.getCount()) {
+                return ItemStack.EMPTY;
+            }
+
+            slot.onTake(player, stack);
+        }
+
+        return itemstack;
+    }
+
+    @Override
+    public boolean canInteractWith(PlayerEntity p_75145_1_) {
+        if (tileEntity == null) {
+            return false;
+        }
+
+        if (tileEntity.getWorld() == null) {
+            return false;
+        }
+
+        return isWithinUsableDistance(IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos()), playerEntity, ONIBlocks.COAL_GEN_BLOCK);
     }
 
     protected void trackPower() {
@@ -151,22 +220,30 @@ public class ONIBaseContainer extends Container {
                     workable.setWorking(cache == 1);
                 }
             });
+        } else {
+            throw new UnsupportedOperationException("Trying to track working on a machine that does not support progress!");
+        }
+    }
+
+    public void trackRedstoneInverted() {
+        if (tileEntity instanceof ONIIForceStoppable) {
+            ONIIForceStoppable forceStoppable = (ONIIForceStoppable) tileEntity;
             trackInt(new IntReferenceHolder() {
                 @Override
                 public int get() {
-                    return (getWorking() >> 16) & 0xffff;
+                    return getForceStopped() & 0xffff;
                 }
 
                 @Override
                 public void set(int value) {
-                    int workingStored = getWorking() & 0x0000ffff;
-                    int cache = workingStored | (value << 16);
+                    int stored = getForceStopped() & 0xffff0000;
+                    int cache = stored + (value & 0xffff);
 
-                    workable.setWorking(cache == 1);
+                    forceStoppable.setForceStopped(cache == 1);
                 }
             });
         } else {
-            throw new UnsupportedOperationException("Trying to track total progress on a machine that does not support progress!");
+            throw new UnsupportedOperationException("Trying to track working on a machine that does not support progress!");
         }
     }
 
@@ -201,60 +278,6 @@ public class ONIBaseContainer extends Container {
         });
     }
 
-    @Override
-    public ItemStack transferStackInSlot(PlayerEntity player, int index) {
-        ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = this.getSlot(index);
-        if (slot.getHasStack()) {
-            ItemStack stack = slot.getStack();
-            itemstack = stack.copy();
-            if (index == 0) {
-                if (!this.mergeItemStack(stack, 1, 37, true)) {
-                    return ItemStack.EMPTY;
-                }
-                slot.onSlotChange(stack, itemstack);
-            } else {
-                if (validItems() != null) {
-                    if (validItems().contains(stack.getItem())) {
-                        if (!this.mergeItemStack(stack, 0, 1, false)) {
-                            return ItemStack.EMPTY;
-                        }
-                    } else if (index < 28) {
-                        if (!this.mergeItemStack(stack, 28, 37, false)) {
-                            return ItemStack.EMPTY;
-                        }
-                    } else if (index < 37 && !this.mergeItemStack(stack, 1, 28, false)) {
-                        return ItemStack.EMPTY;
-                    }
-                } else if (validItems() == null) {
-                    if (!this.mergeItemStack(stack, 0, 1, false)) {
-                        return ItemStack.EMPTY;
-                    } else if (index < 28) {
-                        if (!this.mergeItemStack(stack, 28, 37, false)) {
-                            return ItemStack.EMPTY;
-                        }
-                    } else if (index < 37 && !this.mergeItemStack(stack, 1, 28, false)) {
-                        return ItemStack.EMPTY;
-                    }
-                }
-            }
-
-            if (stack.isEmpty()) {
-                slot.putStack(ItemStack.EMPTY);
-            } else {
-                slot.onSlotChanged();
-            }
-
-            if (stack.getCount() == itemstack.getCount()) {
-                return ItemStack.EMPTY;
-            }
-
-            slot.onTake(player, stack);
-        }
-
-        return itemstack;
-    }
-
     public int getPower() {
         if (tileEntity == null) {
             return 0;
@@ -275,15 +298,23 @@ public class ONIBaseContainer extends Container {
             ONIIHasProgress hasProgress = (ONIIHasProgress) tileEntity;
             return hasProgress.getTotalProgress();
         }
-        throw new UnsupportedOperationException("trying to get progress on an tile that does not support progress");
+        throw new UnsupportedOperationException("trying to get total progress on an tile that does not support progress");
     }
 
-    public int getWorking() {
+    public byte getWorking() {
         if (tileEntity instanceof ONIIWorkable) {
             ONIIWorkable workable = (ONIIWorkable) tileEntity;
-            return workable.getWorking() ? 1 : 0;
+            return (byte) (workable.getWorking() ? 1 : 0);
         }
-        throw new UnsupportedOperationException("trying to get progress on an tile that does not support progress");
+        throw new UnsupportedOperationException("trying to get working on an tile that does not support progress");
+    }
+
+    public byte getForceStopped() {
+        if (tileEntity instanceof ONIIForceStoppable) {
+            ONIIForceStoppable forceStoppable = (ONIIForceStoppable) tileEntity;
+            return (byte) (forceStoppable.getForceStopped() ? 1 : 0);
+        }
+        throw new UnsupportedOperationException("trying to get working on an tile that does not support progress");
     }
 
     public int getPowerCapacity() {
@@ -323,20 +354,7 @@ public class ONIBaseContainer extends Container {
         addSlotRange(playerInventory, 0, leftCol, topRow, 9, 18);
     }
 
-    @Override
-    public boolean canInteractWith(PlayerEntity p_75145_1_) {
-        if (tileEntity == null) {
-            return false;
-        }
-
-        if (tileEntity.getWorld() == null) {
-            return false;
-        }
-
-        return isWithinUsableDistance(IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos()), playerEntity, ONIBlocks.COAL_GEN_BLOCK);
-    }
-
-    public List<Item> validItems() {
+    public HashMap<Item, Integer> validItems() {
         if (tileEntity instanceof ONIIHasValidItems) {
             ONIIHasValidItems hasValidItems = (ONIIHasValidItems) tileEntity;
             return hasValidItems.validItems();
@@ -361,7 +379,15 @@ public class ONIBaseContainer extends Container {
         return 0;
     }
 
-    public void addModificationSlots(IItemHandler itemHandler) {
+    public int getInvSize() {
+        if (getTileEntity() instanceof ONIBaseInvTE) {
+            ONIBaseInvTE invTE = (ONIBaseInvTE) getTileEntity();
+            return invTE.getInvSize();
+        }
+        return 0;
+    }
+
+    protected void addModificationSlots(IItemHandler itemHandler) {
         int slotFixX = 0;
         int slotFixY = 0;
         int index = 0;
@@ -377,6 +403,10 @@ public class ONIBaseContainer extends Container {
         }
     }
 
+    protected void addMachineSlot(IItemHandler itemHandler, int index, Tuple<Integer, Integer> tuple) {
+        addSlot(new ONIMachineSlotHandler(itemHandler, index, tuple.getA(), tuple.getB()));
+    }
+
     public class ONIModSlotHandler extends SlotItemHandler {
         public ONIModSlotHandler(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
             super(itemHandler, index, xPosition, yPosition);
@@ -385,6 +415,17 @@ public class ONIBaseContainer extends Container {
         @Override
         public boolean isEnabled() {
             return ONIBaseContainer.this.isModTabOpen();
+        }
+    }
+
+    public static class ONIMachineSlotHandler extends SlotItemHandler {
+        public ONIMachineSlotHandler(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
+            super(itemHandler, index, xPosition, yPosition);
+        }
+
+        @Override
+        public boolean isItemValid(@Nonnull ItemStack stack) {
+            return getItemHandler().isItemValid(this.getSlotIndex(), stack);
         }
     }
 }

@@ -7,6 +7,7 @@ import wintersteve25.oniutils.common.blocks.base.ONIBaseInvTE;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasValidItems;
 
 import javax.annotation.Nonnull;
+import java.util.HashMap;
 import java.util.List;
 
 public class ONIInventoryHandler extends ItemStackHandler {
@@ -29,8 +30,12 @@ public class ONIInventoryHandler extends ItemStackHandler {
             return true;
         }
         ONIIHasValidItems validItems = (ONIIHasValidItems) tile;
-        List<Item> valids = validItems.validItems();
-        return valids == null || valids.isEmpty() || valids.contains(stack.getItem());
+        HashMap<Item, Integer> valids = validItems.validItems();
+        if (valids == null || valids.isEmpty()) return true;
+        if (valids.containsKey(stack.getItem())) {
+            return slot == valids.get(stack.getItem()) || valids.get(stack.getItem()) < 0;
+        }
+        return false;
     }
 
     @Nonnull
@@ -40,11 +45,14 @@ public class ONIInventoryHandler extends ItemStackHandler {
             return super.insertItem(slot, stack, simulate);
         }
         ONIIHasValidItems validItems = (ONIIHasValidItems) tile;
-        List<Item> valids = validItems.validItems();
+        HashMap<Item, Integer> valids = validItems.validItems();
         if (valids == null || valids.isEmpty()) {
             return super.insertItem(slot, stack, simulate);
         }
-        if (!valids.contains(stack.getItem())) {
+        if (!valids.containsKey(stack.getItem())) {
+            return stack;
+        }
+        if (valids.get(stack.getItem()) != slot || valids.get(stack.getItem()) != -1) {
             return stack;
         }
         return super.insertItem(slot, stack, simulate);

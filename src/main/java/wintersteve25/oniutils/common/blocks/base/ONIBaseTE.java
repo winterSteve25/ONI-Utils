@@ -72,8 +72,6 @@ public class ONIBaseTE extends TileEntityUpdateable implements ITickableTileEnti
         BlockState state = world.getBlockState(pos);
         world.notifyBlockUpdate(pos, state, state, 2);
         markDirty();
-        if (world.isRemote()) return;
-        sendUpdatePacket();
     }
 
     @Override
@@ -84,6 +82,10 @@ public class ONIBaseTE extends TileEntityUpdateable implements ITickableTileEnti
             if (this instanceof ONIIHasProgress) {
                 ONIIHasProgress hasProgress = (ONIIHasProgress) this;
                 hasProgress.setProgress(tag.getInt("progress"));
+            }
+            if (this instanceof ONIIForceStoppable) {
+                ONIIForceStoppable forceStoppable = (ONIIForceStoppable) this;
+                forceStoppable.setForceStopped(tag.getBoolean("isForceStopped"));
             }
         }
         if (this instanceof ONIIHasRedstoneOutput) {
@@ -103,6 +105,10 @@ public class ONIBaseTE extends TileEntityUpdateable implements ITickableTileEnti
             if (this instanceof ONIIHasProgress) {
                 ONIIHasProgress hasProgress = (ONIIHasProgress) this;
                 tag.putInt("progress", hasProgress.getProgress());
+            }
+            if (this instanceof ONIIForceStoppable) {
+                ONIIForceStoppable forceStoppable = (ONIIForceStoppable) this;
+                tag.putBoolean("isForceStopped", forceStoppable.getForceStopped());
             }
         }
         if (this instanceof ONIIHasRedstoneOutput) {
