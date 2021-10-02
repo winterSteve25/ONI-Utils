@@ -1,7 +1,5 @@
 package wintersteve25.oniutils.common.blocks.modules.power.coal;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import mekanism.common.tile.interfaces.IBoundingBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
@@ -26,9 +24,6 @@ import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasProgress;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasRedstoneOutput;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasValidItems;
 import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIModifiable;
-import wintersteve25.oniutils.common.capability.durability.DurabilityCapability;
-import wintersteve25.oniutils.common.capability.durability.api.DurabilityStack;
-import wintersteve25.oniutils.common.capability.durability.api.IDurability;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
 import wintersteve25.oniutils.common.capability.plasma.api.EnumWattsTypes;
 import wintersteve25.oniutils.common.capability.plasma.api.IPlasma;
@@ -44,7 +39,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAnimatable, IBoundingBlock, ONIIHasProgress, ONIIHasRedstoneOutput, ONIIHasValidItems, ONIIModifiable {
 
@@ -53,8 +47,6 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     private final AnimationFactory manager = new AnimationFactory(this);
     private final PlasmaStack plasmaHandler = new PlasmaStack(4000, EnumWattsTypes.LOW);
     private final LazyOptional<IPlasma> powerLazyOptional = LazyOptional.of(() -> plasmaHandler);
-    private final DurabilityStack durabilityStack = new DurabilityStack();
-    private final LazyOptional<IDurability> durabilityLazyOptional = LazyOptional.of(() -> durabilityStack);
     private boolean removedFirstItem = false;
 
     private int progress = 0;
@@ -155,9 +147,6 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
         }
         if (cap == PlasmaCapability.POWER_CAPABILITY) {
             return powerLazyOptional.cast();
-        }
-        if (cap == DurabilityCapability.DURABILITY_CAPABILITY) {
-            return durabilityLazyOptional.cast();
         }
 
         return super.getCapability(cap, side);

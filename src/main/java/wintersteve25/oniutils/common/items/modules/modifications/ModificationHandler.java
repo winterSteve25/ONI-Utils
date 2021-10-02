@@ -37,8 +37,22 @@ public class ModificationHandler {
 
     public int getPlasmaOutputPerTick(int totalTicks, int totalOutput) {
         int totalAmountOfTicksToComplete = totalTicks/getProgressSpeed();
-        int outputPerTick = totalOutput/totalAmountOfTicksToComplete;
-        ONIUtils.LOGGER.info(outputPerTick + ", {}", totalAmountOfTicksToComplete);
-        return outputPerTick;
+        return totalOutput/totalAmountOfTicksToComplete;
+    }
+
+    public int getRequiredSkillLevel(int baseLevel) {
+        float bonus = 0;
+
+        for (ItemStack stack : installedMods()) {
+            if (stack.getItem() instanceof ONIBaseModification) {
+                ONIBaseModification modification = (ONIBaseModification) stack.getItem();
+                EnumModifications modType = modification.getModType();
+                if (modType == EnumModifications.COMPLEXITY) {
+                    float percentage = (float) (ONIBaseModification.getBonusDataFromItemStack(stack) / 100.0);
+                    bonus += baseLevel * percentage;
+                }
+            }
+        }
+        return Math.round(baseLevel + bonus);
     }
 }

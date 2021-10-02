@@ -19,7 +19,7 @@ import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.utils.ONIConstants;
 
 @Mod.EventBusSubscriber(modid = ONIUtils.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class ONIClientEventsHandler {
+public class ModClientEventsHandler {
 
     @SubscribeEvent
     public static void clientPreInit(FMLClientSetupEvent event) {

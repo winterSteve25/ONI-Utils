@@ -1,5 +1,6 @@
 package wintersteve25.oniutils.common.blocks.base;
 
+import harmonised.pmmo.api.APIUtils;
 import mekanism.common.tile.interfaces.IBoundingBlock;
 import mekanism.common.util.WorldUtils;
 import net.minecraft.block.BlockState;
@@ -26,11 +27,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.fml.network.NetworkHooks;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIForceStoppable;
-import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasGui;
-import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasRedstoneOutput;
-import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIModifiable;
+import wintersteve25.oniutils.common.blocks.base.interfaces.*;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
+import wintersteve25.oniutils.common.items.modules.modifications.ONIBaseModification;
 import wintersteve25.oniutils.common.utils.ISHandlerHelper;
 
 import javax.annotation.Nonnull;
@@ -153,8 +152,26 @@ public abstract class ONIBaseMachine extends ONIBaseDirectional {
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
         if (!world.isRemote() && machineName() != null && !machineName().isEmpty()) {
             TileEntity tileEntity = world.getTileEntity(pos);
+            if (tileEntity instanceof ONIIRequireSkillToInteract) {
+                ONIIRequireSkillToInteract skill = (ONIIRequireSkillToInteract) tileEntity;
+                if (APIUtils.getLevel(skill.requiredSkill(), player) < skill.getRequiredLevel()) {
+                    player.sendStatusMessage(new TranslationTextComponent("oniutils.message.needLevel", skill.getRequiredLevel(), skill.requiredSkill()), true);
+                    return ActionResultType.PASS;
+                }
+            }
+            ItemStack heldItem = player.getHeldItem(hand);
             super.onBlockActivated(state, world, pos, player, hand, rayTraceResult);
             if (teClass.isInstance(tileEntity)) {
+                if (tileEntity instanceof ONIIModifiable && tileEntity instanceof ONIBaseTE) {
+                    if (!heldItem.isEmpty() && heldItem.getItem() instanceof ONIBaseModification) {
+                        ONIIModifiable modifiable = (ONIIModifiable) tileEntity;
+                        if (modifiable.addMod((ONIBaseTE) tileEntity, heldItem)) {
+                            player.swing(hand, true);
+                            return ActionResultType.SUCCESS;
+                        }
+                    }
+                }
+
                 if (state.getBlock() instanceof ONIIHasGui) {
                     ONIIHasGui hasGui = (ONIIHasGui) state.getBlock();
                     INamedContainerProvider containerProvider = new INamedContainerProvider() {

@@ -21,7 +21,6 @@ public class GermCapability {
         CapabilityManager.INSTANCE.register(IGerms.class, new GermStorage(), GermStack::new);
     }
 
-
     public static class GermStorage implements Capability.IStorage<IGerms> {
         @Nullable
         @Override

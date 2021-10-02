@@ -1,4 +1,4 @@
-package wintersteve25.oniutils.common.capability.trait.api;
+package wintersteve25.oniutils.common.capability.oni_player_data.api;
 
 public final class TraitTypes {
     public static final int Twinkletoes = 1;

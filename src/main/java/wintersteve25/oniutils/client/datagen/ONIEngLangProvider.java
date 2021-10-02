@@ -36,6 +36,8 @@ public class ONIEngLangProvider extends LanguageProvider {
         add("oniutils.message.trait.gotTrait", "Traits: %s");
         add("oniutils.message.trait.traitInfo", "Check Trait infos here: https://github.com/FictionCraft-Team/ONI-Utils/wiki/Trait-System");
 
+        add("oniutils.message.needLevel", TextFormatting.RED + "Requires %s level of %s to operate... Perhaps some entanglement modifications might help");
+
         add("oniutils.message.manualGen", "Use Get off manual generator key(Right-Shift By Default) to dismount..");
 
         add("death.attack.oniutils.oxygen", "%1$s forgot to breathe");

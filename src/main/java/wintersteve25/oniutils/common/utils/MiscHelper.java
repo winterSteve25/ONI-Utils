@@ -14,15 +14,13 @@ import wintersteve25.oniutils.common.blocks.base.bounding.ONIBoundingTE;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class MiscHelper {
 
     public static final int INT_MAX = 2147483647;
-    public static final double ONEPIXEL = 1D/16;
+    public static final double ONEPIXEL = 1D / 16;
     public static final Item.Properties DEFAULT_ITEM_PROPERTY = new Item.Properties().group(ONIUtils.creativeTab);
 
     public static String langToReg(String lang) {
@@ -66,11 +64,18 @@ public class MiscHelper {
         for (int i = 0; i < keys.size(); i++) {
             try {
                 map.put(keys.get(i), values.get(i));
-            } catch (ArrayIndexOutOfBoundsException e){
+            } catch (ArrayIndexOutOfBoundsException e) {
                 return map;
             }
         }
 
         return map;
+    }
+
+    /**
+     * @return returns a new list that contains all the object in the first list that isn't in the second list
+     */
+    public static <E> List<E> filterList(Collection<E> list, Collection<E> other) {
+        return list.stream().filter(obj -> !other.contains(obj)).collect(Collectors.toList());
     }
 }

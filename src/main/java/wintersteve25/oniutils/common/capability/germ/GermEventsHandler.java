@@ -69,7 +69,7 @@ public class GermEventsHandler {
     public static void teCapAttachEvent(AttachCapabilitiesEvent<TileEntity> e) {
         TileEntity tileAttached = e.getObject();
         if (tileAttached != null) {
-            if (!(tileAttached instanceof IGermCapProvider) && !(tileAttached instanceof CapabilityTileEntity)) {
+            if (!(tileAttached instanceof IGermCapProvider)) {
                 if (!tileAttached.getCapability(GermCapability.GERM_CAPABILITY).isPresent()) {
                     GermCapabilityProvider provider = new GermCapabilityProvider();
                     e.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
@@ -80,28 +80,6 @@ public class GermEventsHandler {
     }
 
     public static void infectOnInteractEntitySpecific(PlayerInteractEvent.EntityInteractSpecific event) {
-        PlayerEntity player = event.getPlayer();
-        if (player != null) {
-            if (!player.world.isRemote()) {
-                Entity target = event.getTarget();
-
-                player.getCapability(GermCapability.GERM_CAPABILITY).ifPresent(p -> {
-                    target.getCapability(GermCapability.GERM_CAPABILITY).ifPresent(t -> {
-                        if (canTransferGerm(p)) {
-                            t.addGerm(p.getGermType(), p.getGermAmount());
-                            player.sendStatusMessage(new TranslationTextComponent("oniutils.message.germs.infectEntity", Integer.toString(p.getGermAmount()), p.getGermType().getName().replace('_', ' ')), true);
-                            return;
-                        } else if (canTransferGerm(t)) {
-                            p.addGerm(t.getGermType(), t.getGermAmount());
-                            player.sendStatusMessage(new TranslationTextComponent("oniutils.message.germs.infectPlayer", Integer.toString(t.getGermAmount()), t.getGermType().getName().replace('_', ' ')), true);
-                        }
-                    });
-                });
-            }
-        }
-    }
-
-    public static void infectOnInteractEntity(PlayerInteractEvent.EntityInteract event) {
         PlayerEntity player = event.getPlayer();
         if (player != null) {
             if (!player.world.isRemote()) {

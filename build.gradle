@@ -116,7 +116,6 @@ dependencies {
     compile fg.deobf ('curse.maven:corpse-316582:3338002')
     compile fg.deobf ("mekanism:Mekanism:${mekanism_version}:api")
     compile fg.deobf ("mekanism:Mekanism:${mekanism_version}")
-    runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}:generators")// Mekanism: Generators
 
     annotationProcessor 'org.spongepowered:mixin:0.8.2:processor'
 }

@@ -30,7 +30,7 @@ public abstract class ONIBaseInvTE extends ONIBaseTE {
     public ItemStackHandler getItemHandler() {
         return itemHandler;
     }
-
+    
     public abstract int getInvSize();
 
     public boolean hasItem() {

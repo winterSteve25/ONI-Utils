@@ -12,6 +12,7 @@ import wintersteve25.oniutils.common.items.base.enums.EnumModifications;
 import wintersteve25.oniutils.common.utils.ONIModInventoryHandler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ModificationContext {
@@ -57,6 +58,10 @@ public class ModificationContext {
 
     public EnumModifications[] getValidMods() {
         return validMods;
+    }
+
+    public boolean isModValid(EnumModifications mod) {
+        return Arrays.asList(getValidMods()).contains(mod);
     }
 
     public ONIModInventoryHandler getModHandler() {

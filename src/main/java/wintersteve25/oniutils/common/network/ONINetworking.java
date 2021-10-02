@@ -37,6 +37,11 @@ public class ONINetworking {
                 .decoder((buffer) -> new RenderErrorPacket())
                 .consumer(RenderErrorPacket::handle)
                 .add();
+        INSTANCE.messageBuilder(TriggerPlayerMovePacket.class, nextID())
+                .encoder(TriggerPlayerMovePacket::encode)
+                .decoder(TriggerPlayerMovePacket::new)
+                .consumer(TriggerPlayerMovePacket::handle)
+                .add();
     }
 
     public static void sendToClient(Object packet, ServerPlayerEntity player) {

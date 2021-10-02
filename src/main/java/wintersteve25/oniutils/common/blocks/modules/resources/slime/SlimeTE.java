@@ -22,8 +22,8 @@ import javax.annotation.Nullable;
 
 public class SlimeTE extends TileEntityUpdateable implements ITickableTileEntity, IGermCapProvider {
 
-    private GermStack germHandler = new GermStack();
-    private LazyOptional<IGerms> lazyOptional =  LazyOptional.of(() -> germHandler);
+    private final GermStack germHandler = new GermStack();
+    private final LazyOptional<IGerms> lazyOptional =  LazyOptional.of(() -> germHandler);
     private int germDupTime = ONIConfig.GERM_DUP_SPEED.get();
 
     public SlimeTE() {
@@ -46,17 +46,17 @@ public class SlimeTE extends TileEntityUpdateable implements ITickableTileEntity
     }
 
     @Override
-    public void read(BlockState p_230337_1_, CompoundNBT p_230337_2_) {
-        germHandler.read(p_230337_2_.getCompound("germs"));
+    public void read(BlockState state, CompoundNBT tag) {
+        germHandler.read(tag.getCompound("germs"));
 
-        super.read(p_230337_1_, p_230337_2_);
+        super.read(state, tag);
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT p_189515_1_) {
-        p_189515_1_.put("germs", germHandler.write());
+    public CompoundNBT write(CompoundNBT tag) {
+        tag.put("germs", germHandler.write());
 
-        return super.write(p_189515_1_);
+        return super.write(tag);
     }
 
     @Nonnull
