@@ -154,9 +154,11 @@ public abstract class ONIBaseMachine extends ONIBaseDirectional {
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof ONIIRequireSkillToInteract) {
                 ONIIRequireSkillToInteract skill = (ONIIRequireSkillToInteract) tileEntity;
-                if (APIUtils.getLevel(skill.requiredSkill(), player) < skill.getRequiredLevel()) {
-                    player.sendStatusMessage(new TranslationTextComponent("oniutils.message.needLevel", skill.getRequiredLevel(), skill.requiredSkill()), true);
-                    return ActionResultType.PASS;
+                for (String skillRequired : skill.requiredSkill().keySet()) {
+                    if (APIUtils.getLevel(skillRequired, player) < skill.getRequiredLevel(skillRequired)) {
+                        player.sendStatusMessage(new TranslationTextComponent("oniutils.message.needLevel", skill.getRequiredLevel(skillRequired), skill.requiredSkill()), true);
+                        return ActionResultType.PASS;
+                    }
                 }
             }
             ItemStack heldItem = player.getHeldItem(hand);

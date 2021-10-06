@@ -20,7 +20,6 @@ public class ONIInventoryHandler extends ItemStackHandler {
 
     @Override
     public void onContentsChanged(int slot) {
-        tile.markDirty();
         tile.updateBlock();
     }
 

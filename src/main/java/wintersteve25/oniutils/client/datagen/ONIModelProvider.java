@@ -10,6 +10,7 @@ import wintersteve25.oniutils.client.renderers.geckolibs.base.ONIIHasGeoItem;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseBlock;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseSixWaysBlock;
+import wintersteve25.oniutils.common.blocks.modules.power.cables.WireBlock;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONIItems;
 import wintersteve25.oniutils.common.items.base.interfaces.ONIIItem;
@@ -59,7 +60,11 @@ public class ONIModelProvider extends ItemModelProvider {
         }
         for (ONIBaseSixWaysBlock b : ONIBlocks.sixWaysList.keySet()) {
             if (!(b instanceof ONIIHasGeoItem)) {
-                withExistingParent(MiscHelper.langToReg(b.getRegName()), modLoc("block/" + MiscHelper.langToReg(b.getRegName())));
+                if (!(b instanceof WireBlock)) {
+                    withExistingParent(MiscHelper.langToReg(b.getRegName()), modLoc("block/" + MiscHelper.langToReg(b.getRegName())));
+                } else {
+                    withExistingParent(MiscHelper.langToReg(b.getRegName()), modLoc("block/wires/" + MiscHelper.langToReg(b.getRegName()) + "/main"));
+                }
             }
         }
         for (ONIIItem i : ONIItems.itemRegistryList) {

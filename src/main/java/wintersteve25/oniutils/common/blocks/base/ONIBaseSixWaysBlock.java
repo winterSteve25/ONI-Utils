@@ -8,7 +8,7 @@ public class ONIBaseSixWaysBlock extends SixWayBlock {
     private final String regName;
 
     public ONIBaseSixWaysBlock(Properties properties, String regName) {
-        super(2F, properties);
+        super(2, properties);
         this.regName = regName;
 
         setDefaultState(getStateContainer().getBaseState().with(NORTH, Boolean.valueOf(false)).with(EAST, Boolean.valueOf(false)).with(SOUTH, Boolean.valueOf(false)).with(WEST, Boolean.valueOf(false)).with(UP, Boolean.valueOf(false)).with(DOWN, Boolean.valueOf(false)));

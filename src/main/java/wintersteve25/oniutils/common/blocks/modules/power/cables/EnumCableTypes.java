@@ -7,7 +7,7 @@ public enum EnumCableTypes implements IExtensibleEnum {
     CONDUCTIVE("Conductive Wire"),
     HEAVIWATTS("Heavi-Watts Wire");
 
-    private String name;
+    private final String name;
 
     EnumCableTypes(String name) {
         this.name = name;

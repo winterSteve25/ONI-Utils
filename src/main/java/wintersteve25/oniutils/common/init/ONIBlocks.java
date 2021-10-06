@@ -117,9 +117,9 @@ public class ONIBlocks {
             //Power
         COAL_GEN_BLOCK.initDirectionalNoData(COAL_GEN_BLOCK, new CoalGenItemBlock());
         MANUAL_GEN_BLOCK.initDirectionalNoData(MANUAL_GEN_BLOCK, new ManualGenItemBlock());
-        WIRE_BLOCK.initBlock(WIRE_BLOCK, null);
+//        WIRE_BLOCK.initBlock(WIRE_BLOCK, null);
         CONDUCTIVE_WIRE_BLOCK.initBlock(CONDUCTIVE_WIRE_BLOCK, null);
-        HEAVI_WATT_WIRE_BLOCK.initBlock(HEAVI_WATT_WIRE_BLOCK, null);
+//        HEAVI_WATT_WIRE_BLOCK.initBlock(HEAVI_WATT_WIRE_BLOCK, null);
             //Oxygen
         ALGAE_DIFFUSER_BLOCK.initDirectionalNoData(ALGAE_DIFFUSER_BLOCK, null);
 

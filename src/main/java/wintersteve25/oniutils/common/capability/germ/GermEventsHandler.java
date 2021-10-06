@@ -1,6 +1,5 @@
 package wintersteve25.oniutils.common.capability.germ;
 
-import mekanism.common.tile.base.CapabilityTileEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -10,9 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
@@ -21,8 +18,8 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.capability.germ.api.IGermCapProvider;
 import wintersteve25.oniutils.common.capability.germ.api.EnumGermTypes;
+import wintersteve25.oniutils.common.capability.germ.api.IGermCapProvider;
 import wintersteve25.oniutils.common.capability.germ.api.IGerms;
 import wintersteve25.oniutils.common.init.ONIConfig;
 
@@ -32,22 +29,18 @@ public class GermEventsHandler {
     public static void entityCapAttachEvent(AttachCapabilitiesEvent<Entity> event) {
         Entity entity = event.getObject();
         if (entity != null) {
-            if (!entity.getCapability(GermCapability.GERM_CAPABILITY).isPresent()) {
-                GermCapabilityProvider provider = new GermCapabilityProvider();
-                event.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
-                event.addListener(provider::invalidate);
-            }
+            GermCapabilityProvider provider = new GermCapabilityProvider();
+            event.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
+            event.addListener(provider::invalidate);
         }
     }
 
     public static void itemCapAttachEvent(AttachCapabilitiesEvent<ItemStack> event) {
         ItemStack entity = event.getObject();
         if (entity != null) {
-            if (!entity.getCapability(GermCapability.GERM_CAPABILITY).isPresent()) {
-                GermCapabilityProvider provider = new GermCapabilityProvider();
-                event.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
-                event.addListener(provider::invalidate);
-            }
+            GermCapabilityProvider provider = new GermCapabilityProvider();
+            event.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
+            event.addListener(provider::invalidate);
         }
     }
 
@@ -70,11 +63,9 @@ public class GermEventsHandler {
         TileEntity tileAttached = e.getObject();
         if (tileAttached != null) {
             if (!(tileAttached instanceof IGermCapProvider)) {
-                if (!tileAttached.getCapability(GermCapability.GERM_CAPABILITY).isPresent()) {
-                    GermCapabilityProvider provider = new GermCapabilityProvider();
-                    e.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
-                    e.addListener(provider::invalidate);
-                }
+                GermCapabilityProvider provider = new GermCapabilityProvider();
+                e.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
+                e.addListener(provider::invalidate);
             }
         }
     }

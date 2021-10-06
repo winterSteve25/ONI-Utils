@@ -9,6 +9,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseBlock;
+import wintersteve25.oniutils.common.blocks.base.ONIBaseSixWaysBlock;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.utils.MiscHelper;
 import wintersteve25.oniutils.common.utils.ModelFileHelper;

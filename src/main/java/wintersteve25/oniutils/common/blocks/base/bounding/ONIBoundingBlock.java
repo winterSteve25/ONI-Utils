@@ -217,7 +217,7 @@ public class ONIBoundingBlock extends ONIBaseBlock {
 
             VoxelShape shape = mainState.getShape(world, mainPos, context);
             BlockPos offset = pos.subtract(mainPos);
-            return shape.withOffset((double) (-offset.getX()), (double) (-offset.getY()), (double) (-offset.getZ()));
+            return shape.withOffset(-offset.getX(), -offset.getY(), -offset.getZ());
         }
     }
 

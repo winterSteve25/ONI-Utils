@@ -120,6 +120,6 @@ public class ONIBaseDirectional extends DirectionalBlock {
 //        state.with(this.getFluidLoggedProperty(), this.getSupportedFluidPropertyIndex(fluidState.getFluid()));
 //        state.with(FACING, blockItemUseContext.getNearestLookingDirection());
 
-        return this.getDefaultState().with(FACING, blockItemUseContext.getNearestLookingDirection());
+        return this.getDefaultState().with(FACING, blockItemUseContext.getPlacementHorizontalFacing());
     }
 }

@@ -27,13 +27,10 @@ public class ONIBaseGuiTabModification extends ONIBaseGuiTab {
     @Override
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         if (this.isVisible()) {
-            RenderSystem.pushMatrix();
-            RenderSystem.translatef(0.0F, 0.0F, -0.2F);
-            this.mc.getTextureManager().bindTexture(BACKGROUND_LOCATION);
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            super.render(matrixStack, mouseX, mouseY, partialTicks);
+
             int i = getGuiLeftTopPosition(this.width, 177) - 147;
             int j = (this.height - 167) / 2;
-            this.blit(matrixStack, i, j, 1, 1, 147, 170);
 
             int slotFixX = 0;
             int slotFixY = 0;

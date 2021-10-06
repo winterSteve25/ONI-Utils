@@ -94,6 +94,8 @@ public class CoalGenBlock extends ONIBaseMachineAnimated implements ONIIHasGeoIt
         return ONIBlocks.COAL_GEN_TE.get().create();
     }
 
+
+
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         switch(state.get(FACING)) {

@@ -24,32 +24,26 @@ public class GasEventsHandler {
     public static void chunkAttach(AttachCapabilitiesEvent<Chunk> event) {
         Chunk chunk = event.getObject();
         if (chunk != null) {
-            if (!chunk.getCapability(GasCapability.GAS_CAPABILITY).isPresent()) {
-                GasCapabilityProvider provider = new GasCapabilityProvider();
-                event.addCapability(new ResourceLocation(ONIUtils.MODID, "gas"), provider);
-                event.addListener(provider::invalidate);
-            }
+            GasCapabilityProvider provider = new GasCapabilityProvider();
+            event.addCapability(new ResourceLocation(ONIUtils.MODID, "gas"), provider);
+            event.addListener(provider::invalidate);
         }
     }
 
     public static void entityAttach(AttachCapabilitiesEvent<Entity> event) {
         Entity entity = event.getObject();
         if (entity instanceof PlayerEntity) {
-            if (!entity.getCapability(GasCapability.GAS_CAPABILITY).isPresent()) {
-                GasCapabilityProvider provider = new GasCapabilityProvider(EnumGasTypes.OXYGEN, 5000);
-                event.addCapability(new ResourceLocation(ONIUtils.MODID, "gas"), provider);
-                event.addListener(provider::invalidate);
-            }
+            GasCapabilityProvider provider = new GasCapabilityProvider(EnumGasTypes.OXYGEN, 5000);
+            event.addCapability(new ResourceLocation(ONIUtils.MODID, "gas"), provider);
+            event.addListener(provider::invalidate);
         }
 
         if (entity != null) {
             if (!(entity instanceof ICustomGasProvider)) {
                 if (!(entity instanceof PlayerEntity)) {
-                    if (!entity.getCapability(GasCapability.GAS_CAPABILITY).isPresent()) {
-                        GasCapabilityProvider provider = new GasCapabilityProvider(EnumGasTypes.OXYGEN, 4000);
-                        event.addCapability(new ResourceLocation(ONIUtils.MODID, "gas"), provider);
-                        event.addListener(provider::invalidate);
-                    }
+                    GasCapabilityProvider provider = new GasCapabilityProvider(EnumGasTypes.OXYGEN, 4000);
+                    event.addCapability(new ResourceLocation(ONIUtils.MODID, "gas"), provider);
+                    event.addListener(provider::invalidate);
                 }
             }
         }
@@ -80,7 +74,7 @@ public class GasEventsHandler {
 
                                 if (p.addGas(gas, (c.getGas().get(gas) / c.getGasAmountTotal()) * ONIConfig.PLAYER_BREATH_AMOUNT.get())) {
                                     c.removeGas(gas, (c.getGas().get(gas) / c.getGasAmountTotal()) * ONIConfig.PLAYER_BREATH_AMOUNT.get());
-                                    c.addGas(EnumGasTypes.CO2, ONIConfig.PLAYER_REQUIRED_OXYGEN_AMOUNT.get()/2);
+                                    c.addGas(EnumGasTypes.CO2, ONIConfig.PLAYER_REQUIRED_OXYGEN_AMOUNT.get() / 2);
                                 }
 
                                 p.updatePressure();
@@ -115,7 +109,7 @@ public class GasEventsHandler {
                             }
                         }
 
-                        if(p.getPressureMap().get(EnumGasTypes.CO2) != null) {
+                        if (p.getPressureMap().get(EnumGasTypes.CO2) != null) {
                             if (p.getPressureMap().get(EnumGasTypes.CO2) > 20) {
                                 player.addPotionEffect(new EffectInstance(Effects.WEAKNESS));
                             }
