@@ -4,18 +4,24 @@ import mekanism.common.util.VoxelShapeUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import wintersteve25.oniutils.client.renderers.geckolibs.base.ONIIHasGeoItem;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseSixWaysBlock;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
@@ -51,9 +57,63 @@ public class WireBlock extends ONIBaseSixWaysBlock {
         return this.makeConnections(context.getWorld(), context.getPos());
     }
 
-//    public BlockState disconnect(IBlockReader blockReader, BlockPos pos, Direction direction) {
+    public static int coord(double v) {
+        return v < 0.375D ? -1 : v > 0.625D ? 1 : 0;
+    }
 
+    @Override
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        if (player.isSneaking()) {
+            Vector3d hitResult = hit.getHitVec();
+            double x = pos.getX() - hitResult.x;
+            double y = pos.getY() - hitResult.y;
+            double z = pos.getZ() - hitResult.z;
+
+            System.out.println(x + "," + y + "," + z);
+        }
+        return ActionResultType.PASS;
+    }
+
+//    private Direction getDirectionFromVec(double x, double y, double z) {
+//        if ()
 //    }
+
+    public BlockState disconnect(IBlockReader blockReader, BlockPos pos, Direction direction) {
+        BlockState state = blockReader.getBlockState(pos);
+        switch (direction) {
+            case SOUTH:
+                if (state.hasProperty(SOUTH)) {
+                    state.with(SOUTH, false);
+                }
+                break;
+            case UP:
+                if (state.hasProperty(UP)) {
+                    state.with(UP, false);
+                }
+                break;
+            case DOWN:
+                if (state.hasProperty(DOWN)) {
+                    state.with(DOWN, false);
+                }
+                break;
+            case EAST:
+                if (state.hasProperty(EAST)) {
+                    state.with(EAST, false);
+                }
+                break;
+            case WEST:
+                if (state.hasProperty(WEST)) {
+                    state.with(WEST, false);
+                }
+                break;
+            default:
+                if (state.hasProperty(NORTH)) {
+                    state.with(NORTH, false);
+                }
+                break;
+        }
+        return state;
+    }
 
     public BlockState makeConnections(IBlockReader blockReader, BlockPos pos) {
         Block block = blockReader.getBlockState(pos.down()).getBlock();

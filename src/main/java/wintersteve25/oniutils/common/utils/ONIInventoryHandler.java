@@ -51,7 +51,7 @@ public class ONIInventoryHandler extends ItemStackHandler {
         if (!valids.containsKey(stack.getItem())) {
             return stack;
         }
-        if (valids.get(stack.getItem()) != slot || valids.get(stack.getItem()) != -1) {
+        if (valids.get(stack.getItem()) != slot || valids.get(stack.getItem()) == -1) {
             return stack;
         }
         return super.insertItem(slot, stack, simulate);

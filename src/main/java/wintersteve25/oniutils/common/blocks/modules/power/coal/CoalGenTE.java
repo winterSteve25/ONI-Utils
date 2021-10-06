@@ -140,6 +140,9 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            if (side != null) {
+                return itemLazyOptional.cast();
+            }
             return modificationContext.getCombinedLazyOptional().cast();
         }
         if (cap == PlasmaCapability.POWER_CAPABILITY) {
