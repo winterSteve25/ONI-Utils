@@ -3,13 +3,10 @@ package wintersteve25.oniutils.common.registration;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import wintersteve25.oniutils.common.capability.gas.GasCapability;
-import wintersteve25.oniutils.common.capability.gas.GasEventsHandler;
 import wintersteve25.oniutils.common.capability.germ.GermEventsHandler;
 import wintersteve25.oniutils.common.capability.germ.GermCapability;
 import wintersteve25.oniutils.common.capability.oni_te_data.ONITEDataCapability;
@@ -28,7 +25,6 @@ public class ONIServerEventsHandler {
         GermCapability.register();
         ONIPlayerDataCapability.register();
         PlasmaCapability.register();
-        GasCapability.register();
         ONITEDataCapability.register();
 
         //germ events
@@ -60,14 +56,6 @@ public class ONIServerEventsHandler {
                 MinecraftForge.EVENT_BUS.addListener(ONIPlayerDataEventsHandler::playerTickEvent);
                 MinecraftForge.EVENT_BUS.addListener(ONIPlayerDataEventsHandler::playerMove);
             }
-        }
-
-        //gases
-        if (ONIConfig.ENABLE_GAS.get()) {
-            MinecraftForge.EVENT_BUS.addGenericListener(Chunk.class, GasEventsHandler::chunkAttach);
-            MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, GasEventsHandler::entityAttach);
-//            MinecraftForge.EVENT_BUS.addListener(GasEventsHandler::tick);
-            MinecraftForge.EVENT_BUS.addListener(GasEventsHandler::onPlayerCloned);
         }
 
         //Misc Event Listeners

@@ -54,7 +54,7 @@ public class GermEventsHandler {
             }
 
             itemStack.getCapability(GermCapability.GERM_CAPABILITY).ifPresent(i -> {
-                tooltip.add(new TranslationTextComponent("oniutils.tooltips.germs.itemGerms", Integer.toString(i.getGermAmount()), i.getGermType().getName().replace('_', ' ')));
+                tooltip.add(new TranslationTextComponent("oniutils.tooltips.germs.itemGerms", Integer.toString(i.getGermAmount()), i.getGermType().getName()));
             });
         }
     }
@@ -80,11 +80,11 @@ public class GermEventsHandler {
                     target.getCapability(GermCapability.GERM_CAPABILITY).ifPresent(t -> {
                         if (canTransferGerm(p)) {
                             t.addGerm(p.getGermType(), p.getGermAmount());
-                            player.sendStatusMessage(new TranslationTextComponent("oniutils.message.germs.infectEntity", Integer.toString(p.getGermAmount()), p.getGermType().getName().replace('_', ' ')), true);
+                            player.sendStatusMessage(new TranslationTextComponent("oniutils.message.germs.infectEntity", Integer.toString(p.getGermAmount()), p.getGermType().getName()), true);
                             return;
                         } else if (canTransferGerm(t)) {
                             p.addGerm(t.getGermType(), t.getGermAmount());
-                            player.sendStatusMessage(new TranslationTextComponent("oniutils.message.germs.infectPlayer", Integer.toString(t.getGermAmount()), t.getGermType().getName().replace('_', ' ')), true);
+                            player.sendStatusMessage(new TranslationTextComponent("oniutils.message.germs.infectPlayer", Integer.toString(t.getGermAmount()), t.getGermType().getName()), true);
                         }
                     });
                 });
@@ -102,11 +102,11 @@ public class GermEventsHandler {
                     target.getCapability(GermCapability.GERM_CAPABILITY).ifPresent(t -> {
                         if (canTransferGerm(p)) {
                             t.addGerm(p.getGermType(), p.getGermAmount());
-                            player.sendStatusMessage(new TranslationTextComponent("oniutils.message.germs.infectItem", Integer.toString(p.getGermAmount()), p.getGermType().getName().replace('_', ' ')), true);
+                            player.sendStatusMessage(new TranslationTextComponent("oniutils.message.germs.infectItem", Integer.toString(p.getGermAmount()), p.getGermType().getName()), true);
                             return;
                         } else if (canTransferGerm(t)) {
                             p.addGerm(t.getGermType(), t.getGermAmount());
-                            player.sendStatusMessage(new TranslationTextComponent("oniutils.message.germs.infectPlayer", Integer.toString(t.getGermAmount()), t.getGermType().getName().replace('_', ' ')), true);
+                            player.sendStatusMessage(new TranslationTextComponent("oniutils.message.germs.infectPlayer", Integer.toString(t.getGermAmount()), t.getGermType().getName()), true);
                         }
                     });
                 });
@@ -124,11 +124,11 @@ public class GermEventsHandler {
                     target.getCapability(GermCapability.GERM_CAPABILITY).ifPresent(t -> {
                         if (canTransferGerm(p)) {
                             t.addGerm(p.getGermType(), p.getGermAmount());
-                            player.sendStatusMessage(new TranslationTextComponent("oniutils.message.germs.infectItem", Integer.toString(p.getGermAmount()), p.getGermType().getName().replace('_', ' ')), true);
+                            player.sendStatusMessage(new TranslationTextComponent("oniutils.message.germs.infectItem", Integer.toString(p.getGermAmount()), p.getGermType().getName()), true);
                             return;
                         } else if (canTransferGerm(t)) {
                             p.addGerm(t.getGermType(), t.getGermAmount());
-                            player.sendStatusMessage(new TranslationTextComponent("oniutils.message.germs.infectPlayer", Integer.toString(t.getGermAmount()), t.getGermType().getName().replace('_', ' ')), true);
+                            player.sendStatusMessage(new TranslationTextComponent("oniutils.message.germs.infectPlayer", Integer.toString(t.getGermAmount()), t.getGermType().getName()), true);
                         }
                     });
                 });
@@ -147,11 +147,11 @@ public class GermEventsHandler {
                         target.getCapability(GermCapability.GERM_CAPABILITY).ifPresent(t -> {
                             if (canTransferGerm(p)) {
                                 t.addGerm(p.getGermType(), p.getGermAmount());
-                                player.sendStatusMessage(new TranslationTextComponent("oniutils.message.germs.infectItem", Integer.toString(p.getGermAmount()), p.getGermType().getName().replace('_', ' ')), true);
+                                player.sendStatusMessage(new TranslationTextComponent("oniutils.message.germs.infectItem", Integer.toString(p.getGermAmount()), p.getGermType().getName()), true);
                                 return;
                             } else if (canTransferGerm(t)) {
                                 p.addGerm(t.getGermType(), t.getGermAmount());
-                                player.sendStatusMessage(new TranslationTextComponent("oniutils.message.germs.infectPlayer", Integer.toString(t.getGermAmount()), t.getGermType().getName().replace('_', ' ')), true);
+                                player.sendStatusMessage(new TranslationTextComponent("oniutils.message.germs.infectPlayer", Integer.toString(t.getGermAmount()), t.getGermType().getName()), true);
                             }
                         });
                     });

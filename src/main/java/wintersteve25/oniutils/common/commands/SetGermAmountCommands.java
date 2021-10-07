@@ -15,6 +15,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.text.TranslationTextComponent;
 import wintersteve25.oniutils.common.capability.germ.GermCapability;
 import wintersteve25.oniutils.common.capability.germ.api.EnumGermTypes;
+import wintersteve25.oniutils.common.utils.MiscHelper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +27,7 @@ public class SetGermAmountCommands implements Command<CommandSource> {
 
     public static ArgumentBuilder<CommandSource, ?> register(CommandDispatcher<CommandSource> dispatcher) {
 
-        List germTypes = Arrays.stream(EnumGermTypes.values()).map(EnumGermTypes::getName).collect(Collectors.toList());
+        List<String> germTypes = Arrays.stream(EnumGermTypes.values()).map((var) -> MiscHelper.langToReg(var.getName())).collect(Collectors.toList());
 
         return Commands.literal("setGermAmount")
                 .requires(cs -> cs.hasPermissionLevel(1))

@@ -1,6 +1,7 @@
 package wintersteve25.oniutils.common.capability.germ.api;
 
 import net.minecraft.nbt.CompoundNBT;
+import wintersteve25.oniutils.common.utils.MiscHelper;
 
 /**
  * Default implementation of IGerms
@@ -44,7 +45,7 @@ public class GermStack implements IGerms {
     public CompoundNBT write() {
         CompoundNBT germ = new CompoundNBT();
 
-        germ.putString("germ", germType.getName());
+        germ.putString("germ", MiscHelper.langToReg(germType.getName()));
         germ.putInt("amount", this.amount);
 
         return germ;

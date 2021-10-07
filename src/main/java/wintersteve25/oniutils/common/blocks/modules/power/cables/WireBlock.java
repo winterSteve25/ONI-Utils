@@ -57,63 +57,92 @@ public class WireBlock extends ONIBaseSixWaysBlock {
         return this.makeConnections(context.getWorld(), context.getPos());
     }
 
-    public static int coord(double v) {
-        return v < 0.375D ? -1 : v > 0.625D ? 1 : 0;
-    }
+//    @Override
+//    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+//        if (player.isSneaking() && !worldIn.isRemote()) {
+//            Vector3d hitResult = hit.getHitVec();
+//            double x = pos.getX() - hitResult.x;
+//            double y = pos.getY() - hitResult.y;
+//            double z = pos.getZ() - hitResult.z;
 
-    @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if (player.isSneaking()) {
-            Vector3d hitResult = hit.getHitVec();
-            double x = pos.getX() - hitResult.x;
-            double y = pos.getY() - hitResult.y;
-            double z = pos.getZ() - hitResult.z;
-
-            System.out.println(x + "," + y + "," + z);
-        }
-        return ActionResultType.PASS;
-    }
-
-//    private Direction getDirectionFromVec(double x, double y, double z) {
-//        if ()
+//            disconnect(worldIn, pos, getDirectionFromVec(x, y, z));
+//            System.out.println(x + "," + y + "," + z);
+//        }
+//        return ActionResultType.PASS;
 //    }
 
-    public BlockState disconnect(IBlockReader blockReader, BlockPos pos, Direction direction) {
-        BlockState state = blockReader.getBlockState(pos);
-        switch (direction) {
-            case SOUTH:
-                if (state.hasProperty(SOUTH)) {
-                    state.with(SOUTH, false);
-                }
-                break;
-            case UP:
-                if (state.hasProperty(UP)) {
-                    state.with(UP, false);
-                }
-                break;
-            case DOWN:
-                if (state.hasProperty(DOWN)) {
-                    state.with(DOWN, false);
-                }
-                break;
-            case EAST:
-                if (state.hasProperty(EAST)) {
-                    state.with(EAST, false);
-                }
-                break;
-            case WEST:
-                if (state.hasProperty(WEST)) {
-                    state.with(WEST, false);
-                }
-                break;
-            default:
-                if (state.hasProperty(NORTH)) {
-                    state.with(NORTH, false);
-                }
-                break;
-        }
-        return state;
-    }
+//    private Direction getDirectionFromVec(double x, double y, double z) {
+//        // North
+//        if (x < -0.6 && z < -0.4) {
+//            return Direction.NORTH;
+//        }
+//
+//        // South
+//        if (x < -0.6 && z > -0.6) {
+//            return Direction.SOUTH;
+//        }
+//
+//        // East
+//        if (x > -0.6) {
+//            return Direction.EAST;
+//        }
+//
+//        // West
+//        if (x < -0.5) {
+//            return Direction.WEST;
+//        }
+//
+//        // Down
+//        if (y < -0.5) {
+//            return Direction.DOWN;
+//        }
+//
+//        // Up
+//        if (y > -0.6) {
+//            return Direction.UP;
+//        }
+//
+//        return Direction.NORTH;
+//    }
+//
+//    public void disconnect(World world, BlockPos pos, Direction direction) {
+//        BlockState state = world.getBlockState(pos);
+//
+//        switch (direction) {
+//            case SOUTH:
+//                if (state.hasProperty(SOUTH)) {
+//                    state.with(SOUTH, false);
+//                }
+//                break;
+//            case UP:
+//                if (state.hasProperty(UP)) {
+//                    state.with(UP, false);
+//                }
+//                break;
+//            case DOWN:
+//                if (state.hasProperty(DOWN)) {
+//                    state.with(DOWN, false);
+//                }
+//                break;
+//            case EAST:
+//                if (state.hasProperty(EAST)) {
+//                    state.with(EAST, false);
+//                }
+//                break;
+//            case WEST:
+//                if (state.hasProperty(WEST)) {
+//                    state.with(WEST, false);
+//                }
+//                break;
+//            default:
+//                if (state.hasProperty(NORTH)) {
+//                    state.with(NORTH, false);
+//                }
+//                break;
+//        }
+//
+//        world.setBlockState(pos, state, 3);
+//    }
 
     public BlockState makeConnections(IBlockReader blockReader, BlockPos pos) {
         Block block = blockReader.getBlockState(pos.down()).getBlock();
@@ -155,26 +184,26 @@ public class WireBlock extends ONIBaseSixWaysBlock {
         }
     }
 
-    @Override
-    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-        boolean flag;
-
-        TileEntity te = worldIn.getTileEntity(facingPos);
-
-        switch (type) {
-            case HEAVIWATTS:
-                flag = facingState.getBlock() == this || facingState.isIn(ONIBlocks.HEAVI_WATT_WIRE_BLOCK) || te != null && te.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent();
-                break;
-            case CONDUCTIVE:
-                flag = facingState.getBlock() == this || facingState.isIn(ONIBlocks.CONDUCTIVE_WIRE_BLOCK) || te != null && te.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent();
-                break;
-            default:
-                flag = facingState.getBlock() == this || facingState.isIn(ONIBlocks.WIRE_BLOCK) || te != null && te.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent();
-                break;
-        }
-
-        return stateIn.with(FACING_TO_PROPERTY_MAP.get(facing), flag);
-    }
+//    @Override
+//    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+//        boolean flag;
+//
+//        TileEntity te = worldIn.getTileEntity(facingPos);
+//
+//        switch (type) {
+//            case HEAVIWATTS:
+//                flag = facingState.getBlock() == this || facingState.isIn(ONIBlocks.HEAVI_WATT_WIRE_BLOCK) || te != null && te.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent();
+//                break;
+//            case CONDUCTIVE:
+//                flag = facingState.getBlock() == this || facingState.isIn(ONIBlocks.CONDUCTIVE_WIRE_BLOCK) || te != null && te.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent();
+//                break;
+//            default:
+//                flag = facingState.getBlock() == this || facingState.isIn(ONIBlocks.WIRE_BLOCK) || te != null && te.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent();
+//                break;
+//        }
+//
+//        return stateIn.with(FACING_TO_PROPERTY_MAP.get(facing), flag);
+//    }
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
