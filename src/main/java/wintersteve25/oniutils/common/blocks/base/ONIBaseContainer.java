@@ -1,5 +1,6 @@
 package wintersteve25.oniutils.common.blocks.base;
 
+import mekanism.api.chemical.gas.GasStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -12,6 +13,7 @@ import net.minecraft.util.IntReferenceHolder;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
@@ -405,6 +407,110 @@ public abstract class ONIBaseContainer extends Container {
 
     protected void addMachineSlot(IItemHandler itemHandler, int index, Tuple<Integer, Integer> tuple) {
         addSlot(new ONIMachineSlotHandler(itemHandler, index, tuple.getA(), tuple.getB()));
+    }
+
+    public boolean hasPower() {
+        return isPowerConsumer() || isPowerProducer();
+    }
+
+    public boolean isPowerProducer() {
+        if (getTileEntity() instanceof ONIIMachine) {
+            ONIIMachine machine = (ONIIMachine) getTileEntity();
+            return machine.machineType().contains(ONIIMachine.MachineType.POWER_PRODUCER);
+        }
+        return false;
+    }
+
+    public boolean isPowerConsumer() {
+        if (getTileEntity() instanceof ONIIMachine) {
+            ONIIMachine machine = (ONIIMachine) getTileEntity();
+            return machine.machineType().contains(ONIIMachine.MachineType.POWER_CONSUMER);
+        }
+        return false;
+    }
+
+    public boolean isGasProducer() {
+        if (getTileEntity() instanceof ONIIMachine) {
+            ONIIMachine machine = (ONIIMachine) getTileEntity();
+            return machine.machineType().contains(ONIIMachine.MachineType.GAS_PRODUCER);
+        }
+        return false;
+    }
+
+    public boolean isGasConsumer() {
+        if (getTileEntity() instanceof ONIIMachine) {
+            ONIIMachine machine = (ONIIMachine) getTileEntity();
+            return machine.machineType().contains(ONIIMachine.MachineType.GAS_CONSUMER);
+        }
+        return false;
+    }
+
+    public boolean isLiquidConsumer() {
+        if (getTileEntity() instanceof ONIIMachine) {
+            ONIIMachine machine = (ONIIMachine) getTileEntity();
+            return machine.machineType().contains(ONIIMachine.MachineType.LIQUID_CONSUMER);
+        }
+        return false;
+    }
+
+    public boolean isLiquidProducer() {
+        if (getTileEntity() instanceof ONIIMachine) {
+            ONIIMachine machine = (ONIIMachine) getTileEntity();
+            return machine.machineType().contains(ONIIMachine.MachineType.LIQUID_PRODUCER);
+        }
+        return false;
+    }
+
+    public boolean hasProgress() {
+        return getTileEntity() instanceof ONIIHasProgress;
+    }
+
+    public int getProducingPower() {
+        if (getTileEntity() instanceof ONIIMachine) {
+            ONIIMachine machine = (ONIIMachine) getTileEntity();
+            return machine.producingPower();
+        }
+        return 0;
+    }
+
+    public int getConsumingPower() {
+        if (getTileEntity() instanceof ONIIMachine) {
+            ONIIMachine machine = (ONIIMachine) getTileEntity();
+            return machine.consumingPower();
+        }
+        return 0;
+    }
+
+    public GasStack getProducingGas() {
+        if (getTileEntity() instanceof ONIIMachine) {
+            ONIIMachine machine = (ONIIMachine) getTileEntity();
+            return machine.producingGas();
+        }
+        return GasStack.EMPTY;
+    }
+
+    public GasStack getConsumingGas() {
+        if (getTileEntity() instanceof ONIIMachine) {
+            ONIIMachine machine = (ONIIMachine) getTileEntity();
+            return machine.consumingGas();
+        }
+        return GasStack.EMPTY;
+    }
+
+    public FluidStack getProducingLiquid() {
+        if (getTileEntity() instanceof ONIIMachine) {
+            ONIIMachine machine = (ONIIMachine) getTileEntity();
+            return machine.producingLiquid();
+        }
+        return FluidStack.EMPTY;
+    }
+
+    public FluidStack getConsumingLiquid() {
+        if (getTileEntity() instanceof ONIIMachine) {
+            ONIIMachine machine = (ONIIMachine) getTileEntity();
+            return machine.consumingLiquid();
+        }
+        return FluidStack.EMPTY;
     }
 
     public class ONIModSlotHandler extends SlotItemHandler {

@@ -9,10 +9,7 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIForceStoppable;
-import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasProgress;
-import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasRedstoneOutput;
-import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIWorkable;
+import wintersteve25.oniutils.common.blocks.base.interfaces.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

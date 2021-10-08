@@ -8,13 +8,13 @@ import net.minecraft.util.math.ChunkPos;
 import java.util.Map;
 
 public interface IWorldGas {
+    void update();
+
     Map<GasStack, BlockPos> getTable();
 
-    GasStack getGasAtChunk(BlockPos pos);
+    Map<GasStack, Integer> getGasAtChunk(BlockPos pos);
 
-    GasStack getGasAtChunk(ChunkPos pos);
-
-    void update();
+    Map<GasStack, Integer> getGasAtChunk(ChunkPos pos);
 
     BlockPos getBPosFromGas(Gas gas, ChunkPos pos);
 

@@ -3,6 +3,7 @@ package wintersteve25.oniutils.common.blocks.modules.power.coal;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import wintersteve25.oniutils.client.gui.ONIBaseGuiContainer;
 import wintersteve25.oniutils.client.utils.RenderingHelper;
 import wintersteve25.oniutils.common.utils.ONIConstants;
@@ -44,6 +45,9 @@ public class CoalGenGui extends ONIBaseGuiContainer<CoalGenContainer> {
 
             //progress
             RenderingHelper.renderAnimatedProgressBar(this, matrixStack, this.guiLeft + 78, this.guiTop + 36, p);
+
+            //progress tooltip
+            super.renderCustomToolTip(matrixStack, mouseX, mouseY, this.guiLeft, this.guiTop, 79, 30, 103, 45, new TranslationTextComponent("oniutils.gui.machines.progress", container.getProgress()/10));
         }
 
         super.powerToolTip(matrixStack, power, mouseX, mouseY, this.guiLeft, this.guiTop);

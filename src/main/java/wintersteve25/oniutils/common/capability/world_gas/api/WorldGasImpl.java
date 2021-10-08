@@ -5,29 +5,37 @@ import mekanism.api.chemical.gas.GasStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class WorldGasImpl implements IWorldGas {
-    
-
-    @Override
-    public Map<GasStack, BlockPos> getTable() {
-        return null;
-    }
-
-    @Override
-    public GasStack getGasAtChunk(BlockPos pos) {
-        return null;
-    }
-
-    @Override
-    public GasStack getGasAtChunk(ChunkPos pos) {
-        return null;
-    }
+    private final Map<GasStack, BlockPos> gasMap = new HashMap<>();
 
     @Override
     public void update() {
+    }
 
+    @Override
+    public Map<GasStack, BlockPos> getTable() {
+        return gasMap;
+    }
+
+    @Override
+    public Map<GasStack, Integer> getGasAtChunk(BlockPos pos) {
+        Map<GasStack, Integer> output = new HashMap<>();
+        for (GasStack gas : gasMap.keySet()) {
+            BlockPos currentGasPos = gasMap.get(gas);
+            if (currentGasPos.equals(pos)) {
+                output.put(gas, currentGasPos.getY());
+            }
+        }
+
+        return output;
+    }
+
+    @Override
+    public Map<GasStack, Integer> getGasAtChunk(ChunkPos pos) {
+        return null;
     }
 
     @Override

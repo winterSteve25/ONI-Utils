@@ -65,6 +65,7 @@ public class ONIEngLangProvider extends LanguageProvider {
         //gui
         add("oniutils.gui.machines.power", "Plasma Stored: %s Pls");
         add("oniutils.gui.machines.upgradeNotSupported", "Modification Not Supported");
+        add("oniutils.gui.machines.progress", "%s Ticks Left");
 
         add("oniutils.gui.titles.warning", TextFormatting.DARK_RED + "Warnings");
         add("oniutils.gui.titles.redstoneOutput", TextFormatting.RED + "Redstone Output");
@@ -75,12 +76,12 @@ public class ONIEngLangProvider extends LanguageProvider {
         add("oniutils.gui.titles.manual_gen", TextFormatting.WHITE + "Manual Generator");
 
         add("oniutils.gui.info.energy", "Plasma Stored: %s");
-        add("oniutils.gui.info.producingEnergy", "Producing Plasma: %s");
-        add("oniutils.gui.info.consumingEnergy", "Consuming Plasma: %s");
-        add("oniutils.gui.info.producingGas", "Producing Gas: %s");
-        add("oniutils.gui.info.consumingGas", "Consuming Gas: %s");
-        add("oniutils.gui.info.producingLiquid", "Producing Liquid: %s");
-        add("oniutils.gui.info.consumingLiquid", "Consuming Liquid: %s");
+        add("oniutils.gui.info.producingEnergy", "+%s Plasma/t");
+        add("oniutils.gui.info.consumingEnergy", "-%s Plasma/t");
+        add("oniutils.gui.info.producingGas", "+%s/t");
+        add("oniutils.gui.info.consumingGas", "-%s/t");
+        add("oniutils.gui.info.producingLiquid", "+%s/t");
+        add("oniutils.gui.info.consumingLiquid", "-%s/t");
         add("oniutils.gui.info.progress", "Progress: %s");
 
         add("oniutils.gui.warning.durability", "Low Machine Durability!");

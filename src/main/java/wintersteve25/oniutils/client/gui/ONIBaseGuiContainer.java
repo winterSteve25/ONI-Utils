@@ -90,7 +90,6 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
-        infoTab.updateText();
 
         if (currentTab != null) {
             currentTab.render(matrixStack, mouseX, mouseY, partialTicks);
@@ -124,7 +123,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         }
     }
 
-    protected void renderToolTip(MatrixStack matrixStack, int mouseX, int mouseY, int i, int j, int cord1, int cord1Y, int cord2, int cord2Y, ITextComponent text) {
+    protected void renderCustomToolTip(MatrixStack matrixStack, int mouseX, int mouseY, int i, int j, int cord1, int cord1Y, int cord2, int cord2Y, ITextComponent text) {
         if (mouseX > i + cord1 && mouseY > j + cord1Y && mouseX < i + cord2 && mouseY < j + cord2Y) {
             renderTooltip(matrixStack, text, mouseX, mouseY);
         }
@@ -137,19 +136,6 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         if (totalProgress != 0) {
             float result = progress*pixels/totalProgress;
             return Math.round(result);
-        }
-
-        return 0;
-    }
-
-    protected int getPowerScaledVertical(float pixels) {
-        float i = container.getPower();
-        float j = container.getPowerCapacity();
-
-        if (i != 0 && j != 0) {
-            float pixelRequiredEachUnit = pixels / j;
-            float pixelsAmount = pixelRequiredEachUnit * i;
-            return (int) pixelsAmount;
         }
 
         return 0;

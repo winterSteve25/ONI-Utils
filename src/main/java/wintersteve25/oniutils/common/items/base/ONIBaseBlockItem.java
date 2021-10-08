@@ -55,8 +55,7 @@ public class ONIBaseBlockItem extends BlockItem implements IAnimatable {
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         if (this instanceof ONIIHasToolTip) {
             if (Screen.hasShiftDown()) {
-                ONIIHasToolTip toolTipBlock = (ONIIHasToolTip) this;
-                tooltip.addAll(toolTipBlock.tooltip());
+                tooltip.addAll(((ONIIHasToolTip) this).tooltip());
             } else {
                 tooltip.add(new TranslationTextComponent("oniutils.tooltips.items.holdShiftInfo"));
             }

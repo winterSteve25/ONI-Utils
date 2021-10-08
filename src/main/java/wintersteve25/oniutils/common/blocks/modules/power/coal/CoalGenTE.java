@@ -1,5 +1,6 @@
 package wintersteve25.oniutils.common.blocks.modules.power.coal;
 
+import com.google.common.collect.Lists;
 import mekanism.common.tile.interfaces.IBoundingBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
@@ -36,8 +37,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
-public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAnimatable, IBoundingBlock, ONIIHasProgress, ONIIHasRedstoneOutput, ONIIHasValidItems, ONIIModifiable {
+public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAnimatable, IBoundingBlock, ONIIHasProgress, ONIIHasRedstoneOutput, ONIIHasValidItems, ONIIModifiable, ONIIMachine {
 
     public final ModificationContext modificationContext = new ModificationContext(this, 9, EnumModifications.SPEED, EnumModifications.TEMPERATURE, EnumModifications.COMPLEXITY);
     private final ModificationHandler modificationHandler = new ModificationHandler(modificationContext);
@@ -311,5 +313,15 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     @Override
     public ModificationHandler modHandler() {
         return modificationHandler;
+    }
+
+    @Override
+    public List<MachineType> machineType() {
+        return Lists.newArrayList(MachineType.POWER_PRODUCER);
+    }
+
+    @Override
+    public int producingPower() {
+        return modificationHandler.getPlasmaOutputPerTick(getTotalProgress(), ONIConfig.COAL_GEN_POWER_PRODUCE.get());
     }
 }

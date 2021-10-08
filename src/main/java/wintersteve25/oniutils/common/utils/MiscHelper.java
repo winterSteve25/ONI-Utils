@@ -78,4 +78,12 @@ public class MiscHelper {
     public static <E> List<E> filterList(Collection<E> list, Collection<E> other) {
         return list.stream().filter(obj -> !other.contains(obj)).collect(Collectors.toList());
     }
+
+    public static <T, E> List<T> getKeysByValue(Map<T, E> map, E value) {
+        return map.entrySet()
+                .stream()
+                .filter(entry -> Objects.equals(entry.getValue(), value))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+    }
 }

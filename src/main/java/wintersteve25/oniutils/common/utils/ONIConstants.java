@@ -4,6 +4,7 @@ import net.minecraft.client.renderer.texture.Texture;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.client.renderers.geckolibs.base.GeckolibModelBase;
