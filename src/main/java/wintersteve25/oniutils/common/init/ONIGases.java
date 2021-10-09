@@ -1,7 +1,6 @@
 package wintersteve25.oniutils.common.init;
 
 import mekanism.api.chemical.gas.Gas;
-import mekanism.common.lib.Color;
 import mekanism.common.registration.impl.GasDeferredRegister;
 import mekanism.common.registration.impl.GasRegistryObject;
 import net.minecraftforge.eventbus.api.IEventBus;

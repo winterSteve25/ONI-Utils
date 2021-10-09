@@ -32,8 +32,6 @@ public class RenderingHelper {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-
-
     public static void renderAnimatedProgressBar(AbstractGui gui, MatrixStack matrixStack, int x, int y, int scaledProgress) {
         bindWidgetsTexture();
         gui.blit(matrixStack, x, y, ONIConstants.Resources.RIGHT_ARROW_BIG.getU(), ONIConstants.Resources.RIGHT_ARROW_BIG.getV(), scaledProgress, ONIConstants.Resources.RIGHT_ARROW_BIG.getHeight());
