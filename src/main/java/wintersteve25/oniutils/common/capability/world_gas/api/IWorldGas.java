@@ -8,17 +8,17 @@ import net.minecraft.util.math.ChunkPos;
 import java.util.Map;
 
 public interface IWorldGas {
-    void update();
+    void tick();
 
-    Map<GasStack, BlockPos> getTable();
+    Map<GasStack, BlockPos> getGasMap();
 
     Map<GasStack, Integer> getGasAtChunk(BlockPos pos);
 
     Map<GasStack, Integer> getGasAtChunk(ChunkPos pos);
 
-    BlockPos getBPosFromGas(Gas gas, ChunkPos pos);
+    int getYFromGas(Gas gas, ChunkPos pos);
 
-    boolean addGasToChunk(BlockPos pos);
+    boolean addGasToChunk(GasStack gas, BlockPos pos);
 
-    boolean addGasToChunk(ChunkPos pos);
+    boolean addGasToChunk(GasStack gas, ChunkPos pos);
 }

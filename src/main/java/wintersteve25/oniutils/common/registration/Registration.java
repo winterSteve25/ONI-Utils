@@ -15,10 +15,7 @@ import wintersteve25.oniutils.common.blocks.base.ONIBaseBlock;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
 import wintersteve25.oniutils.common.blocks.base.ONIBaseSixWaysBlock;
 import wintersteve25.oniutils.common.effects.ONIBaseEffect;
-import wintersteve25.oniutils.common.init.ONIBlocks;
-import wintersteve25.oniutils.common.init.ONIEffects;
-import wintersteve25.oniutils.common.init.ONIItems;
-import wintersteve25.oniutils.common.init.ONISounds;
+import wintersteve25.oniutils.common.init.*;
 import wintersteve25.oniutils.common.items.base.interfaces.ONIIItem;
 import wintersteve25.oniutils.common.utils.MiscHelper;
 import wintersteve25.oniutils.common.utils.RegistryHelper;
@@ -48,6 +45,7 @@ public class Registration {
         ONISounds.register();
         ONIItems.register();
         registerItems();
+        ONIGases.register(eventBus);
 
         ONIUtils.LOGGER.info("ONIUtils Registration Completed");
     }

@@ -12,20 +12,26 @@ public class WorldGasImpl implements IWorldGas {
     private final Map<GasStack, BlockPos> gasMap = new HashMap<>();
 
     @Override
-    public void update() {
+    public void tick() {
+
     }
 
     @Override
-    public Map<GasStack, BlockPos> getTable() {
+    public Map<GasStack, BlockPos> getGasMap() {
         return gasMap;
     }
 
     @Override
     public Map<GasStack, Integer> getGasAtChunk(BlockPos pos) {
+        return getGasAtChunk(new ChunkPos(pos));
+    }
+
+    @Override
+    public Map<GasStack, Integer> getGasAtChunk(ChunkPos pos) {
         Map<GasStack, Integer> output = new HashMap<>();
         for (GasStack gas : gasMap.keySet()) {
             BlockPos currentGasPos = gasMap.get(gas);
-            if (currentGasPos.equals(pos)) {
+            if (new ChunkPos(currentGasPos).equals(pos)) {
                 output.put(gas, currentGasPos.getY());
             }
         }
@@ -34,22 +40,27 @@ public class WorldGasImpl implements IWorldGas {
     }
 
     @Override
-    public Map<GasStack, Integer> getGasAtChunk(ChunkPos pos) {
-        return null;
+    public int getYFromGas(Gas gas, ChunkPos pos) {
+        for (GasStack gs : gasMap.keySet()) {
+            BlockPos p = gasMap.get(gs);
+            ChunkPos chunkPos = new ChunkPos(p);
+
+            if (chunkPos.equals(pos)) {
+                return p.getY();
+            }
+        }
+        return -1;
     }
 
     @Override
-    public BlockPos getBPosFromGas(Gas gas, ChunkPos pos) {
-        return null;
+    public boolean addGasToChunk(GasStack gas, BlockPos pos) {
+        if (gas.isEmpty() || pos == null) return false;
+        gasMap.put(gas, pos);
+        return true;
     }
 
     @Override
-    public boolean addGasToChunk(BlockPos pos) {
-        return false;
-    }
-
-    @Override
-    public boolean addGasToChunk(ChunkPos pos) {
-        return false;
+    public boolean addGasToChunk(GasStack gas, ChunkPos pos) {
+        return addGasToChunk(gas, pos.asBlockPos());
     }
 }

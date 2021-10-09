@@ -184,26 +184,26 @@ public class WireBlock extends ONIBaseSixWaysBlock {
         }
     }
 
-//    @Override
-//    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-//        boolean flag;
-//
-//        TileEntity te = worldIn.getTileEntity(facingPos);
-//
-//        switch (type) {
-//            case HEAVIWATTS:
-//                flag = facingState.getBlock() == this || facingState.isIn(ONIBlocks.HEAVI_WATT_WIRE_BLOCK) || te != null && te.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent();
-//                break;
-//            case CONDUCTIVE:
-//                flag = facingState.getBlock() == this || facingState.isIn(ONIBlocks.CONDUCTIVE_WIRE_BLOCK) || te != null && te.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent();
-//                break;
-//            default:
-//                flag = facingState.getBlock() == this || facingState.isIn(ONIBlocks.WIRE_BLOCK) || te != null && te.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent();
-//                break;
-//        }
-//
-//        return stateIn.with(FACING_TO_PROPERTY_MAP.get(facing), flag);
-//    }
+    @Override
+    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+        boolean flag;
+
+        TileEntity te = worldIn.getTileEntity(facingPos);
+
+        switch (type) {
+            case HEAVIWATTS:
+                flag = facingState.getBlock() == this || facingState.isIn(ONIBlocks.HEAVI_WATT_WIRE_BLOCK) || te != null && te.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent();
+                break;
+            case CONDUCTIVE:
+                flag = facingState.getBlock() == this || facingState.isIn(ONIBlocks.CONDUCTIVE_WIRE_BLOCK) || te != null && te.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent();
+                break;
+            default:
+                flag = facingState.getBlock() == this || facingState.isIn(ONIBlocks.WIRE_BLOCK) || te != null && te.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent();
+                break;
+        }
+
+        return stateIn.with(FACING_TO_PROPERTY_MAP.get(facing), flag);
+    }
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {

@@ -1,5 +1,7 @@
 package wintersteve25.oniutils.common.capability.germ;
 
+import mekanism.api.MekanismAPI;
+import mekanism.api.chemical.gas.Gas;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -133,6 +135,10 @@ public class GermEventsHandler {
                     });
                 });
             }
+        }
+
+        for (Gas gas : MekanismAPI.gasRegistry().getValues()) {
+            System.out.println(gas.toString());
         }
     }
 
