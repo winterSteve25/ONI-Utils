@@ -3,8 +3,8 @@ package wintersteve25.oniutils.common.network;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
-import wintersteve25.oniutils.common.items.modules.modifications.ONIBaseModification;
-import wintersteve25.oniutils.common.items.modules.modifications.ONIModificationGUI;
+import wintersteve25.oniutils.common.contents.modules.modifications.ONIModification;
+import wintersteve25.oniutils.common.contents.modules.modifications.ONIModificationGUI;
 import wintersteve25.oniutils.common.utils.ONIConstants;
 
 import java.util.function.Supplier;
@@ -40,7 +40,7 @@ public class ModificationPacket {
                     ONIModificationGUI.open(mod, bonusData);
                     break;
                 case ONIConstants.PacketType.MODIFICATION_DATA:
-                    ONIBaseModification.setBonusDataToItemStack(ctx.get().getSender(), bonusData);
+                    ONIModification.setBonusDataToItemStack(ctx.get().getSender(), bonusData);
                     break;
             }
         });

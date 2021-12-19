@@ -3,17 +3,18 @@ package wintersteve25.oniutils.client.gui;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import wintersteve25.oniutils.client.utils.RenderingHelper;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseContainer;
+import wintersteve25.oniutils.common.contents.base.ONIBaseContainer;
 
 public class ONIBaseGuiTabModification extends ONIBaseGuiTab {
     private int slots = 6;
     private static int errorCoolDown = 0;
 
     @Override
-    public void init(int widthIn, int heightIn, Minecraft minecraftIn, ONIBaseContainer containerIn, String title) {
+    public void init(int widthIn, int heightIn, Minecraft minecraftIn, ONIBaseContainer containerIn, ITextComponent title) {
         super.init(widthIn, heightIn, minecraftIn, containerIn, title);
         this.slots = containerIn.getModSlotAmount();
     }
@@ -29,7 +30,7 @@ public class ONIBaseGuiTabModification extends ONIBaseGuiTab {
         if (this.isVisible()) {
 
             RenderSystem.pushMatrix();
-            RenderSystem.translatef(0.0F, 0.0F, -0.1F);
+//            RenderSystem.translatef(0.0F, 0.0F, -0.1F);
             this.mc.getTextureManager().bindTexture(BACKGROUND_LOCATION);
             RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             int i = getGuiLeftTopPosition(this.width, 177) - 147;

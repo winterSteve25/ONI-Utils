@@ -7,13 +7,12 @@ import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseBlock;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseSixWaysBlock;
+import wintersteve25.oniutils.common.contents.base.ONIBaseBlock;
+import wintersteve25.oniutils.api.ONIIRegistryObject;
 import wintersteve25.oniutils.common.init.ONIBlocks;
-import wintersteve25.oniutils.common.utils.MiscHelper;
-import wintersteve25.oniutils.common.utils.ModelFileHelper;
-import wintersteve25.oniutils.common.utils.ResoureceLocationHelper;
+import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
+import wintersteve25.oniutils.common.utils.helpers.ModelFileHelper;
+import wintersteve25.oniutils.common.utils.helpers.ResoureceLocationHelper;
 
 public class ONIStateProvider extends BlockStateProvider {
 
@@ -24,41 +23,29 @@ public class ONIStateProvider extends BlockStateProvider {
     @Override
     protected void registerStatesAndModels() {
         autoGenStatesAndModels();
-        simpleBlock(ONIBlocks.Slime);
+        simpleBlock(ONIBlocks.TileEntityBounded.SLIME_BLOCK);
     }
 
     private void autoGenStatesAndModels() {
-        for (ONIBaseBlock b : ONIBlocks.blockList.keySet()) {
-            if (b != null) {
-                simpleBlock(b);
-            }
+        for (ONIIRegistryObject<Block> b : ONIBlocks.blockList.keySet()) {
+            if (b.doStateGen()) simpleBlock(b.get());
         }
 
-        for (ONIBaseDirectional b : ONIBlocks.directionalList.keySet()) {
-            if (b != null) {
-                if (b.getAngelOffset() == 0) {
-                    directionalBlock(b, b.getModelFile());
-                } else {
-                    directionalBlock(b, b.getModelFile(), b.getAngelOffset());
-                }
-            }
-        }
-
-        weightedRock(ONIBlocks.Abyssalite, 2);
-        weightedRock(ONIBlocks.BleachStone, 8);
-        weightedRock(ONIBlocks.Fertilizer, 1);
-        weightedRock(ONIBlocks.Fossil, 5);
-        weightedRock(ONIBlocks.GoldAmalgam, 8);
-        weightedRock(ONIBlocks.Granite, 8);
-        weightedRock(ONIBlocks.IgneousRock, 8);
-        weightedRock(ONIBlocks.MaficRock, 8);
-        weightedRock(ONIBlocks.Neutronium, 8);
-        weightedRock(ONIBlocks.Oxylite, 8);
-        weightedRock(ONIBlocks.Phosphorite, 8);
-        weightedRock(ONIBlocks.PollutedIce, 2);
-        weightedRock(ONIBlocks.Regolith, 8);
-        weightedRock(ONIBlocks.Rust, 1);
-        weightedRock(ONIBlocks.Wolframite, 8);
+        weightedRock(ONIBlocks.NonFunctionals.ABYSSALITE, 2);
+        weightedRock(ONIBlocks.NonFunctionals.BLEACH_STONE, 8);
+        weightedRock(ONIBlocks.NonFunctionals.FERTILIZER, 1);
+        weightedRock(ONIBlocks.NonFunctionals.FOSSIL, 5);
+        weightedRock(ONIBlocks.NonFunctionals.GOLD_AMALGAM, 8);
+        weightedRock(ONIBlocks.NonFunctionals.GRANITE, 8);
+        weightedRock(ONIBlocks.NonFunctionals.IGNEOUS_ROCK, 8);
+        weightedRock(ONIBlocks.NonFunctionals.MAFIC_ROCK, 8);
+        weightedRock(ONIBlocks.NonFunctionals.NEUTRONIUM, 8);
+        weightedRock(ONIBlocks.TileEntityBounded.OXYLITE_BLOCK, 8);
+        weightedRock(ONIBlocks.NonFunctionals.PHOSPHORITE, 8);
+        weightedRock(ONIBlocks.NonFunctionals.POLLUTED_ICE, 2);
+        weightedRock(ONIBlocks.NonFunctionals.REGOLITH, 8);
+        weightedRock(ONIBlocks.NonFunctionals.RUST, 1);
+        weightedRock(ONIBlocks.NonFunctionals.WOLFRAMITE, 8);
     }
 
     private void weightedRock(ONIBaseBlock block, int amoutOfAlts) {

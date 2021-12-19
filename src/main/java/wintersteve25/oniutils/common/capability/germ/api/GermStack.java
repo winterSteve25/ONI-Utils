@@ -1,7 +1,7 @@
 package wintersteve25.oniutils.common.capability.germ.api;
 
 import net.minecraft.nbt.CompoundNBT;
-import wintersteve25.oniutils.common.utils.MiscHelper;
+import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 
 /**
  * Default implementation of IGerms

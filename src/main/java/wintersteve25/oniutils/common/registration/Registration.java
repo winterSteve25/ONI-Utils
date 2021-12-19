@@ -1,5 +1,6 @@
 package wintersteve25.oniutils.common.registration;
 
+import mekanism.common.registration.impl.FluidDeferredRegister;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
@@ -11,14 +12,11 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseBlock;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseSixWaysBlock;
+import wintersteve25.oniutils.api.ONIIRegistryObject;
 import wintersteve25.oniutils.common.effects.ONIBaseEffect;
 import wintersteve25.oniutils.common.init.*;
-import wintersteve25.oniutils.common.items.base.interfaces.ONIIItem;
-import wintersteve25.oniutils.common.utils.MiscHelper;
-import wintersteve25.oniutils.common.utils.RegistryHelper;
+import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
+import wintersteve25.oniutils.common.utils.helpers.RegistryHelper;
 
 public class Registration {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, ONIUtils.MODID);
@@ -27,6 +25,7 @@ public class Registration {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ONIUtils.MODID);
     public static final DeferredRegister<Effect> EFFECTS = DeferredRegister.create(ForgeRegistries.POTIONS, ONIUtils.MODID);
     public static final DeferredRegister<SoundEvent> SOUND = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, ONIUtils.MODID);
+    public static final FluidDeferredRegister FLUID = new FluidDeferredRegister(ONIUtils.MODID);
 
     public static void init() {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -37,6 +36,7 @@ public class Registration {
         CONTAINER.register(eventBus);
         EFFECTS.register(eventBus);
         SOUND.register(eventBus);
+        FLUID.register(eventBus);
 
         ONIBlocks.register();
         registerBlocks();
@@ -51,39 +51,11 @@ public class Registration {
     }
 
     public static void registerBlocks() {
-        for (ONIBaseBlock b : ONIBlocks.blockList.keySet()) {
+        for (ONIIRegistryObject<Block> b : ONIBlocks.blockList.keySet()) {
             if (ONIBlocks.blockList.get(b) != null) {
-                RegistryHelper.register(MiscHelper.langToReg(b.getRegName()), () -> b, ONIBlocks.blockList.get(b));
+                RegistryHelper.register(MiscHelper.langToReg(b.getRegName()), b::get, ONIBlocks.blockList.get(b));
             } else {
-                RegistryHelper.register(MiscHelper.langToReg(b.getRegName()), () -> b);
-            }
-        }
-        for (ONIBaseBlock ndr : ONIBlocks.blockNoDataList.keySet()) {
-            if (ONIBlocks.blockNoDataList.get(ndr) != null) {
-                RegistryHelper.register(MiscHelper.langToReg(ndr.getRegName()), () -> ndr, ONIBlocks.blockNoDataList.get(ndr));
-            } else {
-                RegistryHelper.register(MiscHelper.langToReg(ndr.getRegName()), () -> ndr);
-            }
-        }
-        for (ONIBaseDirectional b : ONIBlocks.directionalList.keySet()) {
-            if (ONIBlocks.directionalList.get(b) != null) {
-                RegistryHelper.register(MiscHelper.langToReg(b.getRegName()), () -> b, ONIBlocks.directionalList.get(b));
-            } else {
-                RegistryHelper.register(MiscHelper.langToReg(b.getRegName()), () -> b);
-            }
-        }
-        for (ONIBaseDirectional ndr : ONIBlocks.directionalNoDataList.keySet()) {
-            if (ONIBlocks.directionalNoDataList.get(ndr) != null) {
-                RegistryHelper.register(MiscHelper.langToReg(ndr.getRegName()), () -> ndr, ONIBlocks.directionalNoDataList.get(ndr));
-            } else {
-                RegistryHelper.register(MiscHelper.langToReg(ndr.getRegName()), () -> ndr);
-            }
-        }
-        for (ONIBaseSixWaysBlock b : ONIBlocks.sixWaysList.keySet()) {
-            if (ONIBlocks.sixWaysList.get(b) != null) {
-                RegistryHelper.register(MiscHelper.langToReg(b.getRegName()), () -> b, ONIBlocks.sixWaysList.get(b));
-            } else {
-                RegistryHelper.register(MiscHelper.langToReg(b.getRegName()), () -> b);
+                RegistryHelper.register(MiscHelper.langToReg(b.getRegName()), b::get);
             }
         }
     }
@@ -95,7 +67,7 @@ public class Registration {
     }
 
     public static void registerItems() {
-        for (ONIIItem item : ONIItems.itemRegistryList) {
+        for (ONIIRegistryObject<Item> item : ONIItems.itemRegistryList) {
             RegistryHelper.registerItem(MiscHelper.langToReg(item.getRegName()), item.get());
         }
     }

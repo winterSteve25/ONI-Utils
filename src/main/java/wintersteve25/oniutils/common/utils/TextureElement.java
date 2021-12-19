@@ -1,15 +1,28 @@
 package wintersteve25.oniutils.common.utils;
 
-import net.minecraft.util.Tuple;
+import net.minecraft.util.ResourceLocation;
 
-//TODO: Stop being lazy and using a tuple in a triplet, why dont you just use 2 tuple in a tuple in this case? also pairs exist!
-public class TextureElement extends Triplet<Integer, Integer, Tuple<Integer, Integer>>{
+public class TextureElement {
+    private final int U;
+    private final int V;
+    private final int width;
+    private final int height;
+    private final ResourceLocation textureLocation;
+
     public TextureElement(int U, int V, int width, int height) {
-        super(U, V, new Tuple<>(width, height));
+        this.U = U;
+        this.V = V;
+        this.width = width;
+        this.height = height;
+        textureLocation = ONIConstants.Resources.WIDGETS;
     }
 
-    public TextureElement(int U, int V, Tuple<Integer, Integer> widthHeight) {
-        super(U, V, widthHeight);
+    public TextureElement(int U, int V, int width, int height, ResourceLocation textureLocation) {
+        this.U = U;
+        this.V = V;
+        this.width = width;
+        this.height = height;
+        this.textureLocation = textureLocation;
     }
 
     public static TextureElement createSlot(int U, int V) {
@@ -21,18 +34,22 @@ public class TextureElement extends Triplet<Integer, Integer, Tuple<Integer, Int
     }
 
     public int getWidth() {
-        return getC().getA();
+        return width;
     }
 
     public int getHeight() {
-        return getC().getB();
+        return height;
     }
 
     public int getU() {
-        return getA();
+        return U;
     }
 
     public int getV() {
-        return getB();
+        return V;
+    }
+
+    public ResourceLocation getTextureLocation() {
+        return textureLocation;
     }
 }

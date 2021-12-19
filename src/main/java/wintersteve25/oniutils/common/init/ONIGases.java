@@ -1,16 +1,21 @@
 package wintersteve25.oniutils.common.init;
 
-import mekanism.api.chemical.gas.Gas;
 import mekanism.common.registration.impl.GasDeferredRegister;
-import mekanism.common.registration.impl.GasRegistryObject;
 import net.minecraftforge.eventbus.api.IEventBus;
 import wintersteve25.oniutils.ONIUtils;
+import wintersteve25.oniutils.common.capability.world_gas.api.chemistry.Element;
 
 public class ONIGases {
     public static final GasDeferredRegister GASES = new GasDeferredRegister(ONIUtils.MODID);
-    public static final GasRegistryObject<Gas> NITROGEN = GASES.register("oxygen", 67118181);
 
     public static void register(IEventBus bus) {
+        registerChemistryElements();
         GASES.register(bus);
+    }
+
+    private static void registerChemistryElements() {
+        for (Element element : Element.values()) {
+            GASES.register(element);
+        }
     }
 }

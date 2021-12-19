@@ -15,7 +15,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.text.TranslationTextComponent;
 import wintersteve25.oniutils.common.capability.germ.GermCapability;
 import wintersteve25.oniutils.common.capability.germ.api.EnumGermTypes;
-import wintersteve25.oniutils.common.utils.MiscHelper;
+import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 
 import java.util.Arrays;
 import java.util.List;

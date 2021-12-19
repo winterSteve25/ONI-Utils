@@ -1,6 +1,6 @@
 package wintersteve25.oniutils.common.capability.plasma.api;
 
-import wintersteve25.oniutils.common.blocks.modules.power.cables.EnumCableTypes;
+import wintersteve25.oniutils.common.contents.modules.power.cables.EnumCableTypes;
 
 public enum EnumWattsTypes {
     LOW("low", 1000, EnumCableTypes.WIRE),

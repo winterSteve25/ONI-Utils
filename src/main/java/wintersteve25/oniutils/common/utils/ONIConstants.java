@@ -1,28 +1,35 @@
 package wintersteve25.oniutils.common.utils;
 
-import net.minecraft.client.renderer.texture.Texture;
+import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
+import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Tuple;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import org.apache.commons.lang3.tuple.ImmutableTriple;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib3.renderers.geo.GeoItemRenderer;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.client.renderers.geckolibs.base.GeckolibModelBase;
-import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenItemBlock;
-import wintersteve25.oniutils.common.blocks.modules.power.coal.CoalGenTE;
-import wintersteve25.oniutils.common.blocks.modules.power.manual.ManualGenItemBlock;
-import wintersteve25.oniutils.common.blocks.modules.power.manual.ManualGenTE;
+import wintersteve25.oniutils.common.contents.modules.power.coal.CoalGenTE;
+import wintersteve25.oniutils.common.contents.modules.power.manual.ManualGenItemBlock;
+import wintersteve25.oniutils.common.contents.modules.power.manual.ManualGenTE;
+import wintersteve25.oniutils.common.contents.base.ONIBaseAnimatedBlockItem;
 
-import javax.xml.soap.Text;
-import java.sql.ResultSet;
-import java.util.ResourceBundle;
+import java.util.concurrent.Callable;
+import java.util.function.Supplier;
 
 public final class ONIConstants {
     public static final class Geo {
         public static final GeckolibModelBase<CoalGenTE> COAL_GEN_TE = new GeckolibModelBase<>("machines/power/coal_gen.geo.json", "machines/power/coal_gen.png", "machines/power/coal_gen.animation.json");
-        public static final GeckolibModelBase<CoalGenItemBlock> COAL_GEN_IB = new GeckolibModelBase<>("machines/power/coal_gen.geo.json", "machines/power/coal_gen.png", "machines/power/coal_gen.animation.json");
+        public static final GeckolibModelBase<ONIBaseAnimatedBlockItem> COAL_GEN_IB = new GeckolibModelBase<>(COAL_GEN_TE);
+        public static final Supplier<Callable<ItemStackTileEntityRenderer>> COAL_GEN_ISTER = () -> () -> new GeoItemRendererDefault<>(COAL_GEN_IB);
         public static final GeckolibModelBase<ManualGenTE> MANUAL_GEN_TE = new GeckolibModelBase<>("machines/power/manual_gen.geo.json", "machines/power/manual_gen.png", "machines/power/manual_gen.animation.json");
         public static final GeckolibModelBase<ManualGenItemBlock> MANUAL_GEN_IB = new GeckolibModelBase<>("machines/power/manual_gen.geo.json", "machines/power/manual_gen.png", "machines/power/manual_gen.animation.json");
+
+        private static class GeoItemRendererDefault<T extends Item & IAnimatable> extends GeoItemRenderer<T> {
+            public GeoItemRendererDefault(AnimatedGeoModel<T> modelProvider) {
+                super(modelProvider);
+            }
+        }
     }
     public static final class PacketType {
         public static final byte REDSTONE_INPUT = 0;
@@ -59,5 +66,9 @@ public final class ONIConstants {
         public static final TextureElement POWER_BAR_BG = new TextureElement(0, 101, 18, 50);
 
         public static final ResourceLocation BLANK_GUI = new ResourceLocation(ONIUtils.MODID, "textures/gui/machines/blank_gui.png");
+    }
+    public static final class LangKeys {
+        public static final String HOLD_SHIFT = "oniutils.tooltips.items.holdShiftInfo";
+        public static final String COAL_GEN = "coal_gen";
     }
 }

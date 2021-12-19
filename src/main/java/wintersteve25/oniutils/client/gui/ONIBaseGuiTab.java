@@ -5,12 +5,11 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseContainer;
-
-import java.awt.image.RenderedImage;
+import wintersteve25.oniutils.common.contents.base.ONIBaseContainer;
 
 public class ONIBaseGuiTab extends Screen {
 
@@ -35,7 +34,7 @@ public class ONIBaseGuiTab extends Screen {
     public static final String REDSTONE_HIGH = "oniutils.gui.redstone.high";
     public static final String REDSTONE_INVALID_NUMBER = "oniutils.gui.redstone.invalid_number";
 
-    protected TranslationTextComponent title;
+    protected ITextComponent title;
 
     protected int width;
     protected int height;
@@ -48,12 +47,12 @@ public class ONIBaseGuiTab extends Screen {
         super(new TranslationTextComponent(""));
     }
 
-    public void init(int widthIn, int heightIn, Minecraft minecraftIn, ONIBaseContainer containerIn, String title) {
+    public void init(int widthIn, int heightIn, Minecraft minecraftIn, ONIBaseContainer containerIn, ITextComponent title) {
         this.width = widthIn;
         this.height = heightIn;
         this.mc = minecraftIn;
         this.container = containerIn;
-        this.title = new TranslationTextComponent(title);
+        this.title = title;
     }
 
     public boolean isVisible() {

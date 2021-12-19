@@ -8,10 +8,11 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.settings.SliderPercentageOption;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseContainer;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseTE;
-import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasRedstoneOutput;
+import wintersteve25.oniutils.common.contents.base.ONIBaseContainer;
+import wintersteve25.oniutils.common.contents.base.ONIBaseTE;
+import wintersteve25.oniutils.api.ONIIHasRedstoneOutput;
 import wintersteve25.oniutils.common.network.ONINetworking;
 import wintersteve25.oniutils.common.network.TEPosBasedPacket;
 import wintersteve25.oniutils.common.utils.ONIConstants;
@@ -25,7 +26,7 @@ public class ONIBaseGuiTabRedstone extends ONIBaseGuiTab {
     private int highThreshold = 80;
 
     @Override
-    public void init(int widthIn, int heightIn, Minecraft minecraftIn, ONIBaseContainer containerIn, String title) {
+    public void init(int widthIn, int heightIn, Minecraft minecraftIn, ONIBaseContainer containerIn, ITextComponent title) {
         super.init(widthIn, heightIn, minecraftIn, containerIn, title);
 
         int i = 40 + (width - 177 - 200) / 2;
@@ -46,6 +47,11 @@ public class ONIBaseGuiTabRedstone extends ONIBaseGuiTab {
 
         SliderPercentageOption slider2 = new SliderPercentageOption(REDSTONE_HIGH, 0, 100, 1, gameSettings -> (double) highThreshold, (setting, value) -> highThreshold = value.intValue(), (gameSettings, sliderPercentageOption1) -> new TranslationTextComponent(REDSTONE_HIGH, sliderPercentageOption1.get(gameSettings)));
         sliderWidget2 = slider2.createWidget(Minecraft.getInstance().gameSettings, i, j + 48, 120);
+    }
+
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
     }
 
     @Override
@@ -75,7 +81,6 @@ public class ONIBaseGuiTabRedstone extends ONIBaseGuiTab {
             sliderWidget2.render(matrixStack, mouseX, mouseY, partialTicks);
             RenderSystem.popMatrix();
 
-            //TODO: Make this not janky
             if (this.isDragging()) {
                 OptionSlider sliderWidge = (OptionSlider) sliderWidget;
                 if (sliderWidge.isMouseOver(mouseX, mouseY)) {

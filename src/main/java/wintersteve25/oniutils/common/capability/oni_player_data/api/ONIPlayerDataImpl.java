@@ -1,6 +1,6 @@
 package wintersteve25.oniutils.common.capability.oni_player_data.api;
 
-import wintersteve25.oniutils.common.utils.MiscHelper;
+import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 
 import java.util.ArrayList;
 import java.util.List;

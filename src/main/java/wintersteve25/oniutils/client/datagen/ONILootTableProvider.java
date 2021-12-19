@@ -1,11 +1,10 @@
 package wintersteve25.oniutils.client.datagen;
 
+import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseBlock;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseSixWaysBlock;
+import wintersteve25.oniutils.api.ONIIRegistryObject;
 import wintersteve25.oniutils.common.init.ONIBlocks;
-import wintersteve25.oniutils.common.utils.MiscHelper;
+import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 
 public class ONILootTableProvider extends LootTableBase {
     public ONILootTableProvider(DataGenerator p_i50789_1_) {
@@ -18,24 +17,8 @@ public class ONILootTableProvider extends LootTableBase {
     }
 
     private void standardTables() {
-        for (ONIBaseBlock b : ONIBlocks.blockList.keySet()) {
-            lootTables.putIfAbsent(b, createStandardTable(MiscHelper.langToReg(b.getRegName()), b));
-        }
-
-        for (ONIBaseBlock b : ONIBlocks.blockNoDataList.keySet()) {
-            lootTables.putIfAbsent(b, createStandardTable(MiscHelper.langToReg(b.getRegName()), b));
-        }
-
-        for (ONIBaseDirectional b : ONIBlocks.directionalList.keySet()) {
-            lootTables.putIfAbsent(b, createStandardTable(MiscHelper.langToReg(b.getRegName()), b));
-        }
-
-        for (ONIBaseDirectional b : ONIBlocks.directionalNoDataList.keySet()) {
-            lootTables.putIfAbsent(b, createStandardTable(MiscHelper.langToReg(b.getRegName()), b));
-        }
-
-        for (ONIBaseSixWaysBlock b : ONIBlocks.sixWaysList.keySet()) {
-            lootTables.putIfAbsent(b, createStandardTable(MiscHelper.langToReg(b.getRegName()), b));
+        for (ONIIRegistryObject<Block> b : ONIBlocks.blockList.keySet()) {
+            if (b.doLootTableGen()) lootTables.putIfAbsent(b.get(), createStandardTable(MiscHelper.langToReg(b.getRegName()), b.get()));
         }
     }
 }

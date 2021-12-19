@@ -136,10 +136,6 @@ public class GermEventsHandler {
                 });
             }
         }
-
-        for (Gas gas : MekanismAPI.gasRegistry().getValues()) {
-            System.out.println(gas.toString());
-        }
     }
 
     public static void infectOnTileInteract(PlayerInteractEvent event) {

@@ -1,21 +1,19 @@
 package wintersteve25.oniutils.client.datagen;
 
+import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.item.Item;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.client.renderers.geckolibs.base.ONIIHasGeoItem;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseDirectional;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseBlock;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseSixWaysBlock;
-import wintersteve25.oniutils.common.blocks.modules.power.cables.WireBlock;
+import wintersteve25.oniutils.api.ONIIRegistryObject;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONIItems;
-import wintersteve25.oniutils.common.items.base.interfaces.ONIIItem;
-import wintersteve25.oniutils.common.items.modules.modifications.ONIBaseModification;
-import wintersteve25.oniutils.common.utils.MiscHelper;
+import wintersteve25.oniutils.common.contents.modules.modifications.ONIModification;
+import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 
 public class ONIModelProvider extends ItemModelProvider {
     public ONIModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
@@ -36,46 +34,20 @@ public class ONIModelProvider extends ItemModelProvider {
     }
 
     private void autoGenModels() {
-        for (ONIBaseBlock b : ONIBlocks.blockList.keySet()) {
-            if (!(b instanceof ONIIHasGeoItem)) {
-                withExistingParent(MiscHelper.langToReg(b.getRegName()), modLoc("block/" + MiscHelper.langToReg(b.getRegName())));
-            }
+        for (ONIIRegistryObject<Block> b : ONIBlocks.blockList.keySet()) {
+            if (!(b.get() instanceof ONIIHasGeoItem) && b.doModelGen()) withExistingParent(MiscHelper.langToReg(b.getRegName()), modLoc("block/" + MiscHelper.langToReg(b.getRegName())));
         }
-        for (ONIBaseDirectional b : ONIBlocks.directionalList.keySet()) {
-            if (!(b instanceof ONIIHasGeoItem)) {
-                withExistingParent(MiscHelper.langToReg(b.getRegName()), modLoc("block/" + MiscHelper.langToReg(b.getRegName())));
-            }
-        }
-        for (ONIBaseBlock b : ONIBlocks.blockNoDataList.keySet()) {
-            if (!(b instanceof ONIIHasGeoItem)) {
-                withExistingParent(MiscHelper.langToReg(b.getRegName()), modLoc("block/" + MiscHelper.langToReg(b.getRegName())));
-            }
-        }
-        for (ONIBaseDirectional b : ONIBlocks.directionalNoDataList.keySet()) {
-            if (MiscHelper.langToReg(b.getRegName()).equals("sedimentary_rock")) {
-                withExistingParent(MiscHelper.langToReg(b.getRegName()), modLoc("block/rocks/" + MiscHelper.langToReg(b.getRegName())));
-            } else if (!(b instanceof ONIIHasGeoItem)) {
-                withExistingParent(MiscHelper.langToReg(b.getRegName()), modLoc("block/" + MiscHelper.langToReg(b.getRegName())));
-            }
-        }
-        for (ONIBaseSixWaysBlock b : ONIBlocks.sixWaysList.keySet()) {
-            if (!(b instanceof ONIIHasGeoItem)) {
-                if (!(b instanceof WireBlock)) {
-                    withExistingParent(MiscHelper.langToReg(b.getRegName()), modLoc("block/" + MiscHelper.langToReg(b.getRegName())));
+        for (ONIIRegistryObject<Item> i : ONIItems.itemRegistryList) {
+            if (i.doModelGen()) {
+                if (i.get() instanceof ONIModification) {
+                    ONIModification mod = (ONIModification) i.get();
+                    String name = i.getRegName();
+                    String processedName = MiscHelper.langToReg(mod.getModType().getName()) + name.charAt(name.length()-1);
+                    builder(MiscHelper.langToReg(name), "modifications/" + processedName);
                 } else {
-                    withExistingParent(MiscHelper.langToReg(b.getRegName()), modLoc("block/wires/" + MiscHelper.langToReg(b.getRegName()) + "/main"));
+                    String name = i.getRegName();
+                    builder(name, name);
                 }
-            }
-        }
-        for (ONIIItem i : ONIItems.itemRegistryList) {
-            if (i.get() instanceof ONIBaseModification) {
-                ONIBaseModification mod = (ONIBaseModification) i.get();
-                String name = i.getRegName();
-                String processedName = MiscHelper.langToReg(mod.getModType().getName()) + name.charAt(name.length()-1);
-                builder(MiscHelper.langToReg(name), "modifications/" + processedName);
-            } else {
-                String name = i.getRegName();
-                builder(name, name);
             }
         }
     }

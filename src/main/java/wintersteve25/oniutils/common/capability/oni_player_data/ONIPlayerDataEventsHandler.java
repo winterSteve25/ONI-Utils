@@ -86,41 +86,43 @@ public class ONIPlayerDataEventsHandler {
                     int goodTrait = p.getTraits().get(1);
                     int badTrait = p.getTraits().get(2);
 
+                    //TODO: FIX THIS!!!
+
                     long time = world.getGameTime();
 
-                    switch (randomTrait) {
-                        case TraitTypes.EarlyBird:
-                            if ((time > 23460 && time < 24000) || (time > 0 && time < 2000)) {
-                                player.addPotionEffect(new EffectInstance(Effects.HASTE, 10, 2));
-                                player.addPotionEffect(new EffectInstance(Effects.SPEED, 10, 1));
-                                player.addPotionEffect(new EffectInstance(Effects.STRENGTH));
-                            }
-                            break;
-                        case TraitTypes.NightOwl:
-                            if (time > 13000 && time < 23031) {
-                                player.addPotionEffect(new EffectInstance(Effects.HASTE, 10, 2));
-                                player.addPotionEffect(new EffectInstance(Effects.SPEED, 10, 1));
-                                player.addPotionEffect(new EffectInstance(Effects.NIGHT_VISION, 10));
-                            }
-                            break;
-                    }
-
-                    switch (goodTrait) {
-                        case TraitTypes.EarlyBird:
-                            if ((time > 23460 && time < 24000) || (time > 0 && time < 2000)) {
-                                player.addPotionEffect(new EffectInstance(Effects.HASTE, 10, 2));
-                                player.addPotionEffect(new EffectInstance(Effects.SPEED, 10, 1));
-                                player.addPotionEffect(new EffectInstance(Effects.STRENGTH));
-                            }
-                            break;
-                        case TraitTypes.NightOwl:
-                            if (time > 13000 && time < 23031) {
-                                player.addPotionEffect(new EffectInstance(Effects.HASTE, 10, 2));
-                                player.addPotionEffect(new EffectInstance(Effects.SPEED, 10, 1));
-                                player.addPotionEffect(new EffectInstance(Effects.NIGHT_VISION, 10));
-                            }
-                            break;
-                    }
+//                    switch (randomTrait) {
+//                        case TraitTypes.EarlyBird:
+//                            if ((time > 23460 && time < 24000) || (time > 0 && time < 2000)) {
+//                                player.addPotionEffect(new EffectInstance(Effects.HASTE, 10, 2));
+//                                player.addPotionEffect(new EffectInstance(Effects.SPEED, 10, 1));
+//                                player.addPotionEffect(new EffectInstance(Effects.STRENGTH));
+//                            }
+//                            break;
+//                        case TraitTypes.NightOwl:
+//                            if (time > 13000 && time < 23031) {
+//                                player.addPotionEffect(new EffectInstance(Effects.HASTE, 10, 2));
+//                                player.addPotionEffect(new EffectInstance(Effects.SPEED, 10, 1));
+//                                player.addPotionEffect(new EffectInstance(Effects.NIGHT_VISION, 10));
+//                            }
+//                            break;
+//                    }
+//
+//                    switch (goodTrait) {
+//                        case TraitTypes.EarlyBird:
+//                            if ((time > 23460 && time < 24000) || (time > 0 && time < 2000)) {
+//                                player.addPotionEffect(new EffectInstance(Effects.HASTE, 10, 2));
+//                                player.addPotionEffect(new EffectInstance(Effects.SPEED, 10, 1));
+//                                player.addPotionEffect(new EffectInstance(Effects.STRENGTH));
+//                            }
+//                            break;
+//                        case TraitTypes.NightOwl:
+//                            if (time > 13000 && time < 23031) {
+//                                player.addPotionEffect(new EffectInstance(Effects.HASTE, 10, 2));
+//                                player.addPotionEffect(new EffectInstance(Effects.SPEED, 10, 1));
+//                                player.addPotionEffect(new EffectInstance(Effects.NIGHT_VISION, 10));
+//                            }
+//                            break;
+//                    }
                 });
             }
         }

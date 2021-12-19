@@ -10,8 +10,8 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.*;
 import net.minecraftforge.fml.client.gui.GuiUtils;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseContainer;
-import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIModifiable;
+import wintersteve25.oniutils.common.contents.base.ONIBaseContainer;
+import wintersteve25.oniutils.api.ONIIModifiable;
 import wintersteve25.oniutils.common.network.ONINetworking;
 import wintersteve25.oniutils.common.network.TEPosBasedPacket;
 import wintersteve25.oniutils.common.utils.ONIConstants;
@@ -61,17 +61,17 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         this.infoTab.init(this.width, this.height, this.minecraft, this.container, this.container.getTileEntity().machineName());
         this.infoTab.updateText();
 
-        this.alertTab.init(this.width, this.height, this.minecraft, this.container, "oniutils.gui.titles.warning");
+        this.alertTab.init(this.width, this.height, this.minecraft, this.container, new TranslationTextComponent("oniutils.gui.titles.warning"));
 
         if (hasRedstoneOutputButton()) {
-            redstoneOutputTab.init(this.width, this.height, this.minecraft, this.container, "oniutils.gui.titles.redstoneOutput");
+            redstoneOutputTab.init(this.width, this.height, this.minecraft, this.container, new TranslationTextComponent("oniutils.gui.titles.redstoneOutput"));
             this.redstoneOutputButton = new RedstoneOutputButton();
             this.children.add(redstoneOutputTab);
             addButton(redstoneOutputButton);
         }
 
         if (hasModButton()) {
-            modificationTab.init(this.width, this.height, this.minecraft, this.container, "oniutils.gui.titles.modifications");
+            modificationTab.init(this.width, this.height, this.minecraft, this.container, new TranslationTextComponent("oniutils.gui.titles.modifications"));
             this.modificationButton = new ModificationButton();
             addButton(modificationButton);
         }
@@ -101,9 +101,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         if (bg != null) {
             RenderSystem.color4f(1F, 1F, 1F, 1F);
             this.minecraft.getTextureManager().bindTexture(bg);
-
             int j = (this.height - this.getYSize()) / 2;
-
             this.blit(matrixStack, this.guiLeft, j, 0, 0, this.getXSize(), this.getYSize() + 5);
         }
     }
@@ -129,7 +127,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         }
     }
 
-    protected int getProgressScaledHorizontal(float pixels) {
+    protected int getScaledProgress(float pixels) {
         float totalProgress = container.getTotalProgress();
         float progress = totalProgress - container.getProgress();
 
@@ -181,7 +179,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
 
     protected class InfoButton extends SpriteButton {
         public InfoButton() {
-            super(ONIBaseGuiContainer.this.guiLeft + 1, ONIBaseGuiContainer.this.guiTop - 17, ONIConstants.Resources.INFO_BUTTON.getA(), ONIConstants.Resources.INFO_BUTTON.getB(), new TranslationTextComponent(ONIBaseGuiContainer.this.container.getTileEntity().machineName()));
+            super(ONIBaseGuiContainer.this.guiLeft + 1, ONIBaseGuiContainer.this.guiTop - 17, ONIConstants.Resources.INFO_BUTTON.getU(), ONIConstants.Resources.INFO_BUTTON.getV(), ONIBaseGuiContainer.this.container.getTileEntity().machineName());
         }
 
         public void onPress() {
@@ -223,7 +221,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
 
     protected class AlertButton extends SpriteButton {
         public AlertButton() {
-            super(ONIBaseGuiContainer.this.guiLeft + 18, ONIBaseGuiContainer.this.guiTop - 17, ONIConstants.Resources.ALERT_BUTTON.getA(), ONIConstants.Resources.ALERT_BUTTON.getB(), new TranslationTextComponent("oniutils.gui.titles.warning"));
+            super(ONIBaseGuiContainer.this.guiLeft + 18, ONIBaseGuiContainer.this.guiTop - 17, ONIConstants.Resources.ALERT_BUTTON.getU(), ONIConstants.Resources.ALERT_BUTTON.getV(), new TranslationTextComponent("oniutils.gui.titles.warning"));
         }
 
         public void onPress() {
@@ -264,7 +262,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
 
     protected class RedstoneOutputButton extends SpriteButton {
         public RedstoneOutputButton() {
-            super(ONIBaseGuiContainer.this.guiLeft + 35, ONIBaseGuiContainer.this.guiTop - 17, ONIConstants.Resources.REDSTONE_OUTPUT_BUTTON.getA(), ONIConstants.Resources.REDSTONE_OUTPUT_BUTTON.getB(), new TranslationTextComponent("oniutils.gui.titles.redstoneOutput"));
+            super(ONIBaseGuiContainer.this.guiLeft + 35, ONIBaseGuiContainer.this.guiTop - 17, ONIConstants.Resources.REDSTONE_OUTPUT_BUTTON.getU(), ONIConstants.Resources.REDSTONE_OUTPUT_BUTTON.getV(), new TranslationTextComponent("oniutils.gui.titles.redstoneOutput"));
         }
 
         public void onPress() {
@@ -299,7 +297,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
 
     protected class ModificationButton extends SpriteButton {
         public ModificationButton() {
-            super(ONIBaseGuiContainer.this.guiLeft + 52, ONIBaseGuiContainer.this.guiTop - 17, ONIConstants.Resources.MODIFICATION_BUTTON.getA(), ONIConstants.Resources.MODIFICATION_BUTTON.getB(), new TranslationTextComponent("oniutils.gui.titles.modifications"));
+            super(ONIBaseGuiContainer.this.guiLeft + 52, ONIBaseGuiContainer.this.guiTop - 17, ONIConstants.Resources.MODIFICATION_BUTTON.getU(), ONIConstants.Resources.MODIFICATION_BUTTON.getV(), new TranslationTextComponent("oniutils.gui.titles.modifications"));
         }
 
         public void onPress() {
@@ -334,9 +332,9 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
 
     protected class RedstoneButton extends SpriteButton {
         public RedstoneButton() {
-            super(ONIBaseGuiContainer.this.guiLeft + 158, ONIBaseGuiContainer.this.guiTop - 17, ONIConstants.Resources.REDSTONE_BUTTON_ON.getA(), ONIConstants.Resources.REDSTONE_BUTTON_ON.getB(), new TranslationTextComponent("oniutils.gui.titles.invert"));
+            super(ONIBaseGuiContainer.this.guiLeft + 158, ONIBaseGuiContainer.this.guiTop - 17, ONIConstants.Resources.REDSTONE_BUTTON_ON.getU(), ONIConstants.Resources.REDSTONE_BUTTON_ON.getV(), new TranslationTextComponent("oniutils.gui.titles.invert"));
             if (ONIBaseGuiContainer.this.container.getForceStopped() == 1) {
-                setU(ONIConstants.Resources.REDSTONE_BUTTON_OFF.getA());
+                setU(ONIConstants.Resources.REDSTONE_BUTTON_OFF.getU());
             }
         }
 
@@ -344,10 +342,10 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
 
         public void onPress() {
             if (!pressed) {
-                setU(ONIConstants.Resources.REDSTONE_BUTTON_OFF.getA());
+                setU(ONIConstants.Resources.REDSTONE_BUTTON_OFF.getU());
                 pressed = true;
             } else {
-                setU(ONIConstants.Resources.REDSTONE_BUTTON_ON.getA());
+                setU(ONIConstants.Resources.REDSTONE_BUTTON_ON.getU());
                 pressed = false;
             }
             ONINetworking.sendToServer(new TEPosBasedPacket(container.getTileEntity(), ONIConstants.PacketType.REDSTONE_INPUT));

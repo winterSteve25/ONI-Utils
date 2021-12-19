@@ -3,6 +3,9 @@ package wintersteve25.oniutils;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -13,7 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONIConfig;
-import wintersteve25.oniutils.common.registration.ONIServerEventsHandler;
+import wintersteve25.oniutils.common.events.ONIServerEventsHandler;
 import wintersteve25.oniutils.common.registration.Registration;
 //import wintersteve25.oniutils.common.compat.potr.AdPotherAddonEventHandlers;
 
@@ -39,7 +42,7 @@ public class ONIUtils {
     public static final ItemGroup creativeTab = new ItemGroup("oniutils") {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(ONIBlocks.IgneousRock);
+            return new ItemStack(ONIBlocks.NonFunctionals.IGNEOUS_ROCK);
         }
     };
 

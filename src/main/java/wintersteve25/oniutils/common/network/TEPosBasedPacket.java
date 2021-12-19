@@ -2,15 +2,14 @@ package wintersteve25.oniutils.common.network;
 
 import mekanism.common.util.WorldUtils;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.blocks.base.ONIBaseTE;
-import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIForceStoppable;
-import wintersteve25.oniutils.common.blocks.base.interfaces.ONIIHasRedstoneOutput;
+import wintersteve25.oniutils.common.contents.base.ONIBaseTE;
+import wintersteve25.oniutils.api.ONIIForceStoppable;
+import wintersteve25.oniutils.api.ONIIHasRedstoneOutput;
 import wintersteve25.oniutils.common.utils.ONIConstants;
 
 import java.util.function.Supplier;
