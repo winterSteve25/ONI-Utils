@@ -67,8 +67,8 @@ public class ONIBlockBuilder<T extends ONIBaseBlock> {
         return this;
     }
 
-    public ONIBlockBuilder<T> doModelGen() {
-        this.block.setDoModelGen(true);
+    public ONIBlockBuilder<T> noModelGen() {
+        this.block.setDoModelGen(false);
         return this;
     }
 

@@ -28,7 +28,7 @@ public class ONIBaseBlock extends Block implements ONIIStateFluidLoggable, ONIIR
     private IVoxelShapeProvider hitBox;
     private IRenderTypeProvider renderType;
     private Supplier<Item> blockItem;
-    private boolean doModelGen = false;
+    private boolean doModelGen = true;
     private boolean doStateGen = false;
     private boolean doLangGen = true;
     private boolean doLootTableGen = true;

@@ -24,8 +24,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.common.capabilities.Capability;
@@ -39,23 +37,23 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import wintersteve25.oniutils.api.*;
-import wintersteve25.oniutils.common.contents.base.*;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
 import wintersteve25.oniutils.common.capability.plasma.api.EnumWattsTypes;
 import wintersteve25.oniutils.common.capability.plasma.api.IPlasma;
 import wintersteve25.oniutils.common.capability.plasma.api.PlasmaStack;
+import wintersteve25.oniutils.common.contents.base.ONIBaseInvTE;
+import wintersteve25.oniutils.common.contents.base.ONIBaseMachine;
 import wintersteve25.oniutils.common.contents.base.builders.ONIBlockBuilder;
 import wintersteve25.oniutils.common.contents.base.builders.ONIContainerBuilder;
-import wintersteve25.oniutils.common.init.ONIBlocks;
-import wintersteve25.oniutils.common.init.ONIConfig;
 import wintersteve25.oniutils.common.contents.base.enums.EnumModifications;
 import wintersteve25.oniutils.common.contents.modules.modifications.ModificationContext;
 import wintersteve25.oniutils.common.contents.modules.modifications.ModificationHandler;
+import wintersteve25.oniutils.common.init.ONIBlocks;
+import wintersteve25.oniutils.common.init.ONIConfig;
 import wintersteve25.oniutils.common.utils.ONIConstants;
 import wintersteve25.oniutils.common.utils.SlotArrangement;
 import wintersteve25.oniutils.common.utils.helpers.LangHelper;
 import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
-import wintersteve25.oniutils.common.utils.helpers.ResoureceLocationHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -382,6 +380,7 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
                         return LangHelper.guiTitle(ONIConstants.LangKeys.COAL_GEN);
                     }
                 })
+                .noModelGen()
                 .coloredName(()->ONIConstants.TextColor.POWER_CAT_COLOR)
                 .tooltip(()-> Collections.singletonList(LangHelper.itemTooltip(ONIConstants.LangKeys.COAL_GEN)))
                 .shiftToolTip();

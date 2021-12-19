@@ -60,6 +60,9 @@ public class ONIBoundingBlock extends ONIBaseBlock {
 
     public ONIBoundingBlock(String regName, Properties properties) {
         super(regName, properties);
+        setDoModelGen(false);
+        setDoLootTableGen(false);
+        setDoLangGen(false);
     }
 
     @Nonnull

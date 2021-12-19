@@ -8,6 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.RegistryObject;
 import wintersteve25.oniutils.api.ONIIRegistryObject;
@@ -30,8 +31,11 @@ import wintersteve25.oniutils.common.contents.modules.resources.slime.SlimeBlock
 import wintersteve25.oniutils.common.contents.modules.resources.slime.SlimeTE;
 import wintersteve25.oniutils.common.contents.base.ONIBaseBlockItem;
 import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
+import wintersteve25.oniutils.common.utils.helpers.ModelFileHelper;
 import wintersteve25.oniutils.common.utils.helpers.RegistryHelper;
+import wintersteve25.oniutils.common.utils.helpers.ResoureceLocationHelper;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +43,18 @@ public class ONIBlocks {
 
     public static final class NonFunctionals {
         public static final ONIBaseBlock IGNEOUS_ROCK = new ONIBaseBlock(1, 2, 6, "Igneous Rock");
-        public static final ONIBaseDirectional SEDIMENTARY_ROCK = new ONIBaseDirectional(0, 4, 10, "Sedimentary Rock");
+        public static final ONIBaseDirectional SEDIMENTARY_ROCK = new ONIBaseDirectional(0, 4, 10, "Sedimentary Rock") {
+            @Nullable
+            @Override
+            public ModelFile getModelFile() {
+                return ModelFileHelper.createModelFile(ResoureceLocationHelper.ResourceLocationBuilder
+                        .getBuilder()
+                        .block()
+                        .rocks()
+                        .addPath("sedimentary_rock")
+                        .build());
+            }
+        };
         public static final ONIBaseBlock MAFIC_ROCK = new ONIBaseBlock(2, 5, 18, "Mafic Rock");
         public static final ONIBaseBlock REGOLITH = new ONIBaseBlock(1, 5, 18, "Regolith");
         public static final ONIBaseBlock NEUTRONIUM = new ONIBaseBlock(3, 7, 30, "Neutronium");
@@ -95,7 +110,7 @@ public class ONIBlocks {
 
     public static Map<ONIIRegistryObject<Block>, Item> blockList = new HashMap<>();
 
-    public static void register(){
+    public static void register() {
         NonFunctionals.IGNEOUS_ROCK.init(blockList, null);
         NonFunctionals.MAFIC_ROCK.init(blockList, null);
         NonFunctionals.REGOLITH.init(blockList, null);

@@ -36,12 +36,12 @@ public class ResoureceLocationHelper {
         private String pathIn = "";
         private Object[] args;
 
-        public ResourceLocationBuilder(String modID) {
-            this.modID = modID;
+        public ResourceLocationBuilder() {
+            this.modID = ONIUtils.MODID;
         }
 
         public static ResourceLocationBuilder getBuilder() {
-            return new ResourceLocationBuilder(ONIUtils.MODID);
+            return new ResourceLocationBuilder();
         }
 
         public ResourceLocationBuilder template(RLType type) {

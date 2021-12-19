@@ -2,6 +2,7 @@ package wintersteve25.oniutils.client.datagen;
 
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.item.Item;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.data.LanguageProvider;
 import wintersteve25.oniutils.ONIUtils;
@@ -9,6 +10,7 @@ import wintersteve25.oniutils.client.gui.ONIBaseGuiTab;
 import wintersteve25.oniutils.api.ONIIRegistryObject;
 import wintersteve25.oniutils.common.capability.world_gas.api.chemistry.Element;
 import wintersteve25.oniutils.common.init.ONIBlocks;
+import wintersteve25.oniutils.common.init.ONIItems;
 import wintersteve25.oniutils.common.utils.helpers.LangHelper;
 import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 import wintersteve25.oniutils.common.utils.helpers.ResoureceLocationHelper;
@@ -104,6 +106,9 @@ public class ONIEngLangProvider extends LanguageProvider {
         }
         for (Element element : Element.values()) {
             add("gas.oniutils." + element.getName(), element.getLang() + " Gas");
+        }
+        for (ONIIRegistryObject<Item> i : ONIItems.itemRegistryList) {
+            if (i.doLangGen()) add("item.oniutils." + MiscHelper.langToReg(i.getRegName()), i.getRegName());
         }
     }
 }

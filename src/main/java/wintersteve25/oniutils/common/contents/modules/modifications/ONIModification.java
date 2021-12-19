@@ -34,6 +34,8 @@ public class ONIModification extends ONIBaseItem {
         this.modType = modType;
         this.color = color;
         this.tooltips = tooltips;
+        setDoModelGen(true);
+        setDoLangGen(true);
     }
 
     @Override

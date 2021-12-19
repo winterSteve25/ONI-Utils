@@ -38,6 +38,7 @@ public class WireBlock extends ONIBaseSixWaysBlock {
     public WireBlock(EnumCableTypes cableTypes, Properties properties) {
         super(cableTypes.getName(), properties);
         type = cableTypes;
+        setDoModelGen(false);
     }
 
     @Override

@@ -9,6 +9,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.contents.base.ONIBaseBlock;
 import wintersteve25.oniutils.api.ONIIRegistryObject;
+import wintersteve25.oniutils.common.contents.base.ONIBaseDirectional;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 import wintersteve25.oniutils.common.utils.helpers.ModelFileHelper;
@@ -28,7 +29,14 @@ public class ONIStateProvider extends BlockStateProvider {
 
     private void autoGenStatesAndModels() {
         for (ONIIRegistryObject<Block> b : ONIBlocks.blockList.keySet()) {
-            if (b.doStateGen()) simpleBlock(b.get());
+            if (b.doStateGen()) {
+                if (b.get() instanceof ONIBaseDirectional) {
+                    ONIBaseDirectional directional = (ONIBaseDirectional) b.get();
+                    directionalBlock(directional, directional.getModelFile(), directional.getAngelOffset());
+                } else {
+                    simpleBlock(b.get());
+                }
+            }
         }
 
         weightedRock(ONIBlocks.NonFunctionals.ABYSSALITE, 2);
