@@ -24,6 +24,7 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import wintersteve25.oniutils.api.ONIIWorkable;
 import wintersteve25.oniutils.client.keybinds.ONIKeybinds;
 import wintersteve25.oniutils.common.contents.base.ONIBaseTE;
 import wintersteve25.oniutils.api.ONIIHasProgress;
@@ -38,7 +39,7 @@ import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class ManualGenTE extends ONIBaseTE implements ITickableTileEntity, IAnimatable, IBoundingBlock, ONIIHasProgress {
+public class ManualGenTE extends ONIBaseTE implements ITickableTileEntity, IAnimatable, IBoundingBlock, ONIIHasProgress, ONIIWorkable {
 
     private final AnimationFactory manager = new AnimationFactory(this);
     private PlasmaStack plasmaHandler = new PlasmaStack(2000, EnumWattsTypes.LOW);
@@ -241,26 +242,6 @@ public class ManualGenTE extends ONIBaseTE implements ITickableTileEntity, IAnim
     @Override
     public void setTotalProgress(int progress) {
         this.totalProgress = progress;
-    }
-
-    @Override
-    public boolean getForceStopped() {
-        return isForceStopped;
-    }
-
-    @Override
-    public void setForceStopped(boolean forceStopped) {
-        this.isForceStopped = forceStopped;
-    }
-
-    @Override
-    public boolean isInverted() {
-        return isInverted;
-    }
-
-    @Override
-    public void toggleInverted() {
-        isInverted = !isInverted;
     }
 
     @Override

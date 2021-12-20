@@ -1,4 +1,4 @@
-package wintersteve25.oniutils.client.datagen;
+package wintersteve25.oniutils.common.datagen.server;
 
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;

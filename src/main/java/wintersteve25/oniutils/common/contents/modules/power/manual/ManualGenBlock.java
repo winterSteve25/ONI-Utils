@@ -38,7 +38,8 @@ public class ManualGenBlock extends ONIBaseMachine implements ONIIHasGeoItem {
     private static final VoxelShape EAST = VoxelShapeUtils.rotate(NORTH, Rotation.CLOCKWISE_90);
 
     public ManualGenBlock() {
-        super(regName, Properties.create(Material.IRON).harvestLevel(0).harvestTool(ToolType.PICKAXE).hardnessAndResistance(3, 3).notSolid().setRequiresTool(), ManualGenTE.class);
+        super(regName, Properties.create(Material.IRON).harvestLevel(0).harvestTool(ToolType.PICKAXE).hardnessAndResistance(3, 3).notSolid().setRequiresTool());
+        setTeClass(ManualGenTE.class);
     }
 
     @Nullable

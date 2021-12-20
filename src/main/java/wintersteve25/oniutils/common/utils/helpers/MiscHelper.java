@@ -3,6 +3,7 @@ package wintersteve25.oniutils.common.utils.helpers;
 import mekanism.common.util.WorldUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
@@ -83,5 +84,31 @@ public class MiscHelper {
                 .filter(entry -> Objects.equals(entry.getValue(), value))
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
+    }
+
+    public static CompoundNBT writeBlockPos(BlockPos pos) {
+        CompoundNBT nbt = new CompoundNBT();
+        nbt.putInt("posX", pos.getX());
+        nbt.putInt("posY", pos.getY());
+        nbt.putInt("posZ", pos.getZ());
+        return nbt;
+    }
+
+    public static BlockPos readBlockPos(CompoundNBT pos) {
+        return new BlockPos(pos.getInt("posX"), pos.getInt("posY"), pos.getInt("posZ"));
+    }
+
+    public static boolean chanceHandling(int chance) {
+        Random rand = new Random();
+        double randN = rand.nextDouble();
+
+        return randN < (double) chance / 100;
+    }
+
+    public static boolean chanceHandling(float chance) {
+        Random rand = new Random();
+        double randN = rand.nextDouble();
+
+        return randN < (double) chance;
     }
 }

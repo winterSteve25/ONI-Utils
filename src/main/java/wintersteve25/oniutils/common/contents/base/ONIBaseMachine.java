@@ -37,133 +37,16 @@ import javax.annotation.Nullable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ONIBaseMachine extends ONIBaseDirectional {
-    private final Class<? extends TileEntity> teClass;
 
     // block builder properties
-    private ITETypeProvider tileEntityType;
     private ONIIHasGui gui;
 
-    public ONIBaseMachine(int harvestLevel, float hardness, float resistance, String regName, SoundType soundType, Material material, Class<? extends TileEntity> teClass) {
+    public ONIBaseMachine(int harvestLevel, float hardness, float resistance, String regName, SoundType soundType, Material material) {
         super(harvestLevel, hardness, resistance, regName, soundType, material);
-        this.teClass = teClass;
     }
 
-    public ONIBaseMachine(String regName, Properties properties, Class<? extends TileEntity> teClass) {
+    public ONIBaseMachine(String regName, Properties properties) {
         super(regName, properties);
-        this.teClass = teClass;
-    }
-
-    @Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
-    }
-
-    @Override
-    public BlockState getStateForPlacement(BlockItemUseContext blockItemUseContext) {
-
-        BlockState state = super.getStateForPlacement(blockItemUseContext);
-//        FluidState fluidState = blockItemUseContext.getWorld().getFluidState(blockItemUseContext.getPos());
-
-        if (state == null) {
-            return null;
-        }
-
-//        state.with(this.getFluidLoggedProperty(), this.getSupportedFluidPropertyIndex(fluidState.getFluid()));
-        state.with(FACING, blockItemUseContext.getNearestLookingDirection());
-
-        return this.getDefaultState().with(FACING, blockItemUseContext.getPlacementHorizontalFacing());
-    }
-
-    @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-        ONIBaseTE tile = WorldUtils.getTileEntity(ONIBaseTE.class, worldIn, pos);
-
-        if (tile == null) {
-            return;
-        }
-
-        if (tile instanceof IBoundingBlock) {
-            ((IBoundingBlock) tile).onPlace();
-        }
-
-        if (tile instanceof ONIIForceStoppable) {
-            ONIIForceStoppable forceStoppable = (ONIIForceStoppable) tile;
-            if (forceStoppable.isInverted()) {
-                forceStoppable.setForceStopped(!worldIn.isBlockPowered(pos));
-            } else {
-                forceStoppable.setForceStopped(worldIn.isBlockPowered(pos));
-            }
-        }
-
-        tile.onPlacedBy(worldIn, pos, state, placer, stack);
-    }
-
-    @Override
-    public void onReplaced(BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
-        if (state.hasTileEntity() && (!state.isIn(newState.getBlock()) || !newState.hasTileEntity())) {
-            TileEntity tile = WorldUtils.getTileEntity(world, pos);
-            if (tile instanceof IBoundingBlock) {
-                ((IBoundingBlock) tile).onBreak(state);
-            }
-            if (teClass.isInstance(tile) && tile instanceof ONIBaseTE) {
-                ((ONIBaseTE) tile).onBroken(state, world, pos, newState, isMoving);
-            }
-        }
-        super.onReplaced(state, world, pos, newState, isMoving);
-    }
-
-    @Override
-    public int getWeakPower(BlockState blockState, IBlockReader blockAccess, BlockPos pos, Direction side) {
-        TileEntity tile = WorldUtils.getTileEntity(blockAccess, pos);
-        if (tile instanceof ONIIHasRedstoneOutput) {
-            ONIIHasRedstoneOutput redstoneOutput = (ONIIHasRedstoneOutput) tile;
-            AtomicBoolean isLowTrue = new AtomicBoolean(false);
-            AtomicBoolean isHighTrue = new AtomicBoolean(false);
-
-            tile.getCapability(PlasmaCapability.POWER_CAPABILITY).ifPresent(power -> {
-                if ((power.getPower() / power.getCapacity())*100 < redstoneOutput.lowThreshold()) {
-                    isLowTrue.set(true);
-                }
-
-                if ((power.getPower() / power.getCapacity())*100 > redstoneOutput.highThreshold()) {
-                    isHighTrue.set(true);
-                }
-            });
-
-            return isHighTrue.get() || isLowTrue.get() ? 15 : 0;
-        }
-        if (teClass.isInstance(tile) && tile instanceof ONIBaseTE) {
-            ((ONIBaseTE) tile).getWeakPower(blockState, blockAccess, pos, side);
-        }
-
-        return 0;
-    }
-
-    @Override
-    public void onBlockHarvested(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        if (teClass.isInstance(world.getTileEntity(pos))) {
-            TileEntity tileEntity = world.getTileEntity(pos);
-            if (tileEntity instanceof ONIBaseTE) {
-                ONIBaseTE baseTE = (ONIBaseTE) tileEntity;
-                baseTE.onHarvested(world, pos, state, player);
-                if (baseTE instanceof ONIBaseInvTE) {
-                    ONIBaseInvTE te = (ONIBaseInvTE) world.getTileEntity(pos);
-                    if (te != null) {
-                        if (te.hasItem()) {
-                            ISHandlerHelper.dropInventory(te, world, state, pos, te.getInvSize());
-                        }
-
-                        if (te instanceof ONIIModifiable) {
-                            ONIIModifiable modifiable = (ONIIModifiable) te;
-                            if (modifiable.modContext().containsUpgrades()) {
-                                ISHandlerHelper.dropInventory(modifiable.modContext().getModHandler(), world, state, pos, modifiable.modContext().getMaxModAmount());
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        super.onBlockHarvested(world, pos, state, player);
     }
 
     @Override
@@ -181,7 +64,7 @@ public class ONIBaseMachine extends ONIBaseDirectional {
             }
             ItemStack heldItem = player.getHeldItem(hand);
             super.onBlockActivated(state, world, pos, player, hand, rayTraceResult);
-            if (teClass.isInstance(tileEntity)) {
+            if (getTeClass().isInstance(tileEntity)) {
                 if (tileEntity instanceof ONIIModifiable && tileEntity instanceof ONIBaseTE) {
                     ONIBaseTE baseTE = (ONIBaseTE) tileEntity;
                     baseTE.onBlockActivated(state, world, pos, player, hand, rayTraceResult);
@@ -220,21 +103,6 @@ public class ONIBaseMachine extends ONIBaseDirectional {
         return ActionResultType.SUCCESS;
     }
 
-    @Override
-    public boolean canConnectRedstone(BlockState state, IBlockReader world, BlockPos pos, @Nullable Direction side) {
-        TileEntity tile = world.getTileEntity(pos);
-        if (teClass.isInstance(tile) && tile instanceof ONIBaseTE) {
-            return ((ONIBaseTE) tile).canConnectRedstone(state, world, pos, side);
-        }
-        return super.canConnectRedstone(state, world, pos, side);
-    }
-
-    @Nullable
-    @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return getTileEntityType() == null ? super.createTileEntity(state, world) : tileEntityType.createTEType(state, world).create();
-    }
-
     @Nullable
     public ONIIHasGui getGui() {
         return gui == null ? this instanceof ONIIHasGui ? (ONIIHasGui) this : null : gui;
@@ -244,15 +112,8 @@ public class ONIBaseMachine extends ONIBaseDirectional {
         this.gui = gui;
     }
 
-    public ITETypeProvider getTileEntityType() {
-        return tileEntityType;
-    }
-
-    public void setTileEntityType(ITETypeProvider tileEntityType) {
-        this.tileEntityType = tileEntityType;
-    }
-
-    public Class<? extends TileEntity> getTeClass() {
-        return teClass;
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return true;
     }
 }

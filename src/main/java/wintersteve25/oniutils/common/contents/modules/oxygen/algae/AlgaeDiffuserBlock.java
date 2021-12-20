@@ -8,6 +8,6 @@ public class AlgaeDiffuserBlock extends ONIBaseMachine implements ONIIHasGeoItem
     private static final String regName = "Algae Diffuser";
 
     public AlgaeDiffuserBlock() {
-        super(regName, Properties.create(Material.IRON), AlgaeDiffuserTE.class);
+        super(regName, Properties.create(Material.IRON));
     }
 }

@@ -8,6 +8,7 @@ import net.minecraft.command.Commands;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.fml.ModList;
@@ -19,6 +20,8 @@ import wintersteve25.oniutils.common.capability.oni_te_data.ONITEDataCapability;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
 import wintersteve25.oniutils.common.capability.oni_player_data.ONIPlayerDataCapability;
 import wintersteve25.oniutils.common.capability.oni_player_data.ONIPlayerDataEventsHandler;
+import wintersteve25.oniutils.common.capability.world_gas.WorldGasCapability;
+import wintersteve25.oniutils.common.capability.world_gas.WorldGasEventsHandler;
 import wintersteve25.oniutils.common.commands.SetGermAmountCommands;
 import wintersteve25.oniutils.common.init.ONIConfig;
 import wintersteve25.oniutils.common.network.ONINetworking;
@@ -28,13 +31,16 @@ public class ONIServerEventsHandler {
     public static void commonSetup(FMLCommonSetupEvent evt) {
         ONINetworking.registerMessages();
 
-        GermCapability.register();
-        ONIPlayerDataCapability.register();
-        PlasmaCapability.register();
+        ONIUtils.LOGGER.info("Registering ONIUtils Capabilities");
+
         ONITEDataCapability.register();
+        PlasmaCapability.register();
+        WorldGasCapability.register();
 
         //germ events
         if (ONIConfig.ENABLE_GERMS.get()) {
+            ONIUtils.LOGGER.info("Registering Germs Capability");
+            GermCapability.register();
             MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, GermEventsHandler::entityCapAttachEvent);
             MinecraftForge.EVENT_BUS.addGenericListener(TileEntity.class, GermEventsHandler::teCapAttachEvent);
             MinecraftForge.EVENT_BUS.addGenericListener(ItemStack.class, GermEventsHandler::itemCapAttachEvent);
@@ -56,6 +62,9 @@ public class ONIServerEventsHandler {
         //player data
         if (ModList.get().isLoaded("pmmo"))  {
             if (ONIConfig.ENABLE_TRAITS.get()) {
+                ONIUtils.LOGGER.info("Registering Player Data");
+                ONIPlayerDataCapability.register();
+
                 MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, ONIPlayerDataEventsHandler::entityCapAttachEvent);
                 MinecraftForge.EVENT_BUS.addListener(ONIPlayerDataEventsHandler::onPlayerCloned);
                 MinecraftForge.EVENT_BUS.addListener(ONIPlayerDataEventsHandler::onPlayerLoggedIn);
@@ -63,6 +72,10 @@ public class ONIServerEventsHandler {
                 MinecraftForge.EVENT_BUS.addListener(ONIPlayerDataEventsHandler::playerMove);
             }
         }
+
+        ONIUtils.LOGGER.info("Registering World Gas");
+        MinecraftForge.EVENT_BUS.addGenericListener(Chunk.class, WorldGasEventsHandler::chunkCapAttachEvent);
+        MinecraftForge.EVENT_BUS.addListener(WorldGasEventsHandler::worldTick);
 
         //Misc Event Listeners
     }

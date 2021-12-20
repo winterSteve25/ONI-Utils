@@ -4,7 +4,7 @@ license="COFH Don't Be A Jerk"
 [[mods]] #mandatory
 modId="oniutils" #mandatory
 version="${file.jarVersion}" #mandatory
-displayName="Veiled Ascent" #mandatory
+displayName="FC: ONIUtils" #mandatory
 updateJSONURL="" #optional
 authors="winterSteve25" #optional
 description='''

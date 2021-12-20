@@ -1,24 +1,26 @@
 package wintersteve25.oniutils.common.capability.world_gas.api;
 
 import mekanism.api.chemical.gas.Gas;
-import mekanism.api.chemical.gas.GasStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import wintersteve25.oniutils.common.capability.world_gas.api.chemistry.GasStackWrapper;
 
 import java.util.Map;
 
 public interface IWorldGas {
     void tick();
 
-    Map<GasStack, BlockPos> getGasMap();
+    Map<GasStackWrapper, BlockPos> getGasMap();
 
-    Map<GasStack, Integer> getGasAtChunk(BlockPos pos);
+    void setGasMap(Map<GasStackWrapper, BlockPos> map);
 
-    Map<GasStack, Integer> getGasAtChunk(ChunkPos pos);
+    Map<GasStackWrapper, Integer> getGasAtChunk(BlockPos pos);
+
+    Map<GasStackWrapper, Integer> getGasAtChunk(ChunkPos pos);
 
     int getYFromGas(Gas gas, ChunkPos pos);
 
-    boolean addGasToChunk(GasStack gas, BlockPos pos);
+    boolean addGasToChunk(GasStackWrapper gas, BlockPos pos);
 
-    boolean addGasToChunk(GasStack gas, ChunkPos pos);
+    boolean addGasToChunk(GasStackWrapper gas, ChunkPos pos);
 }

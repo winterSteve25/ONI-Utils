@@ -8,7 +8,6 @@ public class        ONIConfig {
 //    public static final String CAT_POTR = "potr";
     public static final String CAT_TRAITS = "traits";
     public static final String CAT_MACHINE = "machines";
-    public static final String CAT_TEMP = "temperature";
     public static final String CAT_GAS = "gas";
     public static final String CAT_MORALE = "morale";
     public static final String CAT_MISC = "misc";
@@ -36,11 +35,7 @@ public class        ONIConfig {
     public static ForgeConfigSpec.IntValue ALGAE_DIFFUSER_PLASMA_INPUT;
     public static ForgeConfigSpec.IntValue ALGAE_DIFFUSER_PROCESS_TIME;
 
-    public static ForgeConfigSpec.BooleanValue ENABLE_TEMPERATURE;
-
-    public static ForgeConfigSpec.BooleanValue ENABLE_GAS;
-    public static ForgeConfigSpec.DoubleValue PLAYER_BREATH_AMOUNT;
-    public static ForgeConfigSpec.IntValue PLAYER_REQUIRED_OXYGEN_AMOUNT;
+    public static ForgeConfigSpec.IntValue OXYLITE_COOLDOWN;
 
     public static ForgeConfigSpec.BooleanValue ENABLE_MORALE;
     public static ForgeConfigSpec.IntValue MORALE_FOR_STRESS;
@@ -77,14 +72,8 @@ public class        ONIConfig {
         ALGAE_DIFFUSER_PROCESS_TIME = SERVERBUILDER.comment("Every how many ticks should algae diffuser consume algae").defineInRange("algaeDiffuserConsumeSpeed", 200, 1, MiscHelper.INT_MAX);
         SERVERBUILDER.pop();
 
-        SERVERBUILDER.comment("Temperature Settings").push(CAT_TEMP);
-        ENABLE_TEMPERATURE = SERVERBUILDER.comment("Should the temperature system be enabled?").define("enableTemperature", true);
-        SERVERBUILDER.pop();
-
         SERVERBUILDER.comment("Gas Settings").push(CAT_GAS);
-        ENABLE_GAS = SERVERBUILDER.comment("Should the gas system be enabled?").define("enableGas", true);
-        PLAYER_BREATH_AMOUNT = SERVERBUILDER.comment("How much grams of gas should player breath in per second in total?").defineInRange("playerBreathAmount", 1D, 1, MiscHelper.INT_MAX);
-        PLAYER_REQUIRED_OXYGEN_AMOUNT = SERVERBUILDER.comment("How much grams of oxygen should player consume every second").defineInRange("playerConsumeAmount", 2, 1, MiscHelper.INT_MAX);
+        OXYLITE_COOLDOWN = SERVERBUILDER.comment("How many ticks should oxylite take inbetween oxygen production?").defineInRange("oxyliteCooldown", 120, 1, MiscHelper.INT_MAX);
         SERVERBUILDER.pop();
 
         SERVERBUILDER.comment("Morale Settings").push(CAT_MORALE);

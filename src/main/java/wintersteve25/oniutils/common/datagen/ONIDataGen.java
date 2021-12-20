@@ -1,4 +1,4 @@
-package wintersteve25.oniutils.client.datagen;
+package wintersteve25.oniutils.common.datagen;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -6,6 +6,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import wintersteve25.oniutils.ONIUtils;
+import wintersteve25.oniutils.common.datagen.client.ONIEngLangProvider;
+import wintersteve25.oniutils.common.datagen.client.ONIModelProvider;
+import wintersteve25.oniutils.common.datagen.client.ONIStateProvider;
+import wintersteve25.oniutils.common.datagen.server.ONILootTableProvider;
 
 @Mod.EventBusSubscriber(modid = ONIUtils.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ONIDataGen {

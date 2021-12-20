@@ -1,4 +1,4 @@
-package wintersteve25.oniutils.client.datagen;
+package wintersteve25.oniutils.common.datagen.server;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

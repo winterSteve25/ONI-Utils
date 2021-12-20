@@ -64,7 +64,7 @@ import java.util.List;
 
 import static wintersteve25.oniutils.common.utils.helpers.MiscHelper.ONEPIXEL;
 
-public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAnimatable, IBoundingBlock, ONIIHasProgress, ONIIHasRedstoneOutput, ONIIHasValidItems, ONIIModifiable, ONIIMachine {
+public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAnimatable, IBoundingBlock, ONIIHasProgress, ONIIForceStoppable, ONIIHasRedstoneOutput, ONIIHasValidItems, ONIIModifiable, ONIIMachine {
 
     public final ModificationContext modificationContext = new ModificationContext(this, 9, EnumModifications.SPEED, EnumModifications.TEMPERATURE, EnumModifications.COMPLEXITY);
     private final ModificationHandler modificationHandler = new ModificationHandler(modificationContext);
@@ -363,16 +363,16 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     public static final VoxelShape NORTH_R = VoxelShapes.or(BOTTOM, SUPPORT, MIDDLE, CONNECTION, REDSTONEPANEL).simplify();
 
     public static ONIBlockBuilder<ONIBaseMachine> createBlock() {
-        return new ONIBlockBuilder<>(() -> new ONIBaseMachine("Coal Generator", AbstractBlock.Properties.create(Material.IRON).harvestTool(ToolType.PICKAXE).hardnessAndResistance(1.4F, 5).setRequiresTool().notSolid(), CoalGenTE.class), ONIConstants.Geo.COAL_GEN_ISTER, true)
+        return new ONIBlockBuilder<>(() -> new ONIBaseMachine("Coal Generator", AbstractBlock.Properties.create(Material.IRON).harvestTool(ToolType.PICKAXE).hardnessAndResistance(1.4F, 5).setRequiresTool().notSolid()), ONIConstants.Geo.COAL_GEN_ISTER, true)
                 .placementCondition(CoalGenTE::placeCondition)
                 .renderType((state)-> BlockRenderType.ENTITYBLOCK_ANIMATED)
                 .autoRotateShape()
                 .shape((state, world, pos, ctx)->NORTH_R)
-                .tileEntity((state, world)->ONIBlocks.Machines.Power.COAL_GEN_TE.get())
+                .tileEntity((state, world)->ONIBlocks.Machines.Power.COAL_GEN_TE.get(), CoalGenTE.class)
                 .container(new ONIIHasGui() {
                     @Override
                     public Container container(int i, World world, BlockPos pos, PlayerInventory playerInventory, PlayerEntity playerEntity) {
-                        return ONIBlocks.Machines.Power.COAL_GEN_CONTAINER_BUILDER.build(i, world, pos, playerInventory, playerEntity);
+                        return ONIBlocks.Machines.Power.COAL_GEN_CONTAINER_BUILDER.buildNewInstance(i, world, pos, playerInventory, playerEntity);
                     }
 
                     @Override

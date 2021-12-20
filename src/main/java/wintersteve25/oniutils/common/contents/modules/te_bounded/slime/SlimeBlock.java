@@ -1,4 +1,4 @@
-package wintersteve25.oniutils.common.contents.modules.resources.slime;
+package wintersteve25.oniutils.common.contents.modules.te_bounded.slime;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;

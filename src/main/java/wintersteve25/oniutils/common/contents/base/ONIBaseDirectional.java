@@ -32,21 +32,11 @@ public class ONIBaseDirectional extends ONIBaseBlock {
     private boolean allowVertical = false;
 
     public ONIBaseDirectional(int harvestLevel, float hardness, float resistance, String regName) {
-        super(harvestLevel, hardness, resistance, regName);
-
-        BlockState state = this.getStateContainer().getBaseState();
-        state.with(FACING, Direction.NORTH);
-
-        this.setDefaultState(state);
+        this(harvestLevel, hardness, resistance, regName, SoundType.STONE, Material.ROCK);
     }
 
     public ONIBaseDirectional(int harvestLevel, float hardness, float resistance, String regName, SoundType soundType, Material material) {
-        super(harvestLevel, hardness, resistance, regName, soundType, material);
-
-        BlockState state = this.getStateContainer().getBaseState();
-        state.with(FACING, Direction.NORTH);
-
-        this.setDefaultState(state);
+        this(regName, Properties.create(material).harvestLevel(harvestLevel).hardnessAndResistance(hardness, resistance).sound(soundType));
     }
 
     public ONIBaseDirectional(String regName, Properties properties) {

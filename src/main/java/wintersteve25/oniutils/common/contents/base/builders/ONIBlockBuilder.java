@@ -3,6 +3,7 @@ package wintersteve25.oniutils.common.contents.base.builders;
 import javafx.util.Pair;
 import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import wintersteve25.oniutils.ONIUtils;
@@ -110,9 +111,9 @@ public class ONIBlockBuilder<T extends ONIBaseBlock> {
         return this;
     }
 
-    public ONIBlockBuilder<T> tileEntity(ITETypeProvider teT) {
-        isMachine();
-        ((ONIBaseMachine) this.block).setTileEntityType(teT);
+    public ONIBlockBuilder<T> tileEntity(ITETypeProvider teT, Class<? extends TileEntity> teClass) {
+        this.block.setTileEntityType(teT);
+        this.block.setTeClass(teClass);
         return this;
     }
 

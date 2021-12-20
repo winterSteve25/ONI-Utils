@@ -1,4 +1,4 @@
-package wintersteve25.oniutils.common.contents.modules.resources.slime;
+package wintersteve25.oniutils.common.contents.modules.te_bounded.slime;
 
 import mekanism.common.tile.base.TileEntityUpdateable;
 import net.minecraft.block.BlockState;
@@ -27,7 +27,6 @@ public class SlimeTE extends TileEntityUpdateable implements ITickableTileEntity
 
     public SlimeTE() {
         super(ONIBlocks.TileEntityBounded.SLIME_TE.get());
-
         germHandler.addGerm(EnumGermTypes.SLIMELUNG, 15000);
     }
 

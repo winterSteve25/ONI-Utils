@@ -87,10 +87,10 @@ public class ONIContainerBuilder {
     }
 
     public IContainerFactory<ONIAbstractContainer> buildFactory() {
-        return (windowId, inv, data) -> build(windowId, inv.player.world, data.readBlockPos(), inv, inv.player);
+        return (windowId, inv, data) -> buildNewInstance(windowId, inv.player.world, data.readBlockPos(), inv, inv.player);
     }
 
-    public ONIAbstractContainer build(int windowID, World world, BlockPos pos, PlayerInventory playerInventory, PlayerEntity player) {
+    public ONIAbstractContainer buildNewInstance(int windowID, World world, BlockPos pos, PlayerInventory playerInventory, PlayerEntity player) {
         return new ONIAbstractContainer(
                 windowID,
                 world,

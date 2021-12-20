@@ -19,7 +19,6 @@ public class CoalGenGui extends ONIBaseGuiContainer<ONIAbstractContainer> {
 
     @Override
     protected void drawGuiContainerBackgroundLayer(@Nonnull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
-
         super.drawGuiContainerBackgroundLayer(matrixStack, partialTicks, mouseX, mouseY);
 
         int power = container.getPower();

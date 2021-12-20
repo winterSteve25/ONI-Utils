@@ -1,7 +1,12 @@
 package wintersteve25.oniutils.common.capability.world_gas.api.chemistry;
 
+import mekanism.api.chemical.gas.Gas;
+import mekanism.api.chemical.gas.GasStack;
+import mekanism.api.providers.IGasProvider;
 import mekanism.common.base.IChemicalConstant;
+import mekanism.common.registration.impl.GasRegistryObject;
 import net.minecraft.util.ResourceLocation;
+import wintersteve25.oniutils.common.init.ONIGases;
 import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 
 import javax.annotation.Nullable;
@@ -160,11 +165,29 @@ public enum Element implements IChemicalConstant, ONIIElement {
     @Nullable
     public static Element getFromRegName(ResourceLocation res) {
         for (Element e : Element.values()) {
-            if (("oniutils:" + e.getName()).equals(res.toString())) {
+            if (e.getName().equals(res.getPath())) {
                 return e;
             }
         }
 
         return null;
+    }
+
+    @Nullable
+    public static Gas getGasFromElement(Element element) {
+        for (GasRegistryObject<Gas> g : ONIGases.ELEMENT_GASES) {
+            Gas gas = g.get();
+            if (!gas.isEmptyType()) {
+                ResourceLocation resourceLocation = gas.getRegistryName();
+                if (resourceLocation != null) {
+                    if (resourceLocation.getPath().equals(element.getName())) return gas;
+                }
+            }
+        }
+        return null;
+    }
+
+    public static GasStack getGasStackFromElement(Element element, long amount) {
+        return new GasStack(Element.getGasFromElement(element), amount);
     }
 }

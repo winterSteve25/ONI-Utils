@@ -1,4 +1,4 @@
-package wintersteve25.oniutils.client.datagen;
+package wintersteve25.oniutils.common.datagen.client;
 
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
@@ -11,9 +11,7 @@ import wintersteve25.oniutils.api.ONIIRegistryObject;
 import wintersteve25.oniutils.common.capability.world_gas.api.chemistry.Element;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONIItems;
-import wintersteve25.oniutils.common.utils.helpers.LangHelper;
 import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
-import wintersteve25.oniutils.common.utils.helpers.ResoureceLocationHelper;
 
 public class ONIEngLangProvider extends LanguageProvider {
     public ONIEngLangProvider(DataGenerator gen) {
@@ -25,7 +23,7 @@ public class ONIEngLangProvider extends LanguageProvider {
         autoGenLang();
 
         //item groups
-        add("itemGroup.oniutils", "Veiled Ascent");
+        add("itemGroup.oniutils", "FC: ONIUtils");
 
         //messages
         add("oniutils.message.germs.infectEntity", "Infected interacted entity with %s %s");

@@ -12,7 +12,10 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.RegistryObject;
 import wintersteve25.oniutils.api.ONIIRegistryObject;
-import wintersteve25.oniutils.common.contents.base.*;
+import wintersteve25.oniutils.common.contents.base.ONIBaseBlock;
+import wintersteve25.oniutils.common.contents.base.ONIBaseBlockItem;
+import wintersteve25.oniutils.common.contents.base.ONIBaseDirectional;
+import wintersteve25.oniutils.common.contents.base.ONIBaseMachine;
 import wintersteve25.oniutils.common.contents.base.bounding.ONIBoundingBlock;
 import wintersteve25.oniutils.common.contents.base.bounding.ONIBoundingTE;
 import wintersteve25.oniutils.common.contents.base.builders.ONIAbstractContainer;
@@ -25,11 +28,9 @@ import wintersteve25.oniutils.common.contents.modules.power.coal.CoalGenTE;
 import wintersteve25.oniutils.common.contents.modules.power.manual.ManualGenBlock;
 import wintersteve25.oniutils.common.contents.modules.power.manual.ManualGenItemBlock;
 import wintersteve25.oniutils.common.contents.modules.power.manual.ManualGenTE;
-import wintersteve25.oniutils.common.contents.modules.resources.oxylite.OxyliteBlock;
-import wintersteve25.oniutils.common.contents.modules.resources.oxylite.OxyliteTE;
-import wintersteve25.oniutils.common.contents.modules.resources.slime.SlimeBlock;
-import wintersteve25.oniutils.common.contents.modules.resources.slime.SlimeTE;
-import wintersteve25.oniutils.common.contents.base.ONIBaseBlockItem;
+import wintersteve25.oniutils.common.contents.modules.te_bounded.oxylite.OxyliteTE;
+import wintersteve25.oniutils.common.contents.modules.te_bounded.slime.SlimeBlock;
+import wintersteve25.oniutils.common.contents.modules.te_bounded.slime.SlimeTE;
 import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 import wintersteve25.oniutils.common.utils.helpers.ModelFileHelper;
 import wintersteve25.oniutils.common.utils.helpers.RegistryHelper;
@@ -73,7 +74,7 @@ public class ONIBlocks {
 
     public static final class TileEntityBounded {
         //TE Blocks
-        public static final OxyliteBlock OXYLITE_BLOCK = new OxyliteBlock();
+        public static final ONIBaseBlock OXYLITE_BLOCK = OxyliteTE.createBlock().build().getKey();
         public static final RegistryObject<TileEntityType<OxyliteTE>> OXYLITE_TE = RegistryHelper.registerTE(MiscHelper.langToReg(OXYLITE_BLOCK.getRegName()), () -> TileEntityType.Builder.create(OxyliteTE::new, OXYLITE_BLOCK).build(null));
         public static final SlimeBlock SLIME_BLOCK = new SlimeBlock();
         public static final RegistryObject<TileEntityType<SlimeTE>> SLIME_TE = RegistryHelper.registerTE(MiscHelper.langToReg(SLIME_BLOCK.getRegName()), () -> TileEntityType.Builder.create(SlimeTE::new, SLIME_BLOCK).build(null));
