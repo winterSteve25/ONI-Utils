@@ -65,7 +65,7 @@ public class ONIBaseGuiTab extends Screen {
 
     public int getGuiLeftTopPosition(int width, int xSize) {
         if (this.isVisible()) {
-            return (177 + (width - xSize - 200) / 2) - 147;
+            return 177 + (width - xSize - 200) / 2;
         }
 
         return (width - xSize) / 2;
@@ -78,11 +78,15 @@ public class ONIBaseGuiTab extends Screen {
             RenderSystem.translatef(0.0F, 0.0F, 0.0F);
             this.mc.getTextureManager().bindTexture(BACKGROUND_LOCATION);
             RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            int i = getGuiLeftTopPosition(this.width, 177);
+            int i = getGuiLeftTopPosition(this.width, 177) - 147;
             int j = (this.height - 167) / 2;
             this.blit(matrixStack, i, j, 1, 1, 147, 170);
             mc.fontRenderer.func_243246_a(matrixStack, title, i + 10, j + 10, TextFormatting.WHITE.getColor());
             RenderSystem.popMatrix();
         }
+    }
+
+    public int getY() {
+        return (this.height - 167) / 2;
     }
 }
