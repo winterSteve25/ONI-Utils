@@ -4,14 +4,15 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import wintersteve25.oniutils.api.functional.IPlacementCondition;
 import wintersteve25.oniutils.api.functional.IToolTipCondition;
-import wintersteve25.oniutils.common.contents.base.ONIBaseBlockItem;
+import wintersteve25.oniutils.common.contents.base.ONIBaseItemBlock;
 import wintersteve25.oniutils.common.contents.base.ONIIItem;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
 public class ONIItemBuilder<T extends ONIIItem> {
-    public final T item;
+    private final T item;
 
     public ONIItemBuilder(Supplier<T> item) {
         this.item = item.get();
@@ -37,8 +38,8 @@ public class ONIItemBuilder<T extends ONIIItem> {
         return this;
     }
 
-    public ONIItemBuilder<T> tooltip(Supplier<List<ITextComponent>> tooltips) {
-        this.item.setTooltips(tooltips);
+    public ONIItemBuilder<T> tooltip(ITextComponent... tooltips) {
+        this.item.setTooltips(() -> Arrays.asList(tooltips));
         return this;
     }
 
@@ -53,11 +54,16 @@ public class ONIItemBuilder<T extends ONIIItem> {
         return this;
     }
 
+    public ONIItemBuilder<T> setCategory(ONIIItem.ItemCategory category) {
+        this.item.setItemCategory(category);
+        return this;
+    }
+
     public T build() {
         return this.item;
     }
 
     private void blockItem() {
-        if (!(this.item instanceof ONIBaseBlockItem)) throw new IllegalStateException("Tried to create blockitem-only properties with a normal item");
+        if (!(this.item instanceof ONIBaseItemBlock)) throw new IllegalStateException("Tried to create blockitem-only properties with a normal item");
     }
 }

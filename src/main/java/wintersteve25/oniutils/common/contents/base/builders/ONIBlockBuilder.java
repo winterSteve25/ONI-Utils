@@ -20,7 +20,7 @@ public class ONIBlockBuilder<T extends ONIBaseBlock> {
     @Nonnull
     private final T block;
     @Nonnull
-    private final ONIItemBuilder<ONIBaseBlockItem> blockItem;
+    private final ONIItemBuilder<ONIBaseItemBlock> blockItem;
 
     public ONIBlockBuilder(Supplier<T> block) {
         this(block, new Item.Properties().group(ONIUtils.creativeTab), false);
@@ -31,7 +31,7 @@ public class ONIBlockBuilder<T extends ONIBaseBlock> {
         if (isAnimated) {
             this.blockItem = new ONIItemBuilder<>(() -> new ONIBaseAnimatedBlockItem(this.block, properties));
         } else {
-            this.blockItem = new ONIItemBuilder<>(() -> new ONIBaseBlockItem(this.block, properties));
+            this.blockItem = new ONIItemBuilder<>(() -> new ONIBaseItemBlock(this.block, properties));
         }
     }
 
@@ -58,7 +58,7 @@ public class ONIBlockBuilder<T extends ONIBaseBlock> {
         return this;
     }
 
-    public ONIBlockBuilder<T> tooltip(Supplier<List<ITextComponent>> tooltips) {
+    public ONIBlockBuilder<T> tooltip(ITextComponent... tooltips) {
         this.blockItem.tooltip(tooltips);
         return this;
     }
@@ -70,6 +70,7 @@ public class ONIBlockBuilder<T extends ONIBaseBlock> {
 
     public ONIBlockBuilder<T> noModelGen() {
         this.block.setDoModelGen(false);
+        this.blockItem.noModelGen();
         return this;
     }
 
@@ -86,6 +87,11 @@ public class ONIBlockBuilder<T extends ONIBaseBlock> {
 
     public ONIBlockBuilder<T> noLootTableGen() {
         this.block.setDoLootTableGen(false);
+        return this;
+    }
+
+    public ONIBlockBuilder<T> setCategory(ONIIItem.ItemCategory category) {
+        this.blockItem.setCategory(category);
         return this;
     }
 
@@ -123,7 +129,7 @@ public class ONIBlockBuilder<T extends ONIBaseBlock> {
         return this;
     }
 
-    public Pair<T, ONIBaseBlockItem> build() {
+    public Pair<T, ONIBaseItemBlock> build() {
         return new Pair<>(this.block, this.blockItem.build());
     }
 

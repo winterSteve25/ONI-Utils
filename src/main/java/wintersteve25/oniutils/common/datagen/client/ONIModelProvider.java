@@ -11,9 +11,10 @@ import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.client.renderers.geckolibs.base.ONIIHasGeoItem;
 import wintersteve25.oniutils.api.ONIIRegistryObject;
 import wintersteve25.oniutils.common.contents.base.ONIBaseDirectional;
+import wintersteve25.oniutils.common.contents.base.ONIIItem;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONIItems;
-import wintersteve25.oniutils.common.contents.modules.modifications.ONIModification;
+import wintersteve25.oniutils.common.contents.modules.items.modifications.ONIModification;
 import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 
 public class ONIModelProvider extends ItemModelProvider {
@@ -47,14 +48,19 @@ public class ONIModelProvider extends ItemModelProvider {
         }
         for (ONIIRegistryObject<Item> i : ONIItems.itemRegistryList) {
             if (i.doModelGen()) {
-                if (i.get() instanceof ONIModification) {
-                    ONIModification mod = (ONIModification) i.get();
+                Item item = i.get();
+                if (item instanceof ONIModification) {
+                    ONIModification mod = (ONIModification) item;
                     String name = i.getRegName();
                     String processedName = MiscHelper.langToReg(mod.getModType().getName()) + name.charAt(name.length() - 1);
                     builder(MiscHelper.langToReg(name), "modifications/" + processedName);
                 } else {
-                    String name = i.getRegName();
-                    builder(name, name);
+                    String name = MiscHelper.langToReg(i.getRegName());
+                    if (item instanceof ONIIItem) {
+                        builder(name, ((ONIIItem) item).getItemCategory().getPathName() + name);
+                    } else {
+                        builder(name, name);
+                    }
                 }
             }
         }

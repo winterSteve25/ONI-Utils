@@ -210,7 +210,7 @@ public class ONIBaseBlock extends Block implements ONIIStateFluidLoggable, ONIIR
 
     @Override
     public void onBlockHarvested(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        if (getTeClass().isInstance(world.getTileEntity(pos))) {
+        if (isCorrectTe(world.getTileEntity(pos))) {
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof ONIBaseTE) {
                 ONIBaseTE baseTE = (ONIBaseTE) tileEntity;

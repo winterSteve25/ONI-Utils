@@ -102,16 +102,16 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
             RenderSystem.color4f(1F, 1F, 1F, 1F);
             this.minecraft.getTextureManager().bindTexture(bg);
             int j = (this.height - this.getYSize()) / 2;
-            this.blit(matrixStack, this.guiLeft, j, 0, 0, this.getXSize(), this.getYSize() + 5);
+            this.blit(matrixStack, getXWithTab(this.guiLeft), j, 0, 0, this.getXSize(), this.getYSize() + 5);
         }
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
         if (shouldKeepInventoryText()) {
-            super.drawGuiContainerForegroundLayer(matrixStack, x, y);
+            super.drawGuiContainerForegroundLayer(matrixStack, getXWithTab(x), y);
         } else {
-            this.font.func_243248_b(matrixStack, this.title, (float) this.titleX, (float) this.titleY, 4210752);
+            this.font.func_243248_b(matrixStack, this.title, getXWithTab(this.titleX), (float) this.titleY, 4210752);
         }
     }
 
@@ -143,11 +143,22 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
         return false;
     }
 
+    protected int getXWithTab(int x) {
+        return currentTab.isVisible() ? x + 147 : x;
+    }
+
     abstract class Button extends AbstractButton {
         private final ITextProperties name;
 
+        protected final int buttonY = ONIBaseGuiContainer.this.guiTop - 17;
+        public int infoX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 1);
+        public int alertX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 18);
+        public int redstoneX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 158);
+        public int redstoneOutputX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 35);
+        public int modificationX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 52);
+
         protected Button(int x, int y, ITextProperties name) {
-            super(x, y, 16, 16, StringTextComponent.EMPTY);
+            super(ONIBaseGuiContainer.this.getXWithTab(x), y, 16, 16, StringTextComponent.EMPTY);
             this.name = name;
         }
 
@@ -199,23 +210,30 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
                 }
             }
 
-
             ONIBaseGuiContainer.this.currentTab = infoTab;
             ONIBaseGuiContainer.this.infoTab.toggleVisibility();
             ONIBaseGuiContainer.this.guiLeft = ONIBaseGuiContainer.this.infoTab.getGuiLeftTopPosition(ONIBaseGuiContainer.this.width, ONIBaseGuiContainer.this.xSize);
 
-            this.setPosition(ONIBaseGuiContainer.this.guiLeft + 1, ONIBaseGuiContainer.this.guiTop - 17);
-            ONIBaseGuiContainer.this.alertButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 18, ONIBaseGuiContainer.this.guiTop - 17);
-            ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 158, ONIBaseGuiContainer.this.guiTop - 17);
+            infoX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 1);
+            alertX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 18);
+            redstoneX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 158);
+            redstoneOutputX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 35);
+            modificationX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 52);
+
+            this.setPosition(infoX, buttonY);
+            ONIBaseGuiContainer.this.alertButton.setPosition(alertX, buttonY);
+            ONIBaseGuiContainer.this.redstoneButton.setPosition(redstoneX, buttonY);
 
             //janky but works
             if (ONIBaseGuiContainer.this.hasRedstoneOutputButton()) {
-                ONIBaseGuiContainer.this.redstoneOutputButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 35, ONIBaseGuiContainer.this.guiTop - 17);
+                ONIBaseGuiContainer.this.redstoneOutputButton.setPosition(redstoneOutputX, buttonY);
             }
 
             if (ONIBaseGuiContainer.this.hasModButton()) {
-                ONIBaseGuiContainer.this.modificationButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 52, ONIBaseGuiContainer.this.guiTop - 17);
+                ONIBaseGuiContainer.this.modificationButton.setPosition(modificationX, buttonY);
             }
+
+
         }
     }
 
@@ -245,17 +263,23 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
             ONIBaseGuiContainer.this.alertTab.toggleVisibility();
             ONIBaseGuiContainer.this.guiLeft = ONIBaseGuiContainer.this.alertTab.getGuiLeftTopPosition(ONIBaseGuiContainer.this.width, ONIBaseGuiContainer.this.xSize);
 
-            this.setPosition(ONIBaseGuiContainer.this.guiLeft + 18, ONIBaseGuiContainer.this.guiTop - 17);
-            ONIBaseGuiContainer.this.infoButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 1, ONIBaseGuiContainer.this.guiTop - 17);
-            ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 158, ONIBaseGuiContainer.this.guiTop - 17);
+            infoX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 1);
+            alertX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 18);
+            redstoneX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 158);
+            redstoneOutputX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 35);
+            modificationX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 52);
+
+            this.setPosition(alertX, buttonY);
+            ONIBaseGuiContainer.this.infoButton.setPosition(infoX, buttonY);
+            ONIBaseGuiContainer.this.redstoneButton.setPosition(redstoneX, buttonY);
 
             //janky but works
             if (ONIBaseGuiContainer.this.hasRedstoneOutputButton()) {
-                ONIBaseGuiContainer.this.redstoneOutputButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 35, ONIBaseGuiContainer.this.guiTop - 17);
+                ONIBaseGuiContainer.this.redstoneOutputButton.setPosition(redstoneOutputX, buttonY);
             }
 
             if (ONIBaseGuiContainer.this.hasModButton()) {
-                ONIBaseGuiContainer.this.modificationButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 52, ONIBaseGuiContainer.this.guiTop - 17);
+                ONIBaseGuiContainer.this.modificationButton.setPosition(modificationX, buttonY);
             }
         }
     }
@@ -284,13 +308,19 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
             ONIBaseGuiContainer.this.redstoneOutputTab.toggleVisibility();
             ONIBaseGuiContainer.this.guiLeft = ONIBaseGuiContainer.this.redstoneOutputTab.getGuiLeftTopPosition(ONIBaseGuiContainer.this.width, ONIBaseGuiContainer.this.xSize);
 
-            this.setPosition(ONIBaseGuiContainer.this.guiLeft + 35, ONIBaseGuiContainer.this.guiTop - 17);
-            ONIBaseGuiContainer.this.infoButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 1, ONIBaseGuiContainer.this.guiTop - 17);
-            ONIBaseGuiContainer.this.alertButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 18, ONIBaseGuiContainer.this.guiTop - 17);
-            ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 158, ONIBaseGuiContainer.this.guiTop - 17);
+            infoX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 1);
+            alertX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 18);
+            redstoneX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 158);
+            redstoneOutputX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 35);
+            modificationX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 52);
+
+            this.setPosition(redstoneOutputX, buttonY);
+            ONIBaseGuiContainer.this.infoButton.setPosition(infoX, buttonY);
+            ONIBaseGuiContainer.this.alertButton.setPosition(alertX, buttonY);
+            ONIBaseGuiContainer.this.redstoneButton.setPosition(redstoneX, buttonY);
 
             if (ONIBaseGuiContainer.this.hasModButton()) {
-                ONIBaseGuiContainer.this.modificationButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 52, ONIBaseGuiContainer.this.guiTop - 17);
+                ONIBaseGuiContainer.this.modificationButton.setPosition(modificationX, buttonY);
             }
         }
     }
@@ -319,13 +349,19 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Co
             ONIBaseGuiContainer.this.modificationTab.toggleVisibility();
             ONIBaseGuiContainer.this.guiLeft = ONIBaseGuiContainer.this.modificationTab.getGuiLeftTopPosition(ONIBaseGuiContainer.this.width, ONIBaseGuiContainer.this.xSize);
 
-            this.setPosition(ONIBaseGuiContainer.this.guiLeft + 52, ONIBaseGuiContainer.this.guiTop - 17);
-            ONIBaseGuiContainer.this.infoButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 1, ONIBaseGuiContainer.this.guiTop - 17);
-            ONIBaseGuiContainer.this.alertButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 18, ONIBaseGuiContainer.this.guiTop - 17);
-            ONIBaseGuiContainer.this.redstoneButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 158, ONIBaseGuiContainer.this.guiTop - 17);
+            infoX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 1);
+            alertX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 18);
+            redstoneX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 158);
+            redstoneOutputX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 35);
+            modificationX = getXWithTab(ONIBaseGuiContainer.this.guiLeft + 52);
+
+            this.setPosition(modificationX, buttonY);
+            ONIBaseGuiContainer.this.infoButton.setPosition(infoX, ONIBaseGuiContainer.this.guiTop - 17);
+            ONIBaseGuiContainer.this.alertButton.setPosition(alertX, ONIBaseGuiContainer.this.guiTop - 17);
+            ONIBaseGuiContainer.this.redstoneButton.setPosition(redstoneX, ONIBaseGuiContainer.this.guiTop - 17);
 
             if (ONIBaseGuiContainer.this.hasRedstoneOutputButton()) {
-                ONIBaseGuiContainer.this.redstoneOutputButton.setPosition(ONIBaseGuiContainer.this.guiLeft + 35, ONIBaseGuiContainer.this.guiTop - 17);
+                ONIBaseGuiContainer.this.redstoneOutputButton.setPosition(redstoneOutputX, ONIBaseGuiContainer.this.guiTop - 17);
             }
         }
     }

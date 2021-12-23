@@ -8,7 +8,7 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class ONIBaseAnimatedBlockItem extends ONIBaseBlockItem implements IAnimatable {
+public class ONIBaseAnimatedBlockItem extends ONIBaseItemBlock implements IAnimatable {
     public AnimationFactory factory = new AnimationFactory(this);
     public String controllerName = "controller";
 

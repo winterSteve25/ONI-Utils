@@ -13,24 +13,24 @@ import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.RegistryObject;
 import wintersteve25.oniutils.api.ONIIRegistryObject;
 import wintersteve25.oniutils.common.contents.base.ONIBaseBlock;
-import wintersteve25.oniutils.common.contents.base.ONIBaseBlockItem;
+import wintersteve25.oniutils.common.contents.base.ONIBaseItemBlock;
 import wintersteve25.oniutils.common.contents.base.ONIBaseDirectional;
 import wintersteve25.oniutils.common.contents.base.ONIBaseMachine;
 import wintersteve25.oniutils.common.contents.base.bounding.ONIBoundingBlock;
 import wintersteve25.oniutils.common.contents.base.bounding.ONIBoundingTE;
 import wintersteve25.oniutils.common.contents.base.builders.ONIAbstractContainer;
 import wintersteve25.oniutils.common.contents.base.builders.ONIContainerBuilder;
-import wintersteve25.oniutils.common.contents.modules.oxygen.algae.AlgaeDiffuserBlock;
-import wintersteve25.oniutils.common.contents.modules.oxygen.algae.AlgaeDiffuserTE;
-import wintersteve25.oniutils.common.contents.modules.power.cables.EnumCableTypes;
-import wintersteve25.oniutils.common.contents.modules.power.cables.WireBlock;
-import wintersteve25.oniutils.common.contents.modules.power.coal.CoalGenTE;
-import wintersteve25.oniutils.common.contents.modules.power.manual.ManualGenBlock;
-import wintersteve25.oniutils.common.contents.modules.power.manual.ManualGenItemBlock;
-import wintersteve25.oniutils.common.contents.modules.power.manual.ManualGenTE;
-import wintersteve25.oniutils.common.contents.modules.te_bounded.oxylite.OxyliteTE;
-import wintersteve25.oniutils.common.contents.modules.te_bounded.slime.SlimeBlock;
-import wintersteve25.oniutils.common.contents.modules.te_bounded.slime.SlimeTE;
+import wintersteve25.oniutils.common.contents.modules.blocks.oxygen.algae.AlgaeDiffuserBlock;
+import wintersteve25.oniutils.common.contents.modules.blocks.oxygen.algae.AlgaeDiffuserTE;
+import wintersteve25.oniutils.common.contents.modules.blocks.power.cables.EnumCableTypes;
+import wintersteve25.oniutils.common.contents.modules.blocks.power.cables.WireBlock;
+import wintersteve25.oniutils.common.contents.modules.blocks.power.coal.CoalGenTE;
+import wintersteve25.oniutils.common.contents.modules.blocks.power.manual.ManualGenBlock;
+import wintersteve25.oniutils.common.contents.modules.blocks.power.manual.ManualGenItemBlock;
+import wintersteve25.oniutils.common.contents.modules.blocks.power.manual.ManualGenTE;
+import wintersteve25.oniutils.common.contents.modules.blocks.te_bounded.oxylite.OxyliteTE;
+import wintersteve25.oniutils.common.contents.modules.blocks.te_bounded.slime.SlimeBlock;
+import wintersteve25.oniutils.common.contents.modules.blocks.te_bounded.slime.SlimeTE;
 import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 import wintersteve25.oniutils.common.utils.helpers.ModelFileHelper;
 import wintersteve25.oniutils.common.utils.helpers.RegistryHelper;
@@ -84,7 +84,7 @@ public class ONIBlocks {
         //Machines
         public static final class Power {
             //Power
-            public static final Pair<ONIBaseMachine, ONIBaseBlockItem> COAL_GEN_BUILDER = CoalGenTE.createBlock().build();
+            public static final Pair<ONIBaseMachine, ONIBaseItemBlock> COAL_GEN_BUILDER = CoalGenTE.createBlock().build();
             public static final ONIBaseMachine COAL_GEN_BLOCK = COAL_GEN_BUILDER.getKey();
             public static final RegistryObject<TileEntityType<CoalGenTE>> COAL_GEN_TE = RegistryHelper.registerTE(MiscHelper.langToReg(COAL_GEN_BLOCK.getRegName()), () -> TileEntityType.Builder.create(CoalGenTE::new, COAL_GEN_BLOCK).build(null));
             public static final ONIContainerBuilder COAL_GEN_CONTAINER_BUILDER = CoalGenTE.createContainer();

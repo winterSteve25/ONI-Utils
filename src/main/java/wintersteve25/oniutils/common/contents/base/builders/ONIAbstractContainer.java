@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
 import wintersteve25.oniutils.api.ONIIModifiable;
 import wintersteve25.oniutils.common.contents.base.ONIBaseContainer;
-import wintersteve25.oniutils.common.contents.modules.modifications.ModificationContext;
+import wintersteve25.oniutils.common.contents.modules.items.modifications.ModificationContext;
 import wintersteve25.oniutils.common.utils.SlotArrangement;
 
 import java.util.List;

@@ -2,9 +2,9 @@ package wintersteve25.oniutils.api;
 
 import net.minecraft.item.ItemStack;
 import wintersteve25.oniutils.common.contents.base.ONIBaseTE;
-import wintersteve25.oniutils.common.contents.modules.modifications.ModificationContext;
-import wintersteve25.oniutils.common.contents.modules.modifications.ModificationHandler;
-import wintersteve25.oniutils.common.contents.modules.modifications.ONIModification;
+import wintersteve25.oniutils.common.contents.modules.items.modifications.ModificationContext;
+import wintersteve25.oniutils.common.contents.modules.items.modifications.ModificationHandler;
+import wintersteve25.oniutils.common.contents.modules.items.modifications.ONIModification;
 import wintersteve25.oniutils.common.utils.helpers.ONIModInventoryHandler;
 
 /**

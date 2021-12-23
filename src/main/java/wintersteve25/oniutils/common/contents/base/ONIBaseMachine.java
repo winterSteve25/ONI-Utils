@@ -1,40 +1,29 @@
 package wintersteve25.oniutils.common.contents.base;
 
 import harmonised.pmmo.api.APIUtils;
-import mekanism.common.tile.interfaces.IBoundingBlock;
-import mekanism.common.util.WorldUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.api.*;
-import wintersteve25.oniutils.api.functional.ITETypeProvider;
-import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
-import wintersteve25.oniutils.common.contents.modules.modifications.ONIModification;
-import wintersteve25.oniutils.common.utils.helpers.ISHandlerHelper;
+import wintersteve25.oniutils.common.contents.modules.items.modifications.ONIModification;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ONIBaseMachine extends ONIBaseDirectional {
 
@@ -53,18 +42,9 @@ public class ONIBaseMachine extends ONIBaseDirectional {
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
         if (!world.isRemote()) {
             TileEntity tileEntity = world.getTileEntity(pos);
-            if (tileEntity instanceof ONIIRequireSkillToInteract) {
-                ONIIRequireSkillToInteract skill = (ONIIRequireSkillToInteract) tileEntity;
-                for (String skillRequired : skill.requiredSkill().keySet()) {
-                    if (APIUtils.getLevel(skillRequired, player) < skill.getRequiredLevel(skillRequired)) {
-                        player.sendStatusMessage(new TranslationTextComponent("oniutils.message.needLevel", skill.getRequiredLevel(skillRequired), skill.requiredSkill()), true);
-                        return ActionResultType.FAIL;
-                    }
-                }
-            }
             ItemStack heldItem = player.getHeldItem(hand);
             super.onBlockActivated(state, world, pos, player, hand, rayTraceResult);
-            if (getTeClass().isInstance(tileEntity)) {
+            if (isCorrectTe(tileEntity)) {
                 if (tileEntity instanceof ONIIModifiable && tileEntity instanceof ONIBaseTE) {
                     ONIBaseTE baseTE = (ONIBaseTE) tileEntity;
                     baseTE.onBlockActivated(state, world, pos, player, hand, rayTraceResult);
@@ -73,6 +53,16 @@ public class ONIBaseMachine extends ONIBaseDirectional {
                         if (modifiable.addMod((ONIBaseTE) tileEntity, heldItem)) {
                             player.swing(hand, true);
                             return ActionResultType.SUCCESS;
+                        }
+                    }
+                }
+
+                if (tileEntity instanceof ONIIRequireSkillToInteract) {
+                    ONIIRequireSkillToInteract skill = (ONIIRequireSkillToInteract) tileEntity;
+                    for (String skillRequired : skill.requiredSkill().keySet()) {
+                        if (APIUtils.getLevel(skillRequired, player) < skill.getRequiredLevel(skillRequired)) {
+                            player.sendStatusMessage(new TranslationTextComponent("oniutils.message.needLevel", skill.getRequiredLevel(skillRequired), skillRequired), true);
+                            return ActionResultType.FAIL;
                         }
                     }
                 }

@@ -17,17 +17,29 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public interface ONIIItem extends ONIIRegistryObject<Item> {
-    Supplier<TextFormatting> getColorName();
+    default Supplier<TextFormatting> getColorName() {
+        return null;
+    }
 
-    void setColorName(Supplier<TextFormatting> colorName);
+    default void setColorName(Supplier<TextFormatting> colorName) {
 
-    Supplier<List<ITextComponent>> getTooltips();
+    }
 
-    void setTooltips(Supplier<List<ITextComponent>> tooltips);
+    default Supplier<List<ITextComponent>> getTooltips() {
+        return null;
+    }
 
-    Supplier<IToolTipCondition> getTooltipCondition();
+    default void setTooltips(Supplier<List<ITextComponent>> tooltips) {
 
-    void setTooltipCondition(Supplier<IToolTipCondition> condition);
+    }
+
+    default Supplier<IToolTipCondition> getTooltipCondition() {
+        return IToolTipCondition.DEFAULT;
+    }
+
+    default void setTooltipCondition(Supplier<IToolTipCondition> condition) {
+
+    }
 
     default IPlacementCondition getPlacementCondition() {
         return null;
@@ -36,9 +48,20 @@ public interface ONIIItem extends ONIIRegistryObject<Item> {
     default void setPlacementCondition(IPlacementCondition placementCondition) {
     }
 
-    void setDoModelGen(boolean doModelGen);
+    default void setDoModelGen(boolean doModelGen) {
 
-    void setDoLangGen(boolean doLangGen);
+    }
+
+    default void setDoLangGen(boolean doLangGen) {
+
+    }
+
+    default ItemCategory getItemCategory() {
+        return ItemCategory.GENERAL;
+    }
+
+    default void setItemCategory(ItemCategory itemCategory) {
+    }
 
     default void tooltip(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         if (getTooltips() != null && getTooltips().get() != null && !getTooltips().get().isEmpty()) {
@@ -50,7 +73,7 @@ public interface ONIIItem extends ONIIRegistryObject<Item> {
                     if (condition.canShow(stack, worldIn, tooltip, flagIn)) {
                         tooltip.addAll(getTooltips().get());
                     } else {
-                        tooltip.add(new TranslationTextComponent(ONIConstants.LangKeys.HOLD_SHIFT));
+                        tooltip.add(ONIConstants.LangKeys.HOLD_SHIFT);
                     }
                 } else {
                     if (condition.canShow(stack, worldIn, tooltip, flagIn)) {
@@ -60,6 +83,26 @@ public interface ONIIItem extends ONIIRegistryObject<Item> {
                     }
                 }
             }
+        }
+    }
+
+    enum ItemCategory {
+        GENERAL(""),
+        GADGETS("gadgets/"),
+        FURNITURE("furniture/"),
+        OXYGEN("oxygen/"),
+        POWER("power/"),
+        TE_BOUNDED("te_bounded/"),
+        VENTILATION("ventilation/");
+
+        private final String pathName;
+
+        ItemCategory(String pathName) {
+            this.pathName = pathName;
+        }
+
+        public String getPathName() {
+            return pathName;
         }
     }
 }

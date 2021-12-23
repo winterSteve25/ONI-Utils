@@ -10,4 +10,12 @@ public class LangHelper {
     public static TranslationTextComponent itemTooltip(String name) {
         return new TranslationTextComponent("oniutils.tooltips.items." + MiscHelper.langToReg(name));
     }
+
+    public static TranslationTextComponent modificationToolTip(String name) {
+        return itemTooltip("modification." + name);
+    }
+
+    public static TranslationTextComponent curiosSlot(String name) {
+        return new TranslationTextComponent("curios.identifier." + name);
+    }
 }

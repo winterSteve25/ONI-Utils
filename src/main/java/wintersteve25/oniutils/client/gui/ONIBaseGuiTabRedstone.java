@@ -50,11 +50,6 @@ public class ONIBaseGuiTabRedstone extends ONIBaseGuiTab {
     }
 
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
-    }
-
-    @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (isVisible()) {
             OptionSlider sliderWidge = (OptionSlider) sliderWidget;

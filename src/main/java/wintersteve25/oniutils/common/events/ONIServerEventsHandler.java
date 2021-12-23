@@ -13,6 +13,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.capability.germ.GermEventsHandler;
 import wintersteve25.oniutils.common.capability.germ.GermCapability;
@@ -23,6 +24,7 @@ import wintersteve25.oniutils.common.capability.oni_player_data.ONIPlayerDataEve
 import wintersteve25.oniutils.common.capability.world_gas.WorldGasCapability;
 import wintersteve25.oniutils.common.capability.world_gas.WorldGasEventsHandler;
 import wintersteve25.oniutils.common.commands.SetGermAmountCommands;
+import wintersteve25.oniutils.common.compat.curios.CuriosCompat;
 import wintersteve25.oniutils.common.init.ONIConfig;
 import wintersteve25.oniutils.common.network.ONINetworking;
 
@@ -52,13 +54,6 @@ public class ONIServerEventsHandler {
             MinecraftForge.EVENT_BUS.addListener(GermEventsHandler::keepGermWhilePlaced);
         }
 
-        //potr
-//      if (ModList.get().isLoaded("adpother")) {
-//        if (ONIConfig.ENABLE_GAS.get()) {
-//            MinecraftForge.EVENT_BUS.addListener(AdPotherAddonEventHandlers::playerTick);
-//        }
-//      }
-
         //player data
         if (ModList.get().isLoaded("pmmo"))  {
             if (ONIConfig.ENABLE_TRAITS.get()) {
@@ -73,11 +68,15 @@ public class ONIServerEventsHandler {
             }
         }
 
+        // World Gas
         ONIUtils.LOGGER.info("Registering World Gas");
         MinecraftForge.EVENT_BUS.addGenericListener(Chunk.class, WorldGasEventsHandler::chunkCapAttachEvent);
         MinecraftForge.EVENT_BUS.addListener(WorldGasEventsHandler::worldTick);
 
         //Misc Event Listeners
+        if (ModList.get().isLoaded("curios")) {
+            FMLJavaModLoadingContext.get().getModEventBus().addListener(CuriosCompat::register);
+        }
     }
 
     public static void command(RegisterCommandsEvent event) {
@@ -85,7 +84,6 @@ public class ONIServerEventsHandler {
 
         LiteralArgumentBuilder<CommandSource> requires = Commands.literal("oniutils").requires((commandSource) -> commandSource.hasPermissionLevel(3));
         LiteralCommandNode<CommandSource> source = dispatcher.register(requires.then(SetGermAmountCommands.register(dispatcher)));
-        dispatcher.register(Commands.literal("veiledascent").redirect(source));
 
         ONIUtils.LOGGER.info("Registered ONIUtils Commands!");
     }

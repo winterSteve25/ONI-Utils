@@ -1,6 +1,5 @@
 package wintersteve25.oniutils.common.capability.world_gas.api.chemistry;
 
-import mekanism.api.chemical.Chemical;
 import mekanism.api.chemical.gas.Gas;
 import mekanism.api.chemical.gas.GasStack;
 import net.minecraft.nbt.CompoundNBT;

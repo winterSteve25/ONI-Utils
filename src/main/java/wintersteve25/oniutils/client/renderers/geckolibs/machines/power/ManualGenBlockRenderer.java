@@ -4,7 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import wintersteve25.oniutils.client.renderers.geckolibs.base.GeckolibBlockRendererBase;
-import wintersteve25.oniutils.common.contents.modules.power.manual.ManualGenTE;
+import wintersteve25.oniutils.common.contents.modules.blocks.power.manual.ManualGenTE;
 import wintersteve25.oniutils.common.utils.ONIConstants;
 
 public class ManualGenBlockRenderer extends GeckolibBlockRendererBase<ManualGenTE> {

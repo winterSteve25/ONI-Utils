@@ -5,10 +5,12 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Item;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.data.LanguageProvider;
+import net.minecraftforge.fml.ModList;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.client.gui.ONIBaseGuiTab;
 import wintersteve25.oniutils.api.ONIIRegistryObject;
 import wintersteve25.oniutils.common.capability.world_gas.api.chemistry.Element;
+import wintersteve25.oniutils.common.compat.curios.CuriosCompat;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONIItems;
 import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
@@ -58,6 +60,7 @@ public class ONIEngLangProvider extends LanguageProvider {
         add("oniutils.tooltips.items.modification.fluid", TextFormatting.GRAY + "Fluid Efficiency Modification allow you to modify machine's fluid consumption rate. Up to 125%/-125%. 25% more each tier");
         add("oniutils.tooltips.items.modification.temperature", TextFormatting.GRAY + "Temperature Modification allow you to modify machine's temperature capacity. Up to 120%/-120%. 20% more each tier");
         add("oniutils.tooltips.items.modification.complexity", TextFormatting.GRAY + "Complexity Modification allow you to modify machine's required operation skill level. Up to 125%/-125%. 25% more each tier");
+        add("oniutils.tooltips.items.gas_visual_goggles", TextFormatting.GRAY + "Put on to see the gases move in real time!");
 
         //gui
         add("oniutils.gui.machines.power", "Plasma Stored: %s Pls");
@@ -93,9 +96,14 @@ public class ONIEngLangProvider extends LanguageProvider {
 
         add("oniutils.gui.items.modification.bonus", "Modification Value: %s");
 
-        //keybinds
-        add("oniutils.keybinds.category", "Veiled Ascent Keybinds");
+        // keybinds
+        add("oniutils.keybinds.category", "FC: ONIUtils Keybinds");
         add("oniutils.offManualGen", "Get off manual generator");
+
+        // curios
+        if (ModList.get().isLoaded("curios")) {
+            CuriosCompat.lang(this);
+        }
     }
 
     private void autoGenLang() {

@@ -6,8 +6,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 import wintersteve25.oniutils.client.gui.ONIBaseGuiTabModification;
 import wintersteve25.oniutils.common.contents.base.enums.EnumModifications;
-import wintersteve25.oniutils.common.contents.modules.modifications.ModificationContext;
-import wintersteve25.oniutils.common.contents.modules.modifications.ONIModification;
+import wintersteve25.oniutils.common.contents.modules.items.modifications.ModificationContext;
+import wintersteve25.oniutils.common.contents.modules.items.modifications.ONIModification;
 import wintersteve25.oniutils.common.network.ONINetworking;
 import wintersteve25.oniutils.common.network.RenderErrorPacket;
 

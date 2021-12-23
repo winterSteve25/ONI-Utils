@@ -19,11 +19,12 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import wintersteve25.oniutils.api.*;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
 import wintersteve25.oniutils.common.capability.plasma.api.IPlasma;
-import wintersteve25.oniutils.common.contents.modules.modifications.ONIModification;
+import wintersteve25.oniutils.common.contents.modules.items.modifications.ONIModification;
 import wintersteve25.oniutils.common.utils.SlotArrangement;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
+import java.util.function.BiPredicate;
 
 public abstract class ONIBaseContainer extends Container {
 
@@ -355,10 +356,10 @@ public abstract class ONIBaseContainer extends Container {
         addSlotRange(playerInventory, 0, leftCol, topRow, 9, 18);
     }
 
-    public HashMap<Item, Integer> validItems() {
+    public BiPredicate<ItemStack, Integer> validItems() {
         if (tileEntity instanceof ONIIHasValidItems) {
             ONIIHasValidItems hasValidItems = (ONIIHasValidItems) tileEntity;
-            return hasValidItems.validItems();
+            return hasValidItems.validItemsPredicate();
         }
         return null;
     }

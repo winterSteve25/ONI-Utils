@@ -5,7 +5,6 @@ import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 
 public class        ONIConfig {
     public static final String CAT_GERM = "germs";
-//    public static final String CAT_POTR = "potr";
     public static final String CAT_TRAITS = "traits";
     public static final String CAT_MACHINE = "machines";
     public static final String CAT_GAS = "gas";
@@ -18,10 +17,6 @@ public class        ONIConfig {
     public static ForgeConfigSpec.IntValue GERM_DUP_SPEED;
     public static ForgeConfigSpec.IntValue GERM_DUP_SPEED_PLAYER;
     public static ForgeConfigSpec.IntValue GERM_STOP_DUP_AMOUNT;
-
-//    public static ForgeConfigSpec.BooleanValue ENABLE_POTR;
-//    public static ForgeConfigSpec.IntValue PLAYER_EMIT_SPEED;
-//    public static ForgeConfigSpec.IntValue PLAYER_BREATH_TIMER;
 
     public static ForgeConfigSpec.BooleanValue ENABLE_TRAITS;
 
@@ -36,6 +31,7 @@ public class        ONIConfig {
     public static ForgeConfigSpec.IntValue ALGAE_DIFFUSER_PROCESS_TIME;
 
     public static ForgeConfigSpec.IntValue OXYLITE_COOLDOWN;
+    public static ForgeConfigSpec.IntValue GAS_UPDATE_FREQUENCY;
 
     public static ForgeConfigSpec.BooleanValue ENABLE_MORALE;
     public static ForgeConfigSpec.IntValue MORALE_FOR_STRESS;
@@ -49,12 +45,6 @@ public class        ONIConfig {
         GERM_DUP_SPEED_PLAYER = SERVERBUILDER.comment("How many ticks should germs naturally increase (Players)").defineInRange("germDupSpeedPlayer", 2000, 1, MiscHelper.INT_MAX);
         GERM_STOP_DUP_AMOUNT = SERVERBUILDER.comment("How many germs should a block/player have before germs stop naturally increasing?").defineInRange("germDupLimit", 10000000, 1, MiscHelper.INT_MAX);
         SERVERBUILDER.pop();
-
-//        SERVERBUILDER.comment("Pollution of the Realms compat Settings").push(CAT_POTR);
-//        ENABLE_POTR = SERVERBUILDER.comment("Should the gas addon be enabled?").define("enableGas", false);
-//        PLAYER_EMIT_SPEED = SERVERBUILDER.comment("How fast should player produce carbon dioxide?").defineInRange("playerEmitCO2Speed", 2000, 1, MiscHelper.INT_MAX);
-//        PLAYER_BREATH_TIMER = SERVERBUILDER.comment("How long should player be able to stay outside of oxygen").defineInRange("playerBreathTimer", 100, 1, MiscHelper.INT_MAX);
-//        SERVERBUILDER.pop();
 
         SERVERBUILDER.comment("Trait Settings").push(CAT_TRAITS);
         ENABLE_TRAITS = SERVERBUILDER.comment("Should the trait system be enabled?").define("enableTrait", true);
@@ -73,7 +63,8 @@ public class        ONIConfig {
         SERVERBUILDER.pop();
 
         SERVERBUILDER.comment("Gas Settings").push(CAT_GAS);
-        OXYLITE_COOLDOWN = SERVERBUILDER.comment("How many ticks should oxylite take inbetween oxygen production?").defineInRange("oxyliteCooldown", 120, 1, MiscHelper.INT_MAX);
+        OXYLITE_COOLDOWN = SERVERBUILDER.comment("How many ticks should oxylite take in-between oxygen production?").defineInRange("oxyliteCooldown", 120, 1, MiscHelper.INT_MAX);
+        GAS_UPDATE_FREQUENCY = SERVERBUILDER.comment("How often (ticks) should the gas data in each chunk update? (Gas Spread, etc) (Smaller the faster, faster it is, more performance it takes.)").defineInRange("gasUpdateFrequency", 40, 1, MiscHelper.INT_MAX);
         SERVERBUILDER.pop();
 
         SERVERBUILDER.comment("Morale Settings").push(CAT_MORALE);

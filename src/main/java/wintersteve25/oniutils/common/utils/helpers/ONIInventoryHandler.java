@@ -8,6 +8,7 @@ import wintersteve25.oniutils.api.ONIIHasValidItems;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
+import java.util.function.BiPredicate;
 
 public class ONIInventoryHandler extends ItemStackHandler {
     private final ONIBaseInvTE tile;
@@ -28,12 +29,8 @@ public class ONIInventoryHandler extends ItemStackHandler {
             return true;
         }
         ONIIHasValidItems validItems = (ONIIHasValidItems) tile;
-        HashMap<Item, Integer> valids = validItems.validItems();
-        if (valids == null || valids.isEmpty()) return true;
-        if (valids.containsKey(stack.getItem())) {
-            return slot == valids.get(stack.getItem()) || valids.get(stack.getItem()) < 0;
-        }
-        return false;
+        BiPredicate<ItemStack, Integer> valids = validItems.validItemsPredicate();
+        return valids.test(stack, slot);
     }
 
     @Nonnull
@@ -43,16 +40,7 @@ public class ONIInventoryHandler extends ItemStackHandler {
             return super.insertItem(slot, stack, simulate);
         }
         ONIIHasValidItems validItems = (ONIIHasValidItems) tile;
-        HashMap<Item, Integer> valids = validItems.validItems();
-        if (valids == null || valids.isEmpty()) {
-            return super.insertItem(slot, stack, simulate);
-        }
-        if (!valids.containsKey(stack.getItem())) {
-            return stack;
-        }
-        if (valids.get(stack.getItem()) != slot || valids.get(stack.getItem()) == -1) {
-            return stack;
-        }
-        return super.insertItem(slot, stack, simulate);
+        BiPredicate<ItemStack, Integer> valids = validItems.validItemsPredicate();
+        return valids.test(stack, slot) ? super.insertItem(slot, stack, simulate) : stack;
     }
 }

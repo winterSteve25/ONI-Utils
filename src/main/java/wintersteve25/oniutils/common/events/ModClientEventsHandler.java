@@ -1,7 +1,10 @@
 package wintersteve25.oniutils.common.events;
 
+import harmonised.pmmo.curios.Curios;
 import net.minecraft.client.gui.ScreenManager;
+import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -12,8 +15,8 @@ import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.client.keybinds.ONIKeybinds;
 import wintersteve25.oniutils.client.renderers.geckolibs.base.GeckolibBlockRendererBase;
 import wintersteve25.oniutils.client.renderers.geckolibs.machines.power.ManualGenBlockRenderer;
-import wintersteve25.oniutils.common.contents.modules.power.coal.CoalGenGui;
-import wintersteve25.oniutils.common.contents.modules.power.coal.CoalGenTE;
+import wintersteve25.oniutils.common.contents.modules.blocks.power.coal.CoalGenGui;
+import wintersteve25.oniutils.common.contents.modules.blocks.power.coal.CoalGenTE;
 import wintersteve25.oniutils.common.capability.germ.GermEventsHandler;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.utils.ONIConstants;
@@ -37,5 +40,12 @@ public class ModClientEventsHandler {
 
         //GUI Attachments
         ScreenManager.registerFactory(ONIBlocks.Machines.Power.COAL_GEN_CONTAINER.get(), CoalGenGui::new);
+    }
+
+    @SubscribeEvent
+    public static void textureStitch(TextureStitchEvent.Pre event) {
+        if (event.getMap().getTextureLocation() == AtlasTexture.LOCATION_BLOCKS_TEXTURE) {
+            event.addSprite(ONIConstants.Resources.CURIOS_GOGGLES);
+        }
     }
 }

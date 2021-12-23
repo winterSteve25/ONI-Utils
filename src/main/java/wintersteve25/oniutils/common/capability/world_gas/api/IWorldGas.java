@@ -8,7 +8,7 @@ import wintersteve25.oniutils.common.capability.world_gas.api.chemistry.GasStack
 import java.util.Map;
 
 public interface IWorldGas {
-    void tick();
+    void update();
 
     Map<GasStackWrapper, BlockPos> getGasMap();
 

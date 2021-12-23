@@ -4,14 +4,15 @@ import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoItemRenderer;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.client.renderers.geckolibs.base.GeckolibModelBase;
-import wintersteve25.oniutils.common.contents.modules.power.coal.CoalGenTE;
-import wintersteve25.oniutils.common.contents.modules.power.manual.ManualGenItemBlock;
-import wintersteve25.oniutils.common.contents.modules.power.manual.ManualGenTE;
+import wintersteve25.oniutils.common.contents.modules.blocks.power.coal.CoalGenTE;
+import wintersteve25.oniutils.common.contents.modules.blocks.power.manual.ManualGenItemBlock;
+import wintersteve25.oniutils.common.contents.modules.blocks.power.manual.ManualGenTE;
 import wintersteve25.oniutils.common.contents.base.ONIBaseAnimatedBlockItem;
 
 import java.util.concurrent.Callable;
@@ -40,10 +41,14 @@ public final class ONIConstants {
         public static final byte MODIFICATION_DATA = 1;
     }
     public static final class TextColor {
+        public static final TextFormatting FURNITURE_CAT_COLOR = TextFormatting.YELLOW;
         public static final TextFormatting POWER_CAT_COLOR = TextFormatting.RED;
         public static final TextFormatting OXYGEN_CAT_COLOR = TextFormatting.AQUA;
         public static final TextFormatting VENTILATION_CAT_COLOR = TextFormatting.GREEN;
         public static final TextFormatting PLUMING_CAT_COLOR = TextFormatting.BLUE;
+        public static final TextFormatting TE_BOUNDING_CAT_COLOR = TextFormatting.LIGHT_PURPLE;
+
+        public static final TextFormatting TOOLS = TextFormatting.DARK_BLUE;
     }
     public static final class Resources {
         public static final ResourceLocation WIDGETS = new ResourceLocation(ONIUtils.MODID, "textures/gui/misc/widgets.png");
@@ -66,9 +71,18 @@ public final class ONIConstants {
         public static final TextureElement POWER_BAR_BG = new TextureElement(0, 101, 18, 50);
 
         public static final ResourceLocation BLANK_GUI = new ResourceLocation(ONIUtils.MODID, "textures/gui/machines/blank_gui.png");
+
+        public static final ResourceLocation CURIOS_GOGGLES = new ResourceLocation(ONIUtils.MODID, "gui/misc/curios/goggles");
     }
     public static final class LangKeys {
-        public static final String HOLD_SHIFT = "oniutils.tooltips.items.holdShiftInfo";
+        public static final TranslationTextComponent MOD_TOOLTIP = new TranslationTextComponent("oniutils.tooltips.items.modification");
+        public static final TranslationTextComponent HOLD_SHIFT = new TranslationTextComponent("oniutils.tooltips.items.holdShiftInfo");
         public static final String COAL_GEN = "coal_gen";
+        public static final String VELOCITY = "velocity";
+        public static final String ENERGY = "energy";
+        public static final String GAS = "gas";
+        public static final String FLUID = "fluid";
+        public static final String TEMPERATURE = "temperature";
+        public static final String COMPLEXITY = "complexity";
     }
 }

@@ -75,9 +75,9 @@ public class ONIBaseGuiTabInfo extends ONIBaseGuiTab {
 
         for (int i = 0; i < initializedTexts.size(); i++) {
             if (i == 0) {
-                mc.fontRenderer.func_243246_a(mx, initializedTexts.get(i), (getGuiLeftTopPosition(this.width, 177) - 147) + 10, ogPos, TextFormatting.GRAY.getColor());
+                mc.fontRenderer.func_243246_a(mx, initializedTexts.get(i), getGuiLeftTopPosition(this.width, 177) + 10, ogPos, TextFormatting.GRAY.getColor());
             } else {
-                mc.fontRenderer.func_243246_a(mx, initializedTexts.get(i), (getGuiLeftTopPosition(this.width, 177) - 147)+10, ogPos+toAddPos*i, TextFormatting.GRAY.getColor());
+                mc.fontRenderer.func_243246_a(mx, initializedTexts.get(i), getGuiLeftTopPosition(this.width, 177)+10, ogPos+toAddPos*i, TextFormatting.GRAY.getColor());
             }
         }
 

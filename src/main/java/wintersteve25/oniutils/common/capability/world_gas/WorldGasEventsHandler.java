@@ -9,6 +9,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.capability.world_gas.api.IWorldGas;
+import wintersteve25.oniutils.common.init.ONIConfig;
 
 public class WorldGasEventsHandler {
     public static void chunkCapAttachEvent(AttachCapabilitiesEvent<Chunk> event) {
@@ -22,13 +23,19 @@ public class WorldGasEventsHandler {
         }
     }
 
+    private static int cooldown = ONIConfig.GAS_UPDATE_FREQUENCY.get();
+
     public static void worldTick(TickEvent.PlayerTickEvent event) {
         PlayerEntity player = event.player;
         World world = player.getEntityWorld();
-        if (!world.isRemote()) {
-            BlockPos pos = player.getPosition();
-            Chunk chunk = world.getChunkAt(pos);
-            chunk.getCapability(WorldGasCapability.WORLD_GAS_CAP).ifPresent(IWorldGas::tick);
+        if (!world.isRemote() && event.side.isServer() && event.phase == TickEvent.Phase.END) {
+            cooldown--;
+            if (cooldown <= 0) {
+                BlockPos pos = player.getPosition();
+                Chunk chunk = world.getChunkAt(pos);
+                chunk.getCapability(WorldGasCapability.WORLD_GAS_CAP).ifPresent(IWorldGas::update);
+                cooldown = ONIConfig.GAS_UPDATE_FREQUENCY.get();
+            }
         }
     }
 }

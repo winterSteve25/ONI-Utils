@@ -44,25 +44,25 @@ public class ONIBaseGuiTabAlert extends ONIBaseGuiTab {
 
         switch (warningCount) {
             case 0:
-                mc.fontRenderer.func_243246_a(mx, WARNING_ALL_CLEAR, (getGuiLeftTopPosition(this.width, 177) - 147) + 10, ogPos, TextFormatting.GRAY.getColor());
+                mc.fontRenderer.func_243246_a(mx, WARNING_ALL_CLEAR, (getGuiLeftTopPosition(this.width, 177)) + 10, ogPos, TextFormatting.GRAY.getColor());
                 break;
             case 1:
-                mc.fontRenderer.func_243246_a(mx, currentWarnings.get(0), (getGuiLeftTopPosition(this.width, 177) - 147) + 10, ogPos, TextFormatting.RED.getColor());
+                mc.fontRenderer.func_243246_a(mx, currentWarnings.get(0), (getGuiLeftTopPosition(this.width, 177)) + 10, ogPos, TextFormatting.RED.getColor());
                 break;
             case 2:
-                mc.fontRenderer.func_243246_a(mx, currentWarnings.get(0), (getGuiLeftTopPosition(this.width, 177) - 147) + 10, ogPos, TextFormatting.RED.getColor());
-                mc.fontRenderer.func_243246_a(mx, currentWarnings.get(1), (getGuiLeftTopPosition(this.width, 177) - 147) + 10, ogPos + toAddPos, TextFormatting.RED.getColor());
+                mc.fontRenderer.func_243246_a(mx, currentWarnings.get(0), (getGuiLeftTopPosition(this.width, 177)) + 10, ogPos, TextFormatting.RED.getColor());
+                mc.fontRenderer.func_243246_a(mx, currentWarnings.get(1), (getGuiLeftTopPosition(this.width, 177)) + 10, ogPos + toAddPos, TextFormatting.RED.getColor());
                 break;
             case 3:
-                mc.fontRenderer.func_243246_a(mx, currentWarnings.get(0), (getGuiLeftTopPosition(this.width, 177) - 147) + 10, ogPos, TextFormatting.RED.getColor());
-                mc.fontRenderer.func_243246_a(mx, currentWarnings.get(1), (getGuiLeftTopPosition(this.width, 177) - 147) + 10, ogPos + toAddPos, TextFormatting.RED.getColor());
-                mc.fontRenderer.func_243246_a(mx, currentWarnings.get(2), (getGuiLeftTopPosition(this.width, 177) - 147) + 10, ogPos + toAddPos * 2, TextFormatting.RED.getColor());
+                mc.fontRenderer.func_243246_a(mx, currentWarnings.get(0), (getGuiLeftTopPosition(this.width, 177)) + 10, ogPos, TextFormatting.RED.getColor());
+                mc.fontRenderer.func_243246_a(mx, currentWarnings.get(1), (getGuiLeftTopPosition(this.width, 177)) + 10, ogPos + toAddPos, TextFormatting.RED.getColor());
+                mc.fontRenderer.func_243246_a(mx, currentWarnings.get(2), (getGuiLeftTopPosition(this.width, 177)) + 10, ogPos + toAddPos * 2, TextFormatting.RED.getColor());
                 break;
             case 4:
-                mc.fontRenderer.func_243246_a(mx, currentWarnings.get(0), (getGuiLeftTopPosition(this.width, 177) - 147) + 10, ogPos, TextFormatting.RED.getColor());
-                mc.fontRenderer.func_243246_a(mx, currentWarnings.get(1), (getGuiLeftTopPosition(this.width, 177) - 147) + 10, ogPos + toAddPos, TextFormatting.RED.getColor());
-                mc.fontRenderer.func_243246_a(mx, currentWarnings.get(2), (getGuiLeftTopPosition(this.width, 177) - 147) + 10, ogPos + toAddPos * 2, TextFormatting.RED.getColor());
-                mc.fontRenderer.func_243246_a(mx, currentWarnings.get(3), (getGuiLeftTopPosition(this.width, 177) - 147) + 10, ogPos + toAddPos * 3, TextFormatting.RED.getColor());
+                mc.fontRenderer.func_243246_a(mx, currentWarnings.get(0), (getGuiLeftTopPosition(this.width, 177)) + 10, ogPos, TextFormatting.RED.getColor());
+                mc.fontRenderer.func_243246_a(mx, currentWarnings.get(1), (getGuiLeftTopPosition(this.width, 177)) + 10, ogPos + toAddPos, TextFormatting.RED.getColor());
+                mc.fontRenderer.func_243246_a(mx, currentWarnings.get(2), (getGuiLeftTopPosition(this.width, 177)) + 10, ogPos + toAddPos * 2, TextFormatting.RED.getColor());
+                mc.fontRenderer.func_243246_a(mx, currentWarnings.get(3), (getGuiLeftTopPosition(this.width, 177)) + 10, ogPos + toAddPos * 3, TextFormatting.RED.getColor());
                 break;
         }
     }
