@@ -1,4 +1,4 @@
-package wintersteve25.oniutils.common.contents.base;
+package wintersteve25.oniutils.common.contents.base.enums;
 
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;

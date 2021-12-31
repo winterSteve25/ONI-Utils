@@ -8,7 +8,7 @@ import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.contents.base.ONIBaseBlock;
-import wintersteve25.oniutils.api.ONIIRegistryObject;
+import wintersteve25.oniutils.common.contents.base.ONIIRegistryObject;
 import wintersteve25.oniutils.common.contents.base.ONIBaseDirectional;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.utils.helpers.MiscHelper;

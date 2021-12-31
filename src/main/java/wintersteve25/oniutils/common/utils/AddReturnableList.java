@@ -5,6 +5,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 public class AddReturnableList<T> extends ArrayList<T> {
@@ -23,11 +24,20 @@ public class AddReturnableList<T> extends ArrayList<T> {
         return this;
     }
 
-    public <REGISTRY extends IForgeRegistryEntry<REGISTRY>> List<T> addAllAndReturn(IForgeRegistry<REGISTRY> list) {
+    public List<T> addAllFromIterator(Iterator<T> list) {
+        while (list.hasNext()) {
+            T t = list.next();
+            this.add((T) t);
+        }
+        return this;
+    }
+
+    public <REGISTRY extends IForgeRegistryEntry<REGISTRY>> List<T> addFromRegistry(IForgeRegistry<REGISTRY> list) {
         for (REGISTRY t : list) {
             try {
                 this.add((T) t);
-            } catch (Exception ignore) {};
+            } catch (Exception ignore) {
+            }
         }
         return this;
     }

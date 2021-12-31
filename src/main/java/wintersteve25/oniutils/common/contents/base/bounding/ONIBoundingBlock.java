@@ -1,5 +1,6 @@
 package wintersteve25.oniutils.common.contents.base.bounding;
 
+import mekanism.common.block.states.IStateFluidLoggable;
 import mekanism.common.util.WorldUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -55,14 +56,19 @@ public class ONIBoundingBlock extends ONIBaseBlock {
     }
 
     public ONIBoundingBlock() {
-        this("Bounding Block", Properties.create(Material.IRON).hardnessAndResistance(3.5F, 4.8F).setRequiresTool().variableOpacity().notSolid());
+        this(Properties.create(Material.IRON).hardnessAndResistance(3.5F, 4.8F).setRequiresTool().variableOpacity().notSolid());
     }
 
-    public ONIBoundingBlock(String regName, Properties properties) {
-        super(regName, properties);
+    public ONIBoundingBlock(Properties properties) {
+        super("Bounding Block", properties);
         setDoModelGen(false);
         setDoLootTableGen(false);
         setDoLangGen(false);
+    }
+
+    @Override
+    public boolean isFluidLoggable() {
+        return true;
     }
 
     @Nonnull

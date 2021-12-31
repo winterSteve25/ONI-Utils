@@ -42,7 +42,7 @@ public class ONIUtils {
     public static final ItemGroup creativeTab = new ItemGroup("oniutils") {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(ONIBlocks.NonFunctionals.IGNEOUS_ROCK);
+            return new ItemStack(ONIBlocks.NonFunctionals.IGNEOUS_ROCK.get());
         }
     };
 

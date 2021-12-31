@@ -4,7 +4,7 @@ import net.minecraft.item.ItemStack;
 import wintersteve25.oniutils.common.contents.base.ONIBaseTE;
 import wintersteve25.oniutils.common.contents.modules.items.modifications.ModificationContext;
 import wintersteve25.oniutils.common.contents.modules.items.modifications.ModificationHandler;
-import wintersteve25.oniutils.common.contents.modules.items.modifications.ONIModification;
+import wintersteve25.oniutils.common.contents.modules.items.modifications.ONIModificationItem;
 import wintersteve25.oniutils.common.utils.helpers.ONIModInventoryHandler;
 
 /**
@@ -19,8 +19,8 @@ public interface ONIIModifiable {
         ONIModInventoryHandler handler = modContext().getModHandler();
         for(int i = 0; i < modContext().getMaxModAmount(); i++) {
             if(handler.getStackInSlot(i).isEmpty()) {
-                if (stack.getItem() instanceof ONIModification) {
-                    ONIModification modification = (ONIModification) stack.getItem();
+                if (stack.getItem() instanceof ONIModificationItem) {
+                    ONIModificationItem modification = (ONIModificationItem) stack.getItem();
                     if (modContext().isModValid(modification.getModType())) {
                         handler.insertItem(i, stack.copy(), false);
                         stack.shrink(1);

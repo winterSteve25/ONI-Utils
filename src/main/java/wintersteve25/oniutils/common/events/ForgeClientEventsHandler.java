@@ -1,11 +1,17 @@
 package wintersteve25.oniutils.common.events;
 
+import com.mrcrayfish.obfuscate.client.event.PlayerModelEvent;
+import net.minecraft.client.renderer.entity.model.PlayerModel;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.MovementInput;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputUpdateEvent;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import wintersteve25.oniutils.ONIUtils;
+import wintersteve25.oniutils.common.contents.modules.blocks.power.manual.ManualGenEntity;
 import wintersteve25.oniutils.common.network.ONINetworking;
 import wintersteve25.oniutils.common.network.TriggerPlayerMovePacket;
 import wintersteve25.oniutils.common.registration.PlayerMovingEvent;
@@ -36,11 +42,4 @@ public class ForgeClientEventsHandler {
 
         ONINetworking.sendToServer(new TriggerPlayerMovePacket(event.getPlayer().getUniqueID(), type));
     }
-
-//    @SubscribeEvent
-//    public static void renderGui(RenderGameOverlayEvent event) {
-//        if (event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR) {
-//
-//        }
-//    }
 }

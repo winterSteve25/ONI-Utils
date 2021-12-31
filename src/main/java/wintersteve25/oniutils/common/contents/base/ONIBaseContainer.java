@@ -6,7 +6,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.IntReferenceHolder;
@@ -19,11 +18,10 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import wintersteve25.oniutils.api.*;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
 import wintersteve25.oniutils.common.capability.plasma.api.IPlasma;
-import wintersteve25.oniutils.common.contents.modules.items.modifications.ONIModification;
+import wintersteve25.oniutils.common.contents.modules.items.modifications.ONIModificationItem;
 import wintersteve25.oniutils.common.utils.SlotArrangement;
 
 import javax.annotation.Nonnull;
-import java.util.HashMap;
 import java.util.function.BiPredicate;
 
 public abstract class ONIBaseContainer extends Container {
@@ -61,7 +59,7 @@ public abstract class ONIBaseContainer extends Container {
                 }
                 slot.onSlotChange(stack, itemstack);
             } else {
-                if (itemstack.getItem() instanceof ONIModification) {
+                if (itemstack.getItem() instanceof ONIModificationItem) {
                     if (!this.mergeItemStack(stack, startModSlotIndex, startPlayerInvIndex, false)) {
                         return ItemStack.EMPTY;
                     }

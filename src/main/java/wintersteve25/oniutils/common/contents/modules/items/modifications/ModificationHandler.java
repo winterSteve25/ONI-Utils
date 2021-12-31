@@ -21,11 +21,11 @@ public class ModificationHandler {
         float bonusSpeed = 0;
 
         for (ItemStack stack : installedMods()) {
-            if (stack.getItem() instanceof ONIModification) {
-                ONIModification modification = (ONIModification) stack.getItem();
+            if (stack.getItem() instanceof ONIModificationItem) {
+                ONIModificationItem modification = (ONIModificationItem) stack.getItem();
                 EnumModifications modType = modification.getModType();
                 if (modType == EnumModifications.SPEED) {
-                    float percentage = (float) (ONIModification.getBonusDataFromItemStack(stack) / 100.0);
+                    float percentage = (float) (ONIModificationItem.getBonusDataFromItemStack(stack) / 100.0);
                     bonusSpeed += defaultSpeed * percentage;
                 }
             }
@@ -43,11 +43,11 @@ public class ModificationHandler {
         float bonus = 0;
 
         for (ItemStack stack : installedMods()) {
-            if (stack.getItem() instanceof ONIModification) {
-                ONIModification modification = (ONIModification) stack.getItem();
+            if (stack.getItem() instanceof ONIModificationItem) {
+                ONIModificationItem modification = (ONIModificationItem) stack.getItem();
                 EnumModifications modType = modification.getModType();
                 if (modType == EnumModifications.COMPLEXITY) {
-                    float percentage = (float) (ONIModification.getBonusDataFromItemStack(stack) / 100.0);
+                    float percentage = (float) (ONIModificationItem.getBonusDataFromItemStack(stack) / 100.0);
                     bonus += baseLevel * percentage;
                 }
             }

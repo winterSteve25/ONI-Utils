@@ -1,4 +1,4 @@
-package wintersteve25.oniutils.api;
+package wintersteve25.oniutils.common.contents.base;
 
 import net.minecraft.item.Item;
 import net.minecraftforge.registries.IForgeRegistryEntry;

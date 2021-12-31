@@ -19,9 +19,9 @@ public interface IPlasma {
 
     int getCapacity();
 
-    void setWatts(EnumWattsTypes watts);
+    boolean isConsumer();
 
-    EnumWattsTypes getWatts();
+    void setIsConsumer(boolean isConsumer);
 
     CompoundNBT write();
 

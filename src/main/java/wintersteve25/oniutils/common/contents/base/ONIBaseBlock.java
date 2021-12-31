@@ -1,6 +1,6 @@
 package wintersteve25.oniutils.common.contents.base;
 
-import mekanism.common.tile.interfaces.IBoundingBlock;
+import mekanism.common.block.states.IStateFluidLoggable;
 import mekanism.common.util.WorldUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -10,36 +10,39 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.PushReaction;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ToolType;
-import wintersteve25.oniutils.api.*;
+import wintersteve25.oniutils.api.ONIIForceStoppable;
+import wintersteve25.oniutils.api.ONIIHasRedstoneOutput;
+import wintersteve25.oniutils.api.ONIIModifiable;
 import wintersteve25.oniutils.api.functional.IRenderTypeProvider;
 import wintersteve25.oniutils.api.functional.ITETypeProvider;
 import wintersteve25.oniutils.api.functional.IVoxelShapeProvider;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
+import wintersteve25.oniutils.common.contents.base.bounding.ONIIBoundingBlock;
 import wintersteve25.oniutils.common.utils.helpers.ISHandlerHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Supplier;
 
-public class ONIBaseBlock extends Block implements ONIIStateFluidLoggable, ONIIRegistryObject<Block> {
+public class ONIBaseBlock extends Block implements ONIIRegistryObject<Block>, IStateFluidLoggable {
 
     private final String regName;
 
     // block builder properties
     private IVoxelShapeProvider hitBox;
     private IRenderTypeProvider renderType;
-    private Supplier<Item> blockItem;
     private boolean doModelGen = true;
     private boolean doStateGen = false;
     private boolean doLangGen = true;
@@ -63,7 +66,12 @@ public class ONIBaseBlock extends Block implements ONIIStateFluidLoggable, ONIIR
     public ONIBaseBlock(String regName, Properties properties) {
         super(properties);
         this.regName = regName;
-//        setDefaultState(this.getStateContainer().getBaseState().with(this.getFluidLoggedProperty(), 0));
+        if (isFluidLoggable()) {
+            BlockState state = this.getStateContainer().getBaseState();
+            state.with(this.getFluidLoggedProperty(), 0);
+
+            this.setDefaultState(state);
+        }
     }
 
     @Override
@@ -71,26 +79,47 @@ public class ONIBaseBlock extends Block implements ONIIStateFluidLoggable, ONIIR
         return this.hasTileEntity(state) ? PushReaction.BLOCK : super.getPushReaction(state);
     }
 
-//    @Override
-//    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-//        super.fillStateContainer(builder);
-//        builder.add(this.getFluidLoggedProperty());
-//    }
+    @Override
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+        super.fillStateContainer(builder);
+        if (isFluidLoggable()) {
+            builder.add(this.getFluidLoggedProperty());
+        }
+    }
 
-//    @Override
-//    public BlockState getStateForPlacement(BlockItemUseContext blockItemUseContext) {
-//        FluidState fluidState = blockItemUseContext.getWorld().getFluidState(blockItemUseContext.getPos());
-//        return this.getDefaultState().with(this.getFluidLoggedProperty(), this.getSupportedFluidPropertyIndex(fluidState.getFluid()));
-//    }
+    @Override
+    public BlockState getStateForPlacement(BlockItemUseContext blockItemUseContext) {
+        if (isFluidLoggable()) {
+            FluidState fluidState = blockItemUseContext.getWorld().getFluidState(blockItemUseContext.getPos());
+            return this.getDefaultState().with(this.getFluidLoggedProperty(), this.getSupportedFluidPropertyIndex(fluidState.getFluid()));
+        }
+        return super.getStateForPlacement(blockItemUseContext);
+    }
+
+    @Override
+    public FluidState getFluidState(BlockState state) {
+        if (isFluidLoggable()) {
+            return this.getFluid(state);
+        }
+        return super.getFluidState(state);
+    }
+
+    @Override
+    public BlockState updatePostPlacement(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull IWorld world, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
+        if (isFluidLoggable()) {
+            this.updateFluids(state, world, currentPos);
+        }
+        return super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
+    }
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        return hitBox == null ? super.getShape(state, worldIn, pos, context) : hitBox.createShape(state, worldIn, pos, context);
+        return getHitBox() == null ? super.getShape(state, worldIn, pos, context) : getHitBox().createShape(state, worldIn, pos, context);
     }
 
     @Override
     public BlockRenderType getRenderType(BlockState state) {
-        return renderType == null ? super.getRenderType(state) : renderType.createRenderType(state);
+        return getRenderType() == null ? super.getRenderType(state) : getRenderType().createRenderType(state);
     }
 
     @Override
@@ -159,20 +188,12 @@ public class ONIBaseBlock extends Block implements ONIIStateFluidLoggable, ONIIR
         this.renderType = renderType;
     }
 
-    public Supplier<Item> getBlockItem() {
-        return blockItem;
-    }
-
-    public void setBlockItem(Supplier<Item> blockItem) {
-        this.blockItem = blockItem;
-    }
-
     @Override
     public void onReplaced(BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
         if (state.hasTileEntity() && (!state.isIn(newState.getBlock()) || !newState.hasTileEntity())) {
             TileEntity tile = WorldUtils.getTileEntity(world, pos);
-            if (tile instanceof IBoundingBlock) {
-                ((IBoundingBlock) tile).onBreak(state);
+            if (tile instanceof ONIIBoundingBlock) {
+                ((ONIIBoundingBlock) tile).onBreak(state);
             }
             if (isCorrectTe(tile) && tile instanceof ONIBaseTE) {
                 ((ONIBaseTE) tile).onBroken(state, world, pos, newState, isMoving);
@@ -190,11 +211,11 @@ public class ONIBaseBlock extends Block implements ONIIStateFluidLoggable, ONIIR
             AtomicBoolean isHighTrue = new AtomicBoolean(false);
 
             tile.getCapability(PlasmaCapability.POWER_CAPABILITY).ifPresent(power -> {
-                if ((power.getPower() / power.getCapacity())*100 < redstoneOutput.lowThreshold()) {
+                if ((power.getPower() / power.getCapacity()) * 100 < redstoneOutput.lowThreshold()) {
                     isLowTrue.set(true);
                 }
 
-                if ((power.getPower() / power.getCapacity())*100 > redstoneOutput.highThreshold()) {
+                if ((power.getPower() / power.getCapacity()) * 100 > redstoneOutput.highThreshold()) {
                     isHighTrue.set(true);
                 }
             });
@@ -243,8 +264,8 @@ public class ONIBaseBlock extends Block implements ONIIStateFluidLoggable, ONIIR
             return;
         }
 
-        if (tile instanceof IBoundingBlock) {
-            ((IBoundingBlock) tile).onPlace();
+        if (tile instanceof ONIIBoundingBlock) {
+            ((ONIIBoundingBlock) tile).onPlace();
         }
 
         if (tile instanceof ONIIForceStoppable) {
@@ -297,5 +318,9 @@ public class ONIBaseBlock extends Block implements ONIIStateFluidLoggable, ONIIR
 
     public void setTeClass(Class<? extends TileEntity> teClass) {
         this.teClass = teClass;
+    }
+
+    public boolean isFluidLoggable() {
+        return false;
     }
 }

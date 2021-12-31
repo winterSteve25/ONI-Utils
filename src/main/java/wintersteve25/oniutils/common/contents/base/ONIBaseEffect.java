@@ -1,4 +1,4 @@
-package wintersteve25.oniutils.common.effects;
+package wintersteve25.oniutils.common.contents.base;
 
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectType;

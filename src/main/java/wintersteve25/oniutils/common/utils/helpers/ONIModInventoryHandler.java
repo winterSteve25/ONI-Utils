@@ -7,7 +7,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import wintersteve25.oniutils.client.gui.ONIBaseGuiTabModification;
 import wintersteve25.oniutils.common.contents.base.enums.EnumModifications;
 import wintersteve25.oniutils.common.contents.modules.items.modifications.ModificationContext;
-import wintersteve25.oniutils.common.contents.modules.items.modifications.ONIModification;
+import wintersteve25.oniutils.common.contents.modules.items.modifications.ONIModificationItem;
 import wintersteve25.oniutils.common.network.ONINetworking;
 import wintersteve25.oniutils.common.network.RenderErrorPacket;
 
@@ -38,8 +38,8 @@ public class ONIModInventoryHandler extends ItemStackHandler {
         Item item = stack.getItem();
         List<EnumModifications> validMods = Arrays.asList(context.getValidMods());
 
-        if (item instanceof ONIModification) {
-            ONIModification mod = (ONIModification) item;
+        if (item instanceof ONIModificationItem) {
+            ONIModificationItem mod = (ONIModificationItem) item;
             if (validMods.contains(mod.getModType())) {
                 return true;
             } else {
@@ -61,8 +61,8 @@ public class ONIModInventoryHandler extends ItemStackHandler {
         Item item = stack.getItem();
         List<EnumModifications> validMods = Arrays.asList(context.getValidMods());
 
-        if (item instanceof ONIModification) {
-            ONIModification mod = (ONIModification) item;
+        if (item instanceof ONIModificationItem) {
+            ONIModificationItem mod = (ONIModificationItem) item;
             if (validMods.contains(mod.getModType())) {
                 return super.insertItem(slot, stack, simulate);
             }

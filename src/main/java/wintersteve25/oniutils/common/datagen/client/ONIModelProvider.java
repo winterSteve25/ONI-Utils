@@ -8,13 +8,12 @@ import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.client.renderers.geckolibs.base.ONIIHasGeoItem;
-import wintersteve25.oniutils.api.ONIIRegistryObject;
+import wintersteve25.oniutils.common.contents.base.ONIIRegistryObject;
 import wintersteve25.oniutils.common.contents.base.ONIBaseDirectional;
 import wintersteve25.oniutils.common.contents.base.ONIIItem;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONIItems;
-import wintersteve25.oniutils.common.contents.modules.items.modifications.ONIModification;
+import wintersteve25.oniutils.common.contents.modules.items.modifications.ONIModificationItem;
 import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 
 public class ONIModelProvider extends ItemModelProvider {
@@ -38,8 +37,8 @@ public class ONIModelProvider extends ItemModelProvider {
     private void autoGenModels() {
         for (ONIIRegistryObject<Block> b : ONIBlocks.blockList.keySet()) {
             Block block = b.get();
-            if (!(block instanceof ONIIHasGeoItem) && b.doModelGen()) {
-                if (block instanceof ONIBaseDirectional) {
+            if (b.doModelGen()) {
+                if (block instanceof ONIBaseDirectional && ((ONIBaseDirectional) block).getModelFile() != null) {
                     withExistingParent(MiscHelper.langToReg(b.getRegName()), ((ONIBaseDirectional) block).getModelFile().getLocation());
                 } else {
                     withExistingParent(MiscHelper.langToReg(b.getRegName()), modLoc("block/" + MiscHelper.langToReg(b.getRegName())));
@@ -49,8 +48,8 @@ public class ONIModelProvider extends ItemModelProvider {
         for (ONIIRegistryObject<Item> i : ONIItems.itemRegistryList) {
             if (i.doModelGen()) {
                 Item item = i.get();
-                if (item instanceof ONIModification) {
-                    ONIModification mod = (ONIModification) item;
+                if (item instanceof ONIModificationItem) {
+                    ONIModificationItem mod = (ONIModificationItem) item;
                     String name = i.getRegName();
                     String processedName = MiscHelper.langToReg(mod.getModType().getName()) + name.charAt(name.length() - 1);
                     builder(MiscHelper.langToReg(name), "modifications/" + processedName);

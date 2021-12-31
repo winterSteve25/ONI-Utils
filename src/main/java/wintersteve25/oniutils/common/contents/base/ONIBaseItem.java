@@ -78,22 +78,7 @@ public class ONIBaseItem extends Item implements ONIIItem {
             return colorName;
         }
 
-        switch (itemCategory) {
-            case FURNITURE:
-                return () -> ONIConstants.TextColor.FURNITURE_CAT_COLOR;
-            case POWER:
-                return () -> ONIConstants.TextColor.POWER_CAT_COLOR;
-            case OXYGEN:
-                return () -> ONIConstants.TextColor.OXYGEN_CAT_COLOR;
-            case VENTILATION:
-                return () -> ONIConstants.TextColor.VENTILATION_CAT_COLOR;
-            case TE_BOUNDED:
-                return () -> ONIConstants.TextColor.TE_BOUNDING_CAT_COLOR;
-            case GADGETS:
-                return () -> ONIConstants.TextColor.TOOLS;
-            default:
-                return null;
-        }
+        return ()->itemCategory.getColor();
     }
 
     @Override

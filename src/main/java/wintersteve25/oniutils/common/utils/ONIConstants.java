@@ -1,20 +1,28 @@
 package wintersteve25.oniutils.common.utils;
 
+import mekanism.common.util.WorldUtils;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Item;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
+import net.minecraftforge.registries.ForgeRegistries;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoItemRenderer;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.client.renderers.geckolibs.base.GeckolibModelBase;
 import wintersteve25.oniutils.common.contents.modules.blocks.power.coal.CoalGenTE;
-import wintersteve25.oniutils.common.contents.modules.blocks.power.manual.ManualGenItemBlock;
 import wintersteve25.oniutils.common.contents.modules.blocks.power.manual.ManualGenTE;
 import wintersteve25.oniutils.common.contents.base.ONIBaseAnimatedBlockItem;
 
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.function.Supplier;
 
@@ -23,8 +31,6 @@ public final class ONIConstants {
         public static final GeckolibModelBase<CoalGenTE> COAL_GEN_TE = new GeckolibModelBase<>("machines/power/coal_gen.geo.json", "machines/power/coal_gen.png", "machines/power/coal_gen.animation.json");
         public static final GeckolibModelBase<ONIBaseAnimatedBlockItem> COAL_GEN_IB = new GeckolibModelBase<>(COAL_GEN_TE);
         public static final Supplier<Callable<ItemStackTileEntityRenderer>> COAL_GEN_ISTER = () -> () -> new GeoItemRendererDefault<>(COAL_GEN_IB);
-        public static final GeckolibModelBase<ManualGenTE> MANUAL_GEN_TE = new GeckolibModelBase<>("machines/power/manual_gen.geo.json", "machines/power/manual_gen.png", "machines/power/manual_gen.animation.json");
-        public static final GeckolibModelBase<ManualGenItemBlock> MANUAL_GEN_IB = new GeckolibModelBase<>("machines/power/manual_gen.geo.json", "machines/power/manual_gen.png", "machines/power/manual_gen.animation.json");
 
         private static class GeoItemRendererDefault<T extends Item & IAnimatable> extends GeoItemRenderer<T> {
             public GeoItemRendererDefault(AnimatedGeoModel<T> modelProvider) {
@@ -48,7 +54,7 @@ public final class ONIConstants {
         public static final TextFormatting PLUMING_CAT_COLOR = TextFormatting.BLUE;
         public static final TextFormatting TE_BOUNDING_CAT_COLOR = TextFormatting.LIGHT_PURPLE;
 
-        public static final TextFormatting TOOLS = TextFormatting.DARK_BLUE;
+        public static final TextFormatting GADGETS = TextFormatting.DARK_BLUE;
     }
     public static final class Resources {
         public static final ResourceLocation WIDGETS = new ResourceLocation(ONIUtils.MODID, "textures/gui/misc/widgets.png");
@@ -77,12 +83,59 @@ public final class ONIConstants {
     public static final class LangKeys {
         public static final TranslationTextComponent MOD_TOOLTIP = new TranslationTextComponent("oniutils.tooltips.items.modification");
         public static final TranslationTextComponent HOLD_SHIFT = new TranslationTextComponent("oniutils.tooltips.items.holdShiftInfo");
-        public static final String COAL_GEN = "coal_gen";
+        public static final String COAL_GEN = "coal_generator";
         public static final String VELOCITY = "velocity";
         public static final String ENERGY = "energy";
         public static final String GAS = "gas";
         public static final String FLUID = "fluid";
         public static final String TEMPERATURE = "temperature";
         public static final String COMPLEXITY = "complexity";
+    }
+    public static final class PlacementConditions {
+        public static boolean fourByFourCondition(BlockItemUseContext context, BlockState state) {
+            World world = context.getWorld();
+            BlockPos ogPos = context.getPos();
+
+            switch (state.get(BlockStateProperties.FACING)) {
+                case NORTH:
+                    if (WorldUtils.isValidReplaceableBlock(world, ogPos.east())) {
+                        if (WorldUtils.isValidReplaceableBlock(world, ogPos.up())) {
+                            if (WorldUtils.isValidReplaceableBlock(world, ogPos.east().up())) {
+                                return true;
+                            }
+                        }
+                    }
+                    break;
+                case SOUTH:
+                    if (WorldUtils.isValidReplaceableBlock(world, ogPos.west())) {
+                        if (WorldUtils.isValidReplaceableBlock(world, ogPos.up())) {
+                            if (WorldUtils.isValidReplaceableBlock(world, ogPos.west().up())) {
+                                return true;
+                            }
+                        }
+                    }
+                    break;
+                case WEST:
+                    if (WorldUtils.isValidReplaceableBlock(world, ogPos.north())) {
+                        if (WorldUtils.isValidReplaceableBlock(world, ogPos.up())) {
+                            if (WorldUtils.isValidReplaceableBlock(world, ogPos.north().up())) {
+                                return true;
+                            }
+                        }
+                    }
+                    break;
+                case EAST:
+                    if (WorldUtils.isValidReplaceableBlock(world, ogPos.south())) {
+                        if (WorldUtils.isValidReplaceableBlock(world, ogPos.up())) {
+                            if (WorldUtils.isValidReplaceableBlock(world, ogPos.south().up())) {
+                                return true;
+                            }
+                        }
+                    }
+                    break;
+            }
+
+            return false;
+        }
     }
 }

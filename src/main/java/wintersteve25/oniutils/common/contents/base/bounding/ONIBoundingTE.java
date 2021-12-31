@@ -65,9 +65,7 @@ public class ONIBoundingTE extends ONIBaseTE {
     @Override
     public void read(@Nonnull BlockState state, @Nonnull CompoundNBT nbtTags) {
         super.read(state, nbtTags);
-        NBTUtils.setBlockPosIfPresent(nbtTags, "main", (pos) -> {
-            this.mainPos = pos;
-        });
+        NBTUtils.setBlockPosIfPresent(nbtTags, "main", (pos) -> this.mainPos = pos);
         this.receivedCoords = nbtTags.getBoolean("receivedCoords");
     }
 
@@ -92,9 +90,7 @@ public class ONIBoundingTE extends ONIBaseTE {
     @Override
     public void handleUpdateTag(BlockState state, @Nonnull CompoundNBT tag) {
         super.handleUpdateTag(state, tag);
-        NBTUtils.setBlockPosIfPresent(tag, "main", (pos) -> {
-            this.mainPos = pos;
-        });
+        NBTUtils.setBlockPosIfPresent(tag, "main", (pos) -> this.mainPos = pos);
         this.receivedCoords = tag.getBoolean("receivedCoords");
     }
 

@@ -5,9 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import wintersteve25.oniutils.api.ONIIRegistryObject;
 import wintersteve25.oniutils.api.functional.IPlacementCondition;
 import wintersteve25.oniutils.api.functional.IToolTipCondition;
 import wintersteve25.oniutils.common.utils.ONIConstants;
@@ -85,24 +83,29 @@ public interface ONIIItem extends ONIIRegistryObject<Item> {
             }
         }
     }
-
     enum ItemCategory {
-        GENERAL(""),
-        GADGETS("gadgets/"),
-        FURNITURE("furniture/"),
-        OXYGEN("oxygen/"),
-        POWER("power/"),
-        TE_BOUNDED("te_bounded/"),
-        VENTILATION("ventilation/");
+        GENERAL("", null),
+        GADGETS("gadgets/", ONIConstants.TextColor.GADGETS),
+        FURNITURE("furniture/", ONIConstants.TextColor.FURNITURE_CAT_COLOR),
+        OXYGEN("oxygen/", ONIConstants.TextColor.OXYGEN_CAT_COLOR),
+        POWER("power/", ONIConstants.TextColor.POWER_CAT_COLOR),
+        TE_BOUNDED("te_bounded/", ONIConstants.TextColor.TE_BOUNDING_CAT_COLOR),
+        VENTILATION("ventilation/", ONIConstants.TextColor.VENTILATION_CAT_COLOR);
 
         private final String pathName;
+        private final TextFormatting color;
 
-        ItemCategory(String pathName) {
+        ItemCategory(String pathName, TextFormatting color) {
             this.pathName = pathName;
+            this.color = color;
         }
 
         public String getPathName() {
             return pathName;
+        }
+
+        public TextFormatting getColor() {
+            return color;
         }
     }
 }

@@ -104,24 +104,45 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.2.0'
-    compile fg.deobf("com.blamejared.crafttweaker:CraftTweaker-1.16.5:7.1.0.203")
+    // forge
+    minecraft 'net.minecraftforge:forge:1.16.5-36.2.22'
+
+    // ct
+    compile fg.deobf("com.blamejared.crafttweaker:CraftTweaker-1.16.5:${ct_version}")
+
+    // jei
     runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
     compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
+
+    // ctm
     implementation fg.deobf("team.chisel.ctm:CTM:MC1.16.1-1.1.2.6")
+
+    // top
     compile fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:1.16-3.1.4-22")
+
+    // geckolib
     implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.40')
-//    compile fg.deobf ('curse.maven:forgeendertech-244844:3246245')
-//    compile fg.deobf ('curse.maven:pollution-of-the-realms-269973:3353998')
-//    compile fg.deobf ('curse.maven:adchimneys-244830:3357470')
+
+    // pmmo
     compile fg.deobf ('curse.maven:pmmo-353935:3354382')
+
+    // corpse
     compile fg.deobf ('curse.maven:corpse-316582:3338002')
+
+    // mekanism
     compile fg.deobf ("mekanism:Mekanism:${mekanism_version}:api")
     compile fg.deobf ("mekanism:Mekanism:${mekanism_version}")
+
+    // patchouli
 //    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
 //    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+
+    // curios
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api")
+
+    // obfuscate
+    compile fg.deobf("curse.maven:obfuscate-289380:${obfuscate_version}")
 
     annotationProcessor 'org.spongepowered:mixin:0.8.2:processor'
 }

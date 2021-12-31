@@ -7,14 +7,14 @@ public class PlasmaStack implements IPlasma {
 
     private int power = 0;
     private int capacity = 1000;
-    private EnumWattsTypes watts = EnumWattsTypes.LOW;
+    private boolean consumer = false;
 
     public PlasmaStack() {
     }
 
-    public PlasmaStack(int capacity, EnumWattsTypes watts) {
+    public PlasmaStack(int capacity, boolean isConsumer) {
         this.capacity = capacity;
-        this.watts = watts;
+        this.consumer = isConsumer;
     }
 
     @Override
@@ -65,13 +65,13 @@ public class PlasmaStack implements IPlasma {
     }
 
     @Override
-    public void setWatts(EnumWattsTypes watts) {
-        this.watts = watts;
+    public boolean isConsumer() {
+        return consumer;
     }
 
     @Override
-    public EnumWattsTypes getWatts() {
-        return watts;
+    public void setIsConsumer(boolean isConsumer) {
+        this.consumer = isConsumer;
     }
 
     @Override
@@ -79,7 +79,7 @@ public class PlasmaStack implements IPlasma {
         CompoundNBT nbt = new CompoundNBT();
 
         nbt.putInt("power", power);
-        nbt.putString("watt", this.watts.getName());
+        nbt.putBoolean("isConsumer", this.consumer);
 
         return nbt;
     }
@@ -87,9 +87,8 @@ public class PlasmaStack implements IPlasma {
     @Override
     public void read(CompoundNBT nbt) {
         int power = nbt.getInt("power");
-        String watt = nbt.getString("watt");
 
-        this.watts = EnumWattsTypes.getWattsFromName(watt);
         this.power = power;
+        this.consumer = nbt.getBoolean("isConsumer");
     }
 }

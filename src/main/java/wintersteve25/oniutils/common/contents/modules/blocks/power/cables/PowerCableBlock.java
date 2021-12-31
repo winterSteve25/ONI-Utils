@@ -19,9 +19,10 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import wintersteve25.oniutils.common.contents.base.ONIBaseSixWaysBlock;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
+import wintersteve25.oniutils.common.contents.base.enums.EnumCableTypes;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 
-public class WireBlock extends ONIBaseSixWaysBlock {
+public class PowerCableBlock extends ONIBaseSixWaysBlock {
     private final EnumCableTypes type;
     private final VoxelShape BASE = VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 6.85, 7, 9, 9.35, 9), VoxelShapes.or(Block.makeCuboidShape(6.75, 8.2, 6.75, 9.25, 9.2, 9.25), VoxelShapes.or(Block.makeCuboidShape(7.5, 7.6, 6.5, 8.5, 8.6, 9.5), VoxelShapes.or(Block.makeCuboidShape(6.5, 7.6, 7.5, 9.5, 8.6, 8.5), VoxelShapes.or(Block.makeCuboidShape(7.5, 6.6, 7.5, 8.5, 9.6, 8.5), Block.makeCuboidShape(6.75, 7, 6.75, 9.25, 8, 9.25))))), IBooleanFunction.OR);
     private final VoxelShape NORTH_SIDE = VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7.6, 7.7, 2.3, 8.4, 8.5, 6.5), Block.makeCuboidShape(7.5, 7.6, 0, 8.5, 8.6, 2.5), IBooleanFunction.OR);
@@ -31,19 +32,24 @@ public class WireBlock extends ONIBaseSixWaysBlock {
     private final VoxelShape UP_SIDE = VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7.6, 9.5, 7.699999999999999, 8.4, 13.7, 8.5), Block.makeCuboidShape(7.5, 13.5, 7.6, 8.5, 16, 8.6), IBooleanFunction.OR);
     private final VoxelShape DOWN_SIDE = VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7.6, 2.3, 7.6, 8.4, 6.5, 8.4), Block.makeCuboidShape(7.5, 0, 7.5, 8.5, 2.5, 8.5), IBooleanFunction.OR);
 
-    public WireBlock(EnumCableTypes cableTypes) {
-        this(cableTypes, Properties.create(Material.IRON).doesNotBlockMovement().notSolid());
+    public PowerCableBlock(EnumCableTypes cableTypes) {
+        this(cableTypes, Properties.create(Material.IRON).doesNotBlockMovement().notSolid().hardnessAndResistance(0.4f, 0.9f));
     }
 
-    public WireBlock(EnumCableTypes cableTypes, Properties properties) {
+    public PowerCableBlock(EnumCableTypes cableTypes, Properties properties) {
         super(cableTypes.getName(), properties);
         type = cableTypes;
         setDoModelGen(false);
     }
 
     @Override
+    public boolean isFluidLoggable() {
+        return true;
+    }
+
+    @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(NORTH, EAST, SOUTH, WEST, UP, DOWN);
+        super.fillStateContainer(builder);
     }
 
     @Override
@@ -58,13 +64,13 @@ public class WireBlock extends ONIBaseSixWaysBlock {
 //            double x = pos.getX() - hitResult.x;
 //            double y = pos.getY() - hitResult.y;
 //            double z = pos.getZ() - hitResult.z;
-
+//
 //            disconnect(worldIn, pos, getDirectionFromVec(x, y, z));
 //            System.out.println(x + "," + y + "," + z);
 //        }
 //        return ActionResultType.PASS;
 //    }
-
+//
 //    private Direction getDirectionFromVec(double x, double y, double z) {
 //        // North
 //        if (x < -0.6 && z < -0.4) {
@@ -135,7 +141,7 @@ public class WireBlock extends ONIBaseSixWaysBlock {
 //                break;
 //        }
 //
-//        world.setBlockState(pos, state, 3);
+//        world.setBlockState(pos, state, Constants.BlockFlags.BLOCK_UPDATE);
 //    }
 
     public BlockState makeConnections(IBlockReader blockReader, BlockPos pos) {

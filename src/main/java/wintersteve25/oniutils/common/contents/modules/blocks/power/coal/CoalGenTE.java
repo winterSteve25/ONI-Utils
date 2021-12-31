@@ -43,7 +43,10 @@ import wintersteve25.oniutils.common.capability.plasma.api.EnumWattsTypes;
 import wintersteve25.oniutils.common.capability.plasma.api.IPlasma;
 import wintersteve25.oniutils.common.capability.plasma.api.PlasmaStack;
 import wintersteve25.oniutils.common.contents.base.ONIBaseInvTE;
+import wintersteve25.oniutils.common.contents.base.ONIBaseLoggableMachine;
 import wintersteve25.oniutils.common.contents.base.ONIBaseMachine;
+import wintersteve25.oniutils.common.contents.base.ONIIItem;
+import wintersteve25.oniutils.common.contents.base.bounding.ONIIBoundingBlock;
 import wintersteve25.oniutils.common.contents.base.builders.ONIBlockBuilder;
 import wintersteve25.oniutils.common.contents.base.builders.ONIContainerBuilder;
 import wintersteve25.oniutils.common.contents.base.enums.EnumModifications;
@@ -63,15 +66,16 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.BiPredicate;
+import java.util.function.Supplier;
 
 import static wintersteve25.oniutils.common.utils.helpers.MiscHelper.ONEPIXEL;
 
-public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAnimatable, IBoundingBlock, ONIIHasProgress, ONIIForceStoppable, ONIIHasRedstoneOutput, ONIIHasValidItems, ONIIMachine, ONIIRequireSkillToInteract {
+public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAnimatable, ONIIBoundingBlock, ONIIHasProgress, ONIIForceStoppable, ONIIHasRedstoneOutput, ONIIHasValidItems, ONIIMachine, ONIIRequireSkillToInteract {
 
     public final ModificationContext modificationContext = new ModificationContext(this, 9, EnumModifications.SPEED, EnumModifications.TEMPERATURE, EnumModifications.COMPLEXITY);
     private final ModificationHandler modificationHandler = new ModificationHandler(modificationContext);
     private final AnimationFactory manager = new AnimationFactory(this);
-    private final PlasmaStack plasmaHandler = new PlasmaStack(4000, EnumWattsTypes.LOW);
+    private final PlasmaStack plasmaHandler = new PlasmaStack(4000, false);
     private final LazyOptional<IPlasma> powerLazyOptional = LazyOptional.of(() -> plasmaHandler);
     private boolean removedFirstItem = false;
 
@@ -371,9 +375,9 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
 
     public static final VoxelShape NORTH_R = VoxelShapes.or(BOTTOM, SUPPORT, MIDDLE, CONNECTION, REDSTONEPANEL).simplify();
 
-    public static ONIBlockBuilder<ONIBaseMachine> createBlock() {
-        return new ONIBlockBuilder<>(() -> new ONIBaseMachine("Coal Generator", AbstractBlock.Properties.create(Material.IRON).harvestTool(ToolType.PICKAXE).hardnessAndResistance(1.4F, 5).setRequiresTool().notSolid()), ONIConstants.Geo.COAL_GEN_ISTER, true)
-                .placementCondition(CoalGenTE::placeCondition)
+    public static ONIBlockBuilder<ONIBaseLoggableMachine> createBlock() {
+        return new ONIBlockBuilder<>(() -> new ONIBaseLoggableMachine("Coal Generator", AbstractBlock.Properties.create(Material.IRON).harvestTool(ToolType.PICKAXE).hardnessAndResistance(1.4F, 5).setRequiresTool().notSolid()), ONIConstants.Geo.COAL_GEN_ISTER, true)
+                .placementCondition(ONIConstants.PlacementConditions::fourByFourCondition)
                 .renderType((state)-> BlockRenderType.ENTITYBLOCK_ANIMATED)
                 .autoRotateShape()
                 .shape((state, world, pos, ctx)->NORTH_R)
@@ -396,58 +400,12 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     }
 
     public static ONIContainerBuilder createContainer() {
-        return new ONIContainerBuilder(ONIBlocks.Machines.Power.COAL_GEN_BLOCK.getRegName())
+        return new ONIContainerBuilder(ONIConstants.LangKeys.COAL_GEN)
                 .trackPower()
                 .trackPowerCapacity()
                 .trackProgress()
                 .trackWorking()
                 .setInternalSlotArrangement(new SlotArrangement(55, 32))
                 .addInternalInventory();
-    }
-
-    private static boolean placeCondition(BlockItemUseContext context, BlockState state) {
-        World world = context.getWorld();
-        BlockPos ogPos = context.getPos();
-
-        switch (state.get(BlockStateProperties.FACING)) {
-            case NORTH:
-                if (WorldUtils.isValidReplaceableBlock(world, ogPos.east())) {
-                    if (WorldUtils.isValidReplaceableBlock(world, ogPos.up())) {
-                        if (WorldUtils.isValidReplaceableBlock(world, ogPos.east().up())) {
-                            return true;
-                        }
-                    }
-                }
-                break;
-            case SOUTH:
-                if (WorldUtils.isValidReplaceableBlock(world, ogPos.west())) {
-                    if (WorldUtils.isValidReplaceableBlock(world, ogPos.up())) {
-                        if (WorldUtils.isValidReplaceableBlock(world, ogPos.west().up())) {
-                            return true;
-                        }
-                    }
-                }
-                break;
-            case WEST:
-                if (WorldUtils.isValidReplaceableBlock(world, ogPos.north())) {
-                    if (WorldUtils.isValidReplaceableBlock(world, ogPos.up())) {
-                        if (WorldUtils.isValidReplaceableBlock(world, ogPos.north().up())) {
-                            return true;
-                        }
-                    }
-                }
-                break;
-            case EAST:
-                if (WorldUtils.isValidReplaceableBlock(world, ogPos.south())) {
-                    if (WorldUtils.isValidReplaceableBlock(world, ogPos.up())) {
-                        if (WorldUtils.isValidReplaceableBlock(world, ogPos.south().up())) {
-                            return true;
-                        }
-                    }
-                }
-                break;
-        }
-
-        return false;
     }
 }

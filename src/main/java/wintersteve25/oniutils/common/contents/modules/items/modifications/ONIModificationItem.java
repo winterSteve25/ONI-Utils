@@ -21,14 +21,14 @@ import wintersteve25.oniutils.common.utils.ONIConstants;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class ONIModification extends ONIBaseItem {
+public class ONIModificationItem extends ONIBaseItem {
 
     private final int maxBonus;
     private final EnumModifications modType;
     private final TextFormatting color;
     private final ITextComponent[] tooltips;
 
-    private ONIModification(Properties properties, String regName, TextFormatting color, int maxBonus, EnumModifications modType, ITextComponent... tooltips) {
+    private ONIModificationItem(Properties properties, String regName, TextFormatting color, int maxBonus, EnumModifications modType, ITextComponent... tooltips) {
         super(properties, regName);
         this.maxBonus = maxBonus;
         this.modType = modType;
@@ -52,8 +52,8 @@ public class ONIModification extends ONIBaseItem {
         return modType;
     }
 
-    public static ONIModification create(String regName, TextFormatting color, int maxBonus, EnumModifications modType, ITextComponent... tooltips) {
-        ONIModification mod = new ONIModification(new Properties().group(ONIUtils.creativeTab).maxStackSize(1).setNoRepair(), regName, color, maxBonus, modType, tooltips);
+    public static ONIModificationItem create(String regName, TextFormatting color, int maxBonus, EnumModifications modType, ITextComponent... tooltips) {
+        ONIModificationItem mod = new ONIModificationItem(new Properties().group(ONIUtils.creativeTab).maxStackSize(1).setNoRepair(), regName, color, maxBonus, modType, tooltips);
         ONIItems.itemRegistryList.add(mod);
         return mod;
     }

@@ -1,20 +1,31 @@
 package wintersteve25.oniutils.common.contents.modules.blocks.power.manual;
 
-import mekanism.common.tile.interfaces.IBoundingBlock;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.PointOfView;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.potion.Effects;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -24,99 +35,59 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import wintersteve25.oniutils.api.ONIIHasProgress;
 import wintersteve25.oniutils.api.ONIIWorkable;
 import wintersteve25.oniutils.client.keybinds.ONIKeybinds;
-import wintersteve25.oniutils.common.contents.base.ONIBaseTE;
-import wintersteve25.oniutils.api.ONIIHasProgress;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
 import wintersteve25.oniutils.common.capability.plasma.api.EnumWattsTypes;
 import wintersteve25.oniutils.common.capability.plasma.api.IPlasma;
 import wintersteve25.oniutils.common.capability.plasma.api.PlasmaStack;
+import wintersteve25.oniutils.common.contents.base.ONIBaseMachine;
+import wintersteve25.oniutils.common.contents.base.ONIBaseTE;
+import wintersteve25.oniutils.common.contents.base.ONIIItem;
+import wintersteve25.oniutils.common.contents.base.bounding.ONIIBoundingBlock;
+import wintersteve25.oniutils.common.contents.base.builders.ONIBlockBuilder;
 import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONIConfig;
+import wintersteve25.oniutils.common.utils.ONIConstants;
+import wintersteve25.oniutils.common.utils.helpers.LangHelper;
 import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class ManualGenTE extends ONIBaseTE implements ITickableTileEntity, IAnimatable, IBoundingBlock, ONIIHasProgress, ONIIWorkable {
+public class ManualGenTE extends ONIBaseTE implements ITickableTileEntity, IAnimatable, ONIIBoundingBlock, ONIIHasProgress, ONIIWorkable {
 
     private final AnimationFactory manager = new AnimationFactory(this);
-    private PlasmaStack plasmaHandler = new PlasmaStack(2000, EnumWattsTypes.LOW);
-    private LazyOptional<IPlasma> plasmaLazyOptional = LazyOptional.of(() -> plasmaHandler);
+    private final PlasmaStack plasmaHandler = new PlasmaStack(2000, false);
+    private final LazyOptional<IPlasma> plasmaLazyOptional = LazyOptional.of(() -> plasmaHandler);
 
-    public boolean hasPlayer = false;
-
-    private BlockState state;
-    private BlockPos pos;
-    private ServerPlayerEntity player;
+    public ManualGenEntity mountableEntity;
 
     private int progress = 0;
-    private int totalProgress = ONIConfig.COAL_GEN_PROCESS_TIME.get();
-    private boolean isForceStopped = false;
-    private boolean isInverted = false;
+    private int totalProgress = ONIConfig.MANUAL_GEN_PROCESS_TIME.get();
     private boolean isWorking = false;
 
     public ManualGenTE() {
-        super(ONIBlocks.Machines.Power.MANUAL_GEN_TE.get());
+        super(null);
     }
 
     @Override
     public void tick() {
-        if (!world.isRemote()) {
-            if (ONIKeybinds.offManualGen.isPressed()) {
-                hasPlayer = false;
-            }
-
-            if (hasPlayer) {
-                Direction facing = state.get(BlockStateProperties.FACING);
-                switch (facing) {
-                    case SOUTH:
-                        player.teleport((ServerWorld) world,  pos.getX()-0.3, pos.getY(), pos.getZ()-0.3, -90, 4);
-                    case WEST:
-                        player.teleport((ServerWorld) world,  pos.getX()+0.2, pos.getY(), pos.getZ()-0.3, -90, 4);
-                    case EAST:
-                        player.teleport((ServerWorld) world,  pos.getX(), pos.getY(), pos.getZ()+0.3, -90, 4);
-                    default:
-                        player.teleport((ServerWorld) world,  pos.getX()+0.3, pos.getY(), pos.getZ()+0.3, 90, 4);
-                }
-                setWorking(true);
+        if (isServer()) {
+            if (getWorking()) {
                 progress--;
                 if (progress < 0) {
-                    if (player.isPotionActive(Effects.SPEED)) {
-                        if (plasmaHandler.canGenerate(ONIConfig.MANUAL_GEN_PLASMA_OUTPUT_SPEED.get())) {
-                            plasmaHandler.addPower(ONIConfig.MANUAL_GEN_PLASMA_OUTPUT_SPEED.get());
-
-                            markDirty();
-                        }
-                    } else {
-                        if (plasmaHandler.canGenerate(ONIConfig.MANUAL_GEN_PLASMA_OUTPUT.get())) {
-                            plasmaHandler.addPower(ONIConfig.MANUAL_GEN_PLASMA_OUTPUT.get());
-
-                            markDirty();
-                        }
+                    if (plasmaHandler.canGenerate(ONIConfig.MANUAL_GEN_PLASMA_OUTPUT.get())) {
+                        plasmaHandler.addPower(ONIConfig.MANUAL_GEN_PLASMA_OUTPUT.get());
                     }
 
                     progress = ONIConfig.MANUAL_GEN_PROCESS_TIME.get();
                 }
-
-                markDirty();
-            }
-        }
-    }
-
-    public void getOnMill(PlayerEntity playerEntity, BlockPos pos, BlockState state) {
-        if (!isWorking) {
-            hasPlayer = true;
-
-            if (pos != null && state != null && playerEntity != null) {
-
-                this.player = (ServerPlayerEntity) playerEntity;
-                this.state = state;
-                this.pos = pos;
-
-                playerEntity.sendStatusMessage(new TranslationTextComponent("oniutils.message.manualGen"), true);
-                Minecraft.getInstance().gameSettings.setPointOfView(PointOfView.THIRD_PERSON_BACK);
+                if (mountableEntity.getPassengers().isEmpty()) {
+                    setWorking(false);
+                }
+                updateBlock();
             }
         }
     }
@@ -131,6 +102,8 @@ public class ManualGenTE extends ONIBaseTE implements ITickableTileEntity, IAnim
     @Override
     public CompoundNBT write(CompoundNBT tag) {
         tag.put("plasma", plasmaHandler.write());
+        mountableEntity = ManualGenEntity.create(world, this.pos.add(0.5, 0, 0.5));
+        getWorld().addEntity(mountableEntity);
 
         return super.write(tag);
     }
@@ -168,13 +141,8 @@ public class ManualGenTE extends ONIBaseTE implements ITickableTileEntity, IAnim
     @Override
     public void onPlace() {
         Direction facing = getBlockState().get(BlockStateProperties.FACING);
-
+        mountableEntity = ManualGenEntity.create(world, this.pos.add(0.5, 0, 0.5));
         switch (facing) {
-            case NORTH:
-                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().east(), this.getPos());
-                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
-                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up().east(), this.getPos());
-                break;
             case SOUTH:
                 MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().west(), this.getPos());
                 MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
@@ -190,13 +158,25 @@ public class ManualGenTE extends ONIBaseTE implements ITickableTileEntity, IAnim
                 MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
                 MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up().north(), this.getPos());
                 break;
+            default:
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().east(), this.getPos());
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up(), this.getPos());
+                MiscHelper.makeBoundingBlock(this.getWorld(), this.getPos().up().east(), this.getPos());
+                break;
         }
+
+        getWorld().addEntity(mountableEntity);
     }
 
     @Override
     public void onBreak(BlockState blockState) {
         if (this.world != null) {
             Direction facing = getBlockState().get(BlockStateProperties.FACING);
+
+            if (mountableEntity != null) {
+                mountableEntity.removePassengers();
+                mountableEntity.remove();
+            }
 
             switch (facing) {
                 case NORTH:
@@ -213,7 +193,6 @@ public class ManualGenTE extends ONIBaseTE implements ITickableTileEntity, IAnim
                     this.world.removeBlock(this.getPos().south(), false);
                     this.world.removeBlock(this.getPos().up(), false);
                     this.world.removeBlock(this.getPos().up().south(), false);
-                    this.world.removeBlock(this.getPos(), false);
                     break;
                 case WEST:
                     this.world.removeBlock(this.getPos().north(), false);
@@ -252,5 +231,31 @@ public class ManualGenTE extends ONIBaseTE implements ITickableTileEntity, IAnim
     @Override
     public void setWorking(boolean isWorking) {
         this.isWorking = isWorking;
+    }
+
+    private static final VoxelShape NORTH = VoxelShapes.or(Block.makeCuboidShape(0, 0, 0, 32, 1, 16),
+            Block.makeCuboidShape(2, 31, 1, 30, 32, 14),
+            Block.makeCuboidShape(0, 3, 1, 2, 32, 14),
+            Block.makeCuboidShape(30, 3, 1, 32, 32, 14),
+            Block.makeCuboidShape(2, 3, 0, 30, 31, 1)).simplify();
+
+    public static ONIBlockBuilder<ONIBaseMachine> createBlock() {
+//        return new ONIBlockBuilder<>(() -> new ONIBaseMachine("Manual Generator", AbstractBlock.Properties.create(Material.IRON).harvestTool(ToolType.PICKAXE).hardnessAndResistance(1.4F, 5).setRequiresTool().notSolid()), ONIConstants.Geo.MANUAL_GEN_ISTER, true)
+//                .placementCondition(ONIConstants.PlacementConditions::fourByFourCondition)
+//                .renderType((state) -> BlockRenderType.ENTITYBLOCK_ANIMATED)
+//                .autoRotateShape()
+//                .shape((state, world, pos, ctx) -> NORTH)
+//                .tileEntity((state, world) -> ONIBlocks.Machines.Power.MANUAL_GEN_TE.get(), ManualGenTE.class)
+//                .noModelGen()
+//                .setCategory(ONIIItem.ItemCategory.POWER)
+//                .tooltip(LangHelper.itemTooltip(ONIConstants.LangKeys.MANUAL_GEN))
+//                .shiftToolTip();
+        return null;
+    }
+
+    @Override
+    public void onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
+        player.startRiding(mountableEntity);
+        setWorking(true);
     }
 }

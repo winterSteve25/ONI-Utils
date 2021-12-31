@@ -43,7 +43,7 @@ public class MiscHelper {
      */
     public static void makeBoundingBlock(@Nullable IWorld world, BlockPos boundingLocation, BlockPos orig) {
         if (world != null) {
-            ONIBoundingBlock boundingBlock = (ONIBoundingBlock) ONIBlocks.Misc.BOUNDING_BLOCK;
+            ONIBoundingBlock boundingBlock = (ONIBoundingBlock) ONIBlocks.Misc.BOUNDING_BLOCK.get();
             BlockState newState = boundingBlock.getDefaultState();
             world.setBlockState(boundingLocation, newState, 3);
             if (!world.isRemote()) {

@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 
 public class AlgaeDiffuserTE extends ONIBaseInvTE implements ITickableTileEntity {
 
-    private final PlasmaStack plasmaHandler = new PlasmaStack(500, EnumWattsTypes.LOW);
+    private final PlasmaStack plasmaHandler = new PlasmaStack(500, false);
     private final LazyOptional<IPlasma> powerLazyOptional = LazyOptional.of(() -> plasmaHandler);
 
     public AlgaeDiffuserTE() {

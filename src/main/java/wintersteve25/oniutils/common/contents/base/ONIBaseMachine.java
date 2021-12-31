@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.api.*;
-import wintersteve25.oniutils.common.contents.modules.items.modifications.ONIModification;
+import wintersteve25.oniutils.common.contents.modules.items.modifications.ONIModificationItem;
 
 import javax.annotation.Nullable;
 
@@ -48,7 +48,7 @@ public class ONIBaseMachine extends ONIBaseDirectional {
                 if (tileEntity instanceof ONIIModifiable && tileEntity instanceof ONIBaseTE) {
                     ONIBaseTE baseTE = (ONIBaseTE) tileEntity;
                     baseTE.onBlockActivated(state, world, pos, player, hand, rayTraceResult);
-                    if (!heldItem.isEmpty() && heldItem.getItem() instanceof ONIModification) {
+                    if (!heldItem.isEmpty() && heldItem.getItem() instanceof ONIModificationItem) {
                         ONIIModifiable modifiable = (ONIIModifiable) tileEntity;
                         if (modifiable.addMod((ONIBaseTE) tileEntity, heldItem)) {
                             player.swing(hand, true);

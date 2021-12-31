@@ -140,9 +140,4 @@ public class ONIBlockBuilder<T extends ONIBaseBlock> {
     private void isDirectional() {
         if (!(this.block instanceof ONIBaseDirectional)) throw new IllegalStateException("Tried to create directional-only properties with a non-directional block");
     }
-
-    @Deprecated
-    public String getBlockRegName() {
-        return block.getRegName();
-    }
 }

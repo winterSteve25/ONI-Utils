@@ -8,7 +8,7 @@ import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.fml.ModList;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.client.gui.ONIBaseGuiTab;
-import wintersteve25.oniutils.api.ONIIRegistryObject;
+import wintersteve25.oniutils.common.contents.base.ONIIRegistryObject;
 import wintersteve25.oniutils.common.capability.world_gas.api.chemistry.Element;
 import wintersteve25.oniutils.common.compat.curios.CuriosCompat;
 import wintersteve25.oniutils.common.init.ONIBlocks;
@@ -51,7 +51,7 @@ public class ONIEngLangProvider extends LanguageProvider {
         //tooltips
         add("oniutils.tooltips.germs.itemGerms", TextFormatting.GREEN + "Surface Germs: %s %s");
         add("oniutils.tooltips.items.holdShiftInfo", TextFormatting.DARK_GRAY + "Hold" + TextFormatting.WHITE + " <Sneak> " + TextFormatting.DARK_GRAY + "For More Info");
-        add("oniutils.tooltips.items.coal_gen", TextFormatting.GRAY + "Coal Generator is a primitive generator that takes only coal, to generate a small amount of plasma");
+        add("oniutils.tooltips.items.coal_generator", TextFormatting.GRAY + "Coal Generator is a primitive generator that takes only coal, to generate a small amount of plasma");
         add("oniutils.tooltips.items.manual_gen", TextFormatting.GRAY + "Manual Generator will generate a tiny amount of plasma when a player is running on it. It will generate more power when the player has speed effect");
         add("oniutils.tooltips.items.modification", TextFormatting.DARK_AQUA + "Modifications allow attributes of machines to be modified");
         add("oniutils.tooltips.items.modification.velocity", TextFormatting.GRAY + "Velocity Modification allow you to modify machine's operating speed. Up to 125%/-125%. 25% more each tier");
@@ -72,7 +72,7 @@ public class ONIEngLangProvider extends LanguageProvider {
         add("oniutils.gui.titles.modifications", TextFormatting.DARK_AQUA + "Modifications");
         add("oniutils.gui.titles.invert", "Invert Redstone");
 
-        add("oniutils.gui.titles.coal_gen", TextFormatting.WHITE + "Coal Generator");
+        add("oniutils.gui.titles.coal_generator", TextFormatting.WHITE + "Coal Generator");
         add("oniutils.gui.titles.manual_gen", TextFormatting.WHITE + "Manual Generator");
 
         add("oniutils.gui.info.energy", "Plasma Stored: %s");

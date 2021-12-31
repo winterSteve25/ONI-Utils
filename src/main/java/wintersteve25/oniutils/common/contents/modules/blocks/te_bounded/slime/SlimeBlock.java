@@ -17,6 +17,7 @@ import wintersteve25.oniutils.common.capability.germ.GermCapability;
 import wintersteve25.oniutils.common.capability.germ.api.EnumGermTypes;
 import wintersteve25.oniutils.common.capability.germ.api.GermStack;
 import wintersteve25.oniutils.common.init.ONIBlocks;
+import wintersteve25.oniutils.common.utils.ONIConstants;
 import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 
 import javax.annotation.Nullable;
@@ -24,10 +25,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class SlimeBlock extends ONIBaseBlock {
-    private static final String regName = "Slime";
-
     public SlimeBlock() {
-        super(regName, Properties.create(Material.EARTH).harvestLevel(0).hardnessAndResistance(0.25F, 0.25F).sound(SoundType.SLIME));
+        super("Slime", Properties.create(Material.EARTH).harvestLevel(0).hardnessAndResistance(0.25F, 0.25F).sound(SoundType.SLIME));
     }
 
     @Override
@@ -51,11 +50,6 @@ public class SlimeBlock extends ONIBaseBlock {
     }
 
     @Override
-    public String getRegName() {
-        return regName;
-    }
-
-    @Override
     public boolean hasTileEntity(BlockState state) {
         return true;
     }
@@ -70,7 +64,7 @@ public class SlimeBlock extends ONIBaseBlock {
         GermStack germStack = new GermStack();
 
         public SlimeBlockItem() {
-            super(ONIBlocks.TileEntityBounded.SLIME_BLOCK, MiscHelper.DEFAULT_ITEM_PROPERTY);
+            super(ONIBlocks.TileEntityBounded.SLIME_BLOCK.get(), MiscHelper.DEFAULT_ITEM_PROPERTY);
 
             germStack.setGerm(EnumGermTypes.SLIMELUNG, 15000);
         }
