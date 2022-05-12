@@ -6,9 +6,9 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import wintersteve25.oniutils.common.capability.plasma.api.EnumPlasmaTileType;
 import wintersteve25.oniutils.common.contents.base.ONIBaseInvTE;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
-import wintersteve25.oniutils.common.capability.plasma.api.EnumWattsTypes;
 import wintersteve25.oniutils.common.capability.plasma.api.IPlasma;
 import wintersteve25.oniutils.common.capability.plasma.api.PlasmaStack;
 import wintersteve25.oniutils.common.init.ONIBlocks;
@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 
 public class AlgaeDiffuserTE extends ONIBaseInvTE implements ITickableTileEntity {
 
-    private final PlasmaStack plasmaHandler = new PlasmaStack(500, false);
+    private final PlasmaStack plasmaHandler = new PlasmaStack(500, EnumPlasmaTileType.CONSUMER);
     private final LazyOptional<IPlasma> powerLazyOptional = LazyOptional.of(() -> plasmaHandler);
 
     public AlgaeDiffuserTE() {

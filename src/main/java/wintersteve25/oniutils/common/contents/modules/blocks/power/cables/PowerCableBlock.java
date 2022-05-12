@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SixWayBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
@@ -17,10 +18,11 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
-import wintersteve25.oniutils.common.contents.base.ONIBaseSixWaysBlock;
+import net.minecraft.world.World;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
+import wintersteve25.oniutils.common.contents.base.ONIBaseSixWaysBlock;
 import wintersteve25.oniutils.common.contents.base.enums.EnumCableTypes;
-import wintersteve25.oniutils.common.init.ONIBlocks;
+import wintersteve25.oniutils.common.init.ONIItems;
 
 public class PowerCableBlock extends ONIBaseSixWaysBlock {
     private final EnumCableTypes type;
@@ -57,94 +59,7 @@ public class PowerCableBlock extends ONIBaseSixWaysBlock {
         return this.makeConnections(context.getWorld(), context.getPos());
     }
 
-//    @Override
-//    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-//        if (player.isSneaking() && !worldIn.isRemote()) {
-//            Vector3d hitResult = hit.getHitVec();
-//            double x = pos.getX() - hitResult.x;
-//            double y = pos.getY() - hitResult.y;
-//            double z = pos.getZ() - hitResult.z;
-//
-//            disconnect(worldIn, pos, getDirectionFromVec(x, y, z));
-//            System.out.println(x + "," + y + "," + z);
-//        }
-//        return ActionResultType.PASS;
-//    }
-//
-//    private Direction getDirectionFromVec(double x, double y, double z) {
-//        // North
-//        if (x < -0.6 && z < -0.4) {
-//            return Direction.NORTH;
-//        }
-//
-//        // South
-//        if (x < -0.6 && z > -0.6) {
-//            return Direction.SOUTH;
-//        }
-//
-//        // East
-//        if (x > -0.6) {
-//            return Direction.EAST;
-//        }
-//
-//        // West
-//        if (x < -0.5) {
-//            return Direction.WEST;
-//        }
-//
-//        // Down
-//        if (y < -0.5) {
-//            return Direction.DOWN;
-//        }
-//
-//        // Up
-//        if (y > -0.6) {
-//            return Direction.UP;
-//        }
-//
-//        return Direction.NORTH;
-//    }
-//
-//    public void disconnect(World world, BlockPos pos, Direction direction) {
-//        BlockState state = world.getBlockState(pos);
-//
-//        switch (direction) {
-//            case SOUTH:
-//                if (state.hasProperty(SOUTH)) {
-//                    state.with(SOUTH, false);
-//                }
-//                break;
-//            case UP:
-//                if (state.hasProperty(UP)) {
-//                    state.with(UP, false);
-//                }
-//                break;
-//            case DOWN:
-//                if (state.hasProperty(DOWN)) {
-//                    state.with(DOWN, false);
-//                }
-//                break;
-//            case EAST:
-//                if (state.hasProperty(EAST)) {
-//                    state.with(EAST, false);
-//                }
-//                break;
-//            case WEST:
-//                if (state.hasProperty(WEST)) {
-//                    state.with(WEST, false);
-//                }
-//                break;
-//            default:
-//                if (state.hasProperty(NORTH)) {
-//                    state.with(NORTH, false);
-//                }
-//                break;
-//        }
-//
-//        world.setBlockState(pos, state, Constants.BlockFlags.BLOCK_UPDATE);
-//    }
-
-    public BlockState makeConnections(IBlockReader blockReader, BlockPos pos) {
+    public BlockState makeConnections(World blockReader, BlockPos pos) {
         Block block = blockReader.getBlockState(pos.down()).getBlock();
         Block block1 = blockReader.getBlockState(pos.up()).getBlock();
         Block block2 = blockReader.getBlockState(pos.north()).getBlock();
@@ -159,55 +74,116 @@ public class PowerCableBlock extends ONIBaseSixWaysBlock {
         TileEntity te4 = blockReader.getTileEntity(pos.south());
         TileEntity te5 = blockReader.getTileEntity(pos.west());
 
-        switch (type) {
-            case HEAVIWATTS:
-                return this.getDefaultState().with(DOWN, block == this || block == ONIBlocks.Machines.Power.HEAVI_WATT_WIRE_BLOCK || te != null && te.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent())
-                        .with(UP, block1 == this || block1 == ONIBlocks.Machines.Power.HEAVI_WATT_WIRE_BLOCK || te1 != null && te1.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent())
-                        .with(NORTH, block2 == this || block2 == ONIBlocks.Machines.Power.HEAVI_WATT_WIRE_BLOCK || te2 != null && te2.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent())
-                        .with(EAST, block3 == this || block3 == ONIBlocks.Machines.Power.HEAVI_WATT_WIRE_BLOCK || te3 != null && te3.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent())
-                        .with(SOUTH, block4 == this || block4 == ONIBlocks.Machines.Power.HEAVI_WATT_WIRE_BLOCK || te4 != null && te4.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent())
-                        .with(WEST, block5 == this || block5 == ONIBlocks.Machines.Power.HEAVI_WATT_WIRE_BLOCK || te5 != null && te5.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent());
-            case CONDUCTIVE:
-                return this.getDefaultState().with(DOWN, block == this || block == ONIBlocks.Machines.Power.CONDUCTIVE_WIRE_BLOCK || te != null && te.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent())
-                        .with(UP, block1 == this || block1 == ONIBlocks.Machines.Power.CONDUCTIVE_WIRE_BLOCK || te1 != null && te1.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent())
-                        .with(NORTH, block2 == this || block2 == ONIBlocks.Machines.Power.CONDUCTIVE_WIRE_BLOCK || te2 != null && te2.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent())
-                        .with(EAST, block3 == this || block3 == ONIBlocks.Machines.Power.CONDUCTIVE_WIRE_BLOCK || te3 != null && te3.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent())
-                        .with(SOUTH, block4 == this || block4 == ONIBlocks.Machines.Power.CONDUCTIVE_WIRE_BLOCK || te4 != null && te4.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent())
-                        .with(WEST, block5 == this || block5 == ONIBlocks.Machines.Power.CONDUCTIVE_WIRE_BLOCK || te5 != null && te5.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent());
-            default:
-                return this.getDefaultState().with(DOWN, block == this || block == ONIBlocks.Machines.Power.WIRE_BLOCK || te != null && te.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent())
-                        .with(UP, block1 == this || block1 == ONIBlocks.Machines.Power.WIRE_BLOCK || te1 != null && te1.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent())
-                        .with(NORTH, block2 == this || block2 == ONIBlocks.Machines.Power.WIRE_BLOCK || te2 != null && te2.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent())
-                        .with(EAST, block3 == this || block3 == ONIBlocks.Machines.Power.WIRE_BLOCK || te3 != null && te3.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent())
-                        .with(SOUTH, block4 == this || block4 == ONIBlocks.Machines.Power.WIRE_BLOCK || te4 != null && te4.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent())
-                        .with(WEST, block5 == this || block5 == ONIBlocks.Machines.Power.WIRE_BLOCK || te5 != null && te5.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent());
-        }
+        boolean down = block instanceof PowerCableBlock || te != null && te.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent();
+        boolean up = block1 instanceof PowerCableBlock || te1 != null && te1.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent();
+        boolean north = block2 instanceof PowerCableBlock || te2 != null && te2.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent();
+        boolean east = block3 instanceof PowerCableBlock || te3 != null && te3.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent();
+        boolean south = block4 instanceof PowerCableBlock || te4 != null && te4.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent();
+        boolean west = block5 instanceof PowerCableBlock || te5 != null && te5.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent();
+//
+//        if (blockReader.getCapability(CircuitCapability.WORLD_CIRCUIT_CAPABILITY).isPresent()) {
+//            Circuit circuit = Circuit.createCircuit(blockReader, type.getPowerTransferLimit());
+//            if (circuit != null) {
+//                WorldCircuits cap = blockReader.getCapability(CircuitCapability.WORLD_CIRCUIT_CAPABILITY).resolve().get();
+//
+//                if (block instanceof PowerCableBlock) {
+//                    circuit = circuit.mergeCircuits(blockReader, cap.getCircuitWithCableAtPos(pos.down()));
+//                }
+//
+//                if (te != null && te.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent()) {
+//                    IPlasma plasma = te.getCapability(PlasmaCapability.POWER_CAPABILITY).resolve().get();
+//                    circuit.addToCircuit(plasma.getTileType(), te.getPos());
+//                }
+//
+//                if (block1 instanceof PowerCableBlock) {
+//                    circuit = circuit.mergeCircuits(blockReader, cap.getCircuitWithCableAtPos(pos.up()));
+//                }
+//
+//                if (te1 != null && te1.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent()) {
+//                    IPlasma plasma = te1.getCapability(PlasmaCapability.POWER_CAPABILITY).resolve().get();
+//                    circuit.addToCircuit(plasma.getTileType(), te1.getPos());
+//                }
+//
+//                if (block2 instanceof PowerCableBlock) {
+//                    circuit = circuit.mergeCircuits(blockReader, cap.getCircuitWithCableAtPos(pos.north()));
+//                }
+//
+//                if (te2 != null && te2.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent()) {
+//                    IPlasma plasma = te2.getCapability(PlasmaCapability.POWER_CAPABILITY).resolve().get();
+//                    circuit.addToCircuit(plasma.getTileType(), te2.getPos());
+//                }
+//
+//                if (block3 instanceof PowerCableBlock) {
+//                    circuit = circuit.mergeCircuits(blockReader, cap.getCircuitWithCableAtPos(pos.east()));
+//                }
+//
+//                if (te3 != null && te3.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent()) {
+//                    IPlasma plasma = te3.getCapability(PlasmaCapability.POWER_CAPABILITY).resolve().get();
+//                    circuit.addToCircuit(plasma.getTileType(), te3.getPos());
+//                }
+//
+//                if (block4 instanceof PowerCableBlock) {
+//                    circuit = circuit.mergeCircuits(blockReader, cap.getCircuitWithCableAtPos(pos.south()));
+//                }
+//
+//                if (te4 != null && te4.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent()) {
+//                    IPlasma plasma = te4.getCapability(PlasmaCapability.POWER_CAPABILITY).resolve().get();
+//                    circuit.addToCircuit(plasma.getTileType(), te4.getPos());
+//                }
+//
+//                if (block5 instanceof PowerCableBlock) {
+//                    circuit = circuit.mergeCircuits(blockReader, cap.getCircuitWithCableAtPos(pos.west()));
+//                }
+//
+//                if (te5 != null && te5.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent()) {
+//                    IPlasma plasma = te5.getCapability(PlasmaCapability.POWER_CAPABILITY).resolve().get();
+//                    circuit.addToCircuit(plasma.getTileType(), te5.getPos());
+//                }
+//
+//                cap.replaceAndAddCircuits(circuit);
+//            }
+//        }
+
+        return this.getDefaultState().with(DOWN, down)
+                .with(UP, up)
+                .with(NORTH, north)
+                .with(EAST, east)
+                .with(SOUTH, south)
+                .with(WEST, west);
     }
 
     @Override
     public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
         boolean flag;
-
         TileEntity te = worldIn.getTileEntity(facingPos);
-
-        switch (type) {
-            case HEAVIWATTS:
-                flag = facingState.getBlock() == this || facingState.isIn(ONIBlocks.Machines.Power.HEAVI_WATT_WIRE_BLOCK) || te != null && te.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent();
-                break;
-            case CONDUCTIVE:
-                flag = facingState.getBlock() == this || facingState.isIn(ONIBlocks.Machines.Power.CONDUCTIVE_WIRE_BLOCK) || te != null && te.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent();
-                break;
-            default:
-                flag = facingState.getBlock() == this || facingState.isIn(ONIBlocks.Machines.Power.WIRE_BLOCK) || te != null && te.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent();
-                break;
-        }
-
+        flag = facingState.getBlock() instanceof PowerCableBlock || te != null && te.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent();
+//        if (((World) worldIn).getCapability(CircuitCapability.WORLD_CIRCUIT_CAPABILITY).isPresent()) {
+//            Circuit circuit = Circuit.createCircuit(((World) worldIn), type.getPowerTransferLimit());
+//            if (circuit != null) {
+//                WorldCircuits cap = ((World) worldIn).getCapability(CircuitCapability.WORLD_CIRCUIT_CAPABILITY).resolve().get();
+//
+//                if (facingState.getBlock() instanceof PowerCableBlock) {
+//                    circuit = circuit.mergeCircuits(((World) worldIn), cap.getCircuitWithCableAtPos(facingPos));
+//                }
+//
+//                if (te != null && te.getCapability(PlasmaCapability.POWER_CAPABILITY).isPresent()) {
+//                    IPlasma plasma = te.getCapability(PlasmaCapability.POWER_CAPABILITY).resolve().get();
+//                    circuit.addToCircuit(plasma.getTileType(), te.getPos());
+//                }
+//
+//                cap.replaceAndAddCircuits(circuit);
+//            }
+//        }
         return stateIn.with(SixWayBlock.FACING_TO_PROPERTY_MAP.get(facing), flag);
     }
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         VoxelShape shape = BASE;
+
+        if (context.hasItem(ONIItems.WIRE_CUTTER)) {
+            return VoxelShapes.fullCube();
+        }
 
         if (state.get(NORTH)) {
             shape = VoxelShapes.or(shape, NORTH_SIDE);
@@ -229,5 +205,14 @@ public class PowerCableBlock extends ONIBaseSixWaysBlock {
         }
 
         return shape;
+    }
+
+    @Override
+    public float getPlayerRelativeBlockHardness(BlockState state, PlayerEntity player, IBlockReader worldIn, BlockPos pos) {
+        float value = super.getPlayerRelativeBlockHardness(state, player, worldIn, pos);
+        if (player.getHeldItemMainhand().getItem() == ONIItems.WIRE_CUTTER) {
+            value*=4;
+        }
+        return value;
     }
 }

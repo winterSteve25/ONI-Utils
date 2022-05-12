@@ -61,6 +61,7 @@ public class ONIEngLangProvider extends LanguageProvider {
         add("oniutils.tooltips.items.modification.temperature", TextFormatting.GRAY + "Temperature Modification allow you to modify machine's temperature capacity. Up to 120%/-120%. 20% more each tier");
         add("oniutils.tooltips.items.modification.complexity", TextFormatting.GRAY + "Complexity Modification allow you to modify machine's required operation skill level. Up to 125%/-125%. 25% more each tier");
         add("oniutils.tooltips.items.gas_visual_goggles", TextFormatting.GRAY + "Put on to see the gases move in real time!");
+        add("oniutils.tooltips.items.wire_cutter", TextFormatting.GRAY + "Makes removing power cables easier!");
 
         //gui
         add("oniutils.gui.machines.power", "Plasma Stored: %s Pls");

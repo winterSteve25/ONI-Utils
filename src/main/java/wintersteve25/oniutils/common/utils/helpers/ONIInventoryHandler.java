@@ -1,13 +1,11 @@
 package wintersteve25.oniutils.common.utils.helpers;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 import wintersteve25.oniutils.common.contents.base.ONIBaseInvTE;
 import wintersteve25.oniutils.api.ONIIHasValidItems;
 
 import javax.annotation.Nonnull;
-import java.util.HashMap;
 import java.util.function.BiPredicate;
 
 public class ONIInventoryHandler extends ItemStackHandler {

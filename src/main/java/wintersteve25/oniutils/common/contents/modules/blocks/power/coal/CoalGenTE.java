@@ -1,9 +1,7 @@
 package wintersteve25.oniutils.common.contents.modules.blocks.power.coal;
 
 import com.google.common.collect.Lists;
-import mekanism.common.tile.interfaces.IBoundingBlock;
 import mekanism.common.util.VoxelShapeUtils;
-import mekanism.common.util.WorldUtils;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -11,8 +9,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
@@ -39,13 +35,11 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import wintersteve25.oniutils.api.*;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
-import wintersteve25.oniutils.common.capability.plasma.api.EnumWattsTypes;
+import wintersteve25.oniutils.common.capability.plasma.api.EnumPlasmaTileType;
 import wintersteve25.oniutils.common.capability.plasma.api.IPlasma;
 import wintersteve25.oniutils.common.capability.plasma.api.PlasmaStack;
 import wintersteve25.oniutils.common.contents.base.ONIBaseInvTE;
 import wintersteve25.oniutils.common.contents.base.ONIBaseLoggableMachine;
-import wintersteve25.oniutils.common.contents.base.ONIBaseMachine;
-import wintersteve25.oniutils.common.contents.base.ONIIItem;
 import wintersteve25.oniutils.common.contents.base.bounding.ONIIBoundingBlock;
 import wintersteve25.oniutils.common.contents.base.builders.ONIBlockBuilder;
 import wintersteve25.oniutils.common.contents.base.builders.ONIContainerBuilder;
@@ -61,12 +55,9 @@ import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.BiPredicate;
-import java.util.function.Supplier;
 
 import static wintersteve25.oniutils.common.utils.helpers.MiscHelper.ONEPIXEL;
 
@@ -75,7 +66,7 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     public final ModificationContext modificationContext = new ModificationContext(this, 9, EnumModifications.SPEED, EnumModifications.TEMPERATURE, EnumModifications.COMPLEXITY);
     private final ModificationHandler modificationHandler = new ModificationHandler(modificationContext);
     private final AnimationFactory manager = new AnimationFactory(this);
-    private final PlasmaStack plasmaHandler = new PlasmaStack(4000, false);
+    private final PlasmaStack plasmaHandler = new PlasmaStack(4000, EnumPlasmaTileType.PRODUCER);
     private final LazyOptional<IPlasma> powerLazyOptional = LazyOptional.of(() -> plasmaHandler);
     private boolean removedFirstItem = false;
 
@@ -272,6 +263,7 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     @Override
     public void setProgress(int progress) {
         this.progress = progress;
+        updateBlock();
     }
 
     @Override
@@ -282,6 +274,7 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     @Override
     public void setTotalProgress(int progress) {
         this.totalProgress = progress;
+        updateBlock();
     }
 
     @Override
@@ -292,6 +285,7 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     @Override
     public void setForceStopped(boolean forceStopped) {
         this.isForceStopped = forceStopped;
+        updateBlock();
     }
 
     @Override
@@ -302,6 +296,7 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     @Override
     public void toggleInverted() {
         isInverted = !isInverted;
+        updateBlock();
     }
 
     @Override
@@ -312,6 +307,7 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableTileEntity, IAni
     @Override
     public void setWorking(boolean isWorking) {
         this.isWorking = isWorking;
+        updateBlock();
     }
 
     @Override

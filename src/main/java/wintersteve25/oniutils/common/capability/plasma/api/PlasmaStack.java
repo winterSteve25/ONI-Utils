@@ -1,20 +1,19 @@
 package wintersteve25.oniutils.common.capability.plasma.api;
 
 import net.minecraft.nbt.CompoundNBT;
-import wintersteve25.oniutils.common.capability.germ.api.EnumGermTypes;
 
 public class PlasmaStack implements IPlasma {
 
     private int power = 0;
     private int capacity = 1000;
-    private boolean consumer = false;
+    private EnumPlasmaTileType type = EnumPlasmaTileType.DYNAMIC;
 
     public PlasmaStack() {
     }
 
-    public PlasmaStack(int capacity, boolean isConsumer) {
+    public PlasmaStack(int capacity, EnumPlasmaTileType type) {
         this.capacity = capacity;
-        this.consumer = isConsumer;
+        this.type = type;
     }
 
     @Override
@@ -65,13 +64,13 @@ public class PlasmaStack implements IPlasma {
     }
 
     @Override
-    public boolean isConsumer() {
-        return consumer;
+    public EnumPlasmaTileType getTileType() {
+        return type;
     }
 
     @Override
-    public void setIsConsumer(boolean isConsumer) {
-        this.consumer = isConsumer;
+    public void setTileType(EnumPlasmaTileType type) {
+        this.type = type;
     }
 
     @Override
@@ -79,16 +78,14 @@ public class PlasmaStack implements IPlasma {
         CompoundNBT nbt = new CompoundNBT();
 
         nbt.putInt("power", power);
-        nbt.putBoolean("isConsumer", this.consumer);
+        nbt.putString("type", type.name());
 
         return nbt;
     }
 
     @Override
     public void read(CompoundNBT nbt) {
-        int power = nbt.getInt("power");
-
-        this.power = power;
-        this.consumer = nbt.getBoolean("isConsumer");
+        this.power = nbt.getInt("power");
+        this.type = EnumPlasmaTileType.valueOf(nbt.getString("type"));
     }
 }

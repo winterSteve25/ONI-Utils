@@ -1,18 +1,9 @@
 package wintersteve25.oniutils.common.contents.modules.blocks.power.manual;
 
-import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.PointOfView;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.potion.Effects;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -22,10 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.ToolType;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -37,20 +25,15 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import wintersteve25.oniutils.api.ONIIHasProgress;
 import wintersteve25.oniutils.api.ONIIWorkable;
-import wintersteve25.oniutils.client.keybinds.ONIKeybinds;
 import wintersteve25.oniutils.common.capability.plasma.PlasmaCapability;
-import wintersteve25.oniutils.common.capability.plasma.api.EnumWattsTypes;
+import wintersteve25.oniutils.common.capability.plasma.api.EnumPlasmaTileType;
 import wintersteve25.oniutils.common.capability.plasma.api.IPlasma;
 import wintersteve25.oniutils.common.capability.plasma.api.PlasmaStack;
 import wintersteve25.oniutils.common.contents.base.ONIBaseMachine;
 import wintersteve25.oniutils.common.contents.base.ONIBaseTE;
-import wintersteve25.oniutils.common.contents.base.ONIIItem;
 import wintersteve25.oniutils.common.contents.base.bounding.ONIIBoundingBlock;
 import wintersteve25.oniutils.common.contents.base.builders.ONIBlockBuilder;
-import wintersteve25.oniutils.common.init.ONIBlocks;
 import wintersteve25.oniutils.common.init.ONIConfig;
-import wintersteve25.oniutils.common.utils.ONIConstants;
-import wintersteve25.oniutils.common.utils.helpers.LangHelper;
 import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 
 import javax.annotation.Nonnull;
@@ -59,7 +42,7 @@ import javax.annotation.Nullable;
 public class ManualGenTE extends ONIBaseTE implements ITickableTileEntity, IAnimatable, ONIIBoundingBlock, ONIIHasProgress, ONIIWorkable {
 
     private final AnimationFactory manager = new AnimationFactory(this);
-    private final PlasmaStack plasmaHandler = new PlasmaStack(2000, false);
+    private final PlasmaStack plasmaHandler = new PlasmaStack(2000, EnumPlasmaTileType.PRODUCER);
     private final LazyOptional<IPlasma> plasmaLazyOptional = LazyOptional.of(() -> plasmaHandler);
 
     public ManualGenEntity mountableEntity;

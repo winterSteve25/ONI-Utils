@@ -113,6 +113,7 @@
   "item.oniutils.modification_velocity_tier_1": "Modification Velocity Tier 1",
   "item.oniutils.modification_velocity_tier_2": "Modification Velocity Tier 2",
   "item.oniutils.modification_velocity_tier_3": "Modification Velocity Tier 3",
+  "item.oniutils.wire_cutter": "Wire Cutter",
   "itemGroup.oniutils": "FC: ONIUtils",
   "oniutils.commands.gas.set.failed.typeIsNull": "Gas type is not valid",
   "oniutils.commands.germs.set.failed.typeIsNull": "Germ type is not valid",
@@ -164,5 +165,6 @@
   "oniutils.tooltips.items.modification.fluid": "\u00A77Fluid Efficiency Modification allow you to modify machine's fluid consumption rate. Up to 125%/-125%. 25% more each tier",
   "oniutils.tooltips.items.modification.gas": "\u00A77Gas Efficiency Modification allow you to modify machine's gas consumption rate. Up to 125%/-125%. 25% more each tier",
   "oniutils.tooltips.items.modification.temperature": "\u00A77Temperature Modification allow you to modify machine's temperature capacity. Up to 120%/-120%. 20% more each tier",
-  "oniutils.tooltips.items.modification.velocity": "\u00A77Velocity Modification allow you to modify machine's operating speed. Up to 125%/-125%. 25% more each tier"
+  "oniutils.tooltips.items.modification.velocity": "\u00A77Velocity Modification allow you to modify machine's operating speed. Up to 125%/-125%. 25% more each tier",
+  "oniutils.tooltips.items.wire_cutter": "\u00A77Makes removing power cables easier!"
 }

@@ -18,7 +18,7 @@ import wintersteve25.oniutils.common.utils.ONIConstants;
 
 public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends ContainerScreen<T> {
 
-    public static ResourceLocation bg = null;
+    public final ResourceLocation bg;
 
     protected ONIBaseGuiTabInfo infoTab;
     protected final ONIBaseGuiTabAlert alertTab;
