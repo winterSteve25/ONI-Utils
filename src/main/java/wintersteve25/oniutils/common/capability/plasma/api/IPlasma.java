@@ -19,9 +19,9 @@ public interface IPlasma {
 
     int getCapacity();
 
-    boolean isConsumer();
+    EnumPlasmaTileType getTileType();
 
-    void setIsConsumer(boolean isConsumer);
+    void setTileType(EnumPlasmaTileType type);
 
     CompoundNBT write();
 

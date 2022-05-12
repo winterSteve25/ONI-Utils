@@ -8,6 +8,7 @@ import net.minecraft.command.Commands;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -15,6 +16,7 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import wintersteve25.oniutils.ONIUtils;
+import wintersteve25.oniutils.common.capability.circuits.CircuitEventsHandler;
 import wintersteve25.oniutils.common.capability.germ.GermEventsHandler;
 import wintersteve25.oniutils.common.capability.germ.GermCapability;
 import wintersteve25.oniutils.common.capability.oni_te_data.ONITEDataCapability;
@@ -72,6 +74,10 @@ public class ONIServerEventsHandler {
         ONIUtils.LOGGER.info("Registering World Gas");
         MinecraftForge.EVENT_BUS.addGenericListener(Chunk.class, WorldGasEventsHandler::chunkCapAttachEvent);
         MinecraftForge.EVENT_BUS.addListener(WorldGasEventsHandler::worldTick);
+
+        // Circuits
+        ONIUtils.LOGGER.info("Registering Circuits");
+        MinecraftForge.EVENT_BUS.addGenericListener(World.class, CircuitEventsHandler::worldCapAttachEvent);
 
         //Misc Event Listeners
         if (ModList.get().isLoaded("curios")) {

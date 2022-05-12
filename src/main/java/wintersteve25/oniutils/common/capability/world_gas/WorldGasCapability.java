@@ -38,11 +38,7 @@ public class WorldGasCapability {
             for (GasStackWrapper stack : instance.getGasMap().keySet()) {
                 gas.add(stack.write(new CompoundNBT()));
                 BlockPos position = instance.getGasMap().get(stack);
-                CompoundNBT posNBT = new CompoundNBT();
-                posNBT.putInt("x", position.getX());
-                posNBT.putInt("y", position.getY());
-                posNBT.putInt("z", position.getZ());
-                pos.add(posNBT);
+                pos.add(MiscHelper.writeBlockPos(position));
             }
 
             nbt.put("gasList", gas);
