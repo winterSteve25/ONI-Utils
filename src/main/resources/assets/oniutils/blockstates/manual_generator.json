@@ -1,0 +1,25 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "oniutils:block/machines/power/manual_generator"
+    },
+    "facing=south": {
+      "y": 180,
+      "model": "oniutils:block/machines/power/manual_generator"
+    },
+    "facing=west": {
+      "y": 270,
+      "model": "oniutils:block/machines/power/manual_generator"
+    },
+    "facing=east": {
+      "y": 90,
+      "model": "oniutils:block/machines/power/manual_generator"
+    },
+    "facing=up": {
+      "model": "oniutils:block/machines/power/manual_generator"
+    },
+    "facing=down": {
+      "model": "oniutils:block/machines/power/manual_generator"
+    }
+  }
+}

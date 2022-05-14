@@ -1,0 +1,14 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "oniutils:block/rust",
+        "weight": 100
+      },
+      {
+        "model": "oniutils:block/rust_alt",
+        "weight": 100
+      }
+    ]
+  }
+}

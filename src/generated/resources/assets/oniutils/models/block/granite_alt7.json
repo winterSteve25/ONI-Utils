@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "oniutils:block/rocks/granite_alt7"
+  }
+}

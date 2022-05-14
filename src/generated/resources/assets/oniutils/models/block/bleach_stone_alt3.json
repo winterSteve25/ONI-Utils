@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "oniutils:block/rocks/bleach_stone_alt3"
+  }
+}

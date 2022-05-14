@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "oniutils:block/abyssalite",
+        "weight": 50
+      },
+      {
+        "model": "oniutils:block/abyssalite_alt",
+        "weight": 50
+      },
+      {
+        "model": "oniutils:block/abyssalite_alt2",
+        "weight": 50
+      }
+    ]
+  }
+}

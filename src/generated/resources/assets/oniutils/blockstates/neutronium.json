@@ -1,0 +1,42 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "oniutils:block/neutronium",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/neutronium_alt",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/neutronium_alt2",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/neutronium_alt3",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/neutronium_alt4",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/neutronium_alt5",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/neutronium_alt6",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/neutronium_alt7",
+        "weight": 12
+      },
+      {
+        "model": "oniutils:block/neutronium_alt8",
+        "weight": 12
+      }
+    ]
+  }
+}

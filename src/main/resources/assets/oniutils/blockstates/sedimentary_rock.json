@@ -1,0 +1,76 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "oniutils:block/rocks/sedimentary_rock", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt2", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt3", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt4", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt5", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt6", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt7", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt8", "weight": 4
+    },
+    "facing=south": {
+      "model": "oniutils:block/rocks/sedimentary_rock", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt2", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt3", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt4", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt4", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt5", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt6", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt7", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt8", "weight": 4,
+      "y": 180
+    },
+    "facing=west": {
+      "model": "oniutils:block/rocks/sedimentary_rock", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt2", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt3", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt4", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt5", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt6", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt7", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt8", "weight": 4,
+      "y": 270
+    },
+    "facing=east": {
+      "model": "oniutils:block/rocks/sedimentary_rock", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt2", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt3", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt4", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt5", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt6", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt7", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt8", "weight": 4,
+      "y": 90
+    },
+    "facing=up": {
+      "model": "oniutils:block/rocks/sedimentary_rock", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt2", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt3", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt4", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt5", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt6", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt7", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt8", "weight": 4,
+      "x": 270
+    },
+    "facing=down": {
+      "model": "oniutils:block/rocks/sedimentary_rock", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt2", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt3", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt4", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt5", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt6", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt7", "weight": 4,
+      "model": "oniutils:block/rocks/sedimentary_rock_alt8", "weight": 4,
+      "x": 90
+    }
+  }
+}
