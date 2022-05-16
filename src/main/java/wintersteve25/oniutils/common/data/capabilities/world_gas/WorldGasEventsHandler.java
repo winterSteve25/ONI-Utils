@@ -17,7 +17,7 @@ import wintersteve25.oniutils.common.registries.ONIConfig;
 public class WorldGasEventsHandler {
     public static void chunkCapAttachEvent(AttachCapabilitiesEvent<LevelChunk> event) {
         LevelChunk chunk = event.getObject();
-        if (!chunk.getLevel().isClientSide() && !chunk.getCapability(ONICapabilities.GAS).isPresent()) {
+        if (!chunk.getLevel().isClientSide()) {
             ONICapabilityProvider<IWorldGas> provider = new ONICapabilityProvider<>(WorldGas::new, ONICapabilities.GAS);
             event.addCapability(new ResourceLocation(ONIUtils.MODID, "world_gas"), provider);
             event.addListener(provider::invalidate);

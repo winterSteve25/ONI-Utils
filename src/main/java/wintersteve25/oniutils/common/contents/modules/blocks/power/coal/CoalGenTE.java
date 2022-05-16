@@ -369,9 +369,7 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableBlockEntity, IAn
 //    public static final VoxelShape NORTH_R = Shapes.or(BOTTOM, SUPPORT, MIDDLE, CONNECTION, REDSTONEPANEL).optimize();
 //
     public static ONIBlockBuilder<ONIBaseLoggableMachine<CoalGenTE>> createBlock() {
-        return new ONIBlockBuilder<>(ONIConstants.LangKeys.COAL_GEN, () -> {
-            return new ONIBaseLoggableMachine<>(BlockBehaviour.Properties.of(Material.METAL).strength(1.4F, 5).requiresCorrectToolForDrops().noOcclusion(), CoalGenTE.class, ONIBlocks.Machines.Power.COAL_GEN_TE);
-        }, ONIConstants.Geo.COAL_GEN_ISTER, true)
+        return new ONIBlockBuilder<>(ONIConstants.LangKeys.COAL_GEN, () -> new ONIBaseLoggableMachine<>(BlockBehaviour.Properties.of(Material.METAL).strength(1.4F, 5).requiresCorrectToolForDrops().noOcclusion(), CoalGenTE.class, ONIBlocks.Machines.Power.COAL_GEN_TE), ONIConstants.Geo.COAL_GEN_ISTER, true)
                 .placementCondition(ONIConstants.PlacementConditions::fourByFourCondition)
                 .renderType((state)-> RenderShape.ENTITYBLOCK_ANIMATED)
                 .autoRotateShape()

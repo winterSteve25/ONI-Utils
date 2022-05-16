@@ -20,7 +20,7 @@ public class GeckolibModelBase<T extends IAnimatable> extends AnimatedGeoModel<T
         this.rl3 = new ResourceLocation(ONIUtils.MODID, "animations/" + pathAnimation);
     }
 
-    public GeckolibModelBase(GeckolibModelBase other) {
+    public GeckolibModelBase(GeckolibModelBase<?> other) {
         this.rl1 = other.rl1;
         this.rl2 = other.rl2;
         this.rl3 = other.rl3;

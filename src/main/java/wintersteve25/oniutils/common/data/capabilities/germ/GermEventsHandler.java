@@ -30,7 +30,7 @@ import java.util.List;
 public class GermEventsHandler {
     public static void entityCapAttachEvent(AttachCapabilitiesEvent<Entity> event) {
         Entity entity = event.getObject();
-        if (entity != null && !entity.getCapability(ONICapabilities.GERMS).isPresent()) {
+        if (entity != null) {
             ONICapabilityProvider<IGerms> provider = new ONICapabilityProvider<>(Germs::new, ONICapabilities.GERMS);
             event.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
             event.addListener(provider::invalidate);
@@ -39,7 +39,7 @@ public class GermEventsHandler {
 
     public static void itemCapAttachEvent(AttachCapabilitiesEvent<ItemStack> event) {
         ItemStack stack = event.getObject();
-        if (stack != null && !stack.getCapability(ONICapabilities.GERMS).isPresent()) {
+        if (stack != null) {
             ONICapabilityProvider<IGerms> provider = new ONICapabilityProvider<>(Germs::new, ONICapabilities.GERMS);
             event.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
             event.addListener(provider::invalidate);
@@ -48,7 +48,7 @@ public class GermEventsHandler {
 
     public static void teCapAttachEvent(AttachCapabilitiesEvent<BlockEntity> event) {
         BlockEntity tileAttached = event.getObject();
-        if (tileAttached != null && !tileAttached.getCapability(ONICapabilities.GERMS).isPresent()) {
+        if (tileAttached != null) {
             ONICapabilityProvider<IGerms> provider = new ONICapabilityProvider<>(Germs::new, ONICapabilities.GERMS);
             event.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
             event.addListener(provider::invalidate);
