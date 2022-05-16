@@ -3,39 +3,43 @@ package wintersteve25.oniutils.common.contents.base.builders;
 import net.minecraft.util.Tuple;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.network.chat.Component;
 import net.minecraft.ChatFormatting;
-import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraftforge.common.util.Lazy;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.api.ONIIHasGui;
 import wintersteve25.oniutils.api.functional.*;
 import wintersteve25.oniutils.common.contents.base.*;
 
-import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.function.Supplier;
 
 public class ONIBlockBuilder<T extends ONIBaseBlock> {
 
-    private final T block;
+    private final String regName;
+    private final Supplier<T> block;
     private final ONIItemBuilder<ONIBaseItemBlock> blockItem;
 
-    public ONIBlockBuilder(Supplier<T> block) {
-        this(block, null, false);
+    private IVoxelShapeProvider hitBox;
+    private boolean allowVertical;
+    private boolean allowRotateShape;
+    private IRenderTypeProvider renderType;
+    private ONIIHasGui container;
+
+    public ONIBlockBuilder(String regName, Supplier<T> block) {
+        this(regName, block, null, false);
     }
 
-    public ONIBlockBuilder(Supplier<T> block, Supplier<BlockEntityWithoutLevelRenderer> ister, boolean isAnimated) {
-        this(block, new Item.Properties().tab(ONIUtils.creativeTab), ister, isAnimated);
+    public ONIBlockBuilder(String regName, Supplier<T> block, Supplier<BlockEntityWithoutLevelRenderer> ister, boolean isAnimated) {
+        this(regName, block, ONIUtils.defaultProperties(), ister, isAnimated);
     }
 
-    public ONIBlockBuilder(Supplier<T> block, Item.Properties properties, Supplier<BlockEntityWithoutLevelRenderer> ister, boolean isAnimated) {
-        this.block = block.get();
+    public ONIBlockBuilder(String regName, Supplier<T> block, Item.Properties properties, Supplier<BlockEntityWithoutLevelRenderer> ister, boolean isAnimated) {
+        this.block = block;
+        this.regName = regName;
         if (isAnimated) {
-            this.blockItem = new ONIItemBuilder<>(() -> new ONIBaseAnimatedBlockItem(this.block, ister, properties));
+            this.blockItem = new ONIItemBuilder<>(this.regName, () -> new ONIBaseAnimatedBlockItem(this.block.get(), ister, properties));
         } else {
-            this.blockItem = new ONIItemBuilder<>(() -> new ONIBaseItemBlock(this.block, properties));
+            this.blockItem = new ONIItemBuilder<>(this.regName, () -> new ONIBaseItemBlock(this.block.get(), properties));
         }
     }
 
@@ -64,70 +68,49 @@ public class ONIBlockBuilder<T extends ONIBaseBlock> {
         return this;
     }
 
-    public ONIBlockBuilder<T> noModelGen() {
-        this.block.setDoModelGen(false);
-        this.blockItem.noModelGen();
-        return this;
-    }
-
-    public ONIBlockBuilder<T> doStateGen() {
-        this.block.setDoStateGen(true);
-        return this;
-    }
-
-    public ONIBlockBuilder<T> noLangGen() {
-        this.block.setDoLangGen(false);
-        this.blockItem.noLangGen();
-        return this;
-    }
-
-    public ONIBlockBuilder<T> noLootTableGen() {
-        this.block.setDoLootTableGen(false);
-        return this;
-    }
-
     public ONIBlockBuilder<T> setCategory(ONIIItem.ItemCategory category) {
         this.blockItem.setCategory(category);
         return this;
     }
 
     public ONIBlockBuilder<T> shape(IVoxelShapeProvider voxelShape) {
-        this.block.setHitBox(voxelShape);
+        this.hitBox = voxelShape;
         return this;
     }
 
     public ONIBlockBuilder<T> allowVerticalPlacement() {
-        isDirectional();
-        ((ONIBaseDirectional) this.block).setAllowVertical(true);
+        this.allowVertical = true;
         return this;
     }
 
     public ONIBlockBuilder<T> autoRotateShape() {
-        isDirectional();
-        ((ONIBaseDirectional) this.block).setAutoRotateShape(true);
+        this.allowRotateShape = true;
         return this;
     }
 
     public ONIBlockBuilder<T> renderType(IRenderTypeProvider renderType) {
-        this.block.setRenderType(renderType);
+        this.renderType = renderType;
         return this;
     }
 
     public ONIBlockBuilder<T> container(ONIIHasGui gui) {
-        isMachine();
-        ((ONIBaseMachine) this.block).setGui(gui);
+        container = gui;
         return this;
     }
 
-    public Tuple<T, ONIBaseItemBlock> build() {
-        return new Tuple<>(this.block, this.blockItem.build());
+    public String getRegName() {
+        return regName;
     }
 
-    private void isMachine() {
-        if (!(this.block instanceof ONIBaseMachine)) throw new IllegalStateException("Tried to create machine-only properties with a non-machine block");
-    }
-
-    private void isDirectional() {
-        if (!(this.block instanceof ONIBaseDirectional)) throw new IllegalStateException("Tried to create directional-only properties with a non-directional block");
+    public Tuple<Lazy<T>, Lazy<ONIBaseItemBlock>> build() {
+        return new Tuple<>(Lazy.of(() -> {
+            T b = block.get();
+            b.setHitBox(hitBox);
+            ((ONIBaseDirectional) b).setAllowVertical(allowVertical);
+            ((ONIBaseDirectional) b).setAutoRotateShape(allowRotateShape);
+            b.setRenderType(renderType);
+            ((ONIBaseMachine<?>) b).setGui(container);
+            return b;
+        }), this.blockItem.build());
     }
 }

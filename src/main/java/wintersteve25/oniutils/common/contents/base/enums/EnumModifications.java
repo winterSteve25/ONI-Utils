@@ -7,12 +7,12 @@ import wintersteve25.oniutils.common.utils.helpers.LangHelper;
 
 public enum EnumModifications {
 
-    SPEED("Velocity", 3, 25, ChatFormatting.WHITE, ONIConstants.LangKeys.MOD_TOOLTIP, LangHelper.modificationToolTip(ONIConstants.LangKeys.VELOCITY)),
-    ENERGY_EFFICIENCY("Plasma Conservation", 3, 10, ChatFormatting.GREEN, ONIConstants.LangKeys.MOD_TOOLTIP, LangHelper.modificationToolTip(ONIConstants.LangKeys.ENERGY)),
-    GAS_EFFICIENCY("Gas Efficiency", 3, 25, ChatFormatting.GRAY, ONIConstants.LangKeys.MOD_TOOLTIP, LangHelper.modificationToolTip(ONIConstants.LangKeys.GAS)),
-    FLUID_EFFICIENCY("Fluid Efficiency", 3, 25, ChatFormatting.AQUA, ONIConstants.LangKeys.MOD_TOOLTIP, LangHelper.modificationToolTip(ONIConstants.LangKeys.FLUID)),
-    TEMPERATURE("Temperature Regulation", 5, 20, ChatFormatting.DARK_RED, ONIConstants.LangKeys.MOD_TOOLTIP, LangHelper.modificationToolTip(ONIConstants.LangKeys.TEMPERATURE)),
-    COMPLEXITY("Entanglement", 2, 25, ChatFormatting.YELLOW, ONIConstants.LangKeys.MOD_TOOLTIP, LangHelper.modificationToolTip(ONIConstants.LangKeys.COMPLEXITY));
+    SPEED(ONIConstants.LangKeys.VELOCITY, 3, 25, ChatFormatting.WHITE, ONIConstants.LangKeys.MOD_TOOLTIP, LangHelper.modificationToolTip(ONIConstants.LangKeys.VELOCITY)),
+    ENERGY_EFFICIENCY(ONIConstants.LangKeys.ENERGY, 3, 10, ChatFormatting.GREEN, ONIConstants.LangKeys.MOD_TOOLTIP, LangHelper.modificationToolTip(ONIConstants.LangKeys.ENERGY)),
+    GAS_EFFICIENCY(ONIConstants.LangKeys.GAS, 3, 25, ChatFormatting.GRAY, ONIConstants.LangKeys.MOD_TOOLTIP, LangHelper.modificationToolTip(ONIConstants.LangKeys.GAS)),
+    FLUID_EFFICIENCY(ONIConstants.LangKeys.FLUID, 3, 25, ChatFormatting.AQUA, ONIConstants.LangKeys.MOD_TOOLTIP, LangHelper.modificationToolTip(ONIConstants.LangKeys.FLUID)),
+    TEMPERATURE(ONIConstants.LangKeys.TEMPERATURE, 5, 20, ChatFormatting.DARK_RED, ONIConstants.LangKeys.MOD_TOOLTIP, LangHelper.modificationToolTip(ONIConstants.LangKeys.TEMPERATURE)),
+    COMPLEXITY(ONIConstants.LangKeys.COMPLEXITY, 2, 25, ChatFormatting.YELLOW, ONIConstants.LangKeys.MOD_TOOLTIP, LangHelper.modificationToolTip(ONIConstants.LangKeys.COMPLEXITY));
 
     private final String name;
     private final int tiers;

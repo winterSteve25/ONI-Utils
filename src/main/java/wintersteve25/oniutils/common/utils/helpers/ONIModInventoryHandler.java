@@ -9,7 +9,7 @@ import wintersteve25.oniutils.common.contents.base.enums.EnumModifications;
 import wintersteve25.oniutils.common.contents.modules.items.modifications.ModificationContext;
 import wintersteve25.oniutils.common.contents.modules.items.modifications.ONIModificationItem;
 import wintersteve25.oniutils.common.network.ONINetworking;
-import wintersteve25.oniutils.common.network.RenderErrorPacket;
+import wintersteve25.oniutils.common.network.PacketRenderError;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
@@ -80,7 +80,7 @@ public class ONIModInventoryHandler extends ItemStackHandler {
             ONIBaseGuiTabModification.addError();
         } else {
             if (context.getParent().getLevel().players().get(0) == null) return;
-            ONINetworking.sendToClient(new RenderErrorPacket(), (ServerPlayer) context.getParent().getLevel().players().get(0));
+            ONINetworking.sendToClient(new PacketRenderError(), (ServerPlayer) context.getParent().getLevel().players().get(0));
         }
     }
 }

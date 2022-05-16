@@ -11,8 +11,8 @@ import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.data.capabilities.ONICapabilityProvider;
 import wintersteve25.oniutils.common.data.capabilities.world_gas.api.IWorldGas;
 import wintersteve25.oniutils.common.data.capabilities.world_gas.api.WorldGas;
-import wintersteve25.oniutils.common.init.ONICapabilities;
-import wintersteve25.oniutils.common.init.ONIConfig;
+import wintersteve25.oniutils.common.registries.ONICapabilities;
+import wintersteve25.oniutils.common.registries.ONIConfig;
 
 public class WorldGasEventsHandler {
     public static void chunkCapAttachEvent(AttachCapabilitiesEvent<LevelChunk> event) {
@@ -20,6 +20,7 @@ public class WorldGasEventsHandler {
         if (!chunk.getLevel().isClientSide() && !chunk.getCapability(ONICapabilities.GAS).isPresent()) {
             ONICapabilityProvider<IWorldGas> provider = new ONICapabilityProvider<>(WorldGas::new, ONICapabilities.GAS);
             event.addCapability(new ResourceLocation(ONIUtils.MODID, "world_gas"), provider);
+            event.addListener(provider::invalidate);
         }
     }
 

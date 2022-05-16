@@ -35,7 +35,7 @@ import net.minecraftforge.client.IBlockRenderProperties;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.contents.base.ONIBaseBlock;
 import wintersteve25.oniutils.common.contents.base.ONIBaseTE;
-import wintersteve25.oniutils.common.init.ONIBlocks;
+import wintersteve25.oniutils.common.registries.ONIBlocks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -60,10 +60,7 @@ public class ONIBoundingBlock extends ONIBaseBlock implements EntityBlock {
     }
 
     public ONIBoundingBlock(Properties properties) {
-        super("Bounding Block", properties);
-        setDoModelGen(false);
-        setDoLootTableGen(false);
-        setDoLangGen(false);
+        super(properties);
     }
 
     @Override

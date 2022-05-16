@@ -1,8 +1,6 @@
 package wintersteve25.oniutils.common.contents.base;
 
 import de.maxhenkel.corpse.corelib.blockentity.ITickableBlockEntity;
-import mekanism.common.Mekanism;
-import mekanism.common.network.to_client.PacketUpdateTile;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.server.level.ServerLevel;
@@ -28,7 +26,7 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.network.PacketDistributor;
 import wintersteve25.oniutils.api.*;
 import wintersteve25.oniutils.common.network.ONINetworking;
-import wintersteve25.oniutils.common.network.PacketUpdateClientTE;
+import wintersteve25.oniutils.common.network.PacketUpdateClientBE;
 import wintersteve25.oniutils.common.utils.ONIConstants;
 
 import javax.annotation.Nonnull;
@@ -86,11 +84,11 @@ public class ONIBaseTE extends BlockEntity implements ITickableBlockEntity {
         if (getLevel() instanceof ServerLevel) {
             ((ServerLevel) getLevel()).getChunkSource().chunkMap.getPlayers(new ChunkPos(getBlockPos()), false).forEach((p) -> {
                 if (!(p instanceof FakePlayer)) {
-                    ONINetworking.sendToClient(new PacketUpdateClientTE(this, ONIConstants.PacketType.SYNC_DATA, getUpdateTag()), p);
+                    ONINetworking.sendToClient(new PacketUpdateClientBE(this, getUpdateTag()), p);
                 }
             });
         } else {
-            ONINetworking.getInstance().send(PacketDistributor.TRACKING_CHUNK.with(() -> getLevel().getChunk(getBlockPos().getX() >> 4, getBlockPos().getZ() >> 4)), new PacketUpdateClientTE(this, ONIConstants    .PacketType.SYNC_DATA, getUpdateTag()));
+            ONINetworking.getInstance().send(PacketDistributor.TRACKING_CHUNK.with(() -> getLevel().getChunk(getBlockPos().getX() >> 4, getBlockPos().getZ() >> 4)), new PacketUpdateClientBE(this, getUpdateTag()));
         }
     }
 

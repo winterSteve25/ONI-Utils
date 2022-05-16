@@ -20,49 +20,14 @@ import net.minecraft.world.item.Item.Properties;
 
 public class ONIBaseItemArmor extends ArmorItem implements ONIIItem {
 
-    private final String regName;
-
     // item builder stuff
-    private boolean doModelGen = true;
-    private boolean doLangGen = true;
     private Supplier<ChatFormatting> colorName;
     private Supplier<List<Component>> tooltips;
     private Supplier<IToolTipCondition> tooltipCondition = IToolTipCondition.DEFAULT;
     private ItemCategory itemCategory = ItemCategory.GENERAL;
 
-    public ONIBaseItemArmor(ArmorMaterial materialIn, EquipmentSlot slot, Properties builderIn, String regName) {
+    public ONIBaseItemArmor(ArmorMaterial materialIn, EquipmentSlot slot, Properties builderIn) {
         super(materialIn, slot, builderIn);
-        this.regName = regName;
-    }
-
-    @Override
-    public String getRegName() {
-        return regName;
-    }
-
-    @Override
-    public boolean doModelGen() {
-        return doModelGen;
-    }
-
-    @Override
-    public boolean doStateGen() {
-        return false;
-    }
-
-    @Override
-    public boolean doLangGen() {
-        return doLangGen;
-    }
-
-    @Override
-    public boolean doLootTableGen() {
-        return false;
-    }
-
-    @Override
-    public Item get() {
-        return this;
     }
 
     @Override
@@ -110,16 +75,6 @@ public class ONIBaseItemArmor extends ArmorItem implements ONIIItem {
     @Override
     public void setTooltipCondition(Supplier<IToolTipCondition> condition) {
         this.tooltipCondition = condition;
-    }
-
-    @Override
-    public void setDoModelGen(boolean doModelGen) {
-        this.doModelGen = doModelGen;
-    }
-
-    @Override
-    public void setDoLangGen(boolean doLangGen) {
-        this.doLangGen = doLangGen;
     }
 
     @Override

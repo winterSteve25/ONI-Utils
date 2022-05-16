@@ -40,8 +40,6 @@ public final class ONIConstants {
 
         public static final byte MODIFICATION_GUI = 0;
         public static final byte MODIFICATION_DATA = 1;
-
-        public static final byte SYNC_DATA = 0;
     }
     public static final class TextColor {
         public static final ChatFormatting FURNITURE_CAT_COLOR = ChatFormatting.YELLOW;
@@ -80,7 +78,10 @@ public final class ONIConstants {
     public static final class LangKeys {
         public static final TranslatableComponent MOD_TOOLTIP = new TranslatableComponent("oniutils.tooltips.items.modification");
         public static final TranslatableComponent HOLD_SHIFT = new TranslatableComponent("oniutils.tooltips.items.holdShiftInfo");
+
+        public static final String SEDIMENTARY_ROCK = "sedimentary_rock";
         public static final String COAL_GEN = "coal_generator";
+
         public static final String VELOCITY = "velocity";
         public static final String ENERGY = "energy";
         public static final String GAS = "gas";

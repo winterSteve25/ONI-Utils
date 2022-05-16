@@ -19,8 +19,8 @@ import wintersteve25.oniutils.common.data.capabilities.player_data.api.IMoralePr
 import wintersteve25.oniutils.common.data.capabilities.player_data.api.IPlayerData;
 import wintersteve25.oniutils.common.data.capabilities.player_data.api.PlayerData;
 import wintersteve25.oniutils.common.data.capabilities.player_data.api.TraitTypes;
-import wintersteve25.oniutils.common.init.ONICapabilities;
-import wintersteve25.oniutils.common.registration.PlayerMovingEvent;
+import wintersteve25.oniutils.common.registries.ONICapabilities;
+import wintersteve25.oniutils.common.events.events.PlayerMovingEvent;
 
 public class PlayerDataEventsHandler {
     public static void entityCapAttachEvent(AttachCapabilitiesEvent<Entity> event) {
@@ -31,6 +31,7 @@ public class PlayerDataEventsHandler {
         if (!entity.level.isClientSide() && !entity.getCapability(ONICapabilities.PLAYER).isPresent()) {
             ONICapabilityProvider<IPlayerData> provider = new ONICapabilityProvider<>(PlayerData::new, ONICapabilities.PLAYER);
             event.addCapability(new ResourceLocation(ONIUtils.MODID, "traits"), provider);
+            event.addListener(provider::invalidate);
         }
     }
 

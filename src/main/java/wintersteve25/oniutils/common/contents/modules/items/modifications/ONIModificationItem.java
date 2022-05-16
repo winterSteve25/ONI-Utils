@@ -11,17 +11,15 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.level.Level;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.init.ONIItems;
+import wintersteve25.oniutils.common.registries.ONIItems;
 import wintersteve25.oniutils.common.contents.base.ONIBaseItem;
 import wintersteve25.oniutils.common.contents.base.enums.EnumModifications;
-import wintersteve25.oniutils.common.network.ModificationPacket;
+import wintersteve25.oniutils.common.network.PacketModification;
 import wintersteve25.oniutils.common.network.ONINetworking;
 import wintersteve25.oniutils.common.utils.ONIConstants;
 
 import java.util.List;
 import java.util.function.Supplier;
-
-import net.minecraft.world.item.Item.Properties;
 
 public class ONIModificationItem extends ONIBaseItem {
 
@@ -30,14 +28,12 @@ public class ONIModificationItem extends ONIBaseItem {
     private final ChatFormatting color;
     private final Component[] tooltips;
 
-    private ONIModificationItem(Properties properties, String regName, ChatFormatting color, int maxBonus, EnumModifications modType, Component... tooltips) {
-        super(properties, regName);
+    public ONIModificationItem(Properties properties, ChatFormatting color, int maxBonus, EnumModifications modType, Component... tooltips) {
+        super(properties);
         this.maxBonus = maxBonus;
         this.modType = modType;
         this.color = color;
         this.tooltips = tooltips;
-        setDoModelGen(true);
-        setDoLangGen(true);
     }
 
     @Override
@@ -45,19 +41,13 @@ public class ONIModificationItem extends ONIBaseItem {
         if (!worldIn.isClientSide()) {
             ItemStack heldItem = playerIn.getItemInHand(handIn);
             playerIn.swing(handIn, true);
-            ONINetworking.sendToClient(new ModificationPacket(heldItem, maxBonus, ONIConstants.PacketType.MODIFICATION_GUI), (ServerPlayer) playerIn);
+            ONINetworking.sendToClient(new PacketModification(heldItem, maxBonus, ONIConstants.PacketType.MODIFICATION_GUI), (ServerPlayer) playerIn);
         }
         return super.use(worldIn, playerIn, handIn);
     }
 
     public EnumModifications getModType() {
         return modType;
-    }
-
-    public static ONIModificationItem create(String regName, ChatFormatting color, int maxBonus, EnumModifications modType, Component... tooltips) {
-        ONIModificationItem mod = new ONIModificationItem(new Properties().tab(ONIUtils.creativeTab).stacksTo(1).setNoRepair(), regName, color, maxBonus, modType, tooltips);
-        ONIItems.itemRegistryList.add(mod);
-        return mod;
     }
 
     @Override

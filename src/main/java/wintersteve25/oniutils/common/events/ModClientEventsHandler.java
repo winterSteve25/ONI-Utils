@@ -1,10 +1,8 @@
 package wintersteve25.oniutils.common.events;
 
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -18,7 +16,7 @@ import wintersteve25.oniutils.client.renderers.geckolibs.base.GeckolibBlockRende
 import wintersteve25.oniutils.common.data.capabilities.germ.GermEventsHandler;
 import wintersteve25.oniutils.common.contents.modules.blocks.power.coal.CoalGenGui;
 import wintersteve25.oniutils.common.contents.modules.blocks.power.coal.CoalGenTE;
-import wintersteve25.oniutils.common.init.ONIBlocks;
+import wintersteve25.oniutils.common.registries.ONIBlocks;
 import wintersteve25.oniutils.common.utils.ONIConstants;
 
 @Mod.EventBusSubscriber(modid = ONIUtils.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)

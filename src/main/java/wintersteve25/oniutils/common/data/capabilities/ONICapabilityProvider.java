@@ -33,6 +33,10 @@ public class ONICapabilityProvider<CAP extends INBTSerializable<CompoundTag>> im
         return LazyOptional.empty();
     }
 
+    public void invalidate() {
+        lazyOptional.invalidate();
+    }
+
     @Override
     public CompoundTag serializeNBT() {
         return data.get().serializeNBT();

@@ -16,8 +16,8 @@ public class ONIBaseSixWaysBlock extends ONIBaseBlock {
     protected static final BooleanProperty UP = PipeBlock.UP;
     protected static final BooleanProperty DOWN = PipeBlock.DOWN;
 
-    public ONIBaseSixWaysBlock(String regName, Properties properties) {
-        super(regName, properties);
+    public ONIBaseSixWaysBlock(Properties properties) {
+        super(properties);
         registerDefaultState(getStateDefinition().any().setValue(NORTH, Boolean.valueOf(false)).setValue(EAST, Boolean.valueOf(false)).setValue(SOUTH, Boolean.valueOf(false)).setValue(WEST, Boolean.valueOf(false)).setValue(UP, Boolean.valueOf(false)).setValue(DOWN, Boolean.valueOf(false)));
     }
 

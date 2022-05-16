@@ -4,11 +4,11 @@ package wintersteve25.oniutils.common.data.capabilities.germ.api;
  * Enum that stores the different types of germs
  */
 public enum EnumGermTypes {
-    NOTHING("No Germs"),
-    SLIMELUNG("Slime Lungs"),
-    FLORALSCENTS("Floral Scents"),
-    FOODPOISON("Food Poisoning"),
-    ZOMBIESPORES("Zombie Spores");
+    NOTHING("no_germs"),
+    SLIMELUNG("slime_lungs"),
+    FLORALSCENTS("floral_scents"),
+    FOODPOISON("food_poisoning"),
+    ZOMBIESPORES("zombie_spores");
 
     private final String name;
 

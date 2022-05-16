@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "oniutils:item/gadgets/wire_cutter"
-  }
-}

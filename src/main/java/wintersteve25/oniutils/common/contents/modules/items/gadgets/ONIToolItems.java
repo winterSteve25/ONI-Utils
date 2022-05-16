@@ -1,7 +1,6 @@
 package wintersteve25.oniutils.common.contents.modules.items.gadgets;
 
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.Item;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.contents.base.ONIBaseItem;
 import wintersteve25.oniutils.common.contents.base.ONIBaseItemArmor;
@@ -11,10 +10,10 @@ import wintersteve25.oniutils.common.contents.base.builders.ONIItemBuilder;
 import wintersteve25.oniutils.common.utils.helpers.LangHelper;
 
 public class ONIToolItems {
-    public static ONIItemBuilder<ONIBaseItemArmor> GAS_GOGGLES = new ONIItemBuilder<>(() -> new ONIBaseItemArmor(ONIItemArmorMaterials.GAS_GOGGLES, EquipmentSlot.HEAD, new Item.Properties().tab(ONIUtils.creativeTab), "Gas Visual Goggles"))
+    public static ONIItemBuilder<ONIBaseItemArmor> GAS_GOGGLES = new ONIItemBuilder<>("gas_visual_goggles", () -> new ONIBaseItemArmor(ONIItemArmorMaterials.GAS_GOGGLES, EquipmentSlot.HEAD, ONIUtils.defaultProperties()))
             .setCategory(ONIIItem.ItemCategory.GADGETS)
-            .tooltip(LangHelper.itemTooltip("gas_visual_goggles"));
-    public static ONIItemBuilder<ONIBaseItem> WIRE_CUTTER = new ONIItemBuilder<>(() -> new ONIBaseItem(new Item.Properties().tab(ONIUtils.creativeTab).durability(800), "Wire Cutter"))
+            .defaultTooltip();
+    public static ONIItemBuilder<ONIBaseItem> WIRE_CUTTER = new ONIItemBuilder<>("wire_cutter", () -> new ONIBaseItem(ONIUtils.defaultProperties().durability(800)))
             .setCategory(ONIIItem.ItemCategory.GADGETS)
-            .tooltip(LangHelper.itemTooltip("wire_cutter"));
+            .defaultTooltip();
 }

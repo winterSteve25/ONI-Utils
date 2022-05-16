@@ -27,28 +27,28 @@ public class ONINetworking {
     public static void registerMessages() {
         ONIUtils.LOGGER.info("Registering ONIUtils networkings");
 
-        INSTANCE.messageBuilder(TEPosBasedPacket.class, nextID())
-                .encoder(TEPosBasedPacket::encode)
-                .decoder(TEPosBasedPacket::new)
-                .consumer(TEPosBasedPacket::handle)
+        INSTANCE.messageBuilder(PacketUpdateBE.class, nextID())
+                .encoder(PacketUpdateBE::encode)
+                .decoder(PacketUpdateBE::new)
+                .consumer(PacketUpdateBE::handle)
                 .add();
 
-        INSTANCE.messageBuilder(ModificationPacket.class, nextID())
-                .encoder(ModificationPacket::encode)
-                .decoder(ModificationPacket::new)
-                .consumer(ModificationPacket::handle)
+        INSTANCE.messageBuilder(PacketModification.class, nextID())
+                .encoder(PacketModification::encode)
+                .decoder(PacketModification::new)
+                .consumer(PacketModification::handle)
                 .add();
 
-        INSTANCE.messageBuilder(RenderErrorPacket.class, nextID())
+        INSTANCE.messageBuilder(PacketRenderError.class, nextID())
                 .encoder((var1, var2) -> {})
-                .decoder((buffer) -> new RenderErrorPacket())
-                .consumer(RenderErrorPacket::handle)
+                .decoder((buffer) -> new PacketRenderError())
+                .consumer(PacketRenderError::handle)
                 .add();
 
-        INSTANCE.messageBuilder(TriggerPlayerMovePacket.class, nextID())
-                .encoder(TriggerPlayerMovePacket::encode)
-                .decoder(TriggerPlayerMovePacket::new)
-                .consumer(TriggerPlayerMovePacket::handle)
+        INSTANCE.messageBuilder(PacketTriggerPlayerMove.class, nextID())
+                .encoder(PacketTriggerPlayerMove::encode)
+                .decoder(PacketTriggerPlayerMove::new)
+                .consumer(PacketTriggerPlayerMove::handle)
                 .add();
     }
 

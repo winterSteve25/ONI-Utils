@@ -28,33 +28,26 @@ import wintersteve25.oniutils.common.contents.base.bounding.ONIIBoundingBlock;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class ONIBaseBlock extends Block implements ONIIRegistryObject<Block>, IStateFluidLoggable {
-
-    private final String regName;
+public class ONIBaseBlock extends Block implements IStateFluidLoggable {
 
     // block builder properties
     private IVoxelShapeProvider hitBox;
     private IRenderTypeProvider renderType;
-    private boolean doModelGen = true;
-    private boolean doStateGen = false;
-    private boolean doLangGen = true;
-    private boolean doLootTableGen = true;
 
-    public ONIBaseBlock(int harvestLevel, float hardness, float resistance, String regName) {
-        this(harvestLevel, hardness, resistance, regName, SoundType.STONE);
+    public ONIBaseBlock(int harvestLevel, float hardness, float resistance) {
+        this(harvestLevel, hardness, resistance, SoundType.STONE);
     }
 
-    public ONIBaseBlock(int harvestLevel, float hardness, float resistance, String regName, SoundType soundType) {
-        this(harvestLevel, hardness, resistance, regName, soundType, Material.STONE);
+    public ONIBaseBlock(int harvestLevel, float hardness, float resistance, SoundType soundType) {
+        this(harvestLevel, hardness, resistance, soundType, Material.STONE);
     }
 
-    public ONIBaseBlock(int harvestLevel, float hardness, float resistance, String regName, SoundType soundType, Material material) {
-        this(regName, Properties.of(material).strength(hardness, resistance).sound(soundType));
+    public ONIBaseBlock(int harvestLevel, float hardness, float resistance, SoundType soundType, Material material) {
+        this(Properties.of(material).strength(hardness, resistance).sound(soundType));
     }
 
-    public ONIBaseBlock(String regName, Properties properties) {
+    public ONIBaseBlock(Properties properties) {
         super(properties);
-        this.regName = regName;
         if (isFluidLoggable()) {
             BlockState state = this.getStateDefinition().any();
             state = setState(state, Fluids.EMPTY);
@@ -128,56 +121,6 @@ public class ONIBaseBlock extends Block implements ONIIRegistryObject<Block>, IS
         }
 
         tile.onPlacedBy(worldIn, pos, state, placer, stack);
-    }
-
-    @Override
-    public boolean doModelGen() {
-        return doModelGen;
-    }
-
-    @Override
-    public boolean doStateGen() {
-        return doStateGen;
-    }
-
-    @Override
-    public boolean doLangGen() {
-        return doLangGen;
-    }
-
-    @Override
-    public boolean doLootTableGen() {
-        return doLootTableGen;
-    }
-
-    public ONIBaseBlock setDoModelGen(boolean doModelGen) {
-        this.doModelGen = doModelGen;
-        return this;
-    }
-
-    public ONIBaseBlock setDoStateGen(boolean doStateGen) {
-        this.doStateGen = doStateGen;
-        return this;
-    }
-
-    public ONIBaseBlock setDoLangGen(boolean doLangGen) {
-        this.doLangGen = doLangGen;
-        return this;
-    }
-
-    public ONIBaseBlock setDoLootTableGen(boolean doLootTableGen) {
-        this.doLootTableGen = doLootTableGen;
-        return this;
-    }
-
-    @Override
-    public Block get() {
-        return this;
-    }
-
-    @Override
-    public String getRegName() {
-        return regName;
     }
 
     public IVoxelShapeProvider getHitBox() {

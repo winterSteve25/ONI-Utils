@@ -8,7 +8,6 @@ import net.minecraft.commands.Commands;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -21,16 +20,15 @@ import wintersteve25.oniutils.common.data.capabilities.player_data.PlayerDataEve
 import wintersteve25.oniutils.common.data.capabilities.world_gas.WorldGasEventsHandler;
 import wintersteve25.oniutils.common.commands.SetGermAmountCommands;
 import wintersteve25.oniutils.common.compat.curios.CuriosCompat;
-import wintersteve25.oniutils.common.init.ONIConfig;
+import wintersteve25.oniutils.common.registries.ONIConfig;
 import wintersteve25.oniutils.common.network.ONINetworking;
 
 public class ONIServerEventsHandler {
 
-    public static void commonSetup(FMLCommonSetupEvent evt) {
+    public static void commonSetup(final FMLCommonSetupEvent evt) {
         ONINetworking.registerMessages();
 
         ONIUtils.LOGGER.info("Registering ONIUtils Capabilities");
-
 
         //germ events
         if (ONIConfig.ENABLE_GERMS.get()) {

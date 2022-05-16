@@ -25,24 +25,20 @@ import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 public class ONIBaseDirectional extends ONIBaseBlock {
 
     protected static final DirectionProperty FACING = DirectionalBlock.FACING;
-    @Nullable
-    private ModelFile modelFile;
-    private int angelOffset;
-
     // for the block builder
     private boolean autoRotateShape = false;
     private boolean allowVertical = false;
 
-    public ONIBaseDirectional(int harvestLevel, float hardness, float resistance, String regName) {
-        this(harvestLevel, hardness, resistance, regName, SoundType.STONE, Material.STONE);
+    public ONIBaseDirectional(int harvestLevel, float hardness, float resistance) {
+        this(harvestLevel, hardness, resistance, SoundType.STONE, Material.STONE);
     }
 
-    public ONIBaseDirectional(int harvestLevel, float hardness, float resistance, String regName, SoundType soundType, Material material) {
-        this(regName, Properties.of(material).strength(hardness, resistance).sound(soundType));
+    public ONIBaseDirectional(int harvestLevel, float hardness, float resistance, SoundType soundType, Material material) {
+        this(Properties.of(material).strength(hardness, resistance).sound(soundType));
     }
 
-    public ONIBaseDirectional(String regName, Properties properties) {
-        super(regName, properties);
+    public ONIBaseDirectional(Properties properties) {
+        super(properties);
 
         BlockState state = this.getStateDefinition().any();
         state.setValue(FACING, Direction.NORTH);
@@ -114,23 +110,6 @@ public class ONIBaseDirectional extends ONIBaseBlock {
             }
         }
         return super.getShape(state, worldIn, pos, context);
-    }
-
-    @Nullable
-    public ModelFile getModelFile() {
-        return this.modelFile;
-    }
-
-    public int getAngelOffset() {
-        return angelOffset;
-    }
-
-    public void setModelFile(ModelFile modelFile) {
-        this.modelFile = modelFile;
-    }
-
-    public void setAngelOffset(int angelOffset) {
-        this.angelOffset = angelOffset;
     }
 
     public boolean isAutoRotateShape() {

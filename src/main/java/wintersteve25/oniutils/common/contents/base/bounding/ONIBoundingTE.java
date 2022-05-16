@@ -13,7 +13,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import wintersteve25.oniutils.common.contents.base.ONIBaseTE;
-import wintersteve25.oniutils.common.init.ONIBlocks;
+import wintersteve25.oniutils.common.registries.ONIBlocks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

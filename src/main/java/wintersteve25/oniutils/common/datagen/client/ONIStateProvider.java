@@ -1,5 +1,7 @@
 package wintersteve25.oniutils.common.datagen.client;
 
+import mekanism.common.registration.impl.BlockRegistryObject;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
@@ -8,9 +10,10 @@ import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.contents.base.ONIBaseBlock;
-import wintersteve25.oniutils.common.contents.base.ONIIRegistryObject;
 import wintersteve25.oniutils.common.contents.base.ONIBaseDirectional;
-import wintersteve25.oniutils.common.init.ONIBlocks;
+import wintersteve25.oniutils.common.registration.block.ONIBlockRegistryData;
+import wintersteve25.oniutils.common.registration.block.ONIDirectionalBlockRegistryData;
+import wintersteve25.oniutils.common.registries.ONIBlocks;
 import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 import wintersteve25.oniutils.common.utils.helpers.ModelFileHelper;
 import wintersteve25.oniutils.common.utils.helpers.ResoureceLocationHelper;
@@ -27,13 +30,13 @@ public class ONIStateProvider extends BlockStateProvider {
     }
 
     private void autoGenStatesAndModels() {
-        for (ONIIRegistryObject<Block> b : ONIBlocks.blockList.keySet()) {
-            if (b.doStateGen()) {
-                if (b.get() instanceof ONIBaseDirectional) {
-                    ONIBaseDirectional directional = (ONIBaseDirectional) b.get();
-                    directionalBlock(directional, directional.getModelFile(), directional.getAngelOffset());
+        for (BlockRegistryObject<? extends Block, ? extends BlockItem> b : ONIBlocks.BLOCKS.getAllBlocks().keySet()) {
+            ONIBlockRegistryData data = ONIBlocks.BLOCKS.getAllBlocks().get(b);
+            if (data.isDoStateGen()) {
+                if (b.getBlock() instanceof ONIBaseDirectional directional && data instanceof ONIDirectionalBlockRegistryData directionalData) {
+                    directionalBlock(directional, directionalData.getModelFile(), directionalData.getAngleOffset());
                 } else {
-                    simpleBlock(b.get());
+                    simpleBlock(b.getBlock());
                 }
             }
         }
@@ -55,9 +58,9 @@ public class ONIStateProvider extends BlockStateProvider {
         weightedRock(ONIBlocks.NonFunctionals.WOLFRAMITE, 8);
     }
 
-    private void weightedRock(ONIBaseBlock block, int amoutOfAlts) {
-        String name = MiscHelper.langToReg(block.getRegName());
-        weightedState(block, name, new ResourceLocation(ONIUtils.MODID, "block/rocks/" + name), amoutOfAlts);
+    private void weightedRock(BlockRegistryObject<? extends Block, BlockItem> block, int amoutOfAlts) {
+        String name = MiscHelper.langToReg(block.getName());
+        weightedState(block.getBlock(), name, new ResourceLocation(ONIUtils.MODID, "block/rocks/" + name), amoutOfAlts);
     }
 
     private void weightedState(Block block, String modelBaseName, ResourceLocation textureBaseLocation, int amountOfAlts) {

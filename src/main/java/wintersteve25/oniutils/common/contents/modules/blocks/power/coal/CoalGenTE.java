@@ -44,9 +44,9 @@ import wintersteve25.oniutils.common.contents.base.builders.ONIContainerBuilder;
 import wintersteve25.oniutils.common.contents.base.enums.EnumModifications;
 import wintersteve25.oniutils.common.contents.modules.items.modifications.ModificationContext;
 import wintersteve25.oniutils.common.contents.modules.items.modifications.ModificationHandler;
-import wintersteve25.oniutils.common.init.ONIBlocks;
-import wintersteve25.oniutils.common.init.ONICapabilities;
-import wintersteve25.oniutils.common.init.ONIConfig;
+import wintersteve25.oniutils.common.registries.ONIBlocks;
+import wintersteve25.oniutils.common.registries.ONICapabilities;
+import wintersteve25.oniutils.common.registries.ONIConfig;
 import wintersteve25.oniutils.common.utils.ONIConstants;
 import wintersteve25.oniutils.common.utils.SlotArrangement;
 import wintersteve25.oniutils.common.utils.helpers.LangHelper;
@@ -356,24 +356,26 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableBlockEntity, IAn
         return modificationHandler.getPlasmaOutputPerTick(getTotalProgress(), ONIConfig.COAL_GEN_POWER_PRODUCE.get());
     }
 
-    private static final VoxelShape BOTTOM1 = Shapes.box(0D, 0, 0D, 1D, ONEPIXEL + (ONEPIXEL/16)*2, 1D);
-    private static final VoxelShape BOTTOM2 = Shapes.box(1D, 0, 0D, 2D, ONEPIXEL + (ONEPIXEL/16)*2, 1D);
-    private static final VoxelShape BOTTOM = Shapes.or(BOTTOM1, BOTTOM2);
-    private static final VoxelShape SUPPORT1 = Shapes.box(ONEPIXEL*6, ONEPIXEL + (ONEPIXEL/16)*2, ONEPIXEL*6, ONEPIXEL*6, 1+ONEPIXEL*10, ONEPIXEL*11);
-    private static final VoxelShape SUPPORT2 = Shapes.box(2D-ONEPIXEL*1, ONEPIXEL + (ONEPIXEL/16)*2, ONEPIXEL*6, 2D-ONEPIXEL*3, 1+ONEPIXEL*10, ONEPIXEL*11);
-    private static final VoxelShape SUPPORT = Shapes.or(SUPPORT1, SUPPORT2);
-    private static final VoxelShape MIDDLE = Shapes.box(ONEPIXEL*6, ONEPIXEL*6, ONEPIXEL*4, 2D-ONEPIXEL*3, 1+ONEPIXEL*9, 1D-ONEPIXEL*4);
-    private static final VoxelShape REDSTONEPANEL = VoxelShapeUtils.rotate(Shapes.box(ONEPIXEL*4, ONEPIXEL, ONEPIXEL*14, ONEPIXEL*13, ONEPIXEL*13, 1D), Rotation.CLOCKWISE_90);
-    private static final VoxelShape CONNECTION = VoxelShapeUtils.rotate(Shapes.box(ONEPIXEL*7, ONEPIXEL*7, ONEPIXEL*12, ONEPIXEL*10, ONEPIXEL*11, ONEPIXEL*14), Rotation.CLOCKWISE_90);
-
-    public static final VoxelShape NORTH_R = Shapes.or(BOTTOM, SUPPORT, MIDDLE, CONNECTION, REDSTONEPANEL).optimize();
-
+//    private static final VoxelShape BOTTOM1 = Shapes.box(0D, 0, 0D, 1D, ONEPIXEL + (ONEPIXEL/16)*2, 1D);
+//    private static final VoxelShape BOTTOM2 = Shapes.box(1D, 0, 0D, 2D, ONEPIXEL + (ONEPIXEL/16)*2, 1D);
+//    private static final VoxelShape BOTTOM = Shapes.or(BOTTOM1, BOTTOM2);
+//    private static final VoxelShape SUPPORT1 = Shapes.box(ONEPIXEL*6, ONEPIXEL + (ONEPIXEL/16)*2, ONEPIXEL*6, ONEPIXEL*6, 1+ONEPIXEL*10, ONEPIXEL*11);
+//    private static final VoxelShape SUPPORT2 = Shapes.box(2D-ONEPIXEL*1, ONEPIXEL + (ONEPIXEL/16)*2, ONEPIXEL*6, 2D-ONEPIXEL*3, 1+ONEPIXEL*10, ONEPIXEL*11);
+//    private static final VoxelShape SUPPORT = Shapes.or(SUPPORT1, SUPPORT2);
+//    private static final VoxelShape MIDDLE = Shapes.box(ONEPIXEL*6, ONEPIXEL*6, ONEPIXEL*4, 2D-ONEPIXEL*3, 1+ONEPIXEL*9, 1D-ONEPIXEL*4);
+//    private static final VoxelShape REDSTONEPANEL = VoxelShapeUtils.rotate(Shapes.box(ONEPIXEL*4, ONEPIXEL, ONEPIXEL*14, ONEPIXEL*13, ONEPIXEL*13, 1D), Rotation.CLOCKWISE_90);
+//    private static final VoxelShape CONNECTION = VoxelShapeUtils.rotate(Shapes.box(ONEPIXEL*7, ONEPIXEL*7, ONEPIXEL*12, ONEPIXEL*10, ONEPIXEL*11, ONEPIXEL*14), Rotation.CLOCKWISE_90);
+//
+//    public static final VoxelShape NORTH_R = Shapes.or(BOTTOM, SUPPORT, MIDDLE, CONNECTION, REDSTONEPANEL).optimize();
+//
     public static ONIBlockBuilder<ONIBaseLoggableMachine<CoalGenTE>> createBlock() {
-        return new ONIBlockBuilder<>(() -> new ONIBaseLoggableMachine<>("Coal Generator", BlockBehaviour.Properties.of(Material.METAL).strength(1.4F, 5).requiresCorrectToolForDrops().noOcclusion(), CoalGenTE.class, ONIBlocks.Machines.Power.COAL_GEN_TE.get()), ONIConstants.Geo.COAL_GEN_ISTER, true)
+        return new ONIBlockBuilder<>(ONIConstants.LangKeys.COAL_GEN, () -> {
+            return new ONIBaseLoggableMachine<>(BlockBehaviour.Properties.of(Material.METAL).strength(1.4F, 5).requiresCorrectToolForDrops().noOcclusion(), CoalGenTE.class, ONIBlocks.Machines.Power.COAL_GEN_TE);
+        }, ONIConstants.Geo.COAL_GEN_ISTER, true)
                 .placementCondition(ONIConstants.PlacementConditions::fourByFourCondition)
                 .renderType((state)-> RenderShape.ENTITYBLOCK_ANIMATED)
                 .autoRotateShape()
-                .shape((state, world, pos, ctx)->NORTH_R)
+//                .shape((state, world, pos, ctx)->NORTH_R)
                 .container(new ONIIHasGui() {
                     @Override
                     public AbstractContainerMenu container(int i, Level world, BlockPos pos, Inventory playerInventory, Player playerEntity) {
@@ -385,7 +387,6 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableBlockEntity, IAn
                         return LangHelper.guiTitle(ONIConstants.LangKeys.COAL_GEN);
                     }
                 })
-                .noModelGen()
                 .coloredName(()->ONIConstants.TextColor.POWER_CAT_COLOR)
                 .tooltip(LangHelper.itemTooltip(ONIConstants.LangKeys.COAL_GEN))
                 .shiftToolTip();

@@ -7,8 +7,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.network.ONINetworking;
-import wintersteve25.oniutils.common.network.TriggerPlayerMovePacket;
-import wintersteve25.oniutils.common.registration.PlayerMovingEvent;
+import wintersteve25.oniutils.common.network.PacketTriggerPlayerMove;
+import wintersteve25.oniutils.common.events.events.PlayerMovingEvent;
 
 @Mod.EventBusSubscriber(modid = ONIUtils.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeClientEventsHandler {
@@ -34,6 +34,6 @@ public class ForgeClientEventsHandler {
 
         if (type == null) return;
 
-        ONINetworking.sendToServer(new TriggerPlayerMovePacket(event.getPlayer().getUUID(), type));
+        ONINetworking.sendToServer(new PacketTriggerPlayerMove(event.getPlayer().getUUID(), type));
     }
 }

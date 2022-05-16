@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Supplier;
 
-public interface ONIIItem extends ONIIRegistryObject<Item> {
+public interface ONIIItem {
     default Supplier<ChatFormatting> getColorName() {
         return null;
     }
@@ -46,14 +46,6 @@ public interface ONIIItem extends ONIIRegistryObject<Item> {
     default void setPlacementCondition(IPlacementCondition placementCondition) {
     }
 
-    default void setDoModelGen(boolean doModelGen) {
-
-    }
-
-    default void setDoLangGen(boolean doLangGen) {
-
-    }
-
     default ItemCategory getONIItemCategory() {
         return ItemCategory.GENERAL;
     }
@@ -83,6 +75,7 @@ public interface ONIIItem extends ONIIRegistryObject<Item> {
             }
         }
     }
+
     enum ItemCategory {
         GENERAL("", null),
         GADGETS("gadgets/", ONIConstants.TextColor.GADGETS),

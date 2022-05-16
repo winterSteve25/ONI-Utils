@@ -2,68 +2,80 @@ package wintersteve25.oniutils.common.contents.base.builders;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.ChatFormatting;
+import net.minecraftforge.common.util.Lazy;
 import wintersteve25.oniutils.api.functional.IPlacementCondition;
 import wintersteve25.oniutils.api.functional.IToolTipCondition;
 import wintersteve25.oniutils.common.contents.base.ONIBaseItemBlock;
 import wintersteve25.oniutils.common.contents.base.ONIIItem;
+import wintersteve25.oniutils.common.utils.helpers.LangHelper;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
 public class ONIItemBuilder<T extends ONIIItem> {
-    private final T item;
+    private final String regName;
+    private final Supplier<T> item;
 
-    public ONIItemBuilder(Supplier<T> item) {
-        this.item = item.get();
-    }
+    private Supplier<IToolTipCondition> toolTipCondition = IToolTipCondition.DEFAULT;
+    private Supplier<List<Component>> tooltips;
+    private Supplier<ChatFormatting> color;
+    private IPlacementCondition placementCondition;
+    private ONIIItem.ItemCategory category = ONIIItem.ItemCategory.GENERAL;
 
-    public ONIItemBuilder<T> noModelGen() {
-        this.item.setDoModelGen(false);
-        return this;
-    }
-
-    public ONIItemBuilder<T> noLangGen() {
-        this.item.setDoLangGen(false);
-        return this;
+    public ONIItemBuilder(String regName, Supplier<T> item) {
+        this.regName = regName;
+        this.item = item;
     }
 
     public ONIItemBuilder<T> shiftToolTip() {
-        this.item.setTooltipCondition(IToolTipCondition.DEFAULT);
+        toolTipCondition = IToolTipCondition.DEFAULT;
         return this;
     }
 
     public ONIItemBuilder<T> tooltipCondition(Supplier<IToolTipCondition> condition) {
-        this.item.setTooltipCondition(condition);
+        toolTipCondition = condition;
         return this;
     }
 
     public ONIItemBuilder<T> tooltip(Component... tooltips) {
-        this.item.setTooltips(() -> Arrays.asList(tooltips));
+        this.tooltips = () -> Arrays.asList(tooltips);
+        return this;
+    }
+
+    public ONIItemBuilder<T> defaultTooltip() {
+        tooltips = () -> List.of(LangHelper.itemTooltip(regName));
         return this;
     }
 
     public ONIItemBuilder<T> coloredName(Supplier<ChatFormatting> color) {
-        this.item.setColorName(color);
+        this.color = color;
         return this;
     }
 
     public ONIItemBuilder<T> placementCondition(IPlacementCondition placementCondition) {
-        blockItem();
-        this.item.setPlacementCondition(placementCondition);
+        this.placementCondition = placementCondition;
         return this;
     }
 
     public ONIItemBuilder<T> setCategory(ONIIItem.ItemCategory category) {
-        this.item.setONIItemCategory(category);
+        this.category = category;
         return this;
     }
 
-    public T build() {
-        return this.item;
+    public Lazy<T> build() {
+        return Lazy.of(() -> {
+            T i = item.get();
+            i.setTooltipCondition(toolTipCondition);
+            i.setTooltips(tooltips);
+            i.setColorName(color);
+            i.setPlacementCondition(placementCondition);
+            i.setONIItemCategory(category);
+            return i;
+        });
     }
 
-    private void blockItem() {
-        if (!(this.item instanceof ONIBaseItemBlock)) throw new IllegalStateException("Tried to create blockitem-only properties with a normal item");
+    public String getRegName() {
+        return regName;
     }
 }

@@ -5,7 +5,7 @@ import mekanism.api.chemical.gas.GasStack;
 import mekanism.common.base.IChemicalConstant;
 import mekanism.common.registration.impl.GasRegistryObject;
 import net.minecraft.resources.ResourceLocation;
-import wintersteve25.oniutils.common.init.ONIGases;
+import wintersteve25.oniutils.common.registries.ONIGases;
 import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 
 import javax.annotation.Nullable;

@@ -1,6 +1,7 @@
 package wintersteve25.oniutils.common.contents.base;
 
 import harmonised.pmmo.api.APIUtils;
+import mekanism.common.registration.impl.TileEntityTypeRegistryObject;
 import mekanism.common.util.WorldUtils;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
@@ -27,7 +28,7 @@ import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.api.*;
 import wintersteve25.oniutils.common.contents.base.bounding.ONIIBoundingBlock;
 import wintersteve25.oniutils.common.contents.modules.items.modifications.ONIModificationItem;
-import wintersteve25.oniutils.common.init.ONICapabilities;
+import wintersteve25.oniutils.common.registries.ONICapabilities;
 import wintersteve25.oniutils.common.utils.helpers.ISHandlerHelper;
 
 import javax.annotation.Nonnull;
@@ -39,10 +40,10 @@ public class ONIBaseMachine<BE extends BlockEntity> extends ONIBaseDirectional i
     // block builder properties
     private ONIIHasGui gui;
     private final Class<BE> beClass;
-    private final BlockEntityType<BE> blockEntityType;
+    private final TileEntityTypeRegistryObject<BE> blockEntityType;
 
-    public ONIBaseMachine(String regName, Properties properties, Class<BE> beClass, BlockEntityType<BE> blockEntityType) {
-        super(regName, properties);
+    public ONIBaseMachine(Properties properties, Class<BE> beClass, TileEntityTypeRegistryObject<BE> blockEntityType) {
+        super(properties);
         this.beClass = beClass;
         this.blockEntityType = blockEntityType;
     }
@@ -181,11 +182,7 @@ public class ONIBaseMachine<BE extends BlockEntity> extends ONIBaseDirectional i
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return getBlockEntityType().create(pPos, pState);
-    }
-
-    public BlockEntityType<?> getBlockEntityType() {
-        return blockEntityType;
+        return blockEntityType.get().create(pPos, pState);
     }
 
     public boolean isCorrectTe(BlockEntity tile) {

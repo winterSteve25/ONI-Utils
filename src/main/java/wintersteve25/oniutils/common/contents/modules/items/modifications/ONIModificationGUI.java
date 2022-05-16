@@ -1,15 +1,13 @@
 package wintersteve25.oniutils.common.contents.modules.items.modifications;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.ProgressOption;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.chat.TranslatableComponent;
-import wintersteve25.oniutils.client.utils.RenderingHelper;
-import wintersteve25.oniutils.common.network.ModificationPacket;
+import wintersteve25.oniutils.common.network.PacketModification;
 import wintersteve25.oniutils.common.network.ONINetworking;
 import wintersteve25.oniutils.common.utils.ONIConstants;
 
@@ -58,7 +56,7 @@ public class ONIModificationGUI extends Screen {
     @Override
     public void removed() {
         super.removed();
-        ONINetworking.sendToServer(new ModificationPacket(modification, bonus, ONIConstants.PacketType.MODIFICATION_DATA));
+        ONINetworking.sendToServer(new PacketModification(modification, bonus, ONIConstants.PacketType.MODIFICATION_DATA));
     }
 
     public static void open(ItemStack modification, int maxBonus) {

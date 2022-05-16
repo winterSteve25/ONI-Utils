@@ -1,9 +1,11 @@
 package wintersteve25.oniutils.common.datagen.server;
 
+import mekanism.common.registration.impl.BlockRegistryObject;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.data.DataGenerator;
-import wintersteve25.oniutils.common.contents.base.ONIIRegistryObject;
-import wintersteve25.oniutils.common.init.ONIBlocks;
+import wintersteve25.oniutils.common.registration.block.ONIBlockRegistryData;
+import wintersteve25.oniutils.common.registries.ONIBlocks;
 import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 
 public class ONILootTableProvider extends LootTableBase {
@@ -17,8 +19,9 @@ public class ONILootTableProvider extends LootTableBase {
     }
 
     private void standardTables() {
-        for (ONIIRegistryObject<Block> b : ONIBlocks.blockList.keySet()) {
-            if (b.doLootTableGen()) lootTables.putIfAbsent(b.get(), createStandardTable(MiscHelper.langToReg(b.getRegName()), b.get()));
+        for (BlockRegistryObject<? extends Block, ? extends BlockItem> b : ONIBlocks.BLOCKS.getAllBlocks().keySet()) {
+            ONIBlockRegistryData data = ONIBlocks.BLOCKS.getAllBlocks().get(b);
+            if (data.isDoLootTableGen()) lootTables.putIfAbsent(b.getBlock(), createStandardTable(b.getName(), b.getBlock()));
         }
     }
 }

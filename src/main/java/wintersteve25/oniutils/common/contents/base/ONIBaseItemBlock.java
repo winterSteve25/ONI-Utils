@@ -1,5 +1,6 @@
 package wintersteve25.oniutils.common.contents.base;
 
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.BlockItem;
@@ -18,50 +19,15 @@ import java.util.function.Supplier;
 
 public class ONIBaseItemBlock extends BlockItem implements ONIIItem {
 
-    private final String regName;
-
     // item builder properties
-    private boolean doModelGen = true;
-    private boolean doLangGen = true;
     private Supplier<ChatFormatting> colorName;
     private Supplier<List<Component>> tooltips;
     private Supplier<IToolTipCondition> tooltipCondition = IToolTipCondition.DEFAULT;
     private IPlacementCondition placementCondition;
     private ItemCategory itemCategory = ItemCategory.GENERAL;
 
-    public ONIBaseItemBlock(ONIBaseBlock blockIn, Properties builder) {
+    public ONIBaseItemBlock(Block blockIn, Properties builder) {
         super(blockIn, builder);
-        this.regName = blockIn.getRegName();
-    }
-
-    @Override
-    public boolean doModelGen() {
-        return doModelGen;
-    }
-
-    @Override
-    public boolean doStateGen() {
-        return false;
-    }
-
-    @Override
-    public boolean doLangGen() {
-        return doLangGen;
-    }
-
-    @Override
-    public boolean doLootTableGen() {
-        return false;
-    }
-
-    @Override
-    public Item get() {
-        return this;
-    }
-
-    @Override
-    public String getRegName() {
-        return regName;
     }
 
     @Override
@@ -127,16 +93,6 @@ public class ONIBaseItemBlock extends BlockItem implements ONIIItem {
     @Override
     public void setPlacementCondition(IPlacementCondition placementCondition) {
         this.placementCondition = placementCondition;
-    }
-
-    @Override
-    public void setDoModelGen(boolean doModelGen) {
-        this.doModelGen = doModelGen;
-    }
-
-    @Override
-    public void setDoLangGen(boolean doLangGen) {
-        this.doLangGen = doLangGen;
     }
 
     public ItemCategory getONIItemCategory() {

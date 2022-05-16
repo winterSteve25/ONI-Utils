@@ -18,7 +18,7 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import wintersteve25.oniutils.api.*;
 import wintersteve25.oniutils.common.data.capabilities.plasma.api.IPlasma;
 import wintersteve25.oniutils.common.contents.modules.items.modifications.ONIModificationItem;
-import wintersteve25.oniutils.common.init.ONICapabilities;
+import wintersteve25.oniutils.common.registries.ONICapabilities;
 import wintersteve25.oniutils.common.utils.SlotArrangement;
 
 import javax.annotation.Nonnull;

@@ -22,8 +22,8 @@ import wintersteve25.oniutils.common.data.capabilities.ONICapabilityProvider;
 import wintersteve25.oniutils.common.data.capabilities.germ.api.EnumGermTypes;
 import wintersteve25.oniutils.common.data.capabilities.germ.api.Germs;
 import wintersteve25.oniutils.common.data.capabilities.germ.api.IGerms;
-import wintersteve25.oniutils.common.init.ONICapabilities;
-import wintersteve25.oniutils.common.init.ONIConfig;
+import wintersteve25.oniutils.common.registries.ONICapabilities;
+import wintersteve25.oniutils.common.registries.ONIConfig;
 
 import java.util.List;
 
@@ -33,6 +33,7 @@ public class GermEventsHandler {
         if (entity != null && !entity.getCapability(ONICapabilities.GERMS).isPresent()) {
             ONICapabilityProvider<IGerms> provider = new ONICapabilityProvider<>(Germs::new, ONICapabilities.GERMS);
             event.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
+            event.addListener(provider::invalidate);
         }
     }
 
@@ -41,14 +42,16 @@ public class GermEventsHandler {
         if (stack != null && !stack.getCapability(ONICapabilities.GERMS).isPresent()) {
             ONICapabilityProvider<IGerms> provider = new ONICapabilityProvider<>(Germs::new, ONICapabilities.GERMS);
             event.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
+            event.addListener(provider::invalidate);
         }
     }
 
-    public static void teCapAttachEvent(AttachCapabilitiesEvent<BlockEntity> e) {
-        BlockEntity tileAttached = e.getObject();
+    public static void teCapAttachEvent(AttachCapabilitiesEvent<BlockEntity> event) {
+        BlockEntity tileAttached = event.getObject();
         if (tileAttached != null && !tileAttached.getCapability(ONICapabilities.GERMS).isPresent()) {
             ONICapabilityProvider<IGerms> provider = new ONICapabilityProvider<>(Germs::new, ONICapabilities.GERMS);
-            e.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
+            event.addCapability(new ResourceLocation(ONIUtils.MODID, "germs"), provider);
+            event.addListener(provider::invalidate);
         }
     }
 

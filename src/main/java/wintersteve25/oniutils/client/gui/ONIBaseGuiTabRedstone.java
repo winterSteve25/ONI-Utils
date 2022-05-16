@@ -1,7 +1,6 @@
 package wintersteve25.oniutils.client.gui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.SliderButton;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -14,7 +13,7 @@ import wintersteve25.oniutils.common.contents.base.ONIBaseContainer;
 import wintersteve25.oniutils.common.contents.base.ONIBaseTE;
 import wintersteve25.oniutils.api.ONIIHasRedstoneOutput;
 import wintersteve25.oniutils.common.network.ONINetworking;
-import wintersteve25.oniutils.common.network.TEPosBasedPacket;
+import wintersteve25.oniutils.common.network.PacketUpdateBE;
 import wintersteve25.oniutils.common.utils.ONIConstants;
 
 public class ONIBaseGuiTabRedstone extends ONIBaseGuiTab {
@@ -110,8 +109,8 @@ public class ONIBaseGuiTabRedstone extends ONIBaseGuiTab {
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         if (isVisible()) {
-            ONINetworking.sendToServer(new TEPosBasedPacket(this.container.getTileEntity(), ONIConstants.PacketType.REDSTONE_OUTPUT_LOW, lowThreshold));
-            ONINetworking.sendToServer(new TEPosBasedPacket(this.container.getTileEntity(), ONIConstants.PacketType.REDSTONE_OUTPUT_HIGH, highThreshold));
+            ONINetworking.sendToServer(new PacketUpdateBE(this.container.getTileEntity(), ONIConstants.PacketType.REDSTONE_OUTPUT_LOW, lowThreshold));
+            ONINetworking.sendToServer(new PacketUpdateBE(this.container.getTileEntity(), ONIConstants.PacketType.REDSTONE_OUTPUT_HIGH, highThreshold));
             updateClientThreshold();
         }
         return super.mouseReleased(mouseX, mouseY, button);

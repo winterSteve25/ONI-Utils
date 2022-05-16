@@ -45,7 +45,7 @@ public class Germs implements IGerms {
     public CompoundTag serializeNBT() {
         CompoundTag germ = new CompoundTag();
 
-        germ.putString("germ", MiscHelper.langToReg(germType.getName()));
+        germ.putString("germ", germType.getName());
         germ.putInt("amount", this.amount);
 
         return germ;
@@ -55,8 +55,8 @@ public class Germs implements IGerms {
     public void deserializeNBT(CompoundTag nbt) {
         String germName = nbt.getString("germ");
         int germAmount = nbt.getInt("amount");
-
-        germType = EnumGermTypes.getGermFromName(germName);
+        var type = EnumGermTypes.getGermFromName(germName);
+        germType = type == null ? EnumGermTypes.NOTHING : type;
         amount = germAmount;
     }
 }

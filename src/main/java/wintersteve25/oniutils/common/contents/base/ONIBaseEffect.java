@@ -2,7 +2,7 @@ package wintersteve25.oniutils.common.contents.base;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
-import wintersteve25.oniutils.common.init.ONIEffects;
+import wintersteve25.oniutils.common.registries.ONIEffects;
 
 public class ONIBaseEffect extends MobEffect {
     private final String regName;

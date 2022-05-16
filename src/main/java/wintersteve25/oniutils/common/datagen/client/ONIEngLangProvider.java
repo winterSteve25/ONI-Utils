@@ -1,19 +1,23 @@
 package wintersteve25.oniutils.common.datagen.client;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.world.item.Item;
+import mekanism.common.registration.impl.BlockRegistryObject;
+import mekanism.common.registration.impl.ItemRegistryObject;
 import net.minecraft.ChatFormatting;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.fml.ModList;
+import org.apache.commons.lang3.text.WordUtils;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.client.gui.ONIBaseGuiTab;
-import wintersteve25.oniutils.common.contents.base.ONIIRegistryObject;
-import wintersteve25.oniutils.common.data.capabilities.world_gas.api.chemistry.Element;
 import wintersteve25.oniutils.common.compat.curios.CuriosCompat;
-import wintersteve25.oniutils.common.init.ONIBlocks;
-import wintersteve25.oniutils.common.init.ONIItems;
-import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
+import wintersteve25.oniutils.common.data.capabilities.world_gas.api.chemistry.Element;
+import wintersteve25.oniutils.common.registration.block.ONIBlockRegistryData;
+import wintersteve25.oniutils.common.registration.item.ONIItemRegistryData;
+import wintersteve25.oniutils.common.registries.ONIBlocks;
+import wintersteve25.oniutils.common.registries.ONIItems;
 
 public class ONIEngLangProvider extends LanguageProvider {
     public ONIEngLangProvider(DataGenerator gen) {
@@ -108,14 +112,16 @@ public class ONIEngLangProvider extends LanguageProvider {
     }
 
     private void autoGenLang() {
-        for (ONIIRegistryObject<Block> b : ONIBlocks.blockList.keySet()) {
-            if (b.doLangGen()) add("block.oniutils." + MiscHelper.langToReg(b.getRegName()), b.getRegName());
+        for (BlockRegistryObject<? extends Block, ? extends BlockItem> b : ONIBlocks.BLOCKS.getAllBlocks().keySet()) {
+            ONIBlockRegistryData data = ONIBlocks.BLOCKS.getAllBlocks().get(b);
+            if (data.isDoLangGen()) add("block.oniutils." + b.getName(), b.getName());
+        }
+        for (ItemRegistryObject<? extends Item> i : ONIItems.ITEMS.getAllItems().keySet()) {
+            ONIItemRegistryData data = ONIItems.ITEMS.getAllItems().get(i);
+            if (data.isDoLangGen()) add("item.oniutils." + i.getName(), i.getName());
         }
         for (Element element : Element.values()) {
             add("gas.oniutils." + element.getName(), element.getLang() + " Gas");
-        }
-        for (ONIIRegistryObject<Item> i : ONIItems.itemRegistryList) {
-            if (i.doLangGen()) add("item.oniutils." + MiscHelper.langToReg(i.getRegName()), i.getRegName());
         }
     }
 }

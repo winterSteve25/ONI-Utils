@@ -1,6 +1,5 @@
 package wintersteve25.oniutils.client.gui;
 
-import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -13,11 +12,10 @@ import net.minecraft.resources.ResourceLocation;
 import wintersteve25.oniutils.common.contents.base.ONIBaseContainer;
 import wintersteve25.oniutils.api.ONIIModifiable;
 import wintersteve25.oniutils.common.network.ONINetworking;
-import wintersteve25.oniutils.common.network.TEPosBasedPacket;
+import wintersteve25.oniutils.common.network.PacketUpdateBE;
 import wintersteve25.oniutils.common.utils.ONIConstants;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 
@@ -387,7 +385,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Ab
                 setU(ONIConstants.Resources.REDSTONE_BUTTON_ON.getU());
                 pressed = false;
             }
-            ONINetworking.sendToServer(new TEPosBasedPacket(menu.getTileEntity(), ONIConstants.PacketType.REDSTONE_INPUT));
+            ONINetworking.sendToServer(new PacketUpdateBE(menu.getTileEntity(), ONIConstants.PacketType.REDSTONE_INPUT));
         }
     }
 

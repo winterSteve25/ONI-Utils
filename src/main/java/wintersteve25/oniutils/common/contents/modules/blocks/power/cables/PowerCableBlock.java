@@ -21,8 +21,8 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Level;
 import wintersteve25.oniutils.common.contents.base.ONIBaseSixWaysBlock;
 import wintersteve25.oniutils.common.contents.base.enums.EnumCableTypes;
-import wintersteve25.oniutils.common.init.ONICapabilities;
-import wintersteve25.oniutils.common.init.ONIItems;
+import wintersteve25.oniutils.common.registries.ONICapabilities;
+import wintersteve25.oniutils.common.registries.ONIItems;
 
 public class PowerCableBlock extends ONIBaseSixWaysBlock {
     private final EnumCableTypes type;
@@ -39,9 +39,8 @@ public class PowerCableBlock extends ONIBaseSixWaysBlock {
     }
 
     public PowerCableBlock(EnumCableTypes cableTypes, Properties properties) {
-        super(cableTypes.getName(), properties);
+        super(properties);
         type = cableTypes;
-        setDoModelGen(false);
     }
 
     @Override
@@ -181,7 +180,7 @@ public class PowerCableBlock extends ONIBaseSixWaysBlock {
     public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         VoxelShape shape = BASE;
 
-        if (context.isHoldingItem(ONIItems.WIRE_CUTTER)) {
+        if (context.isHoldingItem(ONIItems.Gadgets.WIRE_CUTTER.asItem())) {
             return Shapes.block();
         }
 
@@ -210,8 +209,8 @@ public class PowerCableBlock extends ONIBaseSixWaysBlock {
     @Override
     public float getDestroyProgress(BlockState state, Player player, BlockGetter worldIn, BlockPos pos) {
         float value = super.getDestroyProgress(state, player, worldIn, pos);
-        if (player.getMainHandItem().getItem() == ONIItems.WIRE_CUTTER) {
-            value*=4;
+        if (player.getMainHandItem().getItem() == ONIItems.Gadgets.WIRE_CUTTER.asItem()) {
+            value *= 4;
         }
         return value;
     }

@@ -10,7 +10,7 @@ import net.minecraft.world.level.LevelAccessor;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.contents.base.bounding.ONIBoundingBlock;
 import wintersteve25.oniutils.common.contents.base.bounding.ONIBoundingTE;
-import wintersteve25.oniutils.common.init.ONIBlocks;
+import wintersteve25.oniutils.common.registries.ONIBlocks;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -20,7 +20,7 @@ public class MiscHelper {
 
     public static final int INT_MAX = Integer.MAX_VALUE;
     public static final double ONEPIXEL = 1D / 16;
-    public static final Item.Properties DEFAULT_ITEM_PROPERTY = new Item.Properties().tab(ONIUtils.creativeTab);
+    public static final Item.Properties DEFAULT_ITEM_PROPERTY = ONIUtils.defaultProperties();
 
     public static String langToReg(String lang) {
         return lang.toLowerCase().replace(' ', '_').replace('-', '_');
@@ -43,7 +43,7 @@ public class MiscHelper {
      */
     public static void makeBoundingBlock(@Nullable LevelAccessor world, BlockPos boundingLocation, BlockPos orig) {
         if (world != null) {
-            ONIBoundingBlock boundingBlock = (ONIBoundingBlock) ONIBlocks.Misc.BOUNDING_BLOCK.get();
+            ONIBoundingBlock boundingBlock = ONIBlocks.Misc.BOUNDING_BLOCK.getBlock();
             BlockState newState = boundingBlock.defaultBlockState();
             world.setBlock(boundingLocation, newState, 3);
             if (!world.isClientSide()) {

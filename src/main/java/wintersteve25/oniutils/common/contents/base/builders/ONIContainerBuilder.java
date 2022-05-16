@@ -10,9 +10,9 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.network.IContainerFactory;
 import net.minecraftforge.registries.RegistryObject;
+import wintersteve25.oniutils.common.registries.ONIBlocks;
 import wintersteve25.oniutils.common.utils.SlotArrangement;
 import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
-import wintersteve25.oniutils.common.utils.helpers.RegistryHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +31,7 @@ public class ONIContainerBuilder {
     private Tuple<Integer, Integer> playerSlotStart = new Tuple<>(8, 88);
 
     private final String regName;
-    private final RegistryObject<MenuType<ONIAbstractContainer>> registryObject;
+    private final ContainerTypeRegistryObject<ONIAbstractContainer> registryObject;
 
     public ONIContainerBuilder(String regName) {
         this.regName = regName;
@@ -83,8 +83,8 @@ public class ONIContainerBuilder {
         return this;
     }
 
-    private RegistryObject<MenuType<ONIAbstractContainer>> buildContainerType() {
-        return RegistryHelper.registerContainer(MiscHelper.langToReg(regName), () -> IForgeMenuType.create(buildFactory()));
+    private ContainerTypeRegistryObject<ONIAbstractContainer> buildContainerType() {
+        return ONIBlocks.MENUS.register(MiscHelper.langToReg(regName), () -> IForgeMenuType.create(buildFactory()));
     }
 
     public IContainerFactory<ONIAbstractContainer> buildFactory() {
@@ -111,7 +111,7 @@ public class ONIContainerBuilder {
         );
     }
 
-    public RegistryObject<MenuType<ONIAbstractContainer>> getContainerTypeRegistryObject() {
+    public ContainerTypeRegistryObject<ONIAbstractContainer> getContainerTypeRegistryObject() {
         return registryObject;
     }
 }

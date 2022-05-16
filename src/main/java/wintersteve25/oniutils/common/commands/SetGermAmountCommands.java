@@ -14,7 +14,7 @@ import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.network.chat.TranslatableComponent;
 import wintersteve25.oniutils.common.data.capabilities.germ.api.EnumGermTypes;
-import wintersteve25.oniutils.common.init.ONICapabilities;
+import wintersteve25.oniutils.common.registries.ONICapabilities;
 import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 
 import java.util.Arrays;
