@@ -1,5 +1,6 @@
 package wintersteve25.oniutils.common.contents.base;
 
+import mekanism.common.registration.impl.TileEntityTypeRegistryObject;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.nbt.CompoundTag;
@@ -20,7 +21,7 @@ public abstract class ONIBaseInvTE extends ONIBaseTE {
     protected final ItemStackHandler itemHandler = new ONIInventoryHandler(this);
     protected final LazyOptional<IItemHandler> itemLazyOptional = LazyOptional.of(() -> itemHandler);
 
-    public ONIBaseInvTE(BlockEntityType<?> te, BlockPos pos, BlockState state) {
+    public ONIBaseInvTE(TileEntityTypeRegistryObject<?> te, BlockPos pos, BlockState state) {
         super(te, pos, state);
     }
 

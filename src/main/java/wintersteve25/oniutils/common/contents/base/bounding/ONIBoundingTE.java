@@ -1,6 +1,7 @@
 package wintersteve25.oniutils.common.contents.base.bounding;
 
 import mekanism.api.NBTConstants;
+import mekanism.common.registration.impl.TileEntityTypeRegistryObject;
 import mekanism.common.util.NBTUtils;
 import mekanism.common.util.WorldUtils;
 import net.minecraft.world.level.block.state.BlockState;
@@ -28,10 +29,10 @@ public class ONIBoundingTE extends ONIBaseTE {
     public boolean receivedCoords;
 
     public ONIBoundingTE(BlockPos pos, BlockState state) {
-        this(ONIBlocks.Misc.BOUNDING_TE.get(), pos, state);
+        this(ONIBlocks.Misc.BOUNDING_TE, pos, state);
     }
 
-    public ONIBoundingTE(BlockEntityType<ONIBoundingTE> type, BlockPos pos, BlockState state) {
+    public ONIBoundingTE(TileEntityTypeRegistryObject<ONIBoundingTE> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
         this.mainPos = BlockPos.ZERO;
     }
@@ -40,7 +41,7 @@ public class ONIBoundingTE extends ONIBaseTE {
         this.receivedCoords = pos != null;
         if (this.isServer()) {
             this.mainPos = pos;
-            this.sendNBTUpdatePacket();
+            this.sendUpdatePacket();
         }
     }
 

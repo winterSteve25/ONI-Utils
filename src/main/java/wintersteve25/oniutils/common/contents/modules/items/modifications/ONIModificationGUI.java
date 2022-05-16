@@ -33,8 +33,7 @@ public class ONIModificationGUI extends Screen {
 
         ProgressOption slider = new ProgressOption("oniutils.gui.items.modification.bonus", -maxBonus, maxBonus, 1, gameSettings -> (double) bonus, (setting, value) -> bonus = value.intValue(), (gameSettings, sliderPercentageOption1) -> new TranslatableComponent("oniutils.gui.items.modification.bonus", sliderPercentageOption1.get(gameSettings)));
         sliderWidget = slider.createButton(Minecraft.getInstance().options, i, j, 180);
-
-        addWidget(sliderWidget);
+        addRenderableWidget(sliderWidget);
     }
 
     @Override
@@ -45,11 +44,9 @@ public class ONIModificationGUI extends Screen {
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         matrixStack.pushPose();
         matrixStack.translate(0.0F, 0.0F, 100.0F);
-        // RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         int i = (this.width - 20) / 2;
         int j = (this.height) / 2;
         minecraft.getItemRenderer().renderGuiItem(modification, i, j);
-        sliderWidget.render(matrixStack, mouseX, mouseY, partialTicks);
         matrixStack.popPose();
     }
 
@@ -62,5 +59,10 @@ public class ONIModificationGUI extends Screen {
     public static void open(ItemStack modification, int maxBonus) {
         Minecraft.getInstance().setScreen(null);
         Minecraft.getInstance().setScreen(new ONIModificationGUI(modification, maxBonus));
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
     }
 }

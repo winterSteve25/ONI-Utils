@@ -79,7 +79,7 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableBlockEntity, IAn
     private int highThreshold = 80;
 
     public CoalGenTE(BlockPos pos, BlockState state) {
-        super(ONIBlocks.Machines.Power.COAL_GEN_TE.get(), pos, state);
+        super(ONIBlocks.Machines.Power.COAL_GEN_TE, pos, state);
     }
 
     @Override

@@ -31,7 +31,7 @@ public class ONIBaseGuiTabModification extends ONIBaseGuiTab {
 
             matrixStack.pushPose();
 //            RenderSystem.translatef(0.0F, 0.0F, -0.1F);
-            this.mc.getTextureManager().bindForSetup(BACKGROUND_LOCATION);
+            RenderSystem.setShaderTexture(0, BACKGROUND_LOCATION);
             // RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             int i = getGuiLeftTopPosition(this.width, 177) - 147;
             int j = (this.height - 167) / 2;

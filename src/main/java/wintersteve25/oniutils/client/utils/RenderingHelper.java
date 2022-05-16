@@ -1,7 +1,7 @@
 package wintersteve25.oniutils.client.utils;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.resources.ResourceLocation;
 import wintersteve25.oniutils.common.utils.ONIConstants;
@@ -14,8 +14,7 @@ public class RenderingHelper {
     }
 
     public static void bindTexture(ResourceLocation resourceLocation) {
-        Minecraft.getInstance().getTextureManager().bindForSetup(resourceLocation);
-        // RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, resourceLocation);
     }
 
     public static void renderAnimatedProgressBar(GuiComponent gui, PoseStack matrixStack, int x, int y, int scaledProgress) {

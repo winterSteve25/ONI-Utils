@@ -70,23 +70,23 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Ab
             redstoneOutputTab.init(this.width, this.height, this.minecraft, this.menu, new TranslatableComponent("oniutils.gui.titles.redstoneOutput"));
             this.redstoneOutputButton = new RedstoneOutputButton();
             addWidget(redstoneOutputTab);
-            addWidget(redstoneOutputButton);
+            addRenderableWidget(redstoneOutputButton);
         }
 
         if (hasModButton()) {
             modificationTab.init(this.width, this.height, this.minecraft, this.menu, new TranslatableComponent("oniutils.gui.titles.modifications"));
             this.modificationButton = new ModificationButton();
-            addWidget(modificationButton);
+            addRenderableWidget(modificationButton);
         }
 
         this.infoButton = new InfoButton();
         this.alertButton = new AlertButton();
         this.redstoneButton = new RedstoneButton();
 
-        addWidget(infoButton);
+        addRenderableWidget(infoButton);
         addWidget(alertTab);
-        addWidget(alertButton);
-        addWidget(redstoneButton);
+        addRenderableWidget(alertButton);
+        addRenderableWidget(redstoneButton);
     }
 
     @Override
@@ -104,7 +104,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Ab
     protected void renderBg(PoseStack matrixStack, float partialTicks, int x, int y) {
         if (bg != null) {
             RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-            this.minecraft.getTextureManager().bindForSetup(bg);
+            RenderSystem.setShaderTexture(0, bg);
             int j = (this.height - this.getYSize()) / 2;
             this.blit(matrixStack, this.leftPos, j, 0, 0, this.getXSize(), this.getYSize() + 5);
         }
@@ -159,8 +159,9 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Ab
             this.name = name;
         }
 
+        @Override
         public void renderButton(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-            Minecraft.getInstance().getTextureManager().bindForSetup(ONIConstants.Resources.WIDGETS);
+            RenderSystem.setShaderTexture(0, ONIConstants.Resources.WIDGETS);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
             int j = 0;
