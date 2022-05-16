@@ -23,7 +23,7 @@ import java.util.function.Supplier;
 
 public final class ONIConstants {
     public static final class Geo {
-        public static final GeckolibModelBase<CoalGenTE> COAL_GEN_TE = new GeckolibModelBase<>("machines/power/coal_gen.geo.json", "machines/power/coal_gen.png", "machines/power/coal_gen.animation.json");
+        public static final GeckolibModelBase<CoalGenTE> COAL_GEN_TE = new GeckolibModelBase<>("machines/power/coal_generator.geo.json", "machines/power/coal_generator.png", "machines/power/coal_generator.animation.json");
         public static final GeckolibModelBase<ONIBaseAnimatedBlockItem> COAL_GEN_IB = new GeckolibModelBase<>(COAL_GEN_TE);
         public static final Supplier<BlockEntityWithoutLevelRenderer> COAL_GEN_ISTER = () ->new GeoItemRendererDefault<>(COAL_GEN_IB);
 

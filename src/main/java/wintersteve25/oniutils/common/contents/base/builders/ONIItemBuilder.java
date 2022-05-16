@@ -2,20 +2,20 @@ package wintersteve25.oniutils.common.contents.base.builders;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.ChatFormatting;
-import net.minecraftforge.common.util.Lazy;
+import wintersteve25.oniutils.common.contents.base.ONIBaseBlock;
 import wintersteve25.oniutils.api.functional.IPlacementCondition;
 import wintersteve25.oniutils.api.functional.IToolTipCondition;
-import wintersteve25.oniutils.common.contents.base.ONIBaseItemBlock;
 import wintersteve25.oniutils.common.contents.base.ONIIItem;
 import wintersteve25.oniutils.common.utils.helpers.LangHelper;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class ONIItemBuilder<T extends ONIIItem> {
     private final String regName;
-    private final Supplier<T> item;
+    private final Function<ONIBaseBlock, T> item;
 
     private Supplier<IToolTipCondition> toolTipCondition = IToolTipCondition.DEFAULT;
     private Supplier<List<Component>> tooltips;
@@ -23,7 +23,10 @@ public class ONIItemBuilder<T extends ONIIItem> {
     private IPlacementCondition placementCondition;
     private ONIIItem.ItemCategory category = ONIIItem.ItemCategory.GENERAL;
 
-    public ONIItemBuilder(String regName, Supplier<T> item) {
+    private boolean doModelGen = true;
+    private boolean doLangGen = true;
+
+    public ONIItemBuilder(String regName, Function<ONIBaseBlock, T> item) {
         this.regName = regName;
         this.item = item;
     }
@@ -63,19 +66,37 @@ public class ONIItemBuilder<T extends ONIIItem> {
         return this;
     }
 
-    public Lazy<T> build() {
-        return Lazy.of(() -> {
-            T i = item.get();
+    public ONIItemBuilder<T> noModelGen() {
+        doModelGen = false;
+        return this;
+    }
+
+    public ONIItemBuilder<T> noLangGen() {
+        doLangGen = false;
+        return this;
+    }
+
+    public Function<ONIBaseBlock, T> build() {
+        return (b) -> {
+            T i = item.apply(b);
             i.setTooltipCondition(toolTipCondition);
             i.setTooltips(tooltips);
             i.setColorName(color);
             i.setPlacementCondition(placementCondition);
             i.setONIItemCategory(category);
             return i;
-        });
+        };
     }
 
     public String getRegName() {
         return regName;
+    }
+
+    public boolean isDoModelGen() {
+        return doModelGen;
+    }
+
+    public boolean isDoLangGen() {
+        return doLangGen;
     }
 }

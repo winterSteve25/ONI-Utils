@@ -114,11 +114,11 @@ public class ONIEngLangProvider extends LanguageProvider {
     private void autoGenLang() {
         for (BlockRegistryObject<? extends Block, ? extends BlockItem> b : ONIBlocks.BLOCKS.getAllBlocks().keySet()) {
             ONIBlockRegistryData data = ONIBlocks.BLOCKS.getAllBlocks().get(b);
-            if (data.isDoLangGen()) add("block.oniutils." + b.getName(), WordUtils.capitalizeFully(b.getName()));
+            if (data.isDoLangGen()) add("block.oniutils." + b.getName(), WordUtils.capitalizeFully(b.getName().replace("_", " ")));
         }
         for (ItemRegistryObject<? extends Item> i : ONIItems.ITEMS.getAllItems().keySet()) {
             ONIItemRegistryData data = ONIItems.ITEMS.getAllItems().get(i);
-            if (data.isDoLangGen()) add("item.oniutils." + i.getName(), WordUtils.capitalizeFully(i.getName()));
+            if (data.isDoLangGen()) add("item.oniutils." + i.getName(), WordUtils.capitalizeFully(i.getName().replace("_", " ")));
         }
         for (Element element : Element.values()) {
             add("gas.oniutils." + element.getName(), element.getLang() + " Gas");

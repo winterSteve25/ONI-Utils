@@ -3,6 +3,7 @@ package wintersteve25.oniutils.common.contents.base;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraftforge.client.IItemRenderProperties;
+import net.minecraftforge.common.util.Lazy;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.controller.AnimationController;
@@ -27,11 +28,11 @@ public class ONIBaseAnimatedBlockItem extends ONIBaseItemBlock implements IAnima
     public void initializeClient(Consumer<IItemRenderProperties> consumer) {
         super.initializeClient(consumer);
         consumer.accept(new IItemRenderProperties() {
-            private final BlockEntityWithoutLevelRenderer renderer = animatedModel.get();
+            private final Lazy<Lazy<BlockEntityWithoutLevelRenderer>> renderer = Lazy.of(() -> Lazy.of(animatedModel));
 
             @Override
             public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
-                return renderer;
+                return renderer.get().get();
             }
         });
     }
@@ -42,8 +43,7 @@ public class ONIBaseAnimatedBlockItem extends ONIBaseItemBlock implements IAnima
 
     @Override
     public void registerControllers(AnimationData animationData) {
-        String controllerName = "controller";
-        animationData.addAnimationController(new AnimationController(this, controllerName, 1, this::predicate));
+        animationData.addAnimationController(new AnimationController<>(this, "controller", 1, this::predicate));
     }
 
     @Override

@@ -10,10 +10,10 @@ import wintersteve25.oniutils.common.contents.base.builders.ONIItemBuilder;
 import wintersteve25.oniutils.common.utils.helpers.LangHelper;
 
 public class ONIToolItems {
-    public static ONIItemBuilder<ONIBaseItemArmor> GAS_GOGGLES = new ONIItemBuilder<>("gas_visual_goggles", () -> new ONIBaseItemArmor(ONIItemArmorMaterials.GAS_GOGGLES, EquipmentSlot.HEAD, ONIUtils.defaultProperties()))
+    public static ONIItemBuilder<ONIBaseItemArmor> GAS_GOGGLES = new ONIItemBuilder<>("gas_visual_goggles", (b) -> new ONIBaseItemArmor(ONIItemArmorMaterials.GAS_GOGGLES, EquipmentSlot.HEAD, ONIUtils.defaultProperties()))
             .setCategory(ONIIItem.ItemCategory.GADGETS)
             .defaultTooltip();
-    public static ONIItemBuilder<ONIBaseItem> WIRE_CUTTER = new ONIItemBuilder<>("wire_cutter", () -> new ONIBaseItem(ONIUtils.defaultProperties().durability(800)))
+    public static ONIItemBuilder<ONIBaseItem> WIRE_CUTTER = new ONIItemBuilder<>("wire_cutter", (b) -> new ONIBaseItem(ONIUtils.defaultProperties().durability(800)))
             .setCategory(ONIIItem.ItemCategory.GADGETS)
             .defaultTooltip();
 }

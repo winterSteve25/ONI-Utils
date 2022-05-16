@@ -6,6 +6,7 @@ import mekanism.common.registration.impl.ContainerTypeRegistryObject;
 import mekanism.common.registration.impl.TileEntityTypeRegistryObject;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -17,6 +18,7 @@ import wintersteve25.oniutils.common.contents.base.*;
 import wintersteve25.oniutils.common.contents.base.bounding.ONIBoundingBlock;
 import wintersteve25.oniutils.common.contents.base.bounding.ONIBoundingTE;
 import wintersteve25.oniutils.common.contents.base.builders.ONIAbstractContainer;
+import wintersteve25.oniutils.common.contents.base.builders.ONIBlockBuilder;
 import wintersteve25.oniutils.common.contents.base.builders.ONIContainerBuilder;
 import wintersteve25.oniutils.common.contents.base.enums.EnumCableTypes;
 import wintersteve25.oniutils.common.contents.modules.blocks.power.cables.PowerCableBlock;
@@ -71,8 +73,7 @@ public class ONIBlocks {
         //Machines
         public static final class Power {
             //Power
-            public static final Tuple<Lazy<ONIBaseLoggableMachine<CoalGenTE>>, Lazy<ONIBaseItemBlock>> COAL_GEN_BUILDER = CoalGenTE.createBlock().build();
-            public static final BlockRegistryObject<ONIBaseMachine<CoalGenTE>, BlockItem> COAL_GEN_BLOCK = BLOCKS.register(ONIConstants.LangKeys.COAL_GEN, () -> COAL_GEN_BUILDER.getA().get(), false, false, true, true);
+            public static final BlockRegistryObject<ONIBaseLoggableMachine<CoalGenTE>, BlockItem> COAL_GEN_BLOCK = registerBuilder(CoalGenTE.createBlock());
             public static final TileEntityTypeRegistryObject<CoalGenTE> COAL_GEN_TE = BLOCK_ENTITIES.registerBE(COAL_GEN_BLOCK, CoalGenTE::new);
             public static final ONIContainerBuilder COAL_GEN_CONTAINER_BUILDER = CoalGenTE.createContainer();
             public static final ContainerTypeRegistryObject<ONIAbstractContainer> COAL_GEN_CONTAINER = COAL_GEN_CONTAINER_BUILDER.getContainerTypeRegistryObject();
@@ -103,6 +104,11 @@ public class ONIBlocks {
 
     private static BlockRegistryObject<PowerCableBlock, BlockItem> registerWire(EnumCableTypes type) {
         return BLOCKS.register(type.getName(), () -> new PowerCableBlock(type), false, false, true, true);
+    }
+
+    private static <T extends ONIBaseBlock> BlockRegistryObject<T, BlockItem> registerBuilder(ONIBlockBuilder<T> builder) {
+        var build = builder.build();
+        return BLOCKS.register(builder.getRegName(), () -> build.getA().get(), (b) -> build.getB().apply(b), builder.isDoStateGen(), builder.isDoModelGen(), builder.isDoLangGen(), builder.isDoLootableGen());
     }
 
     public static void register(IEventBus bus) {

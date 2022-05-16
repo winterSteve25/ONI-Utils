@@ -46,6 +46,6 @@ public class ONIItems {
     }
 
     private static <T extends Item & ONIIItem> ItemRegistryObject<T> registerBuilder(ONIItemBuilder<T> builder) {
-        return ITEMS.register(builder.getRegName(), () -> builder.build().get());
+        return ITEMS.register(builder.getRegName(), () -> builder.build().apply(null), builder.isDoModelGen(), builder.isDoLangGen());
     }
 }

@@ -8,6 +8,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 import wintersteve25.oniutils.ONIUtils;
+import wintersteve25.oniutils.common.contents.base.ONIBaseBlock;
 import wintersteve25.oniutils.common.contents.base.ONIBaseItemBlock;
 
 import java.util.HashMap;

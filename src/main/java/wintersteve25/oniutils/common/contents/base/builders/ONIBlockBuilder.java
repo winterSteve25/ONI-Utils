@@ -5,12 +5,14 @@ import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.Item;
 import net.minecraft.network.chat.Component;
 import net.minecraft.ChatFormatting;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.util.Lazy;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.api.ONIIHasGui;
 import wintersteve25.oniutils.api.functional.*;
 import wintersteve25.oniutils.common.contents.base.*;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class ONIBlockBuilder<T extends ONIBaseBlock> {
@@ -24,6 +26,10 @@ public class ONIBlockBuilder<T extends ONIBaseBlock> {
     private boolean allowRotateShape;
     private IRenderTypeProvider renderType;
     private ONIIHasGui container;
+    private boolean doStateGen = false;
+    private boolean doModelGen = true;
+    private boolean doLangGen = true;
+    private boolean doLootableGen = true;
 
     public ONIBlockBuilder(String regName, Supplier<T> block) {
         this(regName, block, null, false);
@@ -37,9 +43,9 @@ public class ONIBlockBuilder<T extends ONIBaseBlock> {
         this.block = block;
         this.regName = regName;
         if (isAnimated) {
-            this.blockItem = new ONIItemBuilder<>(this.regName, () -> new ONIBaseAnimatedBlockItem(this.block.get(), ister, properties));
+            this.blockItem = new ONIItemBuilder<>(this.regName, (b) -> new ONIBaseAnimatedBlockItem(b, ister, properties));
         } else {
-            this.blockItem = new ONIItemBuilder<>(this.regName, () -> new ONIBaseItemBlock(this.block.get(), properties));
+            this.blockItem = new ONIItemBuilder<>(this.regName, (b) -> new ONIBaseItemBlock(b, properties));
         }
     }
 
@@ -98,11 +104,29 @@ public class ONIBlockBuilder<T extends ONIBaseBlock> {
         return this;
     }
 
-    public String getRegName() {
-        return regName;
+    public ONIBlockBuilder<T> doStateGen() {
+        doStateGen = true;
+        return this;
     }
 
-    public Tuple<Lazy<T>, Lazy<ONIBaseItemBlock>> build() {
+    public ONIBlockBuilder<T> noModelGen() {
+        doModelGen = false;
+        blockItem.noModelGen();
+        return this;
+    }
+
+    public ONIBlockBuilder<T> noLangGen() {
+        doLangGen = false;
+        blockItem.noLangGen();
+        return this;
+    }
+
+    public ONIBlockBuilder<T> noLootableGen() {
+        doLootableGen = false;
+        return this;
+    }
+
+    public Tuple<Lazy<T>, Function<ONIBaseBlock, ONIBaseItemBlock>> build() {
         return new Tuple<>(Lazy.of(() -> {
             T b = block.get();
             b.setHitBox(hitBox);
@@ -112,5 +136,25 @@ public class ONIBlockBuilder<T extends ONIBaseBlock> {
             ((ONIBaseMachine<?>) b).setGui(container);
             return b;
         }), this.blockItem.build());
+    }
+
+    public String getRegName() {
+        return regName;
+    }
+
+    public boolean isDoStateGen() {
+        return doStateGen;
+    }
+
+    public boolean isDoModelGen() {
+        return doModelGen;
+    }
+
+    public boolean isDoLangGen() {
+        return doLangGen;
+    }
+
+    public boolean isDoLootableGen() {
+        return doLootableGen;
     }
 }

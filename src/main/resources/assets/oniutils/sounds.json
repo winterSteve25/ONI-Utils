@@ -1,9 +1,9 @@
 {
-  "coal_gen": {
+  "coal_generator": {
     "category": "record",
     "sounds": [
       {
-        "name": "oniutils:coal_gen",
+        "name": "oniutils:coal_generator",
         "stream": true
       }
     ]
