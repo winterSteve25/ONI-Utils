@@ -1,6 +1,7 @@
 package wintersteve25.oniutils.common.contents.modules.blocks.power.cables;
 
 import mekanism.common.util.VoxelShapeUtils;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.PipeBlock;
@@ -21,6 +22,9 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Level;
 import wintersteve25.oniutils.common.contents.base.blocks.ONIBaseSixWaysBlock;
 import wintersteve25.oniutils.common.contents.base.enums.EnumCableTypes;
+import wintersteve25.oniutils.common.data.capabilities.plasma.api.IPlasma;
+import wintersteve25.oniutils.common.data.saved_data.circuits.Circuit;
+import wintersteve25.oniutils.common.data.saved_data.circuits.WorldCircuits;
 import wintersteve25.oniutils.common.registries.ONICapabilities;
 import wintersteve25.oniutils.common.registries.ONIItems;
 
@@ -79,69 +83,25 @@ public class PowerCableBlock extends ONIBaseSixWaysBlock {
         boolean east = block3 instanceof PowerCableBlock || te3 != null && te3.getCapability(ONICapabilities.PLASMA).isPresent();
         boolean south = block4 instanceof PowerCableBlock || te4 != null && te4.getCapability(ONICapabilities.PLASMA).isPresent();
         boolean west = block5 instanceof PowerCableBlock || te5 != null && te5.getCapability(ONICapabilities.PLASMA).isPresent();
-//
-//        if (blockReader.getCapability(CircuitCapability.WORLD_CIRCUIT_CAPABILITY).isPresent()) {
-//            Circuit circuit = Circuit.createCircuit(blockReader, type.getPowerTransferLimit());
-//            if (circuit != null) {
-//                WorldCircuits cap = blockReader.getCapability(CircuitCapability.WORLD_CIRCUIT_CAPABILITY).resolve().get();
-//
-//                if (block instanceof PowerCableBlock) {
-//                    circuit = circuit.mergeCircuits(blockReader, cap.getCircuitWithCableAtPos(pos.down()));
-//                }
-//
-//                if (te != null && te.getCapability(ONICapabilities.PLASMA).isPresent()) {
-//                    IPlasma plasma = te.getCapability(ONICapabilities.PLASMA).resolve().get();
-//                    circuit.addToCircuit(plasma.getTileType(), te.getPos());
-//                }
-//
-//                if (block1 instanceof PowerCableBlock) {
-//                    circuit = circuit.mergeCircuits(blockReader, cap.getCircuitWithCableAtPos(pos.up()));
-//                }
-//
-//                if (te1 != null && te1.getCapability(ONICapabilities.PLASMA).isPresent()) {
-//                    IPlasma plasma = te1.getCapability(ONICapabilities.PLASMA).resolve().get();
-//                    circuit.addToCircuit(plasma.getTileType(), te1.getPos());
-//                }
-//
-//                if (block2 instanceof PowerCableBlock) {
-//                    circuit = circuit.mergeCircuits(blockReader, cap.getCircuitWithCableAtPos(pos.north()));
-//                }
-//
-//                if (te2 != null && te2.getCapability(ONICapabilities.PLASMA).isPresent()) {
-//                    IPlasma plasma = te2.getCapability(ONICapabilities.PLASMA).resolve().get();
-//                    circuit.addToCircuit(plasma.getTileType(), te2.getPos());
-//                }
-//
-//                if (block3 instanceof PowerCableBlock) {
-//                    circuit = circuit.mergeCircuits(blockReader, cap.getCircuitWithCableAtPos(pos.east()));
-//                }
-//
-//                if (te3 != null && te3.getCapability(ONICapabilities.PLASMA).isPresent()) {
-//                    IPlasma plasma = te3.getCapability(ONICapabilities.PLASMA).resolve().get();
-//                    circuit.addToCircuit(plasma.getTileType(), te3.getPos());
-//                }
-//
-//                if (block4 instanceof PowerCableBlock) {
-//                    circuit = circuit.mergeCircuits(blockReader, cap.getCircuitWithCableAtPos(pos.south()));
-//                }
-//
-//                if (te4 != null && te4.getCapability(ONICapabilities.PLASMA).isPresent()) {
-//                    IPlasma plasma = te4.getCapability(ONICapabilities.PLASMA).resolve().get();
-//                    circuit.addToCircuit(plasma.getTileType(), te4.getPos());
-//                }
-//
-//                if (block5 instanceof PowerCableBlock) {
-//                    circuit = circuit.mergeCircuits(blockReader, cap.getCircuitWithCableAtPos(pos.west()));
-//                }
-//
-//                if (te5 != null && te5.getCapability(ONICapabilities.PLASMA).isPresent()) {
-//                    IPlasma plasma = te5.getCapability(ONICapabilities.PLASMA).resolve().get();
-//                    circuit.addToCircuit(plasma.getTileType(), te5.getPos());
-//                }
-//
-//                cap.replaceAndAddCircuits(circuit);
-//            }
-//        }
+
+        if (blockReader instanceof ServerLevel serverLevel) {
+            Circuit circuit = Circuit.createCircuit(serverLevel, type.getPowerTransferLimit());
+
+            if (circuit != null) {
+                WorldCircuits cap = WorldCircuits.get(serverLevel);
+                circuit.addCable(pos);
+                cap.addCircuits(circuit);
+
+                circuit = mergeOrAddToCircuit(cap, circuit, serverLevel, pos.below(), block, te);
+                circuit = mergeOrAddToCircuit(cap, circuit, serverLevel, pos.above(), block1, te1);
+                circuit = mergeOrAddToCircuit(cap, circuit, serverLevel, pos.north(), block2, te2);
+                circuit = mergeOrAddToCircuit(cap, circuit, serverLevel, pos.east(), block3, te3);
+                circuit = mergeOrAddToCircuit(cap, circuit, serverLevel, pos.south(), block4, te4);
+                circuit = mergeOrAddToCircuit(cap, circuit, serverLevel, pos.west(), block5, te5);
+
+                cap.replaceAndAddCircuits(circuit);
+            }
+        }
 
         return this.defaultBlockState().setValue(DOWN, down)
                 .setValue(UP, up)
@@ -151,29 +111,40 @@ public class PowerCableBlock extends ONIBaseSixWaysBlock {
                 .setValue(WEST, west);
     }
 
+    private Circuit mergeOrAddToCircuit(WorldCircuits cap, Circuit circuit, ServerLevel level, BlockPos pos, Block block, BlockEntity te) {
+        if (block instanceof PowerCableBlock) {
+            circuit = cap.getCircuitWithCableAtPos(pos).mergeCircuits(level, circuit);
+        }
+
+        if (te != null && te.getCapability(ONICapabilities.PLASMA).isPresent()) {
+            IPlasma plasma = te.getCapability(ONICapabilities.PLASMA).resolve().get();
+            circuit.addToCircuit(plasma.getTileType(), te.getBlockPos());
+        }
+        return circuit;
+    }
+
     @Override
     public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos) {
-        boolean flag;
         BlockEntity te = worldIn.getBlockEntity(facingPos);
-        flag = facingState.getBlock() instanceof PowerCableBlock || te != null && te.getCapability(ONICapabilities.PLASMA).isPresent();
-//        if (((World) worldIn).getCapability(CircuitCapability.WORLD_CIRCUIT_CAPABILITY).isPresent()) {
-//            Circuit circuit = Circuit.createCircuit(((World) worldIn), type.getPowerTransferLimit());
-//            if (circuit != null) {
-//                WorldCircuits cap = ((World) worldIn).getCapability(CircuitCapability.WORLD_CIRCUIT_CAPABILITY).resolve().get();
-//
-//                if (facingState.getBlock() instanceof PowerCableBlock) {
-//                    circuit = circuit.mergeCircuits(((World) worldIn), cap.getCircuitWithCableAtPos(facingPos));
-//                }
-//
-//                if (te != null && te.getCapability(ONICapabilities.PLASMA).isPresent()) {
-//                    IPlasma plasma = te.getCapability(ONICapabilities.PLASMA).resolve().get();
-//                    circuit.addToCircuit(plasma.getTileType(), te.getPos());
-//                }
-//
-//                cap.replaceAndAddCircuits(circuit);
-//            }
-//        }
+        boolean flag = facingState.getBlock()instanceof PowerCableBlock || te != null && te.getCapability(ONICapabilities.PLASMA).isPresent();
+
+        if (worldIn instanceof ServerLevel serverLevel) {
+            var cap = WorldCircuits.get(serverLevel);
+            var circuit = cap.getCircuitWithCableAtPos(currentPos);
+            circuit = mergeOrAddToCircuit(cap, circuit, serverLevel, facingPos, facingState.getBlock(), te);
+            cap.replaceAndAddCircuits(circuit);
+        }
+
         return stateIn.setValue(PipeBlock.PROPERTY_BY_DIRECTION.get(facing), flag);
+    }
+
+    @Override
+    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
+        if (!pState.is(pNewState.getBlock()) && pLevel instanceof ServerLevel serverLevel) {
+            WorldCircuits cap = WorldCircuits.get(serverLevel);
+            cap.getCircuitWithCableAtPos(pPos).removeCable(serverLevel, pPos);
+        }
+        super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
     }
 
     @Override
@@ -210,7 +181,7 @@ public class PowerCableBlock extends ONIBaseSixWaysBlock {
     public float getDestroyProgress(BlockState state, Player player, BlockGetter worldIn, BlockPos pos) {
         float value = super.getDestroyProgress(state, player, worldIn, pos);
         if (player.getMainHandItem().getItem() == ONIItems.Gadgets.WIRE_CUTTER.asItem()) {
-            value *= 4;
+            value *= 10;
         }
         return value;
     }

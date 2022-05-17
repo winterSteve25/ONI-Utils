@@ -95,6 +95,7 @@ public class WorldCircuits extends SavedData {
     }
 
     public int getNextID() {
+        setDirty();
         return ID++;
     }
 

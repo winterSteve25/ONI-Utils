@@ -11,7 +11,6 @@ import wintersteve25.oniutils.common.data.capabilities.plasma.api.EnumPlasmaTile
 import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,43 +36,43 @@ public class Circuit {
     public static Circuit createCircuit(Level world, int powerTransferLimit) {
         if (world.isClientSide()) return null;
         WorldCircuits cap = WorldCircuits.get((ServerLevel) world);
-        Circuit circuit = new Circuit(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), cap.getNextID(), powerTransferLimit);
-        cap.addCircuits(circuit);
-        return circuit;
+        return new Circuit(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), cap.getNextID(), powerTransferLimit);
     }
 
     public static Circuit mergeCircuits(Level world, Circuit c1, Circuit c2) {
         return c1.mergeCircuits(world, c2);
     }
 
-    public void addCables(BlockPos... pos) {
-        cables.addAll(Arrays.asList(pos));
+    public boolean addCable(BlockPos pos) {
+        return addToList(cables, pos);
     }
 
-    public void addConsumers(BlockPos... pos) {
-        consumers.addAll(Arrays.asList(pos));
+    public boolean addConsumer(BlockPos pos) {
+        return addToList(consumers, pos);
     }
 
-    public void addProducers(BlockPos... pos) {
-        producers.addAll(Arrays.asList(pos));
+    public boolean addProducer(BlockPos pos) {
+        return addToList(producers, pos);
     }
 
-    public void addDynamics(BlockPos... pos) {
-        dynamics.addAll(Arrays.asList(pos));
+    public boolean addDynamic(BlockPos pos) {
+        return addToList(dynamics, pos);
     }
 
-    public void addToCircuit(EnumPlasmaTileType type, BlockPos pos) {
-        switch (type) {
-            case DYNAMIC:
-                addDynamics(pos);
-                break;
-            case PRODUCER:
-                addProducers(pos);
-                break;
-            case CONSUMER:
-                addConsumers(pos);
-                break;
+    private boolean addToList(List<BlockPos> list, BlockPos pos) {
+        if (isApartOfCircuit(pos)) {
+            return false;
         }
+        list.add(pos);
+        return true;
+    }
+
+    public boolean addToCircuit(EnumPlasmaTileType type, BlockPos pos) {
+        return switch (type) {
+            case DYNAMIC -> addDynamic(pos);
+            case PRODUCER -> addProducer(pos);
+            case CONSUMER -> addConsumer(pos);
+        };
     }
 
     public Circuit mergeCircuits(Level world, Circuit other) {
@@ -87,16 +86,40 @@ public class Circuit {
             return null;
         }
 
-        WorldCircuits cap = WorldCircuits.get((ServerLevel) world);
+        if (other.getId() == this.getId()) {
+            return this;
+        }
 
-        cables.addAll(other.cables);
-        consumers.addAll(other.consumers);
-        producers.addAll(other.producers);
-        dynamics.addAll(other.dynamics);
+        WorldCircuits data = WorldCircuits.get((ServerLevel) world);
 
-        cap.removeCircuitByID(other.id);
+        for (var b : other.getCables()) {
+            addCable(b);
+        }
+        for (var b : other.getConsumers()) {
+            addConsumer(b);
+        }
+        for (var b : other.getProducers()) {
+            addProducer(b);
+        }
+        for (var b : other.getDynamics()) {
+            addDynamic(b);
+        }
+
+        data.removeCircuitByID(other.id);
 
         return this;
+    }
+
+    public void removeCable(ServerLevel level, BlockPos pos) {
+        cables.remove(pos);
+        if (cables.isEmpty()) {
+            WorldCircuits data = WorldCircuits.get(level);
+            data.removeCircuitByID(getId());
+        }
+    }
+
+    public boolean isApartOfCircuit(BlockPos pos) {
+        return getCables().contains(pos) || getConsumers().contains(pos) || getProducers().contains(pos) || getDynamics().contains(pos);
     }
 
     public int getId() {
@@ -134,19 +157,19 @@ public class Circuit {
 
         ListTag consumersPoses = new ListTag();
         for (BlockPos pos : consumers) {
-            cablePoses.add(MiscHelper.writeBlockPos(pos));
+            consumersPoses.add(MiscHelper.writeBlockPos(pos));
         }
         nbt.put("consumerPoses", consumersPoses);
 
         ListTag producerPoses = new ListTag();
         for (BlockPos pos : producers) {
-            cablePoses.add(MiscHelper.writeBlockPos(pos));
+            producerPoses.add(MiscHelper.writeBlockPos(pos));
         }
         nbt.put("producerPoses", producerPoses);
 
         ListTag dynamicPoses = new ListTag();
         for (BlockPos pos : dynamics) {
-            cablePoses.add(MiscHelper.writeBlockPos(pos));
+            dynamicPoses.add(MiscHelper.writeBlockPos(pos));
         }
         nbt.put("dynamicPoses", dynamicPoses);
 

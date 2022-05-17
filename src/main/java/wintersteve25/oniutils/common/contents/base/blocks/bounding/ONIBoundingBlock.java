@@ -117,8 +117,7 @@ public class ONIBoundingBlock extends ONIBaseBlock implements EntityBlock {
     }
 
     @Override
-    public boolean onDestroyedByPlayer(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, @Nonnull Player player, boolean willHarvest,
-                                       FluidState fluidState) {
+    public boolean onDestroyedByPlayer(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, @Nonnull Player player, boolean willHarvest, FluidState fluidState) {
         if (willHarvest) {
             return true;
         }
