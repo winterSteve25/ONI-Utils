@@ -7,7 +7,7 @@ import net.minecraft.util.Tuple;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.CapabilityItemHandler;
-import wintersteve25.oniutils.api.ONIIModifiable;
+import wintersteve25.oniutils.common.contents.base.interfaces.ONIIModifiable;
 import wintersteve25.oniutils.common.contents.base.ONIBaseContainer;
 import wintersteve25.oniutils.common.contents.modules.items.modifications.ModificationContext;
 import wintersteve25.oniutils.common.utils.SlotArrangement;
@@ -15,7 +15,6 @@ import wintersteve25.oniutils.common.utils.SlotArrangement;
 import java.util.List;
 
 public class ONIAbstractContainer extends ONIBaseContainer {
-
     protected ONIAbstractContainer(
             int windowId,
             Level world,
@@ -39,9 +38,7 @@ public class ONIAbstractContainer extends ONIBaseContainer {
             if (tileEntity != null) {
                 tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h -> {
                     if (shouldAddModificationSlots()) {
-                        if (h instanceof ModificationContext.ONICombinedInvWrapper) {
-                            ModificationContext.ONICombinedInvWrapper combinedInvWrapper = (ModificationContext.ONICombinedInvWrapper) h;
-
+                        if (h instanceof ModificationContext.ONICombinedInvWrapper combinedInvWrapper) {
                             int index = 0;
 
                             for(SlotArrangement arrangement : internalSlotArrangement) {

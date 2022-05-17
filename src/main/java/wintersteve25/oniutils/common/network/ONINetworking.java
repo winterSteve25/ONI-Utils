@@ -27,10 +27,16 @@ public class ONINetworking {
     public static void registerMessages() {
         ONIUtils.LOGGER.info("Registering ONIUtils networkings");
 
-        INSTANCE.messageBuilder(PacketUpdateBE.class, nextID())
-                .encoder(PacketUpdateBE::encode)
-                .decoder(PacketUpdateBE::new)
-                .consumer(PacketUpdateBE::handle)
+        INSTANCE.messageBuilder(PacketUpdateServerBE.class, nextID())
+                .encoder(PacketUpdateServerBE::encode)
+                .decoder(PacketUpdateServerBE::new)
+                .consumer(PacketUpdateServerBE::handle)
+                .add();
+
+        INSTANCE.messageBuilder(PacketUpdateClientBE.class, nextID())
+                .encoder(PacketUpdateClientBE::encode)
+                .decoder(PacketUpdateClientBE::new)
+                .consumer(PacketUpdateClientBE::handle)
                 .add();
 
         INSTANCE.messageBuilder(PacketModification.class, nextID())

@@ -11,15 +11,13 @@ import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.contents.base.ONIBaseDirectional;
-import wintersteve25.oniutils.common.contents.base.ONIIItem;
+import wintersteve25.oniutils.common.contents.base.items.ONIIItem;
 import wintersteve25.oniutils.common.registration.block.ONIBlockRegistryData;
 import wintersteve25.oniutils.common.registration.block.ONIDirectionalBlockRegistryData;
 import wintersteve25.oniutils.common.registration.item.ONIItemRegistryData;
 import wintersteve25.oniutils.common.registries.ONIBlocks;
 import wintersteve25.oniutils.common.registries.ONIItems;
 import wintersteve25.oniutils.common.contents.modules.items.modifications.ONIModificationItem;
-import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 
 public class ONIModelProvider extends ItemModelProvider {
     public ONIModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {

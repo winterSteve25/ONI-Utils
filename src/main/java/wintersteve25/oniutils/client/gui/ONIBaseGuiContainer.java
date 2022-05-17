@@ -2,7 +2,6 @@ package wintersteve25.oniutils.client.gui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -10,9 +9,9 @@ import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.resources.ResourceLocation;
 import wintersteve25.oniutils.common.contents.base.ONIBaseContainer;
-import wintersteve25.oniutils.api.ONIIModifiable;
+import wintersteve25.oniutils.common.contents.base.interfaces.ONIIModifiable;
 import wintersteve25.oniutils.common.network.ONINetworking;
-import wintersteve25.oniutils.common.network.PacketUpdateBE;
+import wintersteve25.oniutils.common.network.PacketUpdateServerBE;
 import wintersteve25.oniutils.common.utils.ONIConstants;
 
 import net.minecraft.network.chat.Component;
@@ -66,12 +65,6 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Ab
 
         this.alertTab.init(this.width, this.height, this.minecraft, this.menu, new TranslatableComponent("oniutils.gui.titles.warning"));
 
-        if (hasRedstoneOutputButton()) {
-            redstoneOutputTab.init(this.width, this.height, this.minecraft, this.menu, new TranslatableComponent("oniutils.gui.titles.redstoneOutput"));
-            this.redstoneOutputButton = new RedstoneOutputButton();
-            addWidget(redstoneOutputTab);
-            addRenderableWidget(redstoneOutputButton);
-        }
 
         if (hasModButton()) {
             modificationTab.init(this.width, this.height, this.minecraft, this.menu, new TranslatableComponent("oniutils.gui.titles.modifications"));
@@ -79,25 +72,39 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Ab
             addRenderableWidget(modificationButton);
         }
 
+        if (hasRedstoneOutputButton()) {
+            redstoneOutputTab.init(this.width, this.height, this.minecraft, this.menu, new TranslatableComponent("oniutils.gui.titles.redstoneOutput"));
+            this.redstoneOutputButton = new RedstoneOutputButton();
+            addWidget(redstoneOutputTab);
+            addRenderableWidget(redstoneOutputButton);
+        }
+
         this.infoButton = new InfoButton();
         this.alertButton = new AlertButton();
         this.redstoneButton = new RedstoneButton();
 
-        addRenderableWidget(infoButton);
         addWidget(alertTab);
-        addRenderableWidget(alertButton);
         addRenderableWidget(redstoneButton);
+        addRenderableWidget(alertButton);
+        addRenderableWidget(infoButton);
     }
 
     @Override
     public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(matrixStack);
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderTooltip(matrixStack, mouseX, mouseY);
 
+        // draws the translucent black ground
+        this.renderBackground(matrixStack);
+
+        // draws tab
         if (currentTab != null) {
             currentTab.render(matrixStack, mouseX, mouseY, partialTicks);
         }
+
+        // draws main screen
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
+
+        // draws tooltips
+        this.renderTooltip(matrixStack, mouseX, mouseY);
     }
 
     @Override
@@ -143,6 +150,18 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Ab
         return 0;
     }
 
+    protected int getScaledPower(float pixels) {
+        float totalProgress = menu.getPowerCapacity();
+        float progress = totalProgress - menu.getPower();
+
+        if (totalProgress != 0) {
+            float result = progress*pixels/totalProgress;
+            return Math.round(result);
+        }
+
+        return 0;
+    }
+
     protected boolean shouldKeepInventoryText() {
         return false;
     }
@@ -151,7 +170,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Ab
         return currentTab.isVisible();
     }
 
-    abstract class Button extends AbstractButton {
+    public abstract class Button extends AbstractButton {
         private final Component name;
 
         protected Button(int x, int y, Component name) {
@@ -162,7 +181,6 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Ab
         @Override
         public void renderButton(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
             RenderSystem.setShaderTexture(0, ONIConstants.Resources.WIDGETS);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
             int j = 0;
 
@@ -386,7 +404,7 @@ public abstract class ONIBaseGuiContainer<T extends ONIBaseContainer> extends Ab
                 setU(ONIConstants.Resources.REDSTONE_BUTTON_ON.getU());
                 pressed = false;
             }
-            ONINetworking.sendToServer(new PacketUpdateBE(menu.getTileEntity(), ONIConstants.PacketType.REDSTONE_INPUT));
+            ONINetworking.sendToServer(new PacketUpdateServerBE(menu.getTileEntity(), ONIConstants.PacketType.REDSTONE_INPUT));
         }
     }
 

@@ -1,7 +1,6 @@
 package wintersteve25.oniutils.common.contents.modules.blocks.power.coal;
 
 import com.google.common.collect.Lists;
-import de.maxhenkel.corpse.corelib.blockentity.ITickableBlockEntity;
 import mekanism.common.util.VoxelShapeUtils;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.RenderShape;
@@ -32,13 +31,13 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
-import wintersteve25.oniutils.api.*;
+import wintersteve25.oniutils.common.contents.base.interfaces.*;
 import wintersteve25.oniutils.common.data.capabilities.plasma.api.EnumPlasmaTileType;
 import wintersteve25.oniutils.common.data.capabilities.plasma.api.IPlasma;
 import wintersteve25.oniutils.common.data.capabilities.plasma.api.Plasma;
-import wintersteve25.oniutils.common.contents.base.ONIBaseInvTE;
-import wintersteve25.oniutils.common.contents.base.ONIBaseLoggableMachine;
-import wintersteve25.oniutils.common.contents.base.bounding.ONIIBoundingBlock;
+import wintersteve25.oniutils.common.contents.base.blocks.ONIBaseInvTE;
+import wintersteve25.oniutils.common.contents.base.blocks.ONIBaseLoggableMachine;
+import wintersteve25.oniutils.common.contents.base.blocks.bounding.ONIIBoundingBlock;
 import wintersteve25.oniutils.common.contents.base.builders.ONIBlockBuilder;
 import wintersteve25.oniutils.common.contents.base.builders.ONIContainerBuilder;
 import wintersteve25.oniutils.common.contents.base.enums.EnumModifications;
@@ -60,7 +59,7 @@ import java.util.function.BiPredicate;
 
 import static wintersteve25.oniutils.common.utils.helpers.MiscHelper.ONEPIXEL;
 
-public class CoalGenTE extends ONIBaseInvTE implements ITickableBlockEntity, IAnimatable, ONIIBoundingBlock, ONIIHasProgress, ONIIForceStoppable, ONIIHasRedstoneOutput, ONIIHasValidItems, ONIIMachine, ONIIRequireSkillToInteract {
+public class CoalGenTE extends ONIBaseInvTE implements IAnimatable, ONIITickableServer, ONIIBoundingBlock, ONIIHasProgress, ONIIForceStoppable, ONIIHasRedstoneOutput, ONIIHasValidItems, ONIIMachine, ONIIRequireSkillToInteract {
 
     public final ModificationContext modificationContext = new ModificationContext(this, 9, EnumModifications.SPEED, EnumModifications.TEMPERATURE, EnumModifications.COMPLEXITY);
     private final ModificationHandler modificationHandler = new ModificationHandler(modificationContext);
@@ -79,19 +78,17 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableBlockEntity, IAn
     private int highThreshold = 80;
 
     public CoalGenTE(BlockPos pos, BlockState state) {
-        super(ONIBlocks.Machines.Power.COAL_GEN_TE, pos, state);
+        super(ONIBlocks.Machines.Power.COAL_GEN_TE.get(), pos, state);
     }
 
     @Override
-    public void tick() {
-        super.tick();
-
-        if (isServer()) {
+    public void serverTick() {
+        if (getLevel() != null) {
             if (getForceStopped()) {
                 setWorking(false);
             }
 
-            int plasmaEachTick = modificationHandler.getPlasmaOutputPerTick(getTotalProgress(), ONIConfig.COAL_GEN_POWER_PRODUCE.get());
+            int plasmaEachTick = producingPower();
 
             if (!getForceStopped()) {
                 if (progress > 0) {
@@ -186,7 +183,7 @@ public class CoalGenTE extends ONIBaseInvTE implements ITickableBlockEntity, IAn
 
     @Override
     public void registerControllers(AnimationData animationData) {
-        animationData.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
+        animationData.addAnimationController(new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
     @Override

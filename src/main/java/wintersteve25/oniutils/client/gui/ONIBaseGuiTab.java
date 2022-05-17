@@ -79,7 +79,6 @@ public class ONIBaseGuiTab extends Screen implements NarratableEntry {
             matrixStack.pushPose();
             matrixStack.translate(0, 0, 0);
             RenderSystem.setShaderTexture(0, BACKGROUND_LOCATION);
-//            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             int i = getGuiLeftTopPosition(this.width, 177) - 147;
             int j = (this.height - 167) / 2;
             this.blit(matrixStack, i, j, 1, 1, 147, 170);

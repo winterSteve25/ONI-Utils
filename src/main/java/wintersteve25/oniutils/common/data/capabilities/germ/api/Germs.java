@@ -1,19 +1,18 @@
 package wintersteve25.oniutils.common.data.capabilities.germ.api;
 
 import net.minecraft.nbt.CompoundTag;
-import wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 
 /**
  * Default implementation of IGerms
  */
 public class Germs implements IGerms {
 
-    private EnumGermTypes germType = EnumGermTypes.NOTHING;
+    private EnumGermType germType = EnumGermType.NOTHING;
     private int amount = 0;
 
     @Override
-    public void addGerm(EnumGermTypes germType, int amount) {
-        if (this.germType == EnumGermTypes.NOTHING && this.amount <= 0 && germType != EnumGermTypes.NOTHING && amount > 0) {
+    public void addGerm(EnumGermType germType, int amount) {
+        if (this.germType == EnumGermType.NOTHING && this.amount <= 0 && germType != EnumGermType.NOTHING && amount > 0) {
             setGerm(germType, amount);
         } else if (this.germType == germType) {
             this.amount += amount;
@@ -21,7 +20,7 @@ public class Germs implements IGerms {
     }
 
     @Override
-    public void setGerm(EnumGermTypes germType, int amount) {
+    public void setGerm(EnumGermType germType, int amount) {
         this.germType = germType;
         this.amount = amount;
     }
@@ -32,7 +31,7 @@ public class Germs implements IGerms {
     }
 
     @Override
-    public EnumGermTypes getGermType() {
+    public EnumGermType getGermType() {
         return this.germType;
     }
 
@@ -55,8 +54,8 @@ public class Germs implements IGerms {
     public void deserializeNBT(CompoundTag nbt) {
         String germName = nbt.getString("germ");
         int germAmount = nbt.getInt("amount");
-        var type = EnumGermTypes.getGermFromName(germName);
-        germType = type == null ? EnumGermTypes.NOTHING : type;
+        var type = EnumGermType.getGermFromName(germName);
+        germType = type == null ? EnumGermType.NOTHING : type;
         amount = germAmount;
     }
 }

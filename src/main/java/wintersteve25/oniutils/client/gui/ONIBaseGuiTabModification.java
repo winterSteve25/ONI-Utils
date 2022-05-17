@@ -28,11 +28,9 @@ public class ONIBaseGuiTabModification extends ONIBaseGuiTab {
     @Override
     public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         if (this.isVisible()) {
-
             matrixStack.pushPose();
-//            RenderSystem.translatef(0.0F, 0.0F, -0.1F);
             RenderSystem.setShaderTexture(0, BACKGROUND_LOCATION);
-            // RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+
             int i = getGuiLeftTopPosition(this.width, 177) - 147;
             int j = (this.height - 167) / 2;
             this.blit(matrixStack, i, j, 1, 1, 147, 170);
@@ -45,12 +43,14 @@ public class ONIBaseGuiTabModification extends ONIBaseGuiTab {
                     slotFixX = 0;
                     slotFixY += 20;
                 }
-                RenderingHelper.renderSlotWithHover(this, matrixStack, i + 10 + slotFixX, j + 25 + slotFixY, mouseX, mouseY);
+                RenderingHelper.renderSlot(this, matrixStack, i + 10 + slotFixX, j + 25 + slotFixY, mouseX, mouseY);
                 slotFixX += 20;
             }
 
+            // title
             mc.font.drawShadow(matrixStack, title, i + 10, j + 10, ChatFormatting.WHITE.getColor());
 
+            // draw error
             if (errorCoolDown > 0) {
                 matrixStack.pushPose();
                 matrixStack.scale(0.8f, 0.8f, 0.8f);

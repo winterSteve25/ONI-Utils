@@ -31,10 +31,9 @@ public class CoalGenGui extends ONIBaseGuiContainer<ONIAbstractContainer> {
         RenderingHelper.renderWidget(this, ONIConstants.Resources.BATTERY_BG, matrixStack, this.leftPos + 105, this.topPos + 6);
 
         //power
-        this.blit(matrixStack, this.leftPos + 106, this.topPos + 25 + (int) ((menu.getPowerCapacity() - power) / 83.3), ONIConstants.Resources.POWER_BAR.getU(), ONIConstants.Resources.POWER_BAR.getV() + (int) ((menu.getPowerCapacity() - power) / 83.3), 16, (int) (48 - ((menu.getPowerCapacity() - power) / 83.3) + 1));
+        int b = getScaledPower(49);
+        RenderingHelper.renderAnimatedPowerBar(this, matrixStack, this.leftPos + 106, this.topPos + 25 + b, b);
 
-//        int scaledPower = getPowerScaledVertical(50);
-//        this.blit(matrixStack, this.guiLeft + 106, this.guiTop + 25 + scaledPower, ONIConstants.Resources.POWER_BAR.getU(), ONIConstants.Resources.POWER_BAR.getV()+scaledPower, 18, scaledPower);
 
         if (menu.getWorking() == 1) {
             int p = getScaledProgress(22);

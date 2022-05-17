@@ -19,7 +19,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Level;
-import wintersteve25.oniutils.common.contents.base.ONIBaseSixWaysBlock;
+import wintersteve25.oniutils.common.contents.base.blocks.ONIBaseSixWaysBlock;
 import wintersteve25.oniutils.common.contents.base.enums.EnumCableTypes;
 import wintersteve25.oniutils.common.registries.ONICapabilities;
 import wintersteve25.oniutils.common.registries.ONIItems;

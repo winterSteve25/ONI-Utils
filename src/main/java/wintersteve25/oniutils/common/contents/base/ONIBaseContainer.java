@@ -15,7 +15,9 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
-import wintersteve25.oniutils.api.*;
+import wintersteve25.oniutils.common.contents.base.blocks.ONIBaseInvTE;
+import wintersteve25.oniutils.common.contents.base.blocks.ONIBaseTE;
+import wintersteve25.oniutils.common.contents.base.interfaces.*;
 import wintersteve25.oniutils.common.data.capabilities.plasma.api.IPlasma;
 import wintersteve25.oniutils.common.contents.modules.items.modifications.ONIModificationItem;
 import wintersteve25.oniutils.common.registries.ONICapabilities;
@@ -140,8 +142,7 @@ public abstract class ONIBaseContainer extends AbstractContainerMenu {
     }
 
     protected void trackProgress() {
-        if (tileEntity instanceof ONIIHasProgress) {
-            ONIIHasProgress hasProgress = (ONIIHasProgress) tileEntity;
+        if (tileEntity instanceof ONIIHasProgress hasProgress) {
             addDataSlot(new DataSlot() {
                 @Override
                 public int get() {
@@ -172,8 +173,7 @@ public abstract class ONIBaseContainer extends AbstractContainerMenu {
     }
 
     protected void trackTotalProgress() {
-        if (tileEntity instanceof ONIIHasProgress) {
-            ONIIHasProgress hasProgress = (ONIIHasProgress) tileEntity;
+        if (tileEntity instanceof ONIIHasProgress hasProgress) {
             addDataSlot(new DataSlot() {
                 @Override
                 public int get() {
@@ -204,8 +204,7 @@ public abstract class ONIBaseContainer extends AbstractContainerMenu {
     }
 
     protected void trackWorking() {
-        if (tileEntity instanceof ONIIWorkable) {
-            ONIIWorkable workable = (ONIIWorkable) tileEntity;
+        if (tileEntity instanceof ONIIWorkable workable) {
             addDataSlot(new DataSlot() {
                 @Override
                 public int get() {
@@ -226,8 +225,7 @@ public abstract class ONIBaseContainer extends AbstractContainerMenu {
     }
 
     public void trackRedstoneInverted() {
-        if (tileEntity instanceof ONIIForceStoppable) {
-            ONIIForceStoppable forceStoppable = (ONIIForceStoppable) tileEntity;
+        if (tileEntity instanceof ONIIForceStoppable forceStoppable) {
             addDataSlot(new DataSlot() {
                 @Override
                 public int get() {
@@ -256,10 +254,8 @@ public abstract class ONIBaseContainer extends AbstractContainerMenu {
 
             @Override
             public void set(int value) {
-                tileEntity.getCapability(ONICapabilities.PLASMA).ifPresent(h -> {
-                    int capacityStored = h.getCapacity() & 0xffff0000;
-                    h.setCapacity(capacityStored + (value & 0xffff));
-                });
+                int progressStored = getPowerCapacity() & 0xffff0000;
+                tileEntity.getCapability(ONICapabilities.PLASMA).ifPresent(cap -> cap.setCapacity(progressStored + (value & 0xffff)));
             }
         });
         addDataSlot(new DataSlot() {
@@ -270,10 +266,8 @@ public abstract class ONIBaseContainer extends AbstractContainerMenu {
 
             @Override
             public void set(int value) {
-                tileEntity.getCapability(ONICapabilities.PLASMA).ifPresent(h -> {
-                    int capacityStored = h.getPower() & 0x0000ffff;
-                    h.setCapacity(capacityStored | (value << 16));
-                });
+                int progressStored = getPowerCapacity() & 0x0000ffff;
+                tileEntity.getCapability(ONICapabilities.PLASMA).ifPresent(cap -> cap.setCapacity(progressStored | (value << 16)));
             }
         });
     }
@@ -286,35 +280,31 @@ public abstract class ONIBaseContainer extends AbstractContainerMenu {
     }
 
     public int getProgress() {
-        if (tileEntity instanceof ONIIHasProgress) {
-            ONIIHasProgress hasProgress = (ONIIHasProgress) tileEntity;
+        if (tileEntity instanceof ONIIHasProgress hasProgress) {
             return hasProgress.getProgress();
         }
         throw new UnsupportedOperationException("trying to get progress on an tile that does not support progress");
     }
 
     public int getTotalProgress() {
-        if (tileEntity instanceof ONIIHasProgress) {
-            ONIIHasProgress hasProgress = (ONIIHasProgress) tileEntity;
+        if (tileEntity instanceof ONIIHasProgress hasProgress) {
             return hasProgress.getTotalProgress();
         }
         throw new UnsupportedOperationException("trying to get total progress on an tile that does not support progress");
     }
 
     public byte getWorking() {
-        if (tileEntity instanceof ONIIWorkable) {
-            ONIIWorkable workable = (ONIIWorkable) tileEntity;
+        if (tileEntity instanceof ONIIWorkable workable) {
             return (byte) (workable.getWorking() ? 1 : 0);
         }
         throw new UnsupportedOperationException("trying to get working on an tile that does not support progress");
     }
 
     public byte getForceStopped() {
-        if (tileEntity instanceof ONIIForceStoppable) {
-            ONIIForceStoppable forceStoppable = (ONIIForceStoppable) tileEntity;
+        if (tileEntity instanceof ONIIForceStoppable forceStoppable) {
             return (byte) (forceStoppable.getForceStopped() ? 1 : 0);
         }
-        throw new UnsupportedOperationException("trying to get working on an tile that does not support progress");
+        throw new UnsupportedOperationException("trying to get force stopped on an tile that does not support progress");
     }
 
     public int getPowerCapacity() {
@@ -354,14 +344,6 @@ public abstract class ONIBaseContainer extends AbstractContainerMenu {
         addSlotRange(playerInventory, 0, leftCol, topRow, 9, 18);
     }
 
-    public BiPredicate<ItemStack, Integer> validItems() {
-        if (tileEntity instanceof ONIIHasValidItems) {
-            ONIIHasValidItems hasValidItems = (ONIIHasValidItems) tileEntity;
-            return hasValidItems.validItemsPredicate();
-        }
-        return null;
-    }
-
     public void setModTabOpen(boolean in) {
         this.isModTabOpen = in;
     }
@@ -371,17 +353,15 @@ public abstract class ONIBaseContainer extends AbstractContainerMenu {
     }
 
     public int getModSlotAmount() {
-        if (getTileEntity() instanceof ONIIModifiable) {
-            ONIIModifiable modifiable = (ONIIModifiable) getTileEntity();
-            if (modifiable == null || modifiable.modContext() == null) return 0;
+        if (getTileEntity() instanceof ONIIModifiable modifiable) {
+            if (modifiable.modContext() == null) return 0;
             return modifiable.modContext().getMaxModAmount();
         }
         return 0;
     }
 
     public int getInvSize() {
-        if (getTileEntity() instanceof ONIBaseInvTE) {
-            ONIBaseInvTE invTE = (ONIBaseInvTE) getTileEntity();
+        if (getTileEntity() instanceof ONIBaseInvTE invTE) {
             return invTE.getInvSize();
         }
         return 0;
@@ -397,7 +377,7 @@ public abstract class ONIBaseContainer extends AbstractContainerMenu {
                 slotFixX = 0;
                 slotFixY += 20;
             }
-            addSlot(new ONIModSlotHandler(itemHandler, index, -136 + slotFixX, 26 + slotFixY));
+            addSlot(new ONIModSlotHandler(itemHandler, index, -137 + slotFixX, 26 + slotFixY));
             slotFixX += 20;
             index++;
         }
@@ -412,48 +392,42 @@ public abstract class ONIBaseContainer extends AbstractContainerMenu {
     }
 
     public boolean isPowerProducer() {
-        if (getTileEntity() instanceof ONIIMachine) {
-            ONIIMachine machine = (ONIIMachine) getTileEntity();
+        if (getTileEntity() instanceof ONIIMachine machine) {
             return machine.isPowerProducer();
         }
         return false;
     }
 
     public boolean isPowerConsumer() {
-        if (getTileEntity() instanceof ONIIMachine) {
-            ONIIMachine machine = (ONIIMachine) getTileEntity();
+        if (getTileEntity() instanceof ONIIMachine machine) {
             return machine.isPowerConsumer();
         }
         return false;
     }
 
     public boolean isGasProducer() {
-        if (getTileEntity() instanceof ONIIMachine) {
-            ONIIMachine machine = (ONIIMachine) getTileEntity();
+        if (getTileEntity() instanceof ONIIMachine machine) {
             return machine.isGasProducer();
         }
         return false;
     }
 
     public boolean isGasConsumer() {
-        if (getTileEntity() instanceof ONIIMachine) {
-            ONIIMachine machine = (ONIIMachine) getTileEntity();
+        if (getTileEntity() instanceof ONIIMachine machine) {
             return machine.isGasConsumer();
         }
         return false;
     }
 
     public boolean isLiquidConsumer() {
-        if (getTileEntity() instanceof ONIIMachine) {
-            ONIIMachine machine = (ONIIMachine) getTileEntity();
+        if (getTileEntity() instanceof ONIIMachine machine) {
             return machine.isLiquidConsumer();
         }
         return false;
     }
 
     public boolean isLiquidProducer() {
-        if (getTileEntity() instanceof ONIIMachine) {
-            ONIIMachine machine = (ONIIMachine) getTileEntity();
+        if (getTileEntity() instanceof ONIIMachine machine) {
             return machine.isLiquidProducer();
         }
         return false;
@@ -464,48 +438,42 @@ public abstract class ONIBaseContainer extends AbstractContainerMenu {
     }
 
     public int getProducingPower() {
-        if (getTileEntity() instanceof ONIIMachine) {
-            ONIIMachine machine = (ONIIMachine) getTileEntity();
+        if (getTileEntity() instanceof ONIIMachine machine) {
             return machine.producingPower();
         }
         return 0;
     }
 
     public int getConsumingPower() {
-        if (getTileEntity() instanceof ONIIMachine) {
-            ONIIMachine machine = (ONIIMachine) getTileEntity();
+        if (getTileEntity() instanceof ONIIMachine machine) {
             return machine.consumingPower();
         }
         return 0;
     }
 
     public GasStack getProducingGas() {
-        if (getTileEntity() instanceof ONIIMachine) {
-            ONIIMachine machine = (ONIIMachine) getTileEntity();
+        if (getTileEntity() instanceof ONIIMachine machine) {
             return machine.producingGas();
         }
         return GasStack.EMPTY;
     }
 
     public GasStack getConsumingGas() {
-        if (getTileEntity() instanceof ONIIMachine) {
-            ONIIMachine machine = (ONIIMachine) getTileEntity();
+        if (getTileEntity() instanceof ONIIMachine machine) {
             return machine.consumingGas();
         }
         return GasStack.EMPTY;
     }
 
     public FluidStack getProducingLiquid() {
-        if (getTileEntity() instanceof ONIIMachine) {
-            ONIIMachine machine = (ONIIMachine) getTileEntity();
+        if (getTileEntity() instanceof ONIIMachine machine) {
             return machine.producingLiquid();
         }
         return FluidStack.EMPTY;
     }
 
     public FluidStack getConsumingLiquid() {
-        if (getTileEntity() instanceof ONIIMachine) {
-            ONIIMachine machine = (ONIIMachine) getTileEntity();
+        if (getTileEntity() instanceof ONIIMachine machine) {
             return machine.consumingLiquid();
         }
         return FluidStack.EMPTY;

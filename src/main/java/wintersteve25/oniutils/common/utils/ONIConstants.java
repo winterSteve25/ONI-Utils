@@ -16,7 +16,7 @@ import software.bernie.geckolib3.model.AnimatedGeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoItemRenderer;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.client.renderers.geckolibs.base.GeckolibModelBase;
-import wintersteve25.oniutils.common.contents.base.ONIBaseAnimatedBlockItem;
+import wintersteve25.oniutils.common.contents.base.items.ONIBaseAnimatedBlockItem;
 import wintersteve25.oniutils.common.contents.modules.blocks.power.coal.CoalGenTE;
 
 import java.util.function.Supplier;
@@ -62,8 +62,7 @@ public final class ONIConstants {
         public static final TextureElement REDSTONE_BUTTON_ON = TextureElement.createDefault(102, 0);
         public static final TextureElement REDSTONE_BUTTON_OFF = TextureElement.createDefault(119, 0);
         public static final TextureElement ITEM_SLOT = TextureElement.createSlot(0, 67);
-        public static final TextureElement ITEM_SLOT_HOVER = TextureElement.createSlot(18, 67);
-        public static final TextureElement POWER_BAR = new TextureElement(0, 17, 18, 50);
+        public static final TextureElement POWER_BAR = new TextureElement(0, 17, 16, 49);
         public static final TextureElement FLAME = new TextureElement(20, 17, 14, 14);
         public static final TextureElement RIGHT_ARROW_BIG = new TextureElement(36, 19, 24, 10);
         public static final TextureElement BATTERY_BG = TextureElement.createDefault(0, 85);

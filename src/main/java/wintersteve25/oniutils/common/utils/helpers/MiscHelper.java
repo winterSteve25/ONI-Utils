@@ -8,8 +8,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.contents.base.bounding.ONIBoundingBlock;
-import wintersteve25.oniutils.common.contents.base.bounding.ONIBoundingTE;
+import wintersteve25.oniutils.common.contents.base.blocks.bounding.ONIBoundingBlock;
+import wintersteve25.oniutils.common.contents.base.blocks.bounding.ONIBoundingTE;
 import wintersteve25.oniutils.common.registries.ONIBlocks;
 
 import javax.annotation.Nullable;

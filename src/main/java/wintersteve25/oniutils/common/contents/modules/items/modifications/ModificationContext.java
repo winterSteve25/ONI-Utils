@@ -7,7 +7,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import net.minecraftforge.items.wrapper.EmptyHandler;
-import wintersteve25.oniutils.common.contents.base.ONIBaseInvTE;
+import wintersteve25.oniutils.common.contents.base.blocks.ONIBaseInvTE;
 import wintersteve25.oniutils.common.contents.base.enums.EnumModifications;
 import wintersteve25.oniutils.common.utils.helpers.ONIModInventoryHandler;
 

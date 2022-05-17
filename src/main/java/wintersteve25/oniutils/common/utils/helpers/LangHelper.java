@@ -15,6 +15,10 @@ public class LangHelper {
         return itemTooltip("modification." + name);
     }
 
+    public static TranslatableComponent germ(String name) {
+        return new TranslatableComponent("germ.oniutils." + name);
+    }
+
     public static TranslatableComponent curiosSlot(String name) {
         return new TranslatableComponent("curios.identifier." + name);
     }

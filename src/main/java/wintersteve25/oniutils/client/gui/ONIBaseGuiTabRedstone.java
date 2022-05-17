@@ -10,10 +10,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import wintersteve25.oniutils.common.contents.base.ONIBaseContainer;
-import wintersteve25.oniutils.common.contents.base.ONIBaseTE;
-import wintersteve25.oniutils.api.ONIIHasRedstoneOutput;
+import wintersteve25.oniutils.common.contents.base.blocks.ONIBaseTE;
+import wintersteve25.oniutils.common.contents.base.interfaces.ONIIHasRedstoneOutput;
 import wintersteve25.oniutils.common.network.ONINetworking;
-import wintersteve25.oniutils.common.network.PacketUpdateBE;
+import wintersteve25.oniutils.common.network.PacketUpdateServerBE;
 import wintersteve25.oniutils.common.utils.ONIConstants;
 
 public class ONIBaseGuiTabRedstone extends ONIBaseGuiTab {
@@ -34,10 +34,10 @@ public class ONIBaseGuiTabRedstone extends ONIBaseGuiTab {
         BlockEntity tile = containerIn.getTileEntity();
         CompoundTag nbt = tile.getUpdateTag();
 
-        if (nbt.getInt("low_threshold") != 0) {
+        if (nbt.contains("low_threshold")) {
             lowThreshold = nbt.getInt("low_threshold");
         }
-        if (nbt.getInt("high_threshold") != 0) {
+        if (nbt.contains("high_threshold")) {
             highThreshold = nbt.getInt("high_threshold");
         }
 
@@ -75,7 +75,6 @@ public class ONIBaseGuiTabRedstone extends ONIBaseGuiTab {
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         if (isVisible()) {
             matrixStack.pushPose();
-            matrixStack.translate(0, 0, 100);
             sliderWidget.render(matrixStack, mouseX, mouseY, partialTicks);
             sliderWidget2.render(matrixStack, mouseX, mouseY, partialTicks);
             matrixStack.popPose();
@@ -107,13 +106,23 @@ public class ONIBaseGuiTabRedstone extends ONIBaseGuiTab {
     }
 
     @Override
+    public void onClose() {
+        updateData();
+        super.onClose();
+    }
+
+    @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         if (isVisible()) {
-            ONINetworking.sendToServer(new PacketUpdateBE(this.container.getTileEntity(), ONIConstants.PacketType.REDSTONE_OUTPUT_LOW, lowThreshold));
-            ONINetworking.sendToServer(new PacketUpdateBE(this.container.getTileEntity(), ONIConstants.PacketType.REDSTONE_OUTPUT_HIGH, highThreshold));
-            updateClientThreshold();
+            updateData();
         }
         return super.mouseReleased(mouseX, mouseY, button);
+    }
+
+    private void updateData() {
+        ONINetworking.sendToServer(new PacketUpdateServerBE(this.container.getTileEntity(), ONIConstants.PacketType.REDSTONE_OUTPUT_LOW, lowThreshold));
+        ONINetworking.sendToServer(new PacketUpdateServerBE(this.container.getTileEntity(), ONIConstants.PacketType.REDSTONE_OUTPUT_HIGH, highThreshold));
+        updateClientThreshold();
     }
 
     private void updateClientThreshold() {

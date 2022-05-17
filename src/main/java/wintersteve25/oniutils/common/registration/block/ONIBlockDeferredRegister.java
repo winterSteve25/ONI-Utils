@@ -2,14 +2,12 @@ package wintersteve25.oniutils.common.registration.block;
 
 import mekanism.common.registration.DoubleForgeDeferredRegister;
 import mekanism.common.registration.impl.BlockRegistryObject;
-import mekanism.common.registration.impl.ItemDeferredRegister;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.contents.base.ONIBaseBlock;
-import wintersteve25.oniutils.common.contents.base.ONIBaseItemBlock;
+import wintersteve25.oniutils.common.contents.base.items.ONIBaseItemBlock;
 
 import java.util.HashMap;
 import java.util.Map;

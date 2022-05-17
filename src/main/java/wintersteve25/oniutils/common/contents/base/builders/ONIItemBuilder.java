@@ -2,10 +2,10 @@ package wintersteve25.oniutils.common.contents.base.builders;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.ChatFormatting;
-import wintersteve25.oniutils.common.contents.base.ONIBaseBlock;
-import wintersteve25.oniutils.api.functional.IPlacementCondition;
-import wintersteve25.oniutils.api.functional.IToolTipCondition;
-import wintersteve25.oniutils.common.contents.base.ONIIItem;
+import wintersteve25.oniutils.common.contents.base.blocks.ONIBaseBlock;
+import wintersteve25.oniutils.common.contents.base.interfaces.functional.IPlacementCondition;
+import wintersteve25.oniutils.common.contents.base.interfaces.functional.IToolTipCondition;
+import wintersteve25.oniutils.common.contents.base.items.ONIIItem;
 import wintersteve25.oniutils.common.utils.helpers.LangHelper;
 
 import java.util.Arrays;

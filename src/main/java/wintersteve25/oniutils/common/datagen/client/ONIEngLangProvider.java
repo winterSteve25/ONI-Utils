@@ -13,6 +13,7 @@ import org.apache.commons.lang3.text.WordUtils;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.client.gui.ONIBaseGuiTab;
 import wintersteve25.oniutils.common.compat.curios.CuriosCompat;
+import wintersteve25.oniutils.common.data.capabilities.germ.api.EnumGermType;
 import wintersteve25.oniutils.common.data.capabilities.world_gas.api.chemistry.Element;
 import wintersteve25.oniutils.common.registration.block.ONIBlockRegistryData;
 import wintersteve25.oniutils.common.registration.item.ONIItemRegistryData;
@@ -39,15 +40,14 @@ public class ONIEngLangProvider extends LanguageProvider {
         add("oniutils.message.trait.gotTrait", "Traits: %s");
         add("oniutils.message.trait.traitInfo", "Check Trait infos here: https://github.com/FictionCraft-Team/ONI-Utils/wiki/Trait-System");
 
-        add("oniutils.message.needLevel", ChatFormatting.RED + "Requires %s level of %s to operate... Perhaps some entanglement modifications might help");
-
-        add("oniutils.message.manualGen", "Use Get off manual generator key(Right-Shift By Default) to dismount..");
+        add("oniutils.message.needLevel", ChatFormatting.RED + "Requires %s level of %s to operate... Perhaps some complexity modifications might help");
 
         add("death.attack.oniutils.oxygen", "%1$s forgot to breathe");
         add("death.attack.oniutils.gas", "%1$s forgot to wear a \"mask\"");
         add("death.attack.oniutils.germ", "%1$s didn't take the vaccine");
 
         add("oniutils.commands.germs.set.success", "Germ Amount Set to: %s %s");
+        add("oniutils.commands.germs.get.success", "Current Germ Amount is: %s %s");
         add("oniutils.commands.germs.set.failed.typeIsNull", "Germ type is not valid");
         add("oniutils.commands.set.failed.entityIsNull", "Target can not be null");
         add("oniutils.commands.gas.set.failed.typeIsNull", "Gas type is not valid");
@@ -56,14 +56,13 @@ public class ONIEngLangProvider extends LanguageProvider {
         add("oniutils.tooltips.germs.itemGerms", ChatFormatting.GREEN + "Surface Germs: %s %s");
         add("oniutils.tooltips.items.holdShiftInfo", ChatFormatting.DARK_GRAY + "Hold" + ChatFormatting.WHITE + " <Sneak> " + ChatFormatting.DARK_GRAY + "For More Info");
         add("oniutils.tooltips.items.coal_generator", ChatFormatting.GRAY + "Coal Generator is a primitive generator that takes only coal, to generate a small amount of plasma");
-        add("oniutils.tooltips.items.manual_gen", ChatFormatting.GRAY + "Manual Generator will generate a tiny amount of plasma when a player is running on it. It will generate more power when the player has speed effect");
         add("oniutils.tooltips.items.modification", ChatFormatting.DARK_AQUA + "Modifications allow attributes of machines to be modified");
-        add("oniutils.tooltips.items.modification.velocity", ChatFormatting.GRAY + "Velocity Modification allow you to modify machine's operating speed. Up to 125%/-125%. 25% more each tier");
-        add("oniutils.tooltips.items.modification.energy", ChatFormatting.GRAY + "Plasma Conservation Modification allow you to modify machine's power consumption rate. Up to 110%/-110%. 10% more each tier");
-        add("oniutils.tooltips.items.modification.gas", ChatFormatting.GRAY + "Gas Efficiency Modification allow you to modify machine's gas consumption rate. Up to 125%/-125%. 25% more each tier");
-        add("oniutils.tooltips.items.modification.fluid", ChatFormatting.GRAY + "Fluid Efficiency Modification allow you to modify machine's fluid consumption rate. Up to 125%/-125%. 25% more each tier");
-        add("oniutils.tooltips.items.modification.temperature", ChatFormatting.GRAY + "Temperature Modification allow you to modify machine's temperature capacity. Up to 120%/-120%. 20% more each tier");
-        add("oniutils.tooltips.items.modification.complexity", ChatFormatting.GRAY + "Complexity Modification allow you to modify machine's required operation skill level. Up to 125%/-125%. 25% more each tier");
+        add("oniutils.tooltips.items.modification.velocity", ChatFormatting.GRAY + "Velocity Modification allow you to modify machine's operating speed. Up to (-)125%. 25% more each tier");
+        add("oniutils.tooltips.items.modification.energy", ChatFormatting.GRAY + "Plasma Conservation Modification allow you to modify machine's power consumption rate. Up to (-)110%. 10% more each tier");
+        add("oniutils.tooltips.items.modification.gas", ChatFormatting.GRAY + "Gas Efficiency Modification allow you to modify machine's gas consumption rate. Up to (-)125%. 25% more each tier");
+        add("oniutils.tooltips.items.modification.fluid", ChatFormatting.GRAY + "Fluid Efficiency Modification allow you to modify machine's fluid consumption rate. Up to (-)125%. 25% more each tier");
+        add("oniutils.tooltips.items.modification.temperature", ChatFormatting.GRAY + "Temperature Modification allow you to modify machine's temperature capacity. Up to (-)120%. 20% more each tier");
+        add("oniutils.tooltips.items.modification.complexity", ChatFormatting.GRAY + "Complexity Modification allow you to modify machine's required operation skill level. Up to (-)125%. 25% more each tier");
         add("oniutils.tooltips.items.gas_visual_goggles", ChatFormatting.GRAY + "Put on to see the gases move in real time!");
         add("oniutils.tooltips.items.wire_cutter", ChatFormatting.GRAY + "Makes removing power cables easier!");
 
@@ -78,7 +77,6 @@ public class ONIEngLangProvider extends LanguageProvider {
         add("oniutils.gui.titles.invert", "Invert Redstone");
 
         add("oniutils.gui.titles.coal_generator", ChatFormatting.WHITE + "Coal Generator");
-        add("oniutils.gui.titles.manual_gen", ChatFormatting.WHITE + "Manual Generator");
 
         add("oniutils.gui.info.energy", "Plasma Stored: %s");
         add("oniutils.gui.info.producingEnergy", "+%s Plasma/t");
@@ -103,7 +101,6 @@ public class ONIEngLangProvider extends LanguageProvider {
 
         // keybinds
         add("oniutils.keybinds.category", "FC: ONIUtils Keybinds");
-        add("oniutils.offManualGen", "Get off manual generator");
 
         // curios
         if (ModList.get().isLoaded("curios")) {
@@ -122,6 +119,9 @@ public class ONIEngLangProvider extends LanguageProvider {
         }
         for (Element element : Element.values()) {
             add("gas.oniutils." + element.getName(), element.getLang() + " Gas");
+        }
+        for (EnumGermType germType : EnumGermType.values()) {
+            add("germ.oniutils." + germType.getName(), WordUtils.capitalizeFully(germType.getName().replace("_", " ")));
         }
     }
 }

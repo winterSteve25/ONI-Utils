@@ -19,21 +19,26 @@ public class RenderingHelper {
 
     public static void renderAnimatedProgressBar(GuiComponent gui, PoseStack matrixStack, int x, int y, int scaledProgress) {
         bindWidgetsTexture();
-        gui.blit(matrixStack, x, y, ONIConstants.Resources.RIGHT_ARROW_BIG.getU(), ONIConstants.Resources.RIGHT_ARROW_BIG.getV(), scaledProgress, ONIConstants.Resources.RIGHT_ARROW_BIG.getHeight());
+        var arrow = ONIConstants.Resources.RIGHT_ARROW_BIG;
+        gui.blit(matrixStack, x, y, arrow.getU(), arrow.getV(), scaledProgress, arrow.getHeight());
     }
 
     public static void renderAnimatedFlame(GuiComponent gui, PoseStack matrixStack, int x, int y, int scaledProgress) {
         bindWidgetsTexture();
-        gui.blit(matrixStack, x, y, ONIConstants.Resources.FLAME.getU(), ONIConstants.Resources.FLAME.getV()+scaledProgress, 14, 14-scaledProgress);
+        var flame = ONIConstants.Resources.FLAME;
+        gui.blit(matrixStack, x, y, flame.getU(), flame.getV()+scaledProgress, flame.getWidth(), flame.getHeight()-scaledProgress);
     }
 
-    public static void renderSlotWithHover(GuiComponent gui, PoseStack matrixStack, int x, int y, int mouseX, int mouseY) {
+    public static void renderAnimatedPowerBar(GuiComponent gui, PoseStack matrixStack, int x, int y, int scaledProgress) {
         bindWidgetsTexture();
-        if (mouseX > x && mouseX < x + 17 && mouseY > y && mouseY < y + 17) {
-            gui.blit(matrixStack, x, y, ONIConstants.Resources.ITEM_SLOT_HOVER.getU(), ONIConstants.Resources.ITEM_SLOT_HOVER.getV(), ONIConstants.Resources.ITEM_SLOT_HOVER.getWidth(), ONIConstants.Resources.ITEM_SLOT_HOVER.getHeight());
-        } else {
-            gui.blit(matrixStack, x, y, ONIConstants.Resources.ITEM_SLOT.getU(), ONIConstants.Resources.ITEM_SLOT.getV(), ONIConstants.Resources.ITEM_SLOT.getWidth(), ONIConstants.Resources.ITEM_SLOT.getHeight());
-        }
+        var bar = ONIConstants.Resources.POWER_BAR;
+        gui.blit(matrixStack, x, y, bar.getU(), bar.getV()+scaledProgress, bar.getWidth(), bar.getHeight()-scaledProgress);
+    }
+
+    public static void renderSlot(GuiComponent gui, PoseStack matrixStack, int x, int y, int mouseX, int mouseY) {
+        bindWidgetsTexture();
+        var slot = ONIConstants.Resources.ITEM_SLOT;
+        gui.blit(matrixStack, x, y, slot.getU(), slot.getV(), slot.getWidth(), slot.getHeight());
     }
 
     public static void renderWidget(GuiComponent gui, TextureElement widgetElement, PoseStack matrixStack, int x, int y) {

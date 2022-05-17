@@ -4,13 +4,13 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.util.INBTSerializable;
 
 public interface IGerms extends INBTSerializable<CompoundTag> {
-    void addGerm(EnumGermTypes germType, int amount);
+    void addGerm(EnumGermType germType, int amount);
 
-    void setGerm(EnumGermTypes germType, int amount);
+    void setGerm(EnumGermType germType, int amount);
 
     void removeGerm(int amount);
 
-    EnumGermTypes getGermType();
+    EnumGermType getGermType();
 
     int getGermAmount();
 }

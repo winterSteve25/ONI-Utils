@@ -15,6 +15,7 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import wintersteve25.oniutils.ONIUtils;
+import wintersteve25.oniutils.common.commands.SimpleCommands;
 import wintersteve25.oniutils.common.data.capabilities.germ.GermEventsHandler;
 import wintersteve25.oniutils.common.data.capabilities.player_data.PlayerDataEventsHandler;
 import wintersteve25.oniutils.common.data.capabilities.world_gas.WorldGasEventsHandler;
@@ -45,7 +46,7 @@ public class ONIServerEventsHandler {
         }
 
         //player data
-        if (ModList.get().isLoaded("pmmo"))  {
+        if (ModList.get().isLoaded("pmmo")) {
             if (ONIConfig.ENABLE_TRAITS.get()) {
                 ONIUtils.LOGGER.info("Registering Player Data");
                 MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, PlayerDataEventsHandler::entityCapAttachEvent);
@@ -70,8 +71,12 @@ public class ONIServerEventsHandler {
     public static void command(RegisterCommandsEvent event) {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
 
-        LiteralArgumentBuilder<CommandSourceStack> requires = Commands.literal("oniutils").requires((commandSource) -> commandSource.hasPermission(3));
-        LiteralCommandNode<CommandSourceStack> source = dispatcher.register(requires.then(SetGermAmountCommands.register(dispatcher)));
+        dispatcher.register(Commands.literal("oniutils")
+                .requires((commandSource) -> commandSource.hasPermission(0))
+                .then(Commands.literal("germs")
+                        .requires((commandSource) -> commandSource.hasPermission(3))
+                        .then(SetGermAmountCommands.register(dispatcher))
+                        .then(SimpleCommands.registerReloadCommand(dispatcher))));
 
         ONIUtils.LOGGER.info("Registered ONIUtils Commands!");
     }
