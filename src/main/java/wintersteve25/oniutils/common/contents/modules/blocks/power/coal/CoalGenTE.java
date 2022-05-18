@@ -43,6 +43,7 @@ import wintersteve25.oniutils.common.contents.base.builders.ONIContainerBuilder;
 import wintersteve25.oniutils.common.contents.base.enums.EnumModifications;
 import wintersteve25.oniutils.common.contents.modules.items.modifications.ModificationContext;
 import wintersteve25.oniutils.common.contents.modules.items.modifications.ModificationHandler;
+import wintersteve25.oniutils.common.data.capabilities.player_data.api.SkillType;
 import wintersteve25.oniutils.common.registries.ONIBlocks;
 import wintersteve25.oniutils.common.registries.ONICapabilities;
 import wintersteve25.oniutils.common.registries.ONIConfig;
@@ -332,9 +333,9 @@ public class CoalGenTE extends ONIBaseInvTE implements IAnimatable, ONIITickable
     }
 
     @Override
-    public HashMap<String, Integer> requiredSkill() {
-        HashMap<String, Integer> map = new HashMap<>();
-        map.put("machinery", 4);
+    public HashMap<SkillType, Integer> requiredSkill() {
+        HashMap<SkillType, Integer> map = new HashMap<>();
+        map.put(SkillType.MACHINERY, 4);
         return map;
     }
 

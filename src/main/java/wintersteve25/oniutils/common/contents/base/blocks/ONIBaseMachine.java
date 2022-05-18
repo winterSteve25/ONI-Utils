@@ -31,6 +31,7 @@ import wintersteve25.oniutils.common.contents.base.interfaces.ONIIHasRedstoneOut
 import wintersteve25.oniutils.common.contents.base.interfaces.ONIIModifiable;
 import wintersteve25.oniutils.common.contents.base.interfaces.ONIIRequireSkillToInteract;
 import wintersteve25.oniutils.common.contents.modules.items.modifications.ONIModificationItem;
+import wintersteve25.oniutils.common.data.capabilities.player_data.api.SkillType;
 import wintersteve25.oniutils.common.registries.ONICapabilities;
 import wintersteve25.oniutils.common.utils.helpers.ISHandlerHelper;
 
@@ -70,12 +71,12 @@ public class ONIBaseMachine<BE extends BlockEntity> extends ONIBaseDirectional i
                 }
 
                 if (tileEntity instanceof ONIIRequireSkillToInteract skill) {
-                    for (String skillRequired : skill.requiredSkill().keySet()) {
-                        // TODO: LEVEL
-//                        if (APIUtils.getLevel(skillRequired, player) < skill.getRequiredLevel(skillRequired)) {
+                    for (SkillType skillRequired : skill.requiredSkill().keySet()) {
+                        var cap = player.getCapability(ONICapabilities.PLAYER);
+                        if (cap.isPresent() && cap.resolve().get().getSkills().get(skillRequired) < skill.getRequiredLevel(skillRequired)) {
                             player.displayClientMessage(new TranslatableComponent("oniutils.message.needLevel", skill.getRequiredLevel(skillRequired), skillRequired), true);
                             return InteractionResult.FAIL;
-//                        }
+                        }
                     }
                 }
 

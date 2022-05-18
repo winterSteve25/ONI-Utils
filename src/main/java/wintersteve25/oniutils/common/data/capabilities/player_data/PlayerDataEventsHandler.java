@@ -33,8 +33,13 @@ public class PlayerDataEventsHandler {
 
     public static void onPlayerCloned(PlayerEvent.Clone event) {
         if (event.isWasDeath()) {
-            LazyOptional<IPlayerData> capability = event.getOriginal().getCapability(ONICapabilities.PLAYER);
-            capability.ifPresent(oldStore -> {
+            event.getOriginal().getCapability(ONICapabilities.PLAYER).ifPresent(oldStore -> {
+                event.getPlayer().getCapability(ONICapabilities.PLAYER).ifPresent(newStore -> {
+                    newStore.setSkills(oldStore.getSkills());
+                    newStore.setMorale(oldStore.getMorale());
+                    newStore.setBuildMoraleBonus(oldStore.getBuildMoraleBonus());
+                    newStore.setTemperature(oldStore.getTemperature());
+                });
             });
         }
     }
@@ -69,12 +74,12 @@ public class PlayerDataEventsHandler {
                 return;
             player.getCapability(ONICapabilities.PLAYER).ifPresent((cap) -> {
                 //Reset and redo calculation when moved
-                cap.setBuildBonus(0);
+                cap.setBuildMoraleBonus(0);
                 for (BlockPos blockpos : BlockPos.betweenClosed(pos.offset(-9, 0, -9), pos.offset(9, 3, 9))) {
                     Block block = world.getBlockState(blockpos).getBlock();
                     if (block instanceof IMoraleProvider) {
                         IMoraleProvider moraleProvider = (IMoraleProvider) block;
-                        cap.setBuildBonus(cap.getBuildBonus() + moraleProvider.moraleModifier());
+                        cap.setBuildMoraleBonus(cap.getBuildMoraleBonus() + moraleProvider.moraleModifier());
                     }
                 }
 
