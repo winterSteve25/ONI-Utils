@@ -1,6 +1,6 @@
 package wintersteve25.oniutils.common.data.capabilities.player_data.api;
 
-public enum TraitTypes {
+public enum TraitType {
     TWINKLETOES,
     BUFF,
     MOLE_HANDS,

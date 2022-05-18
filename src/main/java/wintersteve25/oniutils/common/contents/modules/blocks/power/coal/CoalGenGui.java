@@ -21,8 +21,6 @@ public class CoalGenGui extends ONIBaseGuiContainer<ONIAbstractContainer> {
     protected void renderBg(@Nonnull PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         super.renderBg(matrixStack, partialTicks, mouseX, mouseY);
 
-        int power = menu.getPower();
-
         RenderingHelper.bindWidgetsTexture();
         RenderingHelper.renderWidget(this, ONIConstants.Resources.ITEM_SLOT, matrixStack, this.leftPos + 54, this.topPos + 31);
         RenderingHelper.renderWidget(this, ONIConstants.Resources.RIGHT_ARROW_BIG_BG, matrixStack, this.leftPos + 79, this.topPos + 36);
@@ -49,6 +47,7 @@ public class CoalGenGui extends ONIBaseGuiContainer<ONIAbstractContainer> {
             super.renderCustomToolTip(matrixStack, mouseX, mouseY, this.leftPos, this.topPos, 79, 30, 103, 45, new TranslatableComponent("oniutils.gui.machines.progress", menu.getProgress()/10));
         }
 
+        int power = menu.getPower();
         super.powerToolTip(matrixStack, power, mouseX, mouseY, this.leftPos, this.topPos);
     }
 
