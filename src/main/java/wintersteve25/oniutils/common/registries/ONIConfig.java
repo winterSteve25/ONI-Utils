@@ -38,7 +38,7 @@ public class ONIConfig {
         public static ForgeConfigSpec.BooleanValue ENABLE_MORALE;
         public static ForgeConfigSpec.IntValue MORALE_FOR_STRESS;
 
-        public static void register() {
+        static {
             ForgeConfigSpec.Builder SERVERBUILDER = new ForgeConfigSpec.Builder();
 
             SERVERBUILDER.comment("Germs System Settings").push(CAT_GERM);
@@ -82,18 +82,5 @@ public class ONIConfig {
     }
 
     public static class Client {
-        public static ForgeConfigSpec CLIENT_CONFIG;
-
-        public static void register() {
-            ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
-
-
-
-            CLIENT_CONFIG = BUILDER.build();
-        }
-    }
-
-    static {
-        Server.register();
     }
 }
