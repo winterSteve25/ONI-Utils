@@ -1,11 +1,15 @@
 package wintersteve25.oniutils.common.contents.base.items;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import wintersteve25.oniutils.common.contents.base.interfaces.functional.IToolTipCondition;
 import wintersteve25.oniutils.common.contents.base.items.ONIIItem;
 
@@ -20,6 +24,7 @@ public class ONIBaseItem extends Item implements ONIIItem {
     private Supplier<List<Component>> tooltips;
     private Supplier<IToolTipCondition> tooltipCondition = IToolTipCondition.DEFAULT;
     private ItemCategory itemCategory = ItemCategory.GENERAL;
+    private boolean takeDurabilityDamage;
 
     public ONIBaseItem(Properties properties) {
         super(properties);
@@ -45,6 +50,17 @@ public class ONIBaseItem extends Item implements ONIIItem {
         }
 
         return ()->itemCategory.getColor();
+    }
+
+    @Override
+    public boolean mineBlock(ItemStack pStack, Level pLevel, BlockState pState, BlockPos pPos, LivingEntity pEntityLiving) {
+        if (!pLevel.isClientSide && pState.getDestroySpeed(pLevel, pPos) != 0.0F && takeDurabilityDamage) {
+            pStack.hurtAndBreak(1, pEntityLiving, (p_40992_) -> {
+                p_40992_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
+            });
+        }
+
+        return true;
     }
 
     @Override
@@ -80,5 +96,13 @@ public class ONIBaseItem extends Item implements ONIIItem {
     @Override
     public void setONIItemCategory(ItemCategory itemCategory) {
         this.itemCategory = itemCategory;
+    }
+
+    public boolean isTakeDurabilityDamage() {
+        return takeDurabilityDamage;
+    }
+
+    public void setTakeDurabilityDamage(boolean takeDurabilityDamage) {
+        this.takeDurabilityDamage = takeDurabilityDamage;
     }
 }

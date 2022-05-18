@@ -145,7 +145,7 @@ dependencies {
     implementation fg.deobf("software.bernie.geckolib:geckolib-${geckolib_version}")
 
     // pmmo
-    implementation fg.deobf ("curse.maven:pmmo-353935:${pmmo_version}")
+//    implementation fg.deobf ("curse.maven:pmmo-353935:${pmmo_version}")
 
     // corpse
     implementation fg.deobf ("curse.maven:corpse-316582:${corpse_version}")

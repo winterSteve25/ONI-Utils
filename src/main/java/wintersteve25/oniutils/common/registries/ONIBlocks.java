@@ -102,7 +102,7 @@ public class ONIBlocks {
     }
 
     private static BlockRegistryObject<PowerCableBlock, BlockItem> registerWire(EnumCableTypes type) {
-        return BLOCKS.register(type.getName(), () -> new PowerCableBlock(type), false, false, true, true);
+        return BLOCKS.register(type.getName(), () -> new PowerCableBlock(type), false, true, true, true);
     }
 
     private static <T extends ONIBaseBlock> BlockRegistryObject<T, BlockItem> registerBuilder(ONIBlockBuilder<T> builder) {

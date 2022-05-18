@@ -32,7 +32,7 @@ public class ONIServerEventsHandler {
         ONIUtils.LOGGER.info("Registering ONIUtils Capabilities");
 
         //germ events
-        if (ONIConfig.ENABLE_GERMS.get()) {
+        if (ONIConfig.Server.ENABLE_GERMS.get()) {
             ONIUtils.LOGGER.info("Registering Germs Capability");
             MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, GermEventsHandler::entityCapAttachEvent);
             MinecraftForge.EVENT_BUS.addGenericListener(BlockEntity.class, GermEventsHandler::teCapAttachEvent);
@@ -47,7 +47,7 @@ public class ONIServerEventsHandler {
 
         //player data
         if (ModList.get().isLoaded("pmmo")) {
-            if (ONIConfig.ENABLE_TRAITS.get()) {
+            if (ONIConfig.Server.ENABLE_TRAITS.get()) {
                 ONIUtils.LOGGER.info("Registering Player Data");
                 MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, PlayerDataEventsHandler::entityCapAttachEvent);
                 MinecraftForge.EVENT_BUS.addListener(PlayerDataEventsHandler::onPlayerCloned);

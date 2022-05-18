@@ -24,7 +24,7 @@ public class WorldGasEventsHandler {
         }
     }
 
-    private static int cooldown = ONIConfig.GAS_UPDATE_FREQUENCY.get();
+    private static int cooldown = ONIConfig.Server.GAS_UPDATE_FREQUENCY.get();
 
     public static void worldTick(TickEvent.PlayerTickEvent event) {
         Player player = event.player;
@@ -35,7 +35,7 @@ public class WorldGasEventsHandler {
                 BlockPos pos = player.blockPosition();
                 LevelChunk chunk = world.getChunkAt(pos);
                 chunk.getCapability(ONICapabilities.GAS).ifPresent(IWorldGas::update);
-                cooldown = ONIConfig.GAS_UPDATE_FREQUENCY.get();
+                cooldown = ONIConfig.Server.GAS_UPDATE_FREQUENCY.get();
             }
         }
     }

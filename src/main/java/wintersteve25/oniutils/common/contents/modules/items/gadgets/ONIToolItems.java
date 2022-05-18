@@ -14,5 +14,6 @@ public class ONIToolItems {
             .defaultTooltip();
     public static ONIItemBuilder<ONIBaseItem> WIRE_CUTTER = new ONIItemBuilder<>("wire_cutter", (b) -> new ONIBaseItem(ONIUtils.defaultProperties().durability(800)))
             .setCategory(ONIIItem.ItemCategory.GADGETS)
-            .defaultTooltip();
+            .defaultTooltip()
+            .takeDurabilityDamage();
 }

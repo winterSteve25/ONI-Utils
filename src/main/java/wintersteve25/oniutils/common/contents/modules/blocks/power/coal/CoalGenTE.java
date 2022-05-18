@@ -69,7 +69,7 @@ public class CoalGenTE extends ONIBaseInvTE implements IAnimatable, ONIITickable
     private boolean removedFirstItem = false;
 
     private int progress = 0;
-    private int totalProgress = ONIConfig.COAL_GEN_PROCESS_TIME.get();
+    private int totalProgress = ONIConfig.Server.COAL_GEN_PROCESS_TIME.get();
     private boolean isForceStopped = false;
     private boolean isInverted = false;
     private boolean isWorking = false;
@@ -350,7 +350,7 @@ public class CoalGenTE extends ONIBaseInvTE implements IAnimatable, ONIITickable
 
     @Override
     public int producingPower() {
-        return modificationHandler.getPlasmaOutputPerTick(getTotalProgress(), ONIConfig.COAL_GEN_POWER_PRODUCE.get());
+        return modificationHandler.getPlasmaOutputPerTick(getTotalProgress(), ONIConfig.Server.COAL_GEN_POWER_PRODUCE.get());
     }
 
     private static final VoxelShape BOTTOM1 = Shapes.box(0D, 0, 0D, 1D, ONEPIXEL + (ONEPIXEL/16)*2, 1D);

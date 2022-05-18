@@ -5,6 +5,7 @@ import net.minecraft.ChatFormatting;
 import wintersteve25.oniutils.common.contents.base.blocks.ONIBaseBlock;
 import wintersteve25.oniutils.common.contents.base.interfaces.functional.IPlacementCondition;
 import wintersteve25.oniutils.common.contents.base.interfaces.functional.IToolTipCondition;
+import wintersteve25.oniutils.common.contents.base.items.ONIBaseItem;
 import wintersteve25.oniutils.common.contents.base.items.ONIIItem;
 import wintersteve25.oniutils.common.utils.helpers.LangHelper;
 
@@ -22,6 +23,7 @@ public class ONIItemBuilder<T extends ONIIItem> {
     private Supplier<ChatFormatting> color;
     private IPlacementCondition placementCondition;
     private ONIIItem.ItemCategory category = ONIIItem.ItemCategory.GENERAL;
+    private boolean takeDurabilityDamage = false;
 
     private boolean doModelGen = true;
     private boolean doLangGen = true;
@@ -76,6 +78,11 @@ public class ONIItemBuilder<T extends ONIIItem> {
         return this;
     }
 
+    public ONIItemBuilder<T> takeDurabilityDamage() {
+        takeDurabilityDamage = true;
+        return this;
+    }
+
     public Function<ONIBaseBlock, T> build() {
         return (b) -> {
             T i = item.apply(b);
@@ -84,6 +91,9 @@ public class ONIItemBuilder<T extends ONIIItem> {
             i.setColorName(color);
             i.setPlacementCondition(placementCondition);
             i.setONIItemCategory(category);
+            if (i instanceof ONIBaseItem i1) {
+                i1.setTakeDurabilityDamage(takeDurabilityDamage);
+            }
             return i;
         };
     }

@@ -1,6 +1,5 @@
 package wintersteve25.oniutils.common.contents.base.blocks;
 
-import harmonised.pmmo.api.APIUtils;
 import mekanism.common.registration.impl.TileEntityTypeRegistryObject;
 import mekanism.common.util.WorldUtils;
 import net.minecraft.core.Direction;
@@ -72,10 +71,11 @@ public class ONIBaseMachine<BE extends BlockEntity> extends ONIBaseDirectional i
 
                 if (tileEntity instanceof ONIIRequireSkillToInteract skill) {
                     for (String skillRequired : skill.requiredSkill().keySet()) {
-                        if (APIUtils.getLevel(skillRequired, player) < skill.getRequiredLevel(skillRequired)) {
+                        // TODO: LEVEL
+//                        if (APIUtils.getLevel(skillRequired, player) < skill.getRequiredLevel(skillRequired)) {
                             player.displayClientMessage(new TranslatableComponent("oniutils.message.needLevel", skill.getRequiredLevel(skillRequired), skillRequired), true);
                             return InteractionResult.FAIL;
-                        }
+//                        }
                     }
                 }
 

@@ -12,6 +12,7 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.contents.base.items.ONIIItem;
+import wintersteve25.oniutils.common.contents.modules.blocks.power.cables.PowerCableBlock;
 import wintersteve25.oniutils.common.registration.block.ONIBlockRegistryData;
 import wintersteve25.oniutils.common.registration.block.ONIDirectionalBlockRegistryData;
 import wintersteve25.oniutils.common.registration.item.ONIItemRegistryData;
@@ -43,6 +44,8 @@ public class ONIModelProvider extends ItemModelProvider {
             if (data.isDoModelGen()) {
                 if (data instanceof ONIDirectionalBlockRegistryData directionalData) {
                     withExistingParent(b.getName(), directionalData.getModelFile().getLocation());
+                } else if (b.getBlock() instanceof PowerCableBlock) {
+                    withExistingParent(b.getName(), modLoc("block/wires/" + b.getName() + "/main"));
                 } else {
                     withExistingParent(b.getName(), modLoc("block/" + b.getName()));
                 }

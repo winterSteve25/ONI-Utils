@@ -1,54 +1,29 @@
 package wintersteve25.oniutils.common.data.capabilities.player_data.api;
 
-public final class TraitTypes {
-    public static final int Twinkletoes = 1;
-    public static final int Buff = 2;
-    public static final int MoleHands = 3;
-    public static final int GreaseMonkey = 4;
-    public static final int QuickLearner = 5;
-    public static final int InteriorDecorator = 6;
-    public static final int Caregiver = 7;
-    public static final int EarlyBird = 8;
-    public static final int NightOwl = 9;
-    public static final int Uncultured = 0;
-    public static final int Anemic = -1;
-    public static final int NoodleArms = -2;
-    public static final int SlowLearner = -3;
-    public static final int Yokel = -4;
-    public static final int Pacifist = -5;
-    public static final int Gastrophobia = -6;
-    public static final int Squeamish = -7;
-    public static final int IrritableBowel = -8;
-    public static final int SmallBladder = -9;
-    public static final int Biohazard = -10;
-    public static final int BottomlessStomach = -11;
-    public static final int MouthBreather = -12;
-    public static final int Narcoleptic = -13;
-    public static final int LoudSleeper = -14;
-    public static final int Flatulence = -15;
-    public static final int Allergic = -16;
-
-    public static int getBottom() {
-        return Allergic;
-    }
-
-    public static int getTop() {
-        return NightOwl;
-    }
-
-    public static int getGoodBottom() {
-        return Twinkletoes;
-    }
-
-    public static int getGoodTop() {
-        return NightOwl;
-    }
-
-    public static int getBadBottom() {
-        return Allergic;
-    }
-
-    public static int getBadTop() {
-        return Uncultured;
-    }
+public enum TraitTypes {
+    TWINKLETOES,
+    BUFF,
+    MOLE_HANDS,
+    GREASE_MONKEY,
+    QUICK_LEARNER,
+    INTERIOR_DECORATOR,
+    CAREGIVER,
+    EARLY_BIRD,
+    NIGHT_OWL,
+    UNCULTURED,
+    ANEMIC,
+    NOODLE_ARMS,
+    SLOW_LEARNER,
+    YOKEL,
+    PACIFIST,
+    GASTROPHOBIA,
+    IRRITABLE_BOWEL,
+    SMALL_BLADDER,
+    BIOHAZARD,
+    BOTTOMLESS_STOMACH,
+    MOUTH_BREATHER,
+    NARCOLEPTIC,
+    LOUD_SLEEPER,
+    FLATULENCE,
+    ALLERGIC;
 }

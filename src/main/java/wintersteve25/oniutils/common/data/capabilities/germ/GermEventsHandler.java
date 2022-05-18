@@ -173,7 +173,7 @@ public class GermEventsHandler {
         }
     }
 
-    private static int germDupSpeed = ONIConfig.GERM_DUP_SPEED_PLAYER.get();
+    private static int germDupSpeed = ONIConfig.Server.GERM_DUP_SPEED_PLAYER.get();
 
     public static void playerTickEvent(TickEvent.PlayerTickEvent event) {
         Player player = event.player;
@@ -189,10 +189,10 @@ public class GermEventsHandler {
                     if (germAmount > 0 && germTypes != EnumGermType.NOTHING) {
 
                         if (germDupSpeed < 0) {
-                            if (germAmount < ONIConfig.GERM_STOP_DUP_AMOUNT.get()) {
+                            if (germAmount < ONIConfig.Server.GERM_STOP_DUP_AMOUNT.get()) {
                                 p.removeGerm(100);
                             }
-                            germDupSpeed = ONIConfig.GERM_DUP_SPEED_PLAYER.get();
+                            germDupSpeed = ONIConfig.Server.GERM_DUP_SPEED_PLAYER.get();
                         }
 
                         if (germTypes == EnumGermType.FOODPOISON && germAmount > 50000) {

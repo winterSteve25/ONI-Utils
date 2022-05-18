@@ -26,7 +26,8 @@ public class ONIUtils {
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         final IEventBus forgeEventBus = MinecraftForge.EVENT_BUS;
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ONIConfig.SERVER_CONFIG);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ONIConfig.Server.SERVER_CONFIG);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ONIConfig.Client.CLIENT_CONFIG);
         Registration.init();
 
         modEventBus.addListener(ONIServerEventsHandler::commonSetup);
