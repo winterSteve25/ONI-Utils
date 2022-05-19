@@ -34,6 +34,7 @@ import wintersteve25.oniutils.common.contents.modules.items.modifications.ONIMod
 import wintersteve25.oniutils.common.data.capabilities.player_data.api.SkillType;
 import wintersteve25.oniutils.common.registries.ONICapabilities;
 import wintersteve25.oniutils.common.utils.helpers.ISHandlerHelper;
+import wintersteve25.oniutils.common.utils.helpers.LangHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -73,8 +74,9 @@ public class ONIBaseMachine<BE extends BlockEntity> extends ONIBaseDirectional i
                 if (tileEntity instanceof ONIIRequireSkillToInteract skill) {
                     for (SkillType skillRequired : skill.requiredSkill().keySet()) {
                         var cap = player.getCapability(ONICapabilities.PLAYER);
-                        if (cap.isPresent() && cap.resolve().get().getSkills().get(skillRequired) < skill.getRequiredLevel(skillRequired)) {
-                            player.displayClientMessage(new TranslatableComponent("oniutils.message.needLevel", skill.getRequiredLevel(skillRequired), skillRequired), true);
+                        var level = skill.getRequiredLevel(skillRequired);
+                        if (cap.isPresent() && cap.resolve().get().getSkills().get(skillRequired) < level) {
+                            player.displayClientMessage(new TranslatableComponent("oniutils.message.needLevel", level, LangHelper.skill(skillRequired)), true);
                             return InteractionResult.FAIL;
                         }
                     }

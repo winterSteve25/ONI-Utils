@@ -46,15 +46,13 @@ public class ONIServerEventsHandler {
         }
 
         //player data
-        if (ModList.get().isLoaded("pmmo")) {
-            if (ONIConfig.Server.ENABLE_TRAITS.get()) {
-                ONIUtils.LOGGER.info("Registering Player Data");
-                MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, PlayerDataEventsHandler::entityCapAttachEvent);
-                MinecraftForge.EVENT_BUS.addListener(PlayerDataEventsHandler::onPlayerCloned);
-                MinecraftForge.EVENT_BUS.addListener(PlayerDataEventsHandler::onPlayerLoggedIn);
-                MinecraftForge.EVENT_BUS.addListener(PlayerDataEventsHandler::playerTickEvent);
-                MinecraftForge.EVENT_BUS.addListener(PlayerDataEventsHandler::playerMove);
-            }
+        if (ONIConfig.Server.ENABLE_TRAITS.get()) {
+            ONIUtils.LOGGER.info("Registering Player Data");
+            MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, PlayerDataEventsHandler::entityCapAttachEvent);
+            MinecraftForge.EVENT_BUS.addListener(PlayerDataEventsHandler::onPlayerCloned);
+            MinecraftForge.EVENT_BUS.addListener(PlayerDataEventsHandler::onPlayerLoggedIn);
+            MinecraftForge.EVENT_BUS.addListener(PlayerDataEventsHandler::playerTickEvent);
+            MinecraftForge.EVENT_BUS.addListener(PlayerDataEventsHandler::playerMove);
         }
 
         // World Gas

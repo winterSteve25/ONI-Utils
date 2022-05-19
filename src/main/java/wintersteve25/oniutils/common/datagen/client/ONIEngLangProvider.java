@@ -14,6 +14,8 @@ import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.client.gui.ONIBaseGuiTab;
 import wintersteve25.oniutils.common.compat.curios.CuriosCompat;
 import wintersteve25.oniutils.common.data.capabilities.germ.api.EnumGermType;
+import wintersteve25.oniutils.common.data.capabilities.player_data.api.SkillType;
+import wintersteve25.oniutils.common.data.capabilities.player_data.api.TraitType;
 import wintersteve25.oniutils.common.data.capabilities.world_gas.api.chemistry.Element;
 import wintersteve25.oniutils.common.registration.block.ONIBlockRegistryData;
 import wintersteve25.oniutils.common.registration.item.ONIItemRegistryData;
@@ -122,6 +124,14 @@ public class ONIEngLangProvider extends LanguageProvider {
         }
         for (EnumGermType germType : EnumGermType.values()) {
             add("germ.oniutils." + germType.getName(), WordUtils.capitalizeFully(germType.getName().replace("_", " ")));
+        }
+        for (SkillType skillType : SkillType.values()) {
+            String n = skillType.name().toLowerCase();
+            add("skill.oniutils." + n, WordUtils.capitalizeFully(n.replace("_", " ")));
+        }
+        for (TraitType traitType : TraitType.values()) {
+            String n = traitType.name().toLowerCase();
+            add("trait.oniutils." + n, WordUtils.capitalizeFully(n.replace("_", " ")));
         }
     }
 }

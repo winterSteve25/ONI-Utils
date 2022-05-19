@@ -26,7 +26,7 @@ public class PlayerDataEventsHandler {
         }
         if (!entity.level.isClientSide()) {
             ONICapabilityProvider<IPlayerData> provider = new ONICapabilityProvider<>(PlayerData::new, ONICapabilities.PLAYER);
-            event.addCapability(new ResourceLocation(ONIUtils.MODID, "traits"), provider);
+            event.addCapability(new ResourceLocation(ONIUtils.MODID, "player_data"), provider);
             event.addListener(provider::invalidate);
         }
     }
