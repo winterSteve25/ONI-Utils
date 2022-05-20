@@ -33,6 +33,7 @@ public final class ONIConstants {
             }
         }
     }
+
     public static final class PacketType {
         public static final byte REDSTONE_INPUT = 0;
         public static final byte REDSTONE_OUTPUT_LOW = 1;
@@ -41,6 +42,7 @@ public final class ONIConstants {
         public static final byte MODIFICATION_GUI = 0;
         public static final byte MODIFICATION_DATA = 1;
     }
+
     public static final class TextColor {
         public static final ChatFormatting FURNITURE_CAT_COLOR = ChatFormatting.YELLOW;
         public static final ChatFormatting POWER_CAT_COLOR = ChatFormatting.RED;
@@ -51,6 +53,7 @@ public final class ONIConstants {
 
         public static final ChatFormatting GADGETS = ChatFormatting.DARK_BLUE;
     }
+
     public static final class Resources {
         public static final ResourceLocation WIDGETS = new ResourceLocation(ONIUtils.MODID, "textures/gui/misc/widgets.png");
         public static final TextureElement BUTTON_BG = TextureElement.createDefault(0, 0);
@@ -74,6 +77,7 @@ public final class ONIConstants {
 
         public static final ResourceLocation CURIOS_GOGGLES = new ResourceLocation(ONIUtils.MODID, "gui/misc/curios/goggles");
     }
+
     public static final class LangKeys {
         public static final TranslatableComponent MOD_TOOLTIP = new TranslatableComponent("oniutils.tooltips.items.modification");
         public static final TranslatableComponent HOLD_SHIFT = new TranslatableComponent("oniutils.tooltips.items.holdShiftInfo");
@@ -135,5 +139,9 @@ public final class ONIConstants {
 
             return false;
         }
+    }
+
+    public static final class Tags {
+        public static final ResourceLocation PLANET_SPAWNABLE_STRUCTURE = new ResourceLocation(ONIUtils.MODID, "planet_structure");
     }
 }
