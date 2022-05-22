@@ -98,17 +98,11 @@ public class MiscHelper {
         return new BlockPos(pos.getInt("posX"), pos.getInt("posY"), pos.getInt("posZ"));
     }
 
-    public static boolean chanceHandling(int chance) {
-        Random rand = new Random();
-        double randN = rand.nextDouble();
-
-        return randN < (double) chance / 100;
+    public static boolean chanceHandling(float chance) {
+        return chanceHandling(new Random(), chance);
     }
 
-    public static boolean chanceHandling(float chance) {
-        Random rand = new Random();
-        double randN = rand.nextDouble();
-
-        return randN < (double) chance;
+    public static boolean chanceHandling(Random rand, float chance) {
+        return rand.nextDouble() < chance;
     }
 }

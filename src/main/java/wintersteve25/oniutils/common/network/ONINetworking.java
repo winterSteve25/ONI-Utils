@@ -25,8 +25,6 @@ public class ONINetworking {
     }
 
     public static void registerMessages() {
-        ONIUtils.LOGGER.info("Registering ONIUtils networkings");
-
         INSTANCE.messageBuilder(PacketUpdateServerBE.class, nextID())
                 .encoder(PacketUpdateServerBE::encode)
                 .decoder(PacketUpdateServerBE::new)

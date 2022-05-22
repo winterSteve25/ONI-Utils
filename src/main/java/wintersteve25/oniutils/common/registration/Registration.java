@@ -1,16 +1,15 @@
 package wintersteve25.oniutils.common.registration;
 
 import mekanism.common.registration.impl.*;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import wintersteve25.oniutils.ONIUtils;
-import wintersteve25.oniutils.common.registration.block.ONIBlockDeferredRegister;
 import wintersteve25.oniutils.common.registries.*;
+import wintersteve25.oniutils.common.registries.worldgen.ONIBiomes;
+import wintersteve25.oniutils.common.registries.worldgen.ONIFeatures;
 
 public class Registration {
     public static final FluidDeferredRegister FLUID = new FluidDeferredRegister(ONIUtils.MODID);
@@ -24,11 +23,13 @@ public class Registration {
         ONIGases.register(eventBus);
         ONISounds.register(eventBus);
         ONICapabilities.register(eventBus);
+        ONIFeatures.register(eventBus);
+        ONIBiomes.register(eventBus);
 
         EFFECTS.register(eventBus);
         FLUID.register(eventBus);
 
-        ONIEffects.register();
+        ONITags.register();
 
         ONIUtils.LOGGER.info("ONIUtils Registration Completed");
     }

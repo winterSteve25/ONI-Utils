@@ -1,0 +1,7 @@
+{
+  "type": "oniutils:asteroid",
+  "generator": {
+    "type": "oniutils:asteroid_chunkgen",
+    "seed": 0
+  }
+}

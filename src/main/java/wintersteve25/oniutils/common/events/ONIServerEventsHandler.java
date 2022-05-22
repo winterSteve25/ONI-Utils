@@ -1,8 +1,6 @@
 package wintersteve25.oniutils.common.events;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.mojang.brigadier.tree.LiteralCommandNode;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.world.entity.Entity;
@@ -23,10 +21,18 @@ import wintersteve25.oniutils.common.commands.SetGermAmountCommands;
 import wintersteve25.oniutils.common.compat.curios.CuriosCompat;
 import wintersteve25.oniutils.common.registries.ONIConfig;
 import wintersteve25.oniutils.common.network.ONINetworking;
+import wintersteve25.oniutils.common.registries.worldgen.ONIDimensions;
 
 public class ONIServerEventsHandler {
 
     public static void commonSetup(final FMLCommonSetupEvent evt) {
+
+        evt.enqueueWork(() -> {
+            ONIUtils.LOGGER.info("Registering ONIUtils Dimensions");
+            ONIDimensions.register();
+        });
+
+        ONIUtils.LOGGER.info("Registering ONIUtils Networkings");
         ONINetworking.registerMessages();
 
         ONIUtils.LOGGER.info("Registering ONIUtils Capabilities");
@@ -72,9 +78,11 @@ public class ONIServerEventsHandler {
         dispatcher.register(Commands.literal("oniutils")
                 .requires((commandSource) -> commandSource.hasPermission(0))
                 .then(Commands.literal("germs")
-                        .requires((commandSource) -> commandSource.hasPermission(3))
                         .then(SetGermAmountCommands.register(dispatcher))
-                        .then(SimpleCommands.registerReloadCommand(dispatcher))));
+                        .requires((commandSource) -> commandSource.hasPermission(1))
+                        .then(SimpleCommands.getGermCommand()))
+                .then(Commands.literal("debug")
+                        .then(SimpleCommands.teleportDimensionCommand())));
 
         ONIUtils.LOGGER.info("Registered ONIUtils Commands!");
     }

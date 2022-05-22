@@ -2,7 +2,6 @@ package wintersteve25.oniutils.common.contents.base;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
-import wintersteve25.oniutils.common.registries.ONIEffects;
 
 public class ONIBaseEffect extends MobEffect {
     private final String regName;
@@ -14,9 +13,5 @@ public class ONIBaseEffect extends MobEffect {
 
     public String getRegName() {
         return regName;
-    }
-
-    public void initEffect(ONIBaseEffect e) {
-        ONIEffects.effectList.add(e);
     }
 }

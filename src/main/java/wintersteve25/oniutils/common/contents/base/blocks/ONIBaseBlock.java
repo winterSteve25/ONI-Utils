@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,6 +21,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import wintersteve25.oniutils.common.contents.base.interfaces.ONIIForceStoppable;
 import wintersteve25.oniutils.common.contents.base.interfaces.functional.IRenderTypeProvider;
 import wintersteve25.oniutils.common.contents.base.interfaces.functional.IVoxelShapeProvider;
@@ -121,6 +123,11 @@ public class ONIBaseBlock extends Block implements IStateFluidLoggable {
         }
 
         tile.onPlacedBy(worldIn, pos, state, placer, stack);
+    }
+
+    @Override
+    public boolean canPlaceLiquid(@NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Fluid fluid) {
+        return isFluidLoggable() && IStateFluidLoggable.super.canPlaceLiquid(world, pos, state, fluid);
     }
 
     public IVoxelShapeProvider getHitBox() {

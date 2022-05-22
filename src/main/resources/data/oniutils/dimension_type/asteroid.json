@@ -1,0 +1,20 @@
+{
+  "name": "ONI Asteroid",
+  "ultrawarm": false,
+  "natural": true,
+  "coordinate_scale": 0.125,
+  "height": 384,
+  "min_y": 0,
+  "shrunk": false,
+  "has_skylight": false,
+  "has_ceiling": true,
+  "ambient_light": 0,
+  "fixed_time": 1000,
+  "piglin_safe": false,
+  "bed_works": true,
+  "respawn_anchor_works": false,
+  "has_raids": false,
+  "logical_height": 384,
+  "infiniburn": "#minecraft:infiniburn_overworld",
+  "effects": "minecraft:the_end"
+}
