@@ -86,16 +86,10 @@ public class MiscHelper {
                 .collect(Collectors.toList());
     }
 
-    public static CompoundTag writeBlockPos(BlockPos pos) {
-        CompoundTag nbt = new CompoundTag();
-        nbt.putInt("posX", pos.getX());
-        nbt.putInt("posY", pos.getY());
-        nbt.putInt("posZ", pos.getZ());
-        return nbt;
-    }
-
-    public static BlockPos readBlockPos(CompoundTag pos) {
-        return new BlockPos(pos.getInt("posX"), pos.getInt("posY"), pos.getInt("posZ"));
+    public static double distEuclidean(BlockPos pos1, BlockPos pos2) {
+        return Math.sqrt(
+                Math.pow(pos2.getX() - pos1.getX(), 2) + Math.pow(pos2.getY() - pos1.getY(), 2) + Math.pow(pos2.getZ() - pos1.getZ(), 2)
+        );
     }
 
     public static boolean chanceHandling(float chance) {

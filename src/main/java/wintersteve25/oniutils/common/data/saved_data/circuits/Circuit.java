@@ -1,6 +1,7 @@
 package wintersteve25.oniutils.common.data.saved_data.circuits;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.core.BlockPos;
@@ -151,25 +152,25 @@ public class Circuit {
 
         ListTag cablePoses = new ListTag();
         for (BlockPos pos : cables) {
-            cablePoses.add(MiscHelper.writeBlockPos(pos));
+            cablePoses.add(NbtUtils.writeBlockPos(pos));
         }
         nbt.put("cablePoses", cablePoses);
 
         ListTag consumersPoses = new ListTag();
         for (BlockPos pos : consumers) {
-            consumersPoses.add(MiscHelper.writeBlockPos(pos));
+            consumersPoses.add(NbtUtils.writeBlockPos(pos));
         }
         nbt.put("consumerPoses", consumersPoses);
 
         ListTag producerPoses = new ListTag();
         for (BlockPos pos : producers) {
-            producerPoses.add(MiscHelper.writeBlockPos(pos));
+            producerPoses.add(NbtUtils.writeBlockPos(pos));
         }
         nbt.put("producerPoses", producerPoses);
 
         ListTag dynamicPoses = new ListTag();
         for (BlockPos pos : dynamics) {
-            dynamicPoses.add(MiscHelper.writeBlockPos(pos));
+            dynamicPoses.add(NbtUtils.writeBlockPos(pos));
         }
         nbt.put("dynamicPoses", dynamicPoses);
 
@@ -185,25 +186,25 @@ public class Circuit {
             if (cablePoses == null) throw new IllegalArgumentException();
             cables = new ArrayList<>();
             for (Tag pos : cablePoses) {
-                cables.add(MiscHelper.readBlockPos((CompoundTag) pos));
+                cables.add(NbtUtils.readBlockPos((CompoundTag) pos));
             }
             ListTag consumerPoses = (ListTag) nbt.get("consumerPoses");
             if (consumerPoses == null) throw new IllegalArgumentException();
             consumers = new ArrayList<>();
             for (Tag pos : consumerPoses) {
-                consumers.add(MiscHelper.readBlockPos((CompoundTag) pos));
+                consumers.add(NbtUtils.readBlockPos((CompoundTag) pos));
             }
             ListTag producerPoses = (ListTag) nbt.get("producerPoses");
             if (producerPoses == null) throw new IllegalArgumentException();
             producers = new ArrayList<>();
             for (Tag pos : producerPoses) {
-                producers.add(MiscHelper.readBlockPos((CompoundTag) pos));
+                producers.add(NbtUtils.readBlockPos((CompoundTag) pos));
             }
             ListTag dynamicPoses = (ListTag) nbt.get("dynamicPoses");
             if (dynamicPoses == null) throw new IllegalArgumentException();
             dynamics = new ArrayList<>();
             for (Tag pos : dynamicPoses) {
-                dynamics.add(MiscHelper.readBlockPos((CompoundTag) pos));
+                dynamics.add(NbtUtils.readBlockPos((CompoundTag) pos));
             }
             id = nbt.getInt("circuitID");
             powerTransferLimit = nbt.getInt("powerTransferLimit");
@@ -219,25 +220,25 @@ public class Circuit {
             if (cablePoses == null) throw new IllegalArgumentException();
             List<BlockPos> cables = new ArrayList<>();
             for (Tag pos : cablePoses) {
-                cables.add(MiscHelper.readBlockPos((CompoundTag) pos));
+                cables.add(NbtUtils.readBlockPos((CompoundTag) pos));
             }
             ListTag consumerPoses = (ListTag) nbt.get("consumerPoses");
             if (consumerPoses == null) throw new IllegalArgumentException();
             List<BlockPos> consumers = new ArrayList<>();
             for (Tag pos : consumerPoses) {
-                consumers.add(MiscHelper.readBlockPos((CompoundTag) pos));
+                consumers.add(NbtUtils.readBlockPos((CompoundTag) pos));
             }
             ListTag producerPoses = (ListTag) nbt.get("producerPoses");
             if (producerPoses == null) throw new IllegalArgumentException();
             List<BlockPos> producers = new ArrayList<>();
             for (Tag pos : producerPoses) {
-                producers.add(MiscHelper.readBlockPos((CompoundTag) pos));
+                producers.add(NbtUtils.readBlockPos((CompoundTag) pos));
             }
             ListTag dynamicPoses = (ListTag) nbt.get("dynamicPoses");
             if (dynamicPoses == null) throw new IllegalArgumentException();
             List<BlockPos> dynamics = new ArrayList<>();
             for (Tag pos : dynamicPoses) {
-                dynamics.add(MiscHelper.readBlockPos((CompoundTag) pos));
+                dynamics.add(NbtUtils.readBlockPos((CompoundTag) pos));
             }
             int ID = nbt.getInt("circuitID");
             int powerTransferLimit = nbt.getInt("powerTransferLimit");

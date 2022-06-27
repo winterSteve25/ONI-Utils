@@ -5,6 +5,7 @@ import mekanism.api.chemical.gas.GasStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.level.ChunkPos;
 import wintersteve25.oniutils.ONIUtils;
 import wintersteve25.oniutils.common.data.capabilities.world_gas.api.chemistry.Element;
@@ -223,7 +224,7 @@ public class WorldGas implements IWorldGas {
         for (GasStackWrapper stack : getGasMap().keySet()) {
             gas.add(stack.write(new CompoundTag()));
             BlockPos position = getGasMap().get(stack);
-            pos.add(MiscHelper.writeBlockPos(position));
+            pos.add(NbtUtils.writeBlockPos(position));
         }
 
         nbt.put("gasList", gas);
@@ -240,7 +241,7 @@ public class WorldGas implements IWorldGas {
         Map<GasStackWrapper, BlockPos> map = new HashMap<>();
 
         for (int i = 0; i < gasListINBT.size(); i++) {
-            map.put(new GasStackWrapper(GasStack.readFromNBT((CompoundTag) gasListINBT.get(i))), MiscHelper.readBlockPos((CompoundTag) posListINBT.get(i)));
+            map.put(new GasStackWrapper(GasStack.readFromNBT((CompoundTag) gasListINBT.get(i))), NbtUtils.readBlockPos((CompoundTag) posListINBT.get(i)));
         }
 
         setGasMap(map);

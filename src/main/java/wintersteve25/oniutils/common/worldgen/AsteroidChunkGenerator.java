@@ -44,8 +44,6 @@ public class AsteroidChunkGenerator extends ChunkGenerator {
         return Optional.of(set);
     }
 
-
-
     private final Registry<Biome> biomeRegistry;
 
     public AsteroidChunkGenerator(Registry<StructureSet> pStructureSets, Registry<Biome> biomeRegistry, long seed) {
@@ -90,30 +88,29 @@ public class AsteroidChunkGenerator extends ChunkGenerator {
 
     @Override
     public void buildSurface(WorldGenRegion pLevel, StructureFeatureManager pStructureFeatureManager, ChunkAccess pChunk) {
-    }
-
-    @Override
-    public CompletableFuture<ChunkAccess> fillFromNoise(Executor p_187748_, Blender p_187749_, StructureFeatureManager p_187750_, ChunkAccess chunkAccess) {
         BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
-        Heightmap heightmap = chunkAccess.getOrCreateHeightmapUnprimed(Heightmap.Types.OCEAN_FLOOR_WG);
-        Heightmap heightmap1 = chunkAccess.getOrCreateHeightmapUnprimed(Heightmap.Types.WORLD_SURFACE_WG);
+        Heightmap heightmap = pChunk.getOrCreateHeightmapUnprimed(Heightmap.Types.OCEAN_FLOOR_WG);
+        Heightmap heightmap1 = pChunk.getOrCreateHeightmapUnprimed(Heightmap.Types.WORLD_SURFACE_WG);
 
-        var height = chunkAccess.getHeight();
+        var height = pChunk.getHeight();
 
         for(int i = 0; i < height; ++i) {
             BlockState blockstate = i == 0 || i == height - 1 ? Blocks.BEDROCK.defaultBlockState() : ONIBlocks.NonFunctionals.ABYSSALITE.getBlock().defaultBlockState();
 
-            int j = chunkAccess.getMinBuildHeight() + i;
+            int j = pChunk.getMinBuildHeight() + i;
 
             for(int k = 0; k < 16; ++k) {
                 for(int l = 0; l < 16; ++l) {
-                    chunkAccess.setBlockState(mutablePos.set(k, j, l), blockstate, false);
+                    pChunk.setBlockState(mutablePos.set(k, j, l), blockstate, false);
                     heightmap.update(k, j, l, blockstate);
                     heightmap1.update(k, j, l, blockstate);
                 }
             }
         }
+    }
 
+    @Override
+    public CompletableFuture<ChunkAccess> fillFromNoise(Executor executor, Blender blender, StructureFeatureManager structureFeatureManager, ChunkAccess chunkAccess) {
         return CompletableFuture.completedFuture(chunkAccess);
     }
 
