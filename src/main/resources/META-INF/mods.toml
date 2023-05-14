@@ -18,7 +18,7 @@ description='''
 [[dependencies.oniutils]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.4,)"
+    versionRange="[1.18.2,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.oniutils]]
