@@ -75,10 +75,6 @@ minecraft {
 sourceSets {
     main {
         resources { srcDir 'src/generated/resources' }
-        // exclude tests
-//        java {
-//            exclude 'com/github/wintersteve25/oniutils/tests'
-//        }
     }
 }
 
@@ -93,7 +89,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.2-40.1.27'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.2.0'
     
 	// jei
     runtimeOnly fg.deobf("mezz.jei:jei-1.18.2-forge:10.2.1.283")

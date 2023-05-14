@@ -6,6 +6,7 @@ import net.minecraft.client.gui.components.SliderButton;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.ProgressOption;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -15,11 +16,12 @@ import com.github.wintersteve25.oniutils.common.contents.base.interfaces.ONIIHas
 import com.github.wintersteve25.oniutils.common.network.ONINetworking;
 import com.github.wintersteve25.oniutils.common.network.PacketUpdateServerBE;
 import com.github.wintersteve25.oniutils.common.utils.ONIConstants;
+import net.minecraftforge.client.gui.widget.ForgeSlider;
 
 public class ONIBaseGuiTabRedstone extends ONIBaseGuiTab {
 
-    private AbstractWidget sliderWidget;
-    private AbstractWidget sliderWidget2;
+    private ForgeSlider slider1;
+    private ForgeSlider slider2;
 
     private int lowThreshold = 20;
     private int highThreshold = 80;
@@ -41,11 +43,19 @@ public class ONIBaseGuiTabRedstone extends ONIBaseGuiTab {
             highThreshold = nbt.getInt("high_threshold");
         }
 
-        ProgressOption slider = new ProgressOption(REDSTONE_LOW, 0, 100, 1, gameSettings -> (double) lowThreshold, (setting, value) -> lowThreshold = value.intValue(), (gameSettings, sliderPercentageOption1) -> new TranslatableComponent(REDSTONE_LOW, sliderPercentageOption1.get(gameSettings)));
-        sliderWidget = slider.createButton(Minecraft.getInstance().options, i, j + 25, 120);
-
-        ProgressOption slider2 = new ProgressOption(REDSTONE_HIGH, 0, 100, 1, gameSettings -> (double) highThreshold, (setting, value) -> highThreshold = value.intValue(), (gameSettings, sliderPercentageOption1) -> new TranslatableComponent(REDSTONE_HIGH, sliderPercentageOption1.get(gameSettings)));
-        sliderWidget2 = slider2.createButton(Minecraft.getInstance().options, i, j + 48, 120);
+        slider1 = new ForgeSlider(i, j + 25, 120, 20, new TranslatableComponent(REDSTONE_LOW), TextComponent.EMPTY, 0, 100, lowThreshold, 1, 0, true) {
+            @Override
+            protected void applyValue() {
+                lowThreshold = slider1.getValueInt();
+            }
+        };
+        
+        slider2 = new ForgeSlider(i, j + 48, 120, 20, new TranslatableComponent(REDSTONE_HIGH), TextComponent.EMPTY, 0, 100, highThreshold, 1, 0, true) {
+            @Override
+            protected void applyValue() {
+                highThreshold = slider2.getValueInt();
+            }
+        };
     }
 
     @Override
@@ -56,15 +66,12 @@ public class ONIBaseGuiTabRedstone extends ONIBaseGuiTab {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (isVisible()) {
-            SliderButton sliderWidge = (SliderButton) sliderWidget;
-            SliderButton sliderWidge2 = (SliderButton) sliderWidget2;
-
-            if (sliderWidge.isMouseOver(mouseX, mouseY)) {
-                sliderWidge.onClick(mouseX, mouseY);
+            if (slider1.isMouseOver(mouseX, mouseY)) {
+                slider1.onClick(mouseX, mouseY);
             }
 
-            if (sliderWidge2.isMouseOver(mouseX, mouseY)) {
-                sliderWidge2.onClick(mouseX, mouseY);
+            if (slider1.isMouseOver(mouseX, mouseY)) {
+                slider1.onClick(mouseX, mouseY);
             }
         }
         return super.mouseClicked(mouseX, mouseY, button);
@@ -75,19 +82,17 @@ public class ONIBaseGuiTabRedstone extends ONIBaseGuiTab {
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         if (isVisible()) {
             matrixStack.pushPose();
-            sliderWidget.render(matrixStack, mouseX, mouseY, partialTicks);
-            sliderWidget2.render(matrixStack, mouseX, mouseY, partialTicks);
+            slider1.render(matrixStack, mouseX, mouseY, partialTicks);
+            slider2.render(matrixStack, mouseX, mouseY, partialTicks);
             matrixStack.popPose();
 
             if (this.isDragging()) {
-                SliderButton sliderWidge = (SliderButton) sliderWidget;
-                if (sliderWidge.isMouseOver(mouseX, mouseY)) {
-                    sliderWidge.setValueFromMouse(mouseX);
+                if (slider1.isMouseOver(mouseX, mouseY)) {
+                    slider1.setValue(mouseX);
                 }
 
-                SliderButton sliderWidge2 = (SliderButton) sliderWidget2;
-                if (sliderWidge2.isMouseOver(mouseX, mouseY)) {
-                    sliderWidge2.setValueFromMouse(mouseX);
+                if (slider2.isMouseOver(mouseX, mouseY)) {
+                    slider2.setValue(mouseX);
                 }
             }
         }
@@ -97,11 +102,11 @@ public class ONIBaseGuiTabRedstone extends ONIBaseGuiTab {
     public void toggleVisibility() {
         super.toggleVisibility();
         if (isVisible()) {
-            addWidget(sliderWidget);
-            addWidget(sliderWidget2);
+            addWidget(slider1);
+            addWidget(slider2);
         } else {
-            removeWidget(sliderWidget);
-            removeWidget(sliderWidget2);
+            removeWidget(slider1);
+            removeWidget(slider2);
         }
     }
 
