@@ -59,25 +59,6 @@ public class ONIBaseGuiTabRedstone extends ONIBaseGuiTab {
     }
 
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
-    }
-
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (isVisible()) {
-            if (slider1.isMouseOver(mouseX, mouseY)) {
-                slider1.onClick(mouseX, mouseY);
-            }
-
-            if (slider1.isMouseOver(mouseX, mouseY)) {
-                slider1.onClick(mouseX, mouseY);
-            }
-        }
-        return super.mouseClicked(mouseX, mouseY, button);
-    }
-
-    @Override
     public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         if (isVisible()) {
@@ -88,11 +69,11 @@ public class ONIBaseGuiTabRedstone extends ONIBaseGuiTab {
 
             if (this.isDragging()) {
                 if (slider1.isMouseOver(mouseX, mouseY)) {
-                    slider1.setValue(mouseX);
+                    slider1.mouseDragged(mouseX, mouseY, 0, 0, 0);
                 }
 
                 if (slider2.isMouseOver(mouseX, mouseY)) {
-                    slider2.setValue(mouseX);
+                    slider2.mouseDragged(mouseX, mouseY, 0, 0, 0);
                 }
             }
         }
