@@ -16,6 +16,7 @@ import com.github.wintersteve25.oniutils.common.registries.ONIBlocks;
 import com.github.wintersteve25.oniutils.common.registries.ONIConfig;
 import com.github.wintersteve25.oniutils.common.events.ONIServerEventsHandler;
 import com.github.wintersteve25.oniutils.common.registration.Registration;
+import org.jetbrains.annotations.NotNull;
 
 @Mod(ONIUtils.MODID)
 public class ONIUtils {
@@ -38,10 +39,11 @@ public class ONIUtils {
     //item group
     public static final CreativeModeTab creativeTab = new CreativeModeTab("oniutils") {
         @Override
-        public ItemStack makeIcon() {
+        public @NotNull ItemStack makeIcon() {
             return new ItemStack(ONIBlocks.NonFunctionals.IGNEOUS_ROCK.asItem());
         }
     };
+    
     public static Item.Properties defaultProperties() {
         return new Item.Properties().tab(ONIUtils.creativeTab);
     }
