@@ -1,6 +1,5 @@
 package com.github.wintersteve25.oniutils.common.worldgen.carvers;
 
-import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.ChunkPos;
@@ -16,8 +15,8 @@ import java.util.Random;
 import java.util.function.Function;
 
 public class PocketCarver extends WorldCarver<PocketCarverConfig> {
-    public PocketCarver(Codec<PocketCarverConfig> pCodec) {
-        super(pCodec);
+    public PocketCarver() {
+        super(PocketCarverConfig.CODEC);
     }
 
     @Override
@@ -31,11 +30,33 @@ public class PocketCarver extends WorldCarver<PocketCarverConfig> {
             @NotNull ChunkPos chunkPos,
             @NotNull CarvingMask carvingMask
     ) {
-        return false;
+        
+        var carveSkipChecker = new CarveSkipChecker() {
+            @Override
+            public boolean shouldSkip(CarvingContext pContext, double pRelativeX, double pRelativeY, double pRelativeZ, int pY) {
+                return false;
+            }
+        };
+        
+        return carveEllipsoid(
+                carvingContext,
+                pocketCarverConfig,
+                chunkAccess,
+                function,
+                aquifer,
+                chunkPos.getMiddleBlockX(),
+                256,
+                chunkPos.getMiddleBlockZ(),
+                8,
+                4,
+                carvingMask,
+                carveSkipChecker
+        );
     }
 
     @Override
-    public boolean isStartChunk(@NotNull PocketCarverConfig pocketCarverConfig, @NotNull Random random) {
-        return false;
+    public boolean isStartChunk(@NotNull PocketCarverConfig config, @NotNull Random random) {
+        return true;
+//        return random.nextFloat() <= config.probability;
     }
 }

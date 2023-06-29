@@ -1,5 +1,6 @@
 package com.github.wintersteve25.oniutils.common.registries.worldgen;
 
+import net.minecraft.data.worldgen.Carvers;
 import net.minecraft.world.level.biome.*;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -19,6 +20,9 @@ public class ONIBiomes {
 
     private static RegistryObject<Biome> temperate() {
         var generationSettings = new BiomeGenerationSettings.Builder()
+                .addCarver(GenerationStep.Carving.AIR, ONICarvers.POCKET_CARVER_CONFIGURED.getHolder().get())
+                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE)
+                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE_EXTRA_UNDERGROUND)
                 .build();
 
         var mobSettings = new MobSpawnSettings.Builder()
@@ -43,6 +47,9 @@ public class ONIBiomes {
 
     private static RegistryObject<Biome> oil() {
         var generationSettings = new BiomeGenerationSettings.Builder()
+                .addCarver(GenerationStep.Carving.AIR, ONICarvers.POCKET_CARVER_CONFIGURED.getHolder().get())
+                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE)
+                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE_EXTRA_UNDERGROUND)
                 .build();
 
         var mobSettings = new MobSpawnSettings.Builder()
@@ -67,6 +74,9 @@ public class ONIBiomes {
 
     private static RegistryObject<Biome> volcanic() {
         var generationSettings = new BiomeGenerationSettings.Builder()
+                .addCarver(GenerationStep.Carving.AIR, ONICarvers.POCKET_CARVER_CONFIGURED.getHolder().get())
+                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE)
+                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE_EXTRA_UNDERGROUND)
                 .build();
 
         var mobSettings = new MobSpawnSettings.Builder()
@@ -91,6 +101,9 @@ public class ONIBiomes {
 
     private static RegistryObject<Biome> space() {
         var generationSettings = new BiomeGenerationSettings.Builder()
+                .addCarver(GenerationStep.Carving.AIR, ONICarvers.POCKET_CARVER_CONFIGURED.getHolder().get())
+                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE)
+                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE_EXTRA_UNDERGROUND)
                 .build();
 
         var mobSettings = new MobSpawnSettings.Builder()
@@ -115,6 +128,9 @@ public class ONIBiomes {
 
     private static RegistryObject<Biome> swamp() {
         var generationSettings = new BiomeGenerationSettings.Builder()
+                .addCarver(GenerationStep.Carving.AIR, ONICarvers.POCKET_CARVER_CONFIGURED.getHolder().get())
+                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE)
+                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE_EXTRA_UNDERGROUND)
                 .build();
 
         var mobSettings = new MobSpawnSettings.Builder()
@@ -139,6 +155,9 @@ public class ONIBiomes {
 
     private static RegistryObject<Biome> frozen() {
         var generationSettings = new BiomeGenerationSettings.Builder()
+                .addCarver(GenerationStep.Carving.AIR, ONICarvers.POCKET_CARVER_CONFIGURED.getHolder().get())
+                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE)
+                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE_EXTRA_UNDERGROUND)
                 .build();
 
         var mobSettings = new MobSpawnSettings.Builder()

@@ -1,5 +1,6 @@
 package com.github.wintersteve25.oniutils.common.registration;
 
+import com.github.wintersteve25.oniutils.common.registries.worldgen.ONICarvers;
 import com.github.wintersteve25.oniutils.common.registries.worldgen.ONIDensityFunction;
 import mekanism.common.registration.impl.*;
 import net.minecraft.world.effect.MobEffect;
@@ -18,21 +19,22 @@ public class Registration {
 
     public static void init() {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        ONITags.register();
 
         ONIBlocks.register(eventBus);
         ONIItems.register(eventBus);
         ONIGases.register(eventBus);
         ONISounds.register(eventBus);
         ONICapabilities.register(eventBus);
+        
         ONIFeatures.register(eventBus);
         ONIBiomes.register(eventBus);
         ONIDensityFunction.register(eventBus);
+        ONICarvers.register(eventBus);
 
         EFFECTS.register(eventBus);
         FLUID.register(eventBus);
-
-        ONITags.register();
-
+        
         ONIUtils.LOGGER.info("ONIUtils Registration Completed");
     }
 }
