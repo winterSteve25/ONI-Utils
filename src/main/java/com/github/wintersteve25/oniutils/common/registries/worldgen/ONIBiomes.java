@@ -1,13 +1,14 @@
 package com.github.wintersteve25.oniutils.common.registries.worldgen;
 
-import net.minecraft.data.worldgen.Carvers;
-import net.minecraft.world.level.biome.*;
-import net.minecraft.world.level.levelgen.GenerationStep;
+import com.github.wintersteve25.oniutils.ONIUtils;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeGenerationSettings;
+import net.minecraft.world.level.biome.BiomeSpecialEffects;
+import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import com.github.wintersteve25.oniutils.ONIUtils;
 
 public class ONIBiomes {
     private static final DeferredRegister<Biome> BIOME_DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.BIOMES, ONIUtils.MODID);
@@ -20,9 +21,6 @@ public class ONIBiomes {
 
     private static RegistryObject<Biome> temperate() {
         var generationSettings = new BiomeGenerationSettings.Builder()
-                .addCarver(GenerationStep.Carving.AIR, ONICarvers.POCKET_CARVER_CONFIGURED.getHolder().get())
-                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE)
-                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE_EXTRA_UNDERGROUND)
                 .build();
 
         var mobSettings = new MobSpawnSettings.Builder()
@@ -47,9 +45,6 @@ public class ONIBiomes {
 
     private static RegistryObject<Biome> oil() {
         var generationSettings = new BiomeGenerationSettings.Builder()
-                .addCarver(GenerationStep.Carving.AIR, ONICarvers.POCKET_CARVER_CONFIGURED.getHolder().get())
-                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE)
-                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE_EXTRA_UNDERGROUND)
                 .build();
 
         var mobSettings = new MobSpawnSettings.Builder()
@@ -74,9 +69,6 @@ public class ONIBiomes {
 
     private static RegistryObject<Biome> volcanic() {
         var generationSettings = new BiomeGenerationSettings.Builder()
-                .addCarver(GenerationStep.Carving.AIR, ONICarvers.POCKET_CARVER_CONFIGURED.getHolder().get())
-                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE)
-                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE_EXTRA_UNDERGROUND)
                 .build();
 
         var mobSettings = new MobSpawnSettings.Builder()
@@ -101,9 +93,6 @@ public class ONIBiomes {
 
     private static RegistryObject<Biome> space() {
         var generationSettings = new BiomeGenerationSettings.Builder()
-                .addCarver(GenerationStep.Carving.AIR, ONICarvers.POCKET_CARVER_CONFIGURED.getHolder().get())
-                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE)
-                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE_EXTRA_UNDERGROUND)
                 .build();
 
         var mobSettings = new MobSpawnSettings.Builder()
@@ -128,9 +117,6 @@ public class ONIBiomes {
 
     private static RegistryObject<Biome> swamp() {
         var generationSettings = new BiomeGenerationSettings.Builder()
-                .addCarver(GenerationStep.Carving.AIR, ONICarvers.POCKET_CARVER_CONFIGURED.getHolder().get())
-                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE)
-                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE_EXTRA_UNDERGROUND)
                 .build();
 
         var mobSettings = new MobSpawnSettings.Builder()
@@ -155,9 +141,6 @@ public class ONIBiomes {
 
     private static RegistryObject<Biome> frozen() {
         var generationSettings = new BiomeGenerationSettings.Builder()
-                .addCarver(GenerationStep.Carving.AIR, ONICarvers.POCKET_CARVER_CONFIGURED.getHolder().get())
-                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE)
-                .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE_EXTRA_UNDERGROUND)
                 .build();
 
         var mobSettings = new MobSpawnSettings.Builder()
