@@ -1,5 +1,7 @@
 package com.github.wintersteve25.oniutils.common.registries;
 
+import com.github.wintersteve25.oniutils.common.contents.base.blocks.placeholder.ONIPlaceHolderBlock;
+import com.github.wintersteve25.oniutils.common.contents.base.blocks.placeholder.ONIPlaceHolderTE;
 import mekanism.common.registration.impl.BlockRegistryObject;
 import mekanism.common.registration.impl.ContainerTypeDeferredRegister;
 import mekanism.common.registration.impl.ContainerTypeRegistryObject;
@@ -96,6 +98,9 @@ public class ONIBlocks {
     public static final class Misc {
         public static final BlockRegistryObject<ONIBoundingBlock, BlockItem> BOUNDING_BLOCK = BLOCKS.register("bounding_block", ONIBoundingBlock::new, false, false, false, false);
         public static final TileEntityTypeRegistryObject<ONIBoundingTE> BOUNDING_TE = BLOCK_ENTITIES.registerBE(BOUNDING_BLOCK, ONIBoundingTE::new);
+        
+        public static final BlockRegistryObject<ONIPlaceHolderBlock, BlockItem> PLACEHOLDER_BLOCK = BLOCKS.register("placeholder", ONIPlaceHolderBlock::new, false, false, false, false);
+        public static final TileEntityTypeRegistryObject<ONIPlaceHolderTE> PLACEHOLDER_TE = BLOCK_ENTITIES.registerBE(PLACEHOLDER_BLOCK, ONIPlaceHolderTE::new);
 
         private static void register() {
         }

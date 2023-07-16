@@ -1,4 +1,4 @@
-package com.github.wintersteve25.oniutils.common.data.saved_data.build_requests;
+package com.github.wintersteve25.oniutils.common.data.saved_data.requests;
 
 import com.github.wintersteve25.oniutils.common.utils.SerializableMap;
 import net.minecraft.core.BlockPos;
@@ -8,11 +8,11 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public class WorldBuildRequest implements INBTSerializable<CompoundTag> {
-    public SerializableMap<BlockPos, BlockState> requests;
+public class DupleRequests implements INBTSerializable<CompoundTag> {
+    public SerializableMap<BlockPos, BlockState> buildRequests;
    
-    public WorldBuildRequest() {
-        requests = new SerializableMap<>(
+    public DupleRequests() {
+        buildRequests = new SerializableMap<>(
                 NbtUtils::writeBlockPos,
                 NbtUtils::writeBlockState,
                 tag -> NbtUtils.readBlockPos((CompoundTag) tag),
@@ -23,11 +23,11 @@ public class WorldBuildRequest implements INBTSerializable<CompoundTag> {
     
     @Override
     public CompoundTag serializeNBT() {
-        return requests.serializeNBT();
+        return buildRequests.serializeNBT();
     }
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-        requests.deserializeNBT(nbt);
+        buildRequests.deserializeNBT(nbt);
     }
 }

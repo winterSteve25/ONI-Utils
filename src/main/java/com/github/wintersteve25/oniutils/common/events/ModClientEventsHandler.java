@@ -1,5 +1,6 @@
 package com.github.wintersteve25.oniutils.common.events;
 
+import com.github.wintersteve25.oniutils.common.contents.base.blocks.placeholder.ONIPlaceHolderBER;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraftforge.api.distmarker.Dist;
@@ -42,6 +43,8 @@ public class ModClientEventsHandler {
         if (ModList.get().isLoaded("geckolib3")) {
             event.registerBlockEntityRenderer(ONIBlocks.Machines.Power.COAL_GEN_TE.get(), t -> new GeckolibBlockRendererBase<CoalGenTE>(t, ONIConstants.Geo.COAL_GEN_TE));
         }
+        
+        event.registerBlockEntityRenderer(ONIBlocks.Misc.PLACEHOLDER_TE.get(), t -> new ONIPlaceHolderBER());
     }
 
     @SubscribeEvent

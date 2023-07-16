@@ -60,6 +60,12 @@ public class ONINetworking {
                 .decoder(PacketUpdateClientWorldBuildRequest::new)
                 .consumer(PacketUpdateClientWorldBuildRequest::handle)
                 .add();
+        
+        INSTANCE.messageBuilder(PacketOpenBuilderToolUI.class, nextID())
+                .encoder((var1, var2) -> {})
+                .decoder((buffer) -> new PacketOpenBuilderToolUI())
+                .consumer(PacketOpenBuilderToolUI::handle)
+                .add();
     }
 
     public static SimpleChannel getInstance() {

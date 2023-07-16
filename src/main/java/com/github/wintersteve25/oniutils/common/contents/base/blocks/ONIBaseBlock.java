@@ -4,6 +4,7 @@ import mekanism.common.block.states.IStateFluidLoggable;
 import mekanism.common.util.WorldUtils;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Fluid;
@@ -148,5 +149,15 @@ public class ONIBaseBlock extends Block implements IStateFluidLoggable {
 
     public boolean isFluidLoggable() {
         return false;
+    }
+    
+    protected <T extends BlockEntity> T getTileEntityOrThrow(Class<T> type, BlockGetter accessor, BlockPos pos) {
+        T te = WorldUtils.getTileEntity(type, accessor, pos);
+        
+        if (te == null) {
+            throw new IllegalStateException("Expected tile entity of type " + type + " at " + pos + " but none was found");
+        }
+        
+        return te;
     }
 }

@@ -1,4 +1,4 @@
-package com.github.wintersteve25.oniutils.common.data.saved_data.build_requests;
+package com.github.wintersteve25.oniutils.common.data.saved_data.requests;
 
 import com.github.wintersteve25.oniutils.common.network.ONINetworking;
 import com.github.wintersteve25.oniutils.common.network.PacketUpdateClientWorldBuildRequest;
@@ -13,16 +13,16 @@ import net.minecraft.world.level.storage.DimensionDataStorage;
 import java.util.Map;
 import java.util.Set;
 
-public class ServerWorldBuildRequest extends SavedData implements IWorldBuildRequest {
+public class ServerDupeRequests extends SavedData implements IDupeRequests {
 
-    private final WorldBuildRequest internal;
+    private final DupleRequests internal;
 
-    public ServerWorldBuildRequest() {
-        internal = new WorldBuildRequest();
+    public ServerDupeRequests() {
+        internal = new DupleRequests();
     }
 
-    public ServerWorldBuildRequest(CompoundTag compoundTag) {
-        internal = new WorldBuildRequest();
+    public ServerDupeRequests(CompoundTag compoundTag) {
+        internal = new DupleRequests();
         
         if (!compoundTag.contains("requests")) {
             return;
@@ -37,19 +37,9 @@ public class ServerWorldBuildRequest extends SavedData implements IWorldBuildReq
         return pCompoundTag;
     }
 
-    @Override
-    public BlockState getRequest(BlockPos pos) {
-        return internal.requests.get(pos);
-    }
-
-    @Override
-    public Set<Map.Entry<BlockPos, BlockState>> getAllRequests() {
-        return internal.requests.entrySet();
-    }
-
-    public static ServerWorldBuildRequest get(ServerLevel level) {
+    public static ServerDupeRequests get(ServerLevel level) {
         DimensionDataStorage storage = level.getDataStorage();
-        return storage.computeIfAbsent(ServerWorldBuildRequest::new, ServerWorldBuildRequest::new, "oni_build_requests");
+        return storage.computeIfAbsent(ServerDupeRequests::new, ServerDupeRequests::new, "oni_build_requests");
     }
     
     public static void updateClientData(ServerPlayer player) {

@@ -24,6 +24,7 @@ public class Registration {
         ONIGases.register(eventBus);
         ONISounds.register(eventBus);
         ONICapabilities.register(eventBus);
+        ONIRecipes.register(eventBus);
         
         ONIFeatures.register(eventBus);
         ONIDensityFunction.register(eventBus);

@@ -1,6 +1,7 @@
 package com.github.wintersteve25.oniutils.common.utils;
 
 import com.github.wintersteve25.oniutils.ONIUtils;
+import com.github.wintersteve25.oniutils.common.data.saved_data.requests.ServerDupeRequests;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -28,7 +29,7 @@ public class SerializableMap<K, V> implements INBTSerializable<CompoundTag>, Map
      * @param valueDeserializer the function that will be used to deserialize the value back into an object
      * @param keyDataType the integer type of the key nbt, use constants from {@link Tag}
      * @param valueDataType the integer type of the key nbt, use constants from {@link Tag}
-     * See example in {@link com.github.wintersteve25.oniutils.common.data.saved_data.build_requests.ServerWorldBuildRequest}
+     * See example in {@link ServerDupeRequests}
      */
     public SerializableMap(Function<K, Tag> keySerializer, Function<V, Tag> valueSerializer, Function<Tag, K> keyDeserializer, Function<Tag, V> valueDeserializer, int keyDataType, int valueDataType) {
         this.keySerializer = keySerializer;

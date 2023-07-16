@@ -110,7 +110,7 @@ dependencies {
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.18.2-5.0.9.0:api")
     
     // tau
-    implementation fg.deobf("com.github.wintersteve25:Tau:1.0.0-1.18")
+    implementation fg.deobf("com.github.wintersteve25:Tau:1.0.1-1.18-HOTFIX")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

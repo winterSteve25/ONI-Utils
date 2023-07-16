@@ -43,6 +43,8 @@ public class ONIEngLangProvider extends LanguageProvider {
         add("oniutils.message.trait.traitInfo", "Check Trait infos here: https://github.com/FictionCraft-Team/ONI-Utils/wiki/Trait-System");
 
         add("oniutils.message.needLevel", ChatFormatting.RED + "Requires %s level of %s to operate... Perhaps some complexity modifications might help");
+        
+        add("oniutils.message.requests.buildCanceled", "%s build has been canceled");
 
         add("death.attack.oniutils.oxygen", "%1$s forgot to breathe");
         add("death.attack.oniutils.gas", "%1$s forgot to wear a \"mask\"");
