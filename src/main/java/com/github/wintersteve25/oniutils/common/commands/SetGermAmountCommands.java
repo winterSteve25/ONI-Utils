@@ -20,21 +20,23 @@ import com.github.wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class SetGermAmountCommands implements Command<CommandSourceStack> {
 
     private static final SetGermAmountCommands INSTANCE = new SetGermAmountCommands();
 
     public static ArgumentBuilder<CommandSourceStack, ?> register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        Stream<String> germTypes = Arrays.stream(EnumGermType.values()).map((var) -> MiscHelper.langToReg(var.getName()));
+        Set<String> germTypes = Arrays.stream(EnumGermType.values())
+                .map((var) -> MiscHelper.langToReg(var.getName()))
+                .collect(Collectors.toSet());
 
         return Commands.literal("set")
                 .requires(cs -> cs.hasPermission(1))
                 .then(Commands.argument("target", EntityArgument.entities())
-                        .then(Commands.argument("amount", IntegerArgumentType.integer())
-                                .then(Commands.argument("germType", StringArgumentType.string()).suggests((ctx, sb) -> SharedSuggestionProvider.suggest(germTypes, sb))
+                        .then(Commands.argument("germType", StringArgumentType.string()).suggests((ctx, sb) -> SharedSuggestionProvider.suggest(germTypes, sb))
+                                .then(Commands.argument("amount", IntegerArgumentType.integer())
                                         .executes(INSTANCE))));
     }
 

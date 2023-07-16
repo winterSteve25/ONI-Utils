@@ -19,6 +19,8 @@ import com.github.wintersteve25.oniutils.common.utils.helpers.MiscHelper;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SimpleCommands {
@@ -43,7 +45,10 @@ public class SimpleCommands {
     }
     
     public static LiteralArgumentBuilder<CommandSourceStack> setSkillLevelCommand() {
-        Stream<String> skillTypes = Arrays.stream(SkillType.values()).map((var) -> var.name());
+        Set<String> skillTypes = Arrays.stream(SkillType.values())
+                .map(Enum::name)
+                .collect(Collectors.toSet());
+        
         return Commands.literal("set")
             .then(
                 Commands.argument("skillType", StringArgumentType.string())
