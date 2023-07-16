@@ -54,6 +54,12 @@ public class ONINetworking {
                 .decoder(PacketTriggerPlayerMove::new)
                 .consumer(PacketTriggerPlayerMove::handle)
                 .add();
+        
+        INSTANCE.messageBuilder(PacketUpdateClientWorldBuildRequest.class, nextID())
+                .encoder(PacketUpdateClientWorldBuildRequest::encode)
+                .decoder(PacketUpdateClientWorldBuildRequest::new)
+                .consumer(PacketUpdateClientWorldBuildRequest::handle)
+                .add();
     }
 
     public static SimpleChannel getInstance() {
