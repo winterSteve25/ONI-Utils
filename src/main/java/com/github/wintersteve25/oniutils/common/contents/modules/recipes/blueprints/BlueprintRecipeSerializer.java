@@ -41,7 +41,7 @@ public class BlueprintRecipeSerializer extends ForgeRegistryEntry<RecipeSerializ
         NonNullList<PartialItemIngredient> ingredients = NonNullList.create();
         
         for (JsonElement input : inputs) {
-            ingredients.add(PartialItemIngredient.deserialize(input));
+            ingredients.add(PartialItemIngredient.parse(input));
         }
 
         Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(json.get("output").getAsString()));

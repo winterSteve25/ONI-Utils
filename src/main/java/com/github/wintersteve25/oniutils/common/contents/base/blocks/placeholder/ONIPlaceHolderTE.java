@@ -4,9 +4,12 @@ import com.github.wintersteve25.oniutils.ONIUtils;
 import com.github.wintersteve25.oniutils.common.contents.base.blocks.ONIBaseInvTE;
 import com.github.wintersteve25.oniutils.common.contents.modules.recipes.blueprints.BlueprintRecipe;
 import com.github.wintersteve25.oniutils.common.registries.ONIBlocks;
+import com.github.wintersteve25.oniutils.common.registries.ONIRecipes;
 import com.github.wintersteve25.oniutils.common.utils.PartialItemIngredient;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -21,6 +24,7 @@ public class ONIPlaceHolderTE extends ONIBaseInvTE {
     
     private BlueprintRecipe recipe;
     private List<PartialItemIngredient> remainingIngredients;
+    private float completionPercentage;
     
     public ONIPlaceHolderTE(BlockPos pos, BlockState state) {
         this(ONIBlocks.Misc.PLACEHOLDER_TE.get(), pos, state);
@@ -35,7 +39,19 @@ public class ONIPlaceHolderTE extends ONIBaseInvTE {
     public int getInvSize() {
         return 32;
     }
-    
+
+    @Override
+    public void load(CompoundTag tag) {
+        super.load(tag);
+        completionPercentage = tag.getFloat("completion");
+    }
+
+    @Override
+    public void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+        tag.putFloat("completion", completionPercentage);
+    }
+
     public void init(BlueprintRecipe recipe) {
         if (hasItem()) {
             throw new IllegalStateException("Should not initialize Placeholder with recipe after it is initialized and has items");
@@ -43,6 +59,7 @@ public class ONIPlaceHolderTE extends ONIBaseInvTE {
         
         this.recipe = recipe;
         this.remainingIngredients = new ArrayList<>(recipe.ingredients());
+        completionPercentage = 0f / remainingIngredients.size();
     }
     
     public boolean addItem(ItemStack itemStack) {
@@ -67,6 +84,8 @@ public class ONIPlaceHolderTE extends ONIBaseInvTE {
                 remainingIngredients.remove(ingredient.get());
             }
             
+            completionPercentage = 0f / remainingIngredients.size();
+            updateBlock();
             return true;
         }
         
@@ -75,5 +94,9 @@ public class ONIPlaceHolderTE extends ONIBaseInvTE {
 
     public BlockItem getInPlaceOf() {
         return recipe.output();
+    }
+
+    public float getCompletionPercentage() {
+        return completionPercentage;
     }
 }

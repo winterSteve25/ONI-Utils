@@ -2,6 +2,7 @@ package com.github.wintersteve25.oniutils.common.utils;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -26,7 +27,7 @@ public final class PartialItemIngredient implements Predicate<ItemStack> {
         return count;
     }
 
-    public static PartialItemIngredient deserialize(JsonElement input) {
+    public static PartialItemIngredient parse(JsonElement input) {
         JsonObject object = input.getAsJsonObject();
         Ingredient ing = Ingredient.fromJson(object.get("item"));
         int count = object.get("count").getAsInt();
@@ -41,6 +42,18 @@ public final class PartialItemIngredient implements Predicate<ItemStack> {
     public static PartialItemIngredient decode(FriendlyByteBuf buf) {
         return new PartialItemIngredient(Ingredient.fromNetwork(buf), buf.readInt());
     }
+    
+//    public CompoundTag serialize() {
+//        CompoundTag tag = new CompoundTag();
+//        
+//        tag.putInt("count", count);
+//        
+//        return tag;
+//    }
+//    
+//    public static PartialItemIngredient deserialize(CompoundTag tag) {
+//        return new PartialItemIngredient();
+//    }
 
     @Override
     public boolean test(ItemStack itemStack) {

@@ -44,7 +44,7 @@ public class ModClientEventsHandler {
             event.registerBlockEntityRenderer(ONIBlocks.Machines.Power.COAL_GEN_TE.get(), t -> new GeckolibBlockRendererBase<CoalGenTE>(t, ONIConstants.Geo.COAL_GEN_TE));
         }
         
-        event.registerBlockEntityRenderer(ONIBlocks.Misc.PLACEHOLDER_TE.get(), t -> new ONIPlaceHolderBER());
+        event.registerBlockEntityRenderer(ONIBlocks.Misc.PLACEHOLDER_TE.get(), t -> new ONIPlaceHolderBER(t.getBlockRenderDispatcher()));
     }
 
     @SubscribeEvent
