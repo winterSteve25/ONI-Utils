@@ -4,12 +4,10 @@ import com.github.wintersteve25.oniutils.ONIUtils;
 import com.github.wintersteve25.oniutils.common.contents.base.blocks.ONIBaseInvTE;
 import com.github.wintersteve25.oniutils.common.contents.modules.recipes.blueprints.BlueprintRecipe;
 import com.github.wintersteve25.oniutils.common.registries.ONIBlocks;
-import com.github.wintersteve25.oniutils.common.registries.ONIRecipes;
 import com.github.wintersteve25.oniutils.common.utils.PartialItemIngredient;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -32,7 +30,6 @@ public class ONIPlaceHolderTE extends ONIBaseInvTE {
 
     public ONIPlaceHolderTE(BlockEntityType<ONIPlaceHolderTE> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
-        init(new BlueprintRecipe(new ResourceLocation(ONIUtils.MODID, "test"), NonNullList.create(), ONIBlocks.Machines.Power.COAL_GEN_BLOCK.asItem()));
     }
 
     @Override
@@ -59,7 +56,7 @@ public class ONIPlaceHolderTE extends ONIBaseInvTE {
         
         this.recipe = recipe;
         this.remainingIngredients = new ArrayList<>(recipe.ingredients());
-        completionPercentage = 0f / remainingIngredients.size();
+        completionPercentage = remainingIngredients.size() == 0 ? 1 : 0f / remainingIngredients.size();
     }
     
     public boolean addItem(ItemStack itemStack) {

@@ -1,0 +1,10 @@
+{
+  "type": "oniutils:blueprint",
+  "inputs": [
+    {
+      "item": "minecraft:item_ingot",
+      "count": 1
+    }
+  ],
+  "output": "oniutils:coal_generator"
+}

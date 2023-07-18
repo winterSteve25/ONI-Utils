@@ -1,6 +1,6 @@
 package com.github.wintersteve25.oniutils.common.contents.base.blocks.placeholder;
 
-import com.github.wintersteve25.oniutils.client.utils.MultiplyAlphaRenderTypeBuffer;
+import com.github.wintersteve25.oniutils.client.utils.ColoredRenderTypeBuffer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
@@ -30,7 +30,7 @@ public class ONIPlaceHolderBER implements BlockEntityRenderer<ONIPlaceHolderTE> 
         pPoseStack.translate(-0.5f, 0.5f, -0.5f);
         pPoseStack.translate(0, -0.5f, 0);
 
-        MultiplyAlphaRenderTypeBuffer buffer = new MultiplyAlphaRenderTypeBuffer(Minecraft.getInstance().renderBuffers().bufferSource(), (pBlockEntity.getCompletionPercentage() - 0.1f) + 0.1f);
+        ColoredRenderTypeBuffer buffer = new ColoredRenderTypeBuffer(Minecraft.getInstance().renderBuffers().bufferSource(), (pBlockEntity.getCompletionPercentage() - 0.1f) + 0.1f, .5f, .86f, .96f);
         renderDispatcher.renderSingleBlock(pBlockEntity.getInPlaceOf().getBlock().defaultBlockState(), pPoseStack, buffer, 15728640, OverlayTexture.RED_OVERLAY_V, EmptyModelData.INSTANCE);
         
         pPoseStack.popPose();

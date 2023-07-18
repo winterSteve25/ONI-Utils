@@ -12,13 +12,19 @@ import net.minecraft.world.inventory.InventoryMenu;
 
 // Copied from Building Gadgets source code, credits to the folks working on that project, thanks a lot
 // https://github.com/Direwolf20-MC/BuildingGadgets/blob/master/src/main/java/com/direwolf20/buildinggadgets/client/renderer/OurRenderTypes.java#L122
-public class MultiplyAlphaRenderTypeBuffer implements MultiBufferSource {
+public class ColoredRenderTypeBuffer implements MultiBufferSource {
     private final MultiBufferSource inner;
-    private final float constantAlpha;
+    private final float alphaMultiplier;
+    private final float rMultiplier;
+    private final float gMultiplier;
+    private final float bMultiplier;
 
-    public MultiplyAlphaRenderTypeBuffer(MultiBufferSource inner, float constantAlpha) {
+    public ColoredRenderTypeBuffer(MultiBufferSource inner, float alphMultiplier, float rMultiplier, float gMultiplier, float bMultiplier) {
         this.inner = inner;
-        this.constantAlpha = constantAlpha;
+        this.alphaMultiplier = alphMultiplier;
+        this.rMultiplier = rMultiplier;
+        this.gMultiplier = gMultiplier;
+        this.bMultiplier = bMultiplier;
     }
 
     @Override
@@ -32,19 +38,25 @@ public class MultiplyAlphaRenderTypeBuffer implements MultiBufferSource {
             localType = Sheets.translucentCullBlockSheet();
         }
 
-        return new MultiplyAlphaVertexBuilder(this.inner.getBuffer(localType), this.constantAlpha);
+        return new ColoredVertexBuffer(this.inner.getBuffer(localType), this.alphaMultiplier, rMultiplier, gMultiplier, bMultiplier);
     }
 
     /**
      * Required for modifying the alpha value.
      */
-    public static class MultiplyAlphaVertexBuilder implements VertexConsumer {
+    public static class ColoredVertexBuffer implements VertexConsumer {
         private final VertexConsumer inner;
-        private final float constantAlpha;
+        private final float alphaMultiplier;
+        private final float rMultiplier;
+        private final float gMultiplier;
+        private final float bMultiplier;
 
-        public MultiplyAlphaVertexBuilder(VertexConsumer inner, float constantAlpha) {
+        public ColoredVertexBuffer(VertexConsumer inner, float alphaMultiplier, float rMultiplier, float gMultiplier, float bMultiplier) {
             this.inner = inner;
-            this.constantAlpha = constantAlpha;
+            this.alphaMultiplier = alphaMultiplier;
+            this.rMultiplier = rMultiplier;
+            this.gMultiplier = gMultiplier;
+            this.bMultiplier = bMultiplier;
         }
 
         @Override
@@ -59,7 +71,7 @@ public class MultiplyAlphaRenderTypeBuffer implements MultiBufferSource {
 
         @Override
         public VertexConsumer color(int red, int green, int blue, int alpha) {
-            return inner.color(red, green, blue, (int) (alpha * constantAlpha));
+            return inner.color((int) (red * rMultiplier), (int) (green * gMultiplier), (int) (blue * bMultiplier), (int) (alpha * alphaMultiplier));
         }
 
         @Override

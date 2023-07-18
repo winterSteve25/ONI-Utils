@@ -5,11 +5,13 @@ import com.github.wintersteve25.oniutils.common.registries.ONIBlocks;
 import mekanism.common.util.WorldUtils;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -91,5 +93,9 @@ public class ONIPlaceHolderBlock extends ONIBaseDirectional implements EntityBlo
     @Override
     public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
         return false;
+    }
+
+    @Override
+    public void fillItemCategory(CreativeModeTab pTab, NonNullList<ItemStack> pItems) {
     }
 }
