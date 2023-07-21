@@ -1,7 +1,9 @@
 package com.github.wintersteve25.oniutils.common.contents.modules.items.gadgets.blueprint;
 
+import com.github.wintersteve25.oniutils.client.gui.ONIUITheme;
 import com.github.wintersteve25.oniutils.common.contents.modules.recipes.blueprints.BlueprintRecipe;
 import com.github.wintersteve25.oniutils.common.registries.ONIRecipes;
+import com.github.wintersteve25.oniutils.common.utils.helpers.UISizeHelper;
 import com.github.wintersteve25.tau.components.*;
 import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
 import com.github.wintersteve25.tau.components.base.UIComponent;
@@ -9,6 +11,7 @@ import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.layout.LayoutSetting;
 import com.github.wintersteve25.tau.renderer.ScreenUIRenderer;
 import com.github.wintersteve25.tau.theme.Theme;
+import com.github.wintersteve25.tau.utils.Color;
 import com.github.wintersteve25.tau.utils.ItemRenderProvider;
 import com.github.wintersteve25.tau.utils.Pad;
 import com.github.wintersteve25.tau.utils.Size;
@@ -53,7 +56,7 @@ public class ONIBlueprintGui extends DynamicUIComponent {
                         .withAlignment(LayoutSetting.START)
                         .build(
                                 new Sized(
-                                    Size.staticSize(200, 300),
+                                    Size.staticSize(150, 200),
                                     new Container.Builder()
                                         .noBackground()),
                                 categoryButtons()
@@ -69,17 +72,19 @@ public class ONIBlueprintGui extends DynamicUIComponent {
                     .withAlignment(LayoutSetting.START)
                     .build(
                         new Sized(
-                            Size.staticSize(200, 300),
+                            Size.staticSize(192, 200),
                             new Container.Builder()
                                 .withChild(new ListView.Builder()
                                     .withSpacing(2)
-                                    .build(recipesShown.stream().map(Building::new).collect(Collectors.toUnmodifiableList())))),
+                                    .withAlignment(LayoutSetting.START)
+                                    .build(recipesShown.stream().map(Building::new).collect(Collectors.toUnmodifiableList()))
+                                )),
                         categoryButtons()
                     )));
     }
 
     public static void open() {
-        Minecraft.getInstance().setScreen(new ScreenUIRenderer(new ONIBlueprintGui()));
+        Minecraft.getInstance().setScreen(new ScreenUIRenderer(new ONIBlueprintGui(), true, ONIUITheme.INSTANCE));
     }
 
     private record Category(String categoryName, Set<BlueprintRecipe> recipes, Consumer<Set<BlueprintRecipe>> onActivate) implements UIComponent {
@@ -96,13 +101,20 @@ public class ONIBlueprintGui extends DynamicUIComponent {
     private record Building(BlueprintRecipe recipe) implements UIComponent {
         @Override
         public UIComponent build(Layout layout, Theme theme) {
-            return new Row.Builder()
-                .build(
-                    new Sized(
-                        Size.staticSize(20, 20),
-                        new Render(new ItemRenderProvider(recipe.output()))),
-                    new Text.Builder(recipe.output().getName(new ItemStack(recipe.output())))
-                );
+            return new Padding(
+                new Pad.Builder().top(4).left(4).right(4).build(),
+                new Sized(
+                    Size.percentage(1, 0.1f),
+                    new Button.Builder()
+                        .build(new Row.Builder()
+                            .build(
+                                new Sized(
+                                    UISizeHelper.squareWithY(1),
+                                    new Render(new ItemRenderProvider(recipe.output()))),
+                                new Text.Builder(recipe.output().getName(new ItemStack(recipe.output())))
+                                    .withColor(Color.WHITE)))
+                )
+            );
         }
     }
 }
