@@ -1,5 +1,6 @@
 package com.github.wintersteve25.oniutils.common.contents.base.items;
 
+import com.github.wintersteve25.oniutils.common.contents.base.ONIItemCategory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -11,7 +12,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import com.github.wintersteve25.oniutils.common.contents.base.interfaces.functional.IToolTipCondition;
-import com.github.wintersteve25.oniutils.common.contents.base.items.ONIIItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -23,7 +23,7 @@ public class ONIBaseItem extends Item implements ONIIItem {
     private Supplier<ChatFormatting> colorName;
     private Supplier<List<Component>> tooltips;
     private Supplier<IToolTipCondition> tooltipCondition = IToolTipCondition.DEFAULT;
-    private ItemCategory itemCategory = ItemCategory.GENERAL;
+    private ONIItemCategory itemCategory = ONIItemCategory.GENERAL;
     private boolean takeDurabilityDamage;
 
     public ONIBaseItem(Properties properties) {
@@ -89,12 +89,12 @@ public class ONIBaseItem extends Item implements ONIIItem {
     }
 
     @Override
-    public ItemCategory getONIItemCategory() {
+    public ONIItemCategory getONIItemCategory() {
         return itemCategory;
     }
 
     @Override
-    public void setONIItemCategory(ItemCategory itemCategory) {
+    public void setONIItemCategory(ONIItemCategory itemCategory) {
         this.itemCategory = itemCategory;
     }
 

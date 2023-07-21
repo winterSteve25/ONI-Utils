@@ -1,5 +1,6 @@
 package com.github.wintersteve25.oniutils.common.contents.base.builders;
 
+import com.github.wintersteve25.oniutils.common.contents.base.ONIItemCategory;
 import net.minecraft.util.Tuple;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.Item;
@@ -14,7 +15,6 @@ import com.github.wintersteve25.oniutils.common.contents.base.interfaces.ONIIHas
 import com.github.wintersteve25.oniutils.common.contents.base.interfaces.functional.*;
 import com.github.wintersteve25.oniutils.common.contents.base.items.ONIBaseAnimatedBlockItem;
 import com.github.wintersteve25.oniutils.common.contents.base.items.ONIBaseItemBlock;
-import com.github.wintersteve25.oniutils.common.contents.base.items.ONIIItem;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -78,7 +78,7 @@ public class ONIBlockBuilder<T extends ONIBaseBlock> {
         return this;
     }
 
-    public ONIBlockBuilder<T> setCategory(ONIIItem.ItemCategory category) {
+    public ONIBlockBuilder<T> setCategory(ONIItemCategory category) {
         this.blockItem.setCategory(category);
         return this;
     }

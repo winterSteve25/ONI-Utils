@@ -1,5 +1,6 @@
 package com.github.wintersteve25.oniutils.common.contents.modules.blocks.power.coal;
 
+import com.github.wintersteve25.oniutils.common.contents.base.ONIItemCategory;
 import com.google.common.collect.Lists;
 import mekanism.common.util.VoxelShapeUtils;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -385,7 +386,7 @@ public class CoalGenTE extends ONIBaseInvTE implements IAnimatable, ONIITickable
                         return LangHelper.guiTitle(ONIConstants.LangKeys.COAL_GEN);
                     }
                 })
-                .coloredName(() -> ONIConstants.TextColor.POWER_CAT_COLOR)
+                .setCategory(ONIItemCategory.POWER)
                 .tooltip(LangHelper.itemTooltip(ONIConstants.LangKeys.COAL_GEN))
                 .shiftToolTip()
                 .noModelGen();

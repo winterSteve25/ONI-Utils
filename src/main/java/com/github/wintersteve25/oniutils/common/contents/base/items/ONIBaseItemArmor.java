@@ -1,5 +1,6 @@
 package com.github.wintersteve25.oniutils.common.contents.base.items;
 
+import com.github.wintersteve25.oniutils.common.contents.base.ONIItemCategory;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
@@ -20,7 +21,7 @@ public class ONIBaseItemArmor extends ArmorItem implements ONIIItem {
     private Supplier<ChatFormatting> colorName;
     private Supplier<List<Component>> tooltips;
     private Supplier<IToolTipCondition> tooltipCondition = IToolTipCondition.DEFAULT;
-    private ItemCategory itemCategory = ItemCategory.GENERAL;
+    private ONIItemCategory itemCategory = ONIItemCategory.GENERAL;
 
     public ONIBaseItemArmor(ArmorMaterial materialIn, EquipmentSlot slot, Properties builderIn) {
         super(materialIn, slot, builderIn);
@@ -74,12 +75,12 @@ public class ONIBaseItemArmor extends ArmorItem implements ONIIItem {
     }
 
     @Override
-    public ItemCategory getONIItemCategory() {
+    public ONIItemCategory getONIItemCategory() {
         return itemCategory;
     }
 
     @Override
-    public void setONIItemCategory(ItemCategory itemCategory) {
+    public void setONIItemCategory(ONIItemCategory itemCategory) {
         this.itemCategory = itemCategory;
     }
 }

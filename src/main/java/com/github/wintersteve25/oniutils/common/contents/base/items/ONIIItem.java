@@ -1,5 +1,6 @@
 package com.github.wintersteve25.oniutils.common.contents.base.items;
 
+import com.github.wintersteve25.oniutils.common.contents.base.ONIItemCategory;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.chat.Component;
@@ -45,11 +46,11 @@ public interface ONIIItem {
     default void setPlacementCondition(IPlacementCondition placementCondition) {
     }
 
-    default ItemCategory getONIItemCategory() {
-        return ItemCategory.GENERAL;
+    default ONIItemCategory getONIItemCategory() {
+        return ONIItemCategory.GENERAL;
     }
 
-    default void setONIItemCategory(ItemCategory itemCategory) {
+    default void setONIItemCategory(ONIItemCategory itemCategory) {
     }
 
     default void tooltip(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
@@ -72,32 +73,6 @@ public interface ONIIItem {
                     }
                 }
             }
-        }
-    }
-
-    enum ItemCategory {
-        GENERAL("", null),
-        GADGETS("gadgets/", ONIConstants.TextColor.GADGETS),
-        FURNITURE("furniture/", ONIConstants.TextColor.FURNITURE_CAT_COLOR),
-        OXYGEN("oxygen/", ONIConstants.TextColor.OXYGEN_CAT_COLOR),
-        POWER("power/", ONIConstants.TextColor.POWER_CAT_COLOR),
-        TE_BOUNDED("te_bounded/", ONIConstants.TextColor.TE_BOUNDING_CAT_COLOR),
-        VENTILATION("ventilation/", ONIConstants.TextColor.VENTILATION_CAT_COLOR);
-
-        private final String pathName;
-        private final ChatFormatting color;
-
-        ItemCategory(String pathName, ChatFormatting color) {
-            this.pathName = pathName;
-            this.color = color;
-        }
-
-        public String getPathName() {
-            return pathName;
-        }
-
-        public ChatFormatting getColor() {
-            return color;
         }
     }
 }

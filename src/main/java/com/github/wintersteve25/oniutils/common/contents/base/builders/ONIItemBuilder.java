@@ -1,5 +1,6 @@
 package com.github.wintersteve25.oniutils.common.contents.base.builders;
 
+import com.github.wintersteve25.oniutils.common.contents.base.ONIItemCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.ChatFormatting;
 import com.github.wintersteve25.oniutils.common.contents.base.blocks.ONIBaseBlock;
@@ -22,7 +23,7 @@ public class ONIItemBuilder<T extends ONIIItem> {
     private Supplier<List<Component>> tooltips;
     private Supplier<ChatFormatting> color;
     private IPlacementCondition placementCondition;
-    private ONIIItem.ItemCategory category = ONIIItem.ItemCategory.GENERAL;
+    private ONIItemCategory category = ONIItemCategory.GENERAL;
     private boolean takeDurabilityDamage = false;
 
     private boolean doModelGen = true;
@@ -63,7 +64,7 @@ public class ONIItemBuilder<T extends ONIIItem> {
         return this;
     }
 
-    public ONIItemBuilder<T> setCategory(ONIIItem.ItemCategory category) {
+    public ONIItemBuilder<T> setCategory(ONIItemCategory category) {
         this.category = category;
         return this;
     }

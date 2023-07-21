@@ -1,5 +1,6 @@
 package com.github.wintersteve25.oniutils.common.contents.base.items;
 
+import com.github.wintersteve25.oniutils.common.contents.base.ONIItemCategory;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.item.TooltipFlag;
@@ -23,7 +24,7 @@ public class ONIBaseItemBlock extends BlockItem implements ONIIItem {
     private Supplier<List<Component>> tooltips;
     private Supplier<IToolTipCondition> tooltipCondition = IToolTipCondition.DEFAULT;
     private IPlacementCondition placementCondition;
-    private ItemCategory itemCategory = ItemCategory.GENERAL;
+    private ONIItemCategory itemCategory = ONIItemCategory.GENERAL;
 
     public ONIBaseItemBlock(Block blockIn, Properties builder) {
         super(blockIn, builder);
@@ -94,12 +95,12 @@ public class ONIBaseItemBlock extends BlockItem implements ONIIItem {
         this.placementCondition = placementCondition;
     }
 
-    public ItemCategory getONIItemCategory() {
+    public ONIItemCategory getONIItemCategory() {
         return itemCategory;
     }
 
     @Override
-    public void setONIItemCategory(ItemCategory itemCategory) {
+    public void setONIItemCategory(ONIItemCategory itemCategory) {
         this.itemCategory = itemCategory;
     }
 }

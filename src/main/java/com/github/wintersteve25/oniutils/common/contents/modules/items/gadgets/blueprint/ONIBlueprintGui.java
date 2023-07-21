@@ -1,6 +1,8 @@
 package com.github.wintersteve25.oniutils.common.contents.modules.items.gadgets.blueprint;
 
 import com.github.wintersteve25.oniutils.client.gui.ONIUITheme;
+import com.github.wintersteve25.oniutils.common.contents.base.ONIItemCategory;
+import com.github.wintersteve25.oniutils.common.contents.base.items.ONIIItem;
 import com.github.wintersteve25.oniutils.common.contents.modules.recipes.blueprints.BlueprintRecipe;
 import com.github.wintersteve25.oniutils.common.registries.ONIRecipes;
 import com.github.wintersteve25.oniutils.common.utils.helpers.UISizeHelper;
@@ -34,11 +36,17 @@ public class ONIBlueprintGui extends DynamicUIComponent {
         return new Row.Builder()
             .withSpacing(2)
             .build(
-                new Category("Base", RECIPES.get().stream().collect(Collectors.toSet()), recipes -> {
+                new Category("Base", RECIPES.get()
+                        .stream()
+                        .filter(recipe -> recipe.output() instanceof ONIIItem i && i.getONIItemCategory() == ONIItemCategory.GENERAL)
+                        .collect(Collectors.toSet()), recipes -> {
                     recipesShown = recipes;
                     rebuild();
                 }),
-                new Category("Power", RECIPES.get().stream().collect(Collectors.toSet()), recipes -> {
+                new Category("Power", RECIPES.get()
+                        .stream()
+                        .filter(recipe -> recipe.output() instanceof ONIIItem i && i.getONIItemCategory() == ONIItemCategory.POWER)
+                        .collect(Collectors.toSet()), recipes -> {
                     recipesShown = recipes;
                     rebuild();
                 }));
