@@ -1,6 +1,8 @@
 package com.github.wintersteve25.oniutils.common.contents.modules.items.gadgets.blueprint;
 
 import com.github.wintersteve25.oniutils.client.gui.ONIUITheme;
+import com.github.wintersteve25.oniutils.client.utils.IngredientTooltip;
+import com.github.wintersteve25.oniutils.client.utils.ItemTooltip;
 import com.github.wintersteve25.oniutils.common.contents.base.ONIItemCategory;
 import com.github.wintersteve25.oniutils.common.contents.base.items.ONIIItem;
 import com.github.wintersteve25.oniutils.common.contents.modules.recipes.blueprints.BlueprintRecipe;
@@ -18,9 +20,12 @@ import com.github.wintersteve25.tau.utils.ItemRenderProvider;
 import com.github.wintersteve25.tau.utils.Pad;
 import com.github.wintersteve25.tau.utils.Size;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.Lazy;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -113,14 +118,20 @@ public class ONIBlueprintGui extends DynamicUIComponent {
                 new Pad.Builder().top(4).left(4).right(4).build(),
                 new Sized(
                     Size.percentage(1, 0.1f),
-                    new Button.Builder()
-                        .build(new Row.Builder()
-                            .build(
-                                new Sized(
-                                    UISizeHelper.squareWithY(1),
-                                    new Render(new ItemRenderProvider(recipe.output()))),
-                                new Text.Builder(recipe.output().getName(new ItemStack(recipe.output())))
-                                    .withColor(Color.WHITE)))
+                    new Tooltip.Builder()
+                        .withText(new TextComponent("Requires:"))
+                        .withComponent(recipe.ingredients()
+                            .stream()
+                            .map(ingredient -> (ClientTooltipComponent) new IngredientTooltip(ingredient))
+                            .toList())
+                        .build(new Button.Builder()
+                            .build(new Row.Builder()
+                                .build(
+                                    new Sized(
+                                        UISizeHelper.squareWithY(1),
+                                        new Render(new ItemRenderProvider(recipe.output()))),
+                                    new Text.Builder(recipe.output().getName(new ItemStack(recipe.output())))
+                                        .withColor(Color.WHITE))))
                 )
             );
         }

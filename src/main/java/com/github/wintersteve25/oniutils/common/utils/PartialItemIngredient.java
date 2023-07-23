@@ -43,17 +43,13 @@ public final class PartialItemIngredient implements Predicate<ItemStack> {
         return new PartialItemIngredient(Ingredient.fromNetwork(buf), buf.readInt());
     }
     
-//    public CompoundTag serialize() {
-//        CompoundTag tag = new CompoundTag();
-//        
-//        tag.putInt("count", count);
-//        
-//        return tag;
-//    }
-//    
-//    public static PartialItemIngredient deserialize(CompoundTag tag) {
-//        return new PartialItemIngredient();
-//    }
+    public ItemStack[] getItems() {
+        return ingredient.getItems();
+    }
+    
+    public Ingredient getIngredient() {
+        return ingredient;
+    }
 
     @Override
     public boolean test(ItemStack itemStack) {
