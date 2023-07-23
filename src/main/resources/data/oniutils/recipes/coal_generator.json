@@ -5,6 +5,12 @@
       "item": {
         "item": "minecraft:iron_ingot"
       },
+      "count": 16
+    },
+    {
+      "item": {
+        "tag": "minecraft:planks"
+      },
       "count": 1
     }
   ],

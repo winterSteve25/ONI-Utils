@@ -11,6 +11,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -51,8 +52,9 @@ public class ONIPlaceHolderBlock extends ONIBaseDirectional implements EntityBlo
 
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        ONIPlaceHolderTE te = getTileEntityOrThrow(ONIPlaceHolderTE.class, pLevel, pPos);
         ItemStack heldItem = pPlayer.getItemInHand(pHand);
+        if (heldItem.isEmpty()) return InteractionResult.PASS;
+        ONIPlaceHolderTE te = getTileEntityOrThrow(ONIPlaceHolderTE.class, pLevel, pPos);
         return te.addItem(heldItem) ? InteractionResult.SUCCESS : InteractionResult.PASS;
     }
 
@@ -81,8 +83,14 @@ public class ONIPlaceHolderBlock extends ONIBaseDirectional implements EntityBlo
         if (te == null) {
             return super.getShape(state, worldIn, pos, context);
         }
+
+        BlockItem item = te.getInPlaceOf();
+
+        if (item == null) {
+            return super.getShape(state, worldIn, pos, context);
+        }
         
-        return te.getInPlaceOf().getBlock().getShape(state, worldIn, pos, context);
+        return item.getBlock().getShape(state, worldIn, pos, context);
     }
 
     @Override

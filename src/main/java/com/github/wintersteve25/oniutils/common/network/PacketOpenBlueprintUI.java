@@ -5,7 +5,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class PacketOpenBuilderToolUI {
+public class PacketOpenBlueprintUI {
     public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(ONIBlueprintGui::open);
         ctx.get().setPacketHandled(true);

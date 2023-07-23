@@ -2,12 +2,12 @@ package com.github.wintersteve25.oniutils.common.contents.modules.items.gadgets.
 
 import com.github.wintersteve25.oniutils.client.gui.ONIUITheme;
 import com.github.wintersteve25.oniutils.client.utils.IngredientTooltip;
-import com.github.wintersteve25.oniutils.client.utils.ItemTooltip;
 import com.github.wintersteve25.oniutils.common.contents.base.ONIItemCategory;
 import com.github.wintersteve25.oniutils.common.contents.base.items.ONIIItem;
 import com.github.wintersteve25.oniutils.common.contents.modules.recipes.blueprints.BlueprintRecipe;
+import com.github.wintersteve25.oniutils.common.network.ONINetworking;
+import com.github.wintersteve25.oniutils.common.network.PacketSetBlueprintRecipe;
 import com.github.wintersteve25.oniutils.common.registries.ONIRecipes;
-import com.github.wintersteve25.oniutils.common.utils.helpers.UISizeHelper;
 import com.github.wintersteve25.tau.components.*;
 import com.github.wintersteve25.tau.components.base.DynamicUIComponent;
 import com.github.wintersteve25.tau.components.base.UIComponent;
@@ -15,17 +15,13 @@ import com.github.wintersteve25.tau.layout.Layout;
 import com.github.wintersteve25.tau.layout.LayoutSetting;
 import com.github.wintersteve25.tau.renderer.ScreenUIRenderer;
 import com.github.wintersteve25.tau.theme.Theme;
-import com.github.wintersteve25.tau.utils.Color;
-import com.github.wintersteve25.tau.utils.ItemRenderProvider;
-import com.github.wintersteve25.tau.utils.Pad;
-import com.github.wintersteve25.tau.utils.Size;
+import com.github.wintersteve25.tau.utils.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.Lazy;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -125,10 +121,17 @@ public class ONIBlueprintGui extends DynamicUIComponent {
                             .map(ingredient -> (ClientTooltipComponent) new IngredientTooltip(ingredient))
                             .toList())
                         .build(new Button.Builder()
+                            .withOnPress(btn -> {
+                                if (btn != 0) return;
+                                Minecraft.getInstance().setScreen(null);
+                                ONINetworking.sendToServer(new PacketSetBlueprintRecipe(recipe));
+                            })
                             .build(new Row.Builder()
+                                .withSizeBehaviour(FlexSizeBehaviour.MAX)
                                 .build(
+                                    new Spacer(new Vector2i(2, 0)),
                                     new Sized(
-                                        UISizeHelper.squareWithY(1),
+                                        Size.staticSize(17, 17), 
                                         new Render(new ItemRenderProvider(recipe.output()))),
                                     new Text.Builder(recipe.output().getName(new ItemStack(recipe.output())))
                                         .withColor(Color.WHITE))))

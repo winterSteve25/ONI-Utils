@@ -1,12 +1,10 @@
 package com.github.wintersteve25.oniutils.common.contents.base.blocks.placeholder;
 
-import com.github.wintersteve25.oniutils.ONIUtils;
 import com.github.wintersteve25.oniutils.common.contents.base.blocks.ONIBaseInvTE;
 import com.github.wintersteve25.oniutils.common.contents.modules.recipes.blueprints.BlueprintRecipe;
 import com.github.wintersteve25.oniutils.common.registries.ONIBlocks;
 import com.github.wintersteve25.oniutils.common.utils.PartialItemIngredient;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -41,12 +39,16 @@ public class ONIPlaceHolderTE extends ONIBaseInvTE {
     public void load(CompoundTag tag) {
         super.load(tag);
         completionPercentage = tag.getFloat("completion");
+        if (!tag.contains("recipe")) return;
+        init(BlueprintRecipe.getRecipeWithId(level, new ResourceLocation(tag.getString("recipe"))).orElseThrow());
     }
 
     @Override
     public void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         tag.putFloat("completion", completionPercentage);
+        if (recipe == null) return;
+        tag.putString("recipe", recipe.id().toString());
     }
 
     public void init(BlueprintRecipe recipe) {
@@ -90,6 +92,10 @@ public class ONIPlaceHolderTE extends ONIBaseInvTE {
     }
 
     public BlockItem getInPlaceOf() {
+        if (recipe == null) {
+            return null;
+        }
+        
         return recipe.output();
     }
 

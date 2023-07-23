@@ -1,7 +1,7 @@
 package com.github.wintersteve25.oniutils.common.contents.modules.items.gadgets;
 
 import com.github.wintersteve25.oniutils.common.contents.base.ONIItemCategory;
-import com.github.wintersteve25.oniutils.common.contents.modules.items.gadgets.blueprint.ONIBlueprint;
+import com.github.wintersteve25.oniutils.common.contents.modules.items.gadgets.blueprint.ONIBlueprintItem;
 import net.minecraft.world.entity.EquipmentSlot;
 import com.github.wintersteve25.oniutils.ONIUtils;
 import com.github.wintersteve25.oniutils.common.contents.base.items.ONIBaseItem;
@@ -17,7 +17,7 @@ public class ONIToolItems {
             .setCategory(ONIItemCategory.GADGETS)
             .defaultTooltip()
             .takeDurabilityDamage();
-    public static ONIItemBuilder<ONIBlueprint> BLUEPRINT = new ONIItemBuilder<>("blueprint", (b) -> new ONIBlueprint())
+    public static ONIItemBuilder<ONIBlueprintItem> BLUEPRINT = new ONIItemBuilder<>("blueprint", (b) -> new ONIBlueprintItem())
             .setCategory(ONIItemCategory.GADGETS)
             .defaultTooltip();
 }

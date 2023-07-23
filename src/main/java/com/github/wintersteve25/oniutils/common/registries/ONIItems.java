@@ -1,6 +1,6 @@
 package com.github.wintersteve25.oniutils.common.registries;
 
-import com.github.wintersteve25.oniutils.common.contents.modules.items.gadgets.blueprint.ONIBlueprint;
+import com.github.wintersteve25.oniutils.common.contents.modules.items.gadgets.blueprint.ONIBlueprintItem;
 import mekanism.common.registration.impl.ItemRegistryObject;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -23,7 +23,7 @@ public class ONIItems {
     public static class Gadgets {
         public static final ItemRegistryObject<ONIBaseItemArmor> GAS_GOGGLES = registerBuilder(ONIToolItems.GAS_GOGGLES);
         public static final ItemRegistryObject<ONIBaseItem> WIRE_CUTTER = registerBuilder(ONIToolItems.WIRE_CUTTER);
-        public static final ItemRegistryObject<ONIBlueprint> BLUEPRINT = registerBuilder(ONIToolItems.BLUEPRINT);
+        public static final ItemRegistryObject<ONIBlueprintItem> BLUEPRINT = registerBuilder(ONIToolItems.BLUEPRINT);
 
         private static void register() {
         }

@@ -61,10 +61,16 @@ public class ONINetworking {
                 .consumer(PacketUpdateClientWorldBuildRequest::handle)
                 .add();
         
-        INSTANCE.messageBuilder(PacketOpenBuilderToolUI.class, nextID())
+        INSTANCE.messageBuilder(PacketOpenBlueprintUI.class, nextID())
                 .encoder((var1, var2) -> {})
-                .decoder((buffer) -> new PacketOpenBuilderToolUI())
-                .consumer(PacketOpenBuilderToolUI::handle)
+                .decoder((buffer) -> new PacketOpenBlueprintUI())
+                .consumer(PacketOpenBlueprintUI::handle)
+                .add();
+        
+        INSTANCE.messageBuilder(PacketSetBlueprintRecipe.class, nextID())
+                .encoder(PacketSetBlueprintRecipe::encode)
+                .decoder(PacketSetBlueprintRecipe::new)
+                .consumer(PacketSetBlueprintRecipe::handle)
                 .add();
     }
 

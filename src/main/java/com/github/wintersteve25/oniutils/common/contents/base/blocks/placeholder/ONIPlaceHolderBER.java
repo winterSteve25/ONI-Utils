@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraftforge.client.model.data.EmptyModelData;
 
@@ -22,6 +23,9 @@ public class ONIPlaceHolderBER implements BlockEntityRenderer<ONIPlaceHolderTE> 
     
     @Override
     public void render(ONIPlaceHolderTE pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBufferSource, int pPackedLight, int pPackedOverlay) {
+        BlockItem blockItem = pBlockEntity.getInPlaceOf();
+        if (blockItem == null) return;
+         
         pPoseStack.pushPose();
         
         pPoseStack.translate(0.5f, -0.5f, 0.5f);
@@ -30,8 +34,8 @@ public class ONIPlaceHolderBER implements BlockEntityRenderer<ONIPlaceHolderTE> 
         pPoseStack.translate(-0.5f, 0.5f, -0.5f);
         pPoseStack.translate(0, -0.5f, 0);
 
-        ColoredRenderTypeBuffer buffer = new ColoredRenderTypeBuffer(Minecraft.getInstance().renderBuffers().bufferSource(), (pBlockEntity.getCompletionPercentage() - 0.1f) + 0.1f, .5f, .86f, .96f);
-        renderDispatcher.renderSingleBlock(pBlockEntity.getInPlaceOf().getBlock().defaultBlockState(), pPoseStack, buffer, 15728640, OverlayTexture.RED_OVERLAY_V, EmptyModelData.INSTANCE);
+        ColoredRenderTypeBuffer buffer = new ColoredRenderTypeBuffer(Minecraft.getInstance().renderBuffers().bufferSource(), Math.max(pBlockEntity.getCompletionPercentage(), 0.3f), .5f, .86f, .96f);
+        renderDispatcher.renderSingleBlock(blockItem.getBlock().defaultBlockState(), pPoseStack, buffer, 15728640, OverlayTexture.RED_OVERLAY_V, EmptyModelData.INSTANCE);
         
         pPoseStack.popPose();
     }
