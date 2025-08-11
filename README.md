@@ -1,2 +1,3 @@
 # ONIUtils
-Oxygen Not Included Utilities, A minecraft 1.18 mod that brings some features/machines from Oxygen Not Included to Minecraft
+
+Outdated - checkout the new repository at [https://github.com/fictioncraft-team/EnergyNotIncluded](https://github.com/fictioncraft-team/EnergyNotIncluded/tree/main)
